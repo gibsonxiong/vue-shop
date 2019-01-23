@@ -1,0 +1,8 @@
+{
+    "name": "common",
+    "version": "1.0.0",
+    "description": "common",
+    "dependencies": {
+        "clipboard": "^2.0.4"
+    }
+}

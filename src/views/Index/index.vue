@@ -1,0 +1,128 @@
+<style scoped lang="scss">
+@import "~@/css/var";
+.index-page {
+}
+
+.tab {
+  background: #fff;
+  display: flex;
+  height: 0.5rem;
+  align-items: center;
+
+  &.tab--fixed {
+    border-top: 1px solid $color-border;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+
+  &__item {
+    flex: 1;
+    text-align: center;
+    color: #777;
+
+    &.active {
+      color: $color-primary;
+    }
+  }
+
+  &__icon {
+    font-size: 0.22rem;
+  }
+
+  &__name {
+    margin-top: -0.02rem;
+    font-size: 0.12rem;
+  }
+}
+</style>
+
+<template>
+  <div class="index-page">
+    <div v-show="!search.visible">
+      <div
+        class="tab-content"
+        v-for="(item,index) in tab.items"
+        :key="index"
+        v-show="index === tab.active"
+      >
+        <keep-alive>
+          <component v-bind:is="item.component" @toSearch="showSearch"></component>
+        </keep-alive>
+      </div>
+      <div class="tab tab--fixed">
+        <div
+          class="tab__item"
+          v-for="(item,index) in tab.items"
+          :key="index"
+          :class="{active: index === tab.active}"
+          @click="activeTab(index)"
+        >
+          <i class="tab__icon iconfont" :class="item.icon"></i>
+          <div class="tab__name">{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+    <c-search :visible="search.visible" @hideSearch="hideSearch"></c-search>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tab: {
+        active: 0,
+        items: [
+          {
+            name: "首页",
+            icon: "icon-home",
+            component: "c-home"
+          },
+          {
+            name: "分类",
+            icon: "icon-searchlist",
+            component: "c-catalog"
+          },
+          {
+            name: "购物车",
+            icon: "icon-cart",
+            component: "c-shopcart"
+          },
+          {
+            name: "我的",
+            icon: "icon-people",
+            component: "c-mine"
+          }
+        ]
+      },
+      search: {
+        visible: false
+      }
+    };
+  },
+  methods: {
+    activeTab(index) {
+      this.tab.active = index;
+
+      let newRoute = {
+        ...this.$route,
+        query: {
+          tab: index
+        }
+      };
+      this.$router.replace(newRoute);
+    },
+    showSearch() {
+      this.search.visible = true;
+    },
+    hideSearch() {
+      this.search.visible = false;
+    }
+  },
+  created() {
+    this.tab.active = Number(this.$route.query.tab || 0);
+  }
+};
+</script>

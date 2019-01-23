@@ -1,0 +1,13 @@
+.row{
+    margin-left:0;
+    margin-right:0;
+}
+
+[class*="col-"]{
+    padding: 0;
+}
+
+a:hover, a:focus {
+    color: inherit;
+    text-decoration: inherit;
+}
