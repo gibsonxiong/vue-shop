@@ -18,20 +18,35 @@ $height: 0.44rem;
   }
 
   &.white {
+    $color: #444;
     background: #fff;
-    border-bottom: 1px solid $color-border;
+    color: $color;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.5);;
+
+    .header-title {
+      color: $color;
+    }
+
+    .header-left,
+    .header-right {
+      a {
+        color: $color;
+
+        &:active {
+          text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
   }
 
   .header-body {
     overflow: hidden;
-    font-size: 17px;
     font-weight: 500;
     height: $height;
     line-height: $height;
     padding: 0;
     text-align: center;
     white-space: nowrap;
-    // padding:0 0.05rem;
   }
 
   .header-center {
@@ -41,12 +56,11 @@ $height: 0.44rem;
   }
 
   .header-title {
-    text-align: center;
     color: #fff;
-    font-size: 0.18rem;
+    text-align: center;
+    font-size: 0.17rem;
     overflow: hidden;
     white-space: nowrap;
-    font-weight: 100;
     width: 100%;
     margin: 0;
   }
@@ -71,6 +85,7 @@ $height: 0.44rem;
     left: 0;
     top: 0;
     padding-left: 0.1rem;
+    padding-right: 0.05rem;
   }
 
   .header-right {
@@ -79,7 +94,7 @@ $height: 0.44rem;
     right: 0;
     top: 0;
     padding-right: 0.1rem;
-    
+    padding-left: 0.05rem;
   }
 
   .header-back {
@@ -98,7 +113,10 @@ $height: 0.44rem;
         </a>
         <slot name="left"></slot>
       </div>
-      <div class="header-center" :style="{'padding-left':`${centerPaddingX}px`, 'padding-right':`${centerPaddingX}px` }">
+      <div
+        class="header-center"
+        :style="{'padding-left':`${centerPaddingX}px`, 'padding-right':`${centerPaddingX}px` }"
+      >
         <slot name="center">
           <h2 class="header-title">{{title}}</h2>
         </slot>
@@ -126,19 +144,18 @@ export default {
     },
     theme: String
   },
-  data(){
+  data() {
     return {
-      centerPaddingX:0
-    }
+      centerPaddingX: 0
+    };
   },
   methods: {
-    resizeCenter(){
+    resizeCenter() {
       let leftWdith = this.$refs.left.offsetWidth;
       let rightWdith = this.$refs.right.offsetWidth;
       let maxWidth = Math.max(leftWdith, rightWdith);
       console.log(maxWidth);
       this.centerPaddingX = maxWidth;
-      
     },
     toBack() {
       if (typeof Square != "undefined") {
@@ -168,7 +185,7 @@ export default {
       }
     }
   },
-  mounted(){
+  mounted() {
     this.resizeCenter();
   }
 };

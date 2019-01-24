@@ -5,7 +5,7 @@
 
 <template>
   <div class="item-page">
-    <c-header :title="'商品详情'"></c-header>
+    <c-header :title="'商品详情'" :theme="'white'"></c-header>
     <div class="c-page-body header-pd">
       商品详情
     </div>
