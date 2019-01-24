@@ -54,3 +54,8 @@
     //     border-right: $color $width/3 $style;
     // }
 }
+$base: 200;
+@function pxTorem($px) {
+  //$px为需要转换的字号
+  @return $px/$base*1rem;
+}
