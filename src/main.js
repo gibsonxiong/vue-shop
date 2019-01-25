@@ -10,8 +10,9 @@ import store from './store';
 
 import layer from '@c/layer';
 import '@/components';
-
+import MintUI from 'mint-ui'
 Vue.use(layer);
+Vue.use(MintUI);
 
 if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
   let VConsole = require('vconsole');
