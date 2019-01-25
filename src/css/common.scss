@@ -60,6 +60,33 @@ textarea:-ms-input-placeholder {
     padding-bottom: 0.55rem;
   }
 }
+//chen 自定义flex样式
+.chen_center_absolute {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chen_center_absolute_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chen_center_absolute_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chen_between_absolute_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+//chen 自定义flex样式
 
 .c-header-pd {
   padding-top: 0.44rem;
