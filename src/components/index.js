@@ -9,6 +9,8 @@ import Mine from './Mine';
 import Search from './Search';
 import SearchInput from './SearchInput';
 
+import GoodsList from './GoodsList';
+
 Vue.component('c-header', Header);
 
 Vue.component('c-home', Home);
@@ -18,3 +20,5 @@ Vue.component('c-mine', Mine);
 
 Vue.component('c-search', Search);
 Vue.component('c-search-input', SearchInput);
+
+Vue.component('c-goodslist', GoodsList);
