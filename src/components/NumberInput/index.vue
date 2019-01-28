@@ -1,7 +1,38 @@
 <style lang="scss" scoped>
+$border-color:#ddd;
 .c-number-input {
-  display: flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: stretch;
+    width: 0.9rem;
+    height: 0.23rem;
+    font-size: 0.14rem;
+
+  &__sub,
+  &__plus{
+        background: #f5f5f5;
+    border:1px solid $border-color;
+    padding:0 0.04rem;
+    font-size: 0.12rem;
+    color: #777;
+
+    &:disabled{
+      color: #e4e4e4;
+    }
+
+    .iconfont{
+      font-size: 0.12rem;
+    }
+  }
+
+  &__inner{
+    flex: 1;
+    width: 100%;
+    border: 0;
+    border-top:1px solid $border-color;
+    border-bottom:1px solid $border-color;
+    background-color: #ffffff;
+    text-align: center;
+  }
 }
 </style>
 
@@ -10,7 +41,7 @@
     <button class="c-number-input__sub" :disabled="subDisabled" @click="adjust(false)">
       <i class="iconfont icon-move"></i>
     </button>
-    <input type="number" :step="step" :value="value" @change="handleChange($event.target.value)">
+    <input class="c-number-input__inner" ref="input" type="number" :step="step" :value="value" @change="handleChange($event.target.value)">
     <button class="c-number-input__plus" :disabled="plusDisabled" @click="adjust(true)">
       <i class="iconfont icon-add1"></i>
     </button>
@@ -34,9 +65,25 @@ export default {
   },
   data() {
     return {
-      subDisabled: false,
-      plusDisabled: false
     };
+  },
+  computed:{
+    subDisabled(){
+      //小于最小值
+      if ( (this.min || this.min === 0) && this.value <= this.min) {
+        return true;
+      }else{
+        return false;
+      }
+    },
+    plusDisabled(){
+      //小于最小值
+      if ( (this.max || this.max === 0) && this.value >= this.max) {
+        return true;
+      }else{
+        return false;
+      }
+    }
   },
   methods: {
     adjust(isPlus) {
@@ -56,9 +103,10 @@ export default {
       value = Number(value);
 
       console.log(value);
+      
       if (!this.checkRang(value)) {
+        this.$refs.input.value = this.value;
         return alert("超出范围");
-
       }
 
       this.$emit("input", value);
@@ -67,27 +115,18 @@ export default {
       let valid = true;
       value = Number(value);
 
-      this.subDisabled = false;
-      this.plusDisabled = false;
-
+      //小于最小值
       if (this.min || this.min === 0) {
         let min = Number(this.min);
-
-        if (value <= min) {
-          this.subDisabled = true;
-        }
 
         if (value < min) {
           valid = false;
         }
       }
 
+      //大于最大值
       if (this.max || this.max === 0) {
         let max = Number(this.max);
-
-        if (value >= max) {
-          this.plusDisabled = true;
-        }
 
         if (value > max) {
           valid = false;
