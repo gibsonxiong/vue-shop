@@ -144,7 +144,7 @@
               </li>
               <li>
                 <div>实付费(含运费)</div>
-                <div style="color:#FF5555;">￥17.70</div>
+                <div style="color:$color-primary;">￥17.70</div>
               </li>
             </ul>
         </div>

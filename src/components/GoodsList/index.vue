@@ -1,4 +1,5 @@
 <style scoped lang="scss">
+@import "~@/css/var";
 .c-goodslist-con{
   padding:0.15rem 0.1rem;
   display: flex;
@@ -18,7 +19,7 @@
         <p style=" min-height: 0.44rem; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2; overflow: hidden;">
           馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴</p>
         <p style="padding-top: 0.05rem;">          
-          <span style="color:#ff5555;">￥0.90</span>
+          <span style="color:$color-primary;">￥0.90</span>
           <span style="color:#999;text-decoration: line-through;">￥1.08</span>
         </p>
       </div>
@@ -32,7 +33,7 @@
         <p style=" min-height: 0.44rem; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2; overflow: hidden;">
           馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴</p>
         <p style="padding-top: 0.05rem;">          
-          <span style="color:#ff5555;">￥0.90</span>
+          <span style="color:$color-primary;">￥0.90</span>
           <span style="color:#999;text-decoration: line-through;">￥1.08</span>
         </p>
       </div>
@@ -46,7 +47,7 @@
         <p style=" min-height: 0.44rem; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2; overflow: hidden;">
           馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴馋大嘴巴巴</p>
         <p style="padding-top: 0.05rem;">          
-          <span style="color:#ff5555;">￥0.90</span>
+          <span style="color:#$color-primary;">￥0.90</span>
           <span style="color:#999;text-decoration: line-through;">￥1.08</span>
         </p>
       </div>
