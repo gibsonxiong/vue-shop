@@ -97,7 +97,7 @@
                 style="border:1px solid #666;color:#666;padding:0.05rem 0.1rem;border-radius: 1rem;margin:0 0.1rem;"
               >取消订单</span>
               <span
-                style="border:1px solid #ff5555;color:#ff5555;padding:0.05rem 0.1rem;border-radius: 1rem;"
+                style="border:1px solid $color-primary;color:$color-primary;padding:0.05rem 0.1rem;border-radius: 1rem;"
               >支付订单</span>
             </div>
             <!--  -->

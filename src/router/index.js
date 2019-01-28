@@ -9,7 +9,9 @@ import OrderDetail from '@/views/OrderDetail';
 import Footprint from '@/views/Footprint';
 import MyLove from '@/views/MyLove';
 import ShippingAddress from '@/views/ShippingAddress';
-
+import AddressDetail from '@/views/AddressDetail';
+import Recharge from '@/views/Recharge';
+import RechargeRecord from '@/views/RechargeRecord'
 
 Vue.use(Router);
 
@@ -51,6 +53,18 @@ const router = new Router({
       path: '/shippingaddress',
       component: ShippingAddress
     },
+    {
+      path: '/addressdetail',
+      component: AddressDetail
+    },
+    {
+      path: '/recharge',
+      component: Recharge
+    },
+    {
+      path: '/rechargerecord',
+      component: RechargeRecord
+    }
   ]
 });
 

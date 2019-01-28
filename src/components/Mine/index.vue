@@ -12,6 +12,8 @@
       <router-link to="/footprint">我的足迹</router-link>
       <router-link to="/mylove">我的关注</router-link>
       <router-link to="/shippingaddress">收货地址管理</router-link>
+      <router-link to="/recharge">充值</router-link>
+      <router-link to="/rechargerecord">充值记录</router-link>
     </div>
   </div>
 </template>

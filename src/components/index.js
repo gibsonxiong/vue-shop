@@ -14,6 +14,9 @@ import NumberInput from './NumberInput';
 import EmptyHint from './EmptyHint';
 import Checkbox from './Checkbox';
 
+import Button from './Button';
+
+
 Vue.component('c-header', Header);
 
 Vue.component('c-home', Home);
@@ -29,3 +32,6 @@ Vue.component('c-number-input', NumberInput);
 Vue.component('c-empty-hint', EmptyHint);
 
 Vue.component('c-checkbox', Checkbox);
+Vue.component('c-button', Button);
+
+
