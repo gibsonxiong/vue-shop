@@ -57,7 +57,7 @@ textarea:-ms-input-placeholder {
   }
   
   &.tab-pd {
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.55rem;
   }
 }
 //chen 自定义flex样式
@@ -86,5 +86,13 @@ textarea:-ms-input-placeholder {
   align-items: center;
 }
 //chen 自定义flex样式
+
+.c-header-pd {
+  padding-top: 0.44rem;
+}
+
+.c-tab-pd {
+  padding-bottom: 0.55rem;
+}
 
 

@@ -4,13 +4,13 @@
 }
 
 .tab {
-  background: #fff;
+  background: rgba(249, 250, 250, 0.96);
   display: flex;
-  height: 0.5rem;
+  height: 0.55rem;
   align-items: center;
 
   &.tab--fixed {
-    border-top: 1px solid $color-border;
+    border-top: 1px solid rgba(230, 230, 230, 0.5);
     position: fixed;
     width: 100%;
     left: 0;
@@ -20,7 +20,8 @@
   &__item {
     flex: 1;
     text-align: center;
-    color: #777;
+    color: #555;
+    user-select: none;
 
     &.active {
       color: $color-primary;
@@ -28,12 +29,12 @@
   }
 
   &__icon {
-    font-size: 0.22rem;
+    font-size: 0.24rem;
   }
 
   &__name {
-    margin-top: -0.02rem;
-    font-size: 0.12rem;
+    margin-top: -0.01rem;
+    font-size: 0.11rem;
   }
 }
 </style>
@@ -48,7 +49,7 @@
         v-show="index === tab.active"
       >
         <keep-alive>
-          <component v-bind:is="item.component" @toSearch="showSearch"></component>
+          <component v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
         </keep-alive>
       </div>
       <div class="tab tab--fixed">

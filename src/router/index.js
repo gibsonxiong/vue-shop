@@ -5,6 +5,11 @@ import Index from '@/views/Index';
 import ItemList from '@/views/ItemList';
 import Item from '@/views/Item';
 import Order from '@/views/Order';
+import OrderDetail from '@/views/OrderDetail';
+import Footprint from '@/views/Footprint';
+import MyLove from '@/views/MyLove';
+import ShippingAddress from '@/views/ShippingAddress';
+
 
 Vue.use(Router);
 
@@ -29,6 +34,22 @@ const router = new Router({
     {
       path: '/order',
       component: Order
+    },
+    {
+      path: '/orderDetail',
+      component: OrderDetail
+    },
+    {
+      path: '/footprint',
+      component: Footprint
+    },
+    {
+      path: '/mylove',
+      component: MyLove
+    },
+    {
+      path: '/shippingaddress',
+      component: ShippingAddress
     },
   ]
 });

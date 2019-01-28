@@ -1,11 +1,11 @@
 //测试环境
 let test = {
-  hostUrl: 'https://yolotest.yzhchain.com/bmfwSystem',
+  hostUrl: '',
 }
 
 //生产环境
 let prod = {
-  hostUrl: 'https://yoloserver.yzhchain.com/bmfwSystem'
+  hostUrl: ''
 }
 
 //开发环境

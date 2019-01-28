@@ -9,6 +9,10 @@ import Mine from './Mine';
 import Search from './Search';
 import SearchInput from './SearchInput';
 
+import GoodsList from './GoodsList';
+import NumberInput from './NumberInput';
+import EmptyHint from './EmptyHint';
+
 Vue.component('c-header', Header);
 
 Vue.component('c-home', Home);
@@ -18,3 +22,7 @@ Vue.component('c-mine', Mine);
 
 Vue.component('c-search', Search);
 Vue.component('c-search-input', SearchInput);
+
+Vue.component('c-goodslist', GoodsList);
+Vue.component('c-number-input', NumberInput);
+Vue.component('c-empty-hint', EmptyHint);

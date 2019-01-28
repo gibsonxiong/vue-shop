@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 .c-catalog {
+  background: transparent;
   .c-page-body {
     overflow: hidden;
     display: flex;
@@ -18,7 +19,7 @@
       float: left;
       width: 100%;
       height: 0.5rem;
-      line-height: 0.47rem;
+      line-height: 0.5rem;
       text-align: center;
       box-sizing: border-box;
       font-size: 0.13rem;
@@ -50,11 +51,40 @@
     }
   }
 
-  .type-list {
+  .right-container {
     height: 100%;
     flex: 1;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 0.1rem;
+  }
+
+  .type-list {
+    margin-top: -0.125rem;
+    overflow: hidden;
+
+    .type-item {
+      float: left;
+      width: 33.33%;
+      margin: 0.125rem 0 0 0;
+
+      img {
+        width: 100%;
+      }
+
+      span {
+        display: block;
+        white-space: nowrap;
+        font-size: 0.12rem;
+        height: 0.2rem;
+        line-height: 0.2rem;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #666;
+        font-weight: normal;
+      }
+    }
   }
 }
 </style>
@@ -70,8 +100,8 @@
       ></c-search-input>
     </c-header>
 
-    <div class="c-page-body header-pd tab-pd">
-      <ul class="catalog-list">
+    <div class="c-page-body">
+      <ul class="catalog-list c-header-pd c-tab-pd">
         <li
           v-for="(item,index) in catalogList"
           :key="index"
@@ -80,13 +110,20 @@
           @click="changeCatalog(item.id)"
         >{{item.name}}</li>
       </ul>
-      <ul class="type-list">
-        <li>
-          <router-link :to="{path:'/items',query:{searchText:'套装'} }">套装</router-link>
-        </li>
-        <li>羽绒服</li>
-        <li>毛衣</li>
-      </ul>
+      <div class="right-container">
+        <div class="c-header-pd c-tab-pd">
+          <ul class="type-list">
+            <li class="type-item" v-for="(item,index) in 30" :key="index">
+              <router-link to="/items">
+                <div style="padding:0 0.05rem;">
+                  <img src="//image.suning.cn/uimg/asbs/ad/1493946827440_app_list.jpg">
+                </div>
+                <span>笔记本笔记本笔</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
