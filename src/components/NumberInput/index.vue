@@ -10,7 +10,7 @@
     <button class="c-number-input__sub" :disabled="subDisabled" @click="adjust(false)">
       <i class="iconfont icon-move"></i>
     </button>
-    <input type="number" :step="step" :value="value" @change="handleChange($event.target.value)">
+    <input type="number" :step="step" disabled :value="value" @change="handleChange($event.target.value)">
     <button class="c-number-input__plus" :disabled="plusDisabled" @click="adjust(true)">
       <i class="iconfont icon-add1"></i>
     </button>
@@ -54,13 +54,11 @@ export default {
     },
     handleChange(value) {
       value = Number(value);
-
+      // debugger;
       console.log(value);
       if (!this.checkRang(value)) {
         return alert("超出范围");
-
       }
-
       this.$emit("input", value);
     },
     checkRang(value) {
