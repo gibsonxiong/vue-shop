@@ -8,7 +8,7 @@
 
 <template>
   <div class="c-home">
-    <c-header :backType="0" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`}">
+    <c-header ref="header" :backType="0" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,'border-bottom':'0'}">
       <c-search-input slot="center" @click.native="$emit('toSearch')" style="width:100%;" disabled="disabled"></c-search-input>
     </c-header>
     <div class="c-page-body tab-pd" ref="body" style="text-align:center;">
@@ -45,6 +45,10 @@ export default {
         let scrollTop  = Math.min(body.scrollTop, end);
         this.headerOpacity = scrollTop / end;
       });
+    },
+    //父类调用
+    tabActived(){
+      this.$refs.header.resizeCenter();
     }
   },
 };

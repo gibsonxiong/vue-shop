@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .c-search-input {
-  $height:0.26rem;
+  $height: 0.3rem;
   display: inline-block;
 
   &__wrap {
@@ -11,7 +11,7 @@
   &__icon {
     display: inline-block;
     position: absolute;
-    top: 0;
+    top: -0.01rem;
     left: 0.1rem;
   }
 
@@ -29,8 +29,7 @@
     padding: 0 0.15rem 0 0.32rem;
 
     &:disabled {
-      background: rgba(222, 222, 222, 0.6) !important
-      
+      background: rgba(222, 222, 222, 0.6) !important;
     }
   }
 }
@@ -63,7 +62,7 @@ export default {
   inheritAttrs: false,
   props: {
     value: {
-      type: [String,Number],
+      type: [String, Number],
       default: ""
     },
     placeholder: {

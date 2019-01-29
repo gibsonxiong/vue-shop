@@ -1,19 +1,29 @@
 <style lang="scss" scoped>
-$border-color: #ddd;
+$border-color: #e1e1e1;
+$btn-border-radius: 0.04rem;
+$btn-width: 0.25rem;
+$btn-color: #777;
+$btn-bgcolor: #fff;
+$btn-bgcolor-active: #eee;
 .c-number-input {
   display: inline-flex;
   align-items: stretch;
-  width: 0.9rem;
+  width: 0.82rem;
   height: 0.23rem;
-  font-size: 0.14rem;
+  font-size: 0.12rem;
+  vertical-align: middle;
 
   &__sub,
   &__plus {
-    background: #f5f5f5;
+    color: $btn-color;
+    background: $btn-bgcolor;
     border: 1px solid $border-color;
-    padding: 0 0.04rem;
-    font-size: 0.12rem;
-    color: #777;
+    width: $btn-width;
+    transition: 0.2s all;
+
+    &:not(:disabled):active {
+      background: $btn-bgcolor-active;
+    }
 
     &:disabled {
       color: #e4e4e4;
@@ -24,10 +34,20 @@ $border-color: #ddd;
     }
   }
 
+  &__sub {
+    border-radius: $btn-border-radius 0 0 $btn-border-radius;
+  }
+
+  &__plus {
+    border-radius: 0 $btn-border-radius $btn-border-radius 0;
+  }
+
   &__inner {
+    -webkit-appearance: none;
     flex: 1;
     width: 100%;
     border: 0;
+    border-radius: 0;
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
     background-color: #ffffff;
