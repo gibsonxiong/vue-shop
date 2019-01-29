@@ -12,6 +12,7 @@ import SearchInput from './SearchInput';
 import GoodsList from './GoodsList';
 import NumberInput from './NumberInput';
 import EmptyHint from './EmptyHint';
+import Checkbox from './Checkbox';
 
 import Button from './Button';
 
@@ -30,6 +31,7 @@ Vue.component('c-goodslist', GoodsList);
 Vue.component('c-number-input', NumberInput);
 Vue.component('c-empty-hint', EmptyHint);
 
+Vue.component('c-checkbox', Checkbox);
 Vue.component('c-button', Button);
 
 

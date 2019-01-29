@@ -173,19 +173,29 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    // background: rgba(0, 0, 0, 0.7);
     z-index: 999;
     .item_detail_pop_box {
       position: relative;
       height: 100%;
       width: 100%;
+      z-index: 999;
+      .item_detail_pop_model_hidden {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+      }
       .item_detail_pop_content {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        height: 50%;
+        height: 70%;
         background: #fff;
+        z-index: 33;
         .item_detail_pop_parents {
           position: relative;
           height: 100%;
@@ -233,29 +243,50 @@
             }
           }
           .item_detail_center {
+            height: 66%;
+            overflow: auto;
+            padding-bottom: pxTorem(14);
             .item_detail_select_data {
               padding: pxTorem(20) 0rem pxTorem(15);
               @include border-bottom(#eee);
-              .select_data_til {
-                font-size: pxTorem(32);
-                margin-bottom: pxTorem(16);
-              }
               .select_data_lists {
                 &::after {
                   content: "";
                   display: block;
                   clear: both;
                 }
-                .select_data_item {                
+                .select_data_item {
                   float: left;
                   padding: pxTorem(13) pxTorem(23);
-                  background: #F5F5F5;
+                  background: #f5f5f5;
                   overflow: hidden;
                   border-radius: pxTorem(5);
                   margin: 0rem pxTorem(18) pxTorem(18) 0rem;
                 }
+                .select_data_item_active{
+                  background: #FF5555;
+                  color: #fff;
+                }
               }
             }
+            .select_data_til {
+              font-size: pxTorem(32);
+              margin-bottom: pxTorem(16);
+            }
+            .item_detail_number {
+              padding-top: pxTorem(30);
+            }
+          }
+          .item_detail_confirm {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: pxTorem(18) 0rem;
+            text-align: center;
+            background: #fd5555;
+            color: #fff;
+            font-size: pxTorem(34);
           }
         }
       }
@@ -297,7 +328,7 @@
               </div>
             </div>
           </div>
-          <div class="item_select_classification chen_center_absolute">
+          <div class="item_select_classification chen_center_absolute" @click="closePopModel(1)">
             <div>请选择型号</div>
             <div>
               <i class="iconfont icon-right"></i>
@@ -359,17 +390,18 @@
           </div>
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <div class="chen_center_absolute_column item_page_footer_buys">
+          <div class="chen_center_absolute_column item_page_footer_buys" @click="closePopModel(1)">
             <span>加入购物车</span>
           </div>
-          <div class="chen_center_absolute_column item_page_footer_buys">
+          <div class="chen_center_absolute_column item_page_footer_buys" @click="closePopModel(1)">
             <span>立刻购买</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="item_detail_pop_model">
+    <div class="item_detail_pop_model" v-if="pop_model">
       <div class="item_detail_pop_box">
+        <div class="item_detail_pop_model_hidden" @click="closePopModel(0)"></div>
         <div class="item_detail_pop_content">
           <div class="item_detail_pop_parents">
             <div class="item_detail_top_img">
@@ -386,7 +418,7 @@
                   </div>
                   <div>请选择规格</div>
                 </div>
-                <div class="item_detail_top_cancel">
+                <div class="item_detail_top_cancel" @click="closePopModel(0)">
                   <i class="iconfont icon-round_close_light"></i>
                 </div>
               </div>
@@ -395,7 +427,10 @@
               <li class="item_detail_select_data">
                 <div class="select_data_til">颜色</div>
                 <div class="select_data_lists">
-                  <div class="select_data_item" v-for="(val,index) in 5" :key="index">敬业福</div>
+                  <div class="select_data_item" v-for="(val,index) in 5" :key="index"
+                   :class="{'select_data_item_active': index == item_active}" 
+                   @click="selectDataItem(index)"
+                    >敬业福</div>
                 </div>
               </li>
               <li class="item_detail_select_data">
@@ -404,10 +439,15 @@
                   <div class="select_data_item" v-for="(val,index) in 5" :key="index">S</div>
                 </div>
               </li>
+
+              <li class="chen_center_absolute item_detail_number">
+                <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
+                <div>
+                  <c-number-input :min="1" :max="20" v-model="number_input"></c-number-input>
+                </div>
+              </li>
             </ul>
-            <div>
-              
-            </div>
+            <div class="item_detail_confirm" @click="buyConfirm">确定</div>
           </div>
         </div>
       </div>
@@ -498,16 +538,31 @@ export default {
           title: "上市年份/季节",
           des: "2019秋季"
         }
-      ]
+      ],
+      number_input: 0, //输入数量数据
+      pop_model: 0, //控制购买详情弹出层
+      item_active: null , //选择规格按钮样式
     };
   },
   mounted() {},
   methods: {
     itemDetailsShow() {
+      //商品详情
       this.itemDetails = "1";
     },
     itemParametersShow() {
+      //商品参数
       this.itemDetails = "0";
+    },
+    closePopModel(bol) {
+      //选择参数
+      this.pop_model = bol;
+    },
+    buyConfirm(){//确认购买按钮
+
+    },
+    selectDataItem(str){//选择规格时变换按钮样式
+      this.item_active = str;
     }
   }
 };

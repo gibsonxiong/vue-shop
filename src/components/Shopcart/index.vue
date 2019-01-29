@@ -11,6 +11,8 @@
       <div class="item-list" v-if="list && list.length > 0">
         <div>
           <c-number-input v-model="num" :min="0" :max="5"></c-number-input>
+
+          <c-checkbox v-model="bool"></c-checkbox>
         </div>
       </div>
       <c-empty-hint v-else icon="icon-goods_light" hint="您的购物车是空的哦！">
@@ -31,6 +33,7 @@ export default {
   data() {
     return {
       num:'',
+      bool:true,
       list: [1]
     };
   }
