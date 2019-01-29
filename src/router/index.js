@@ -11,7 +11,9 @@ import MyLove from '@/views/MyLove';
 import ShippingAddress from '@/views/ShippingAddress';
 import AddressDetail from '@/views/AddressDetail';
 import Recharge from '@/views/Recharge';
-import RechargeRecord from '@/views/RechargeRecord'
+import RechargeRecord from '@/views/RechargeRecord';
+import Regist from '@/views/Regist';
+import Login from '@/views/Login';
 
 Vue.use(Router);
 
@@ -64,6 +66,14 @@ const router = new Router({
     {
       path: '/rechargerecord',
       component: RechargeRecord
+    },
+    {
+      path: '/regist',
+      component: Regist
+    },
+    {
+      path: '/login',
+      component: Login
     }
   ]
 });

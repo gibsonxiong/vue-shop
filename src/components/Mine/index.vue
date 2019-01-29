@@ -14,6 +14,8 @@
       <router-link to="/shippingaddress">收货地址管理</router-link>
       <router-link to="/recharge">充值</router-link>
       <router-link to="/rechargerecord">充值记录</router-link>
+      <router-link to="/regist">注册</router-link>
+      <router-link to="/login">登录</router-link>
     </div>
   </div>
 </template>
