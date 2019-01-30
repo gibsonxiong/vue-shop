@@ -262,9 +262,13 @@
                   border-radius: pxTorem(5);
                   margin: 0rem pxTorem(18) pxTorem(18) 0rem;
                 }
-                .select_data_item_active{
-                  background: #FF5555;
+                .select_data_item_active {
+                  background: #ff5555;
                   color: #fff;
+                }
+                .select_data_item_active_none {
+                  color: #000;
+                  background: #ccc;
                 }
               }
             }
@@ -415,7 +419,7 @@
                     ￥
                     <span>78.00</span>
                   </div>
-                  <div>请选择规格</div>
+                  <div>{{selectValue.length == 0?'请选择规格':selectValue.join(',')}}</div>
                 </div>
                 <div class="item_detail_top_cancel" @click="closePopModel(0)">
                   <i class="iconfont icon-round_close_light"></i>
@@ -423,22 +427,22 @@
               </div>
             </div>
             <ul class="item_detail_center">
-              <li class="item_detail_select_data">
-                <div class="select_data_til">颜色</div>
+              <li
+                class="item_detail_select_data"
+                v-for="(val,index1) in simulated_data.specifications"
+                :key="index1"
+              >
+                <div class="select_data_til">{{val.name}}</div>
                 <div class="select_data_lists">
-                  <div class="select_data_item" v-for="(val,index) in 5" :key="index"
-                   :class="{'select_data_item_active': index == item_active}" 
-                   @click="selectDataItem(index)"
-                    >敬业福</div>
+                  <div
+                    class="select_data_item"
+                    v-for="(item,index2) in val.item"
+                    :key="index2"
+                    @click="selectDataItem(index1, item.name)"
+                    :class="[disabledList[index1] && disabledList[index1].indexOf(item.name) !== -1?'select_data_item_active_none':'',selectValue[index1] === item.name?'select_data_item_active':'']"
+                  >{{item.name}}</div>
                 </div>
-              </li>
-              <li class="item_detail_select_data">
-                <div class="select_data_til">尺码</div>
-                <div class="select_data_lists">
-                  <div class="select_data_item" v-for="(val,index) in 5" :key="index">S</div>
-                </div>
-              </li>
-
+              </li>              
               <li class="chen_center_absolute item_detail_number">
                 <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
                 <div>
@@ -540,10 +544,82 @@ export default {
       ],
       number_input: 0, //输入数量数据
       pop_model: 0, //控制购买详情弹出层
-      item_active: null , //选择规格按钮样式
+      item_active: null, //选择规格按钮样式
+      selectValue: [], //选择规格数据
+      disabledList: [], //禁用的数组
+      simulated_data: {
+        //选择规格模拟后台返回的数据 多规格
+        difference: [
+          {
+            //所有的规格可能情况都在这个数组里
+            id: "19",
+            price: "200.00",
+            stock: "19",
+            difference: "100,白色"
+          },
+          {
+            id: "20",
+            price: "300.00",
+            stock: "29",
+            difference: "200,白色"
+          },
+          {
+            id: "21",
+            price: "300.00",
+            stock: "10",
+            difference: "100,黑丝"
+          },
+          {
+            id: "22",
+            price: "300.00",
+            stock: "0",
+            difference: "200,黑丝"
+          },
+          {
+            id: "23",
+            price: "500.00",
+            stock: "48",
+            difference: "100,绿色"
+          },
+          {
+            id: "24",
+            price: "500.00",
+            stock: "0",
+            difference: "200,绿色"
+          }
+        ],
+        specifications: [
+          {
+            //这里是要被渲染字段
+            name: "尺寸",
+            item: [
+              {
+                name: "100"
+              },
+              {
+                name: "200"
+              }
+            ]
+          },
+          {
+            name: "颜色",
+            item: [
+              {
+                name: "白色"
+              },
+              {
+                name: "黑丝"
+              },
+              {
+                name: "绿色"
+              }
+            ]
+          }
+        ]
+      }
     };
   },
-  mounted() {},
+  created() {},
   methods: {
     itemDetailsShow() {
       //商品详情
@@ -557,11 +633,30 @@ export default {
       //选择参数
       this.pop_model = bol;
     },
-    buyConfirm(){//确认购买按钮
-
+    buyConfirm() {
+      //确认购买按钮
     },
-    selectDataItem(str){//选择规格时变换按钮样式
-      this.item_active = str;
+    selectDataItem(typeIndex, value) {
+      if(this.disabledList[typeIndex] && this.disabledList[typeIndex].indexOf(value) !== -1) return;
+      this.disabledList = [];
+      this.selectValue[typeIndex] = value;
+      console.log(this.selectValue);
+      this.simulated_data.difference.forEach((val, n) => {
+        let types = val.difference.split(',');
+        
+        if(types[typeIndex] !== value)return;
+
+        if(val.stock != 0) return;
+
+        types.forEach((type,index)=>{
+          if(typeIndex === index) return;
+          console.log(`typeIndex === index 时`);
+          this.disabledList[index] = this.disabledList[index] || [];
+          this.disabledList[index].push(type);
+        });
+      
+      });
+      this.$forceUpdate();
     }
   }
 };
