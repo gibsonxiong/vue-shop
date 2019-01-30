@@ -267,8 +267,7 @@
                   color: #fff;
                 }
                 .select_data_item_active_none {
-                  color: #000;
-                  background: #ccc;
+                  color: #bbb;
                 }
               }
             }
@@ -638,9 +637,15 @@ export default {
     },
     selectDataItem(typeIndex, value) {
       if(this.disabledList[typeIndex] && this.disabledList[typeIndex].indexOf(value) !== -1) return;
-      this.disabledList = [];
+
+      this.disabledList = this.disabledList || [];
+      this.simulated_data.specifications.forEach((item,index)=>{
+        if(index === typeIndex) return;
+        this.disabledList[index] = [];
+      });
+
       this.selectValue[typeIndex] = value;
-      console.log(this.selectValue);
+
       this.simulated_data.difference.forEach((val, n) => {
         let types = val.difference.split(',');
         
@@ -651,7 +656,6 @@ export default {
         types.forEach((type,index)=>{
           if(typeIndex === index) return;
           console.log(`typeIndex === index 时`);
-          this.disabledList[index] = this.disabledList[index] || [];
           this.disabledList[index].push(type);
         });
       
