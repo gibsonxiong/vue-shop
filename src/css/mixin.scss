@@ -1,61 +1,73 @@
 @import './var';
 
 @mixin border($color: $border-color, $width: 1px, $style: solid) {
-    border: $color $width $style;
+  border: $color $width $style;
 
-    // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-    //     border: $color $width/2 $style;
-    // }
-    // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-    //     border: $color $width/3 $style;
-    // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  //     border: $color $width/2 $style;
+  // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  //     border: $color $width/3 $style;
+  // }
 }
 
 @mixin border-top($color: $border-color, $width: 1px, $style: solid) {
-    border-top: $color $width $style;
+  border-top: $color $width $style;
 
-    // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-    //     border-top: $color $width/2 $style;
-    // }
-    // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-    //     border-top: $color $width/3 $style;
-    // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  //     border-top: $color $width/2 $style;
+  // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  //     border-top: $color $width/3 $style;
+  // }
 }
 
 @mixin border-bottom($color: $border-color, $width: 1px, $style: solid) {
-    border-bottom: $color $width $style;
+  border-bottom: $color $width $style;
 
-    // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-    //     border-bottom: $color $width/2 $style;
-    // }
-    // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-    //     border-bottom: $color $width/3 $style;
-    // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  //     border-bottom: $color $width/2 $style;
+  // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  //     border-bottom: $color $width/3 $style;
+  // }
 }
 
 @mixin border-left($color: $border-color, $width: 1px, $style: solid) {
-    border-left: $color $width $style;
+  border-left: $color $width $style;
 
-    // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-    //     border-left: $color $width/2 $style;
-    // }
-    // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-    //     border-left: $color $width/3 $style;
-    // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  //     border-left: $color $width/2 $style;
+  // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  //     border-left: $color $width/3 $style;
+  // }
 }
 
 @mixin border-right($color: $border-color, $width: 1px, $style: solid) {
-    border-right: $color $width $style;
+  border-right: $color $width $style;
 
-    // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-    //     border-right: $color $width/2 $style;
-    // }
-    // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-    //     border-right: $color $width/3 $style;
-    // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  //     border-right: $color $width/2 $style;
+  // }
+  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  //     border-right: $color $width/3 $style;
+  // }
 }
+
 $base: 200;
+
 @function pxTorem($px) {
   //$px为需要转换的字号
   @return $px/$base*1rem;
+}
+
+@mixin flexbox($justify-content:flex-start, $align-items:center) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin flex($span:1) {
+  flex: $span;
 }

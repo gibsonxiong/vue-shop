@@ -49,7 +49,7 @@
         v-show="index === tab.active"
       >
         <keep-alive>
-          <component v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
+          <component ref="tabContent" v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
         </keep-alive>
       </div>
       <div class="tab tab--fixed">
@@ -107,6 +107,10 @@ export default {
     activeTab(index) {
       this.tab.active = index;
 
+      this.$nextTick(()=>{
+        this.$refs.tabContent[index].tabActived && this.$refs.tabContent[index].tabActived();
+      })
+
       let newRoute = {
         ...this.$route,
         query: {
@@ -124,6 +128,9 @@ export default {
   },
   created() {
     this.tab.active = Number(this.$route.query.tab || 0);
+  },
+  mounted(){
+    console.log(this.$refs.tabContent);
   }
 };
 </script>

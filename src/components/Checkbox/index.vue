@@ -5,14 +5,15 @@
   display: none;
 }
 
+$size:0.21rem;
 .c-checkbox-core {
   display: inline-block;
   background-color: #fff;
   border-radius: 100%;
   border: 1px solid #ccc;
   position: relative;
-  width: 0.2rem;
-  height: 0.2rem;
+  width: $size;
+  height: $size;
   vertical-align: middle;
 }
 
@@ -21,12 +22,12 @@
   border-left: 0;
   border-top: 0;
   content: " ";
-  top: 0.03rem;
-  left: 0.07rem;
+  top: 50%;
+  left: 50%;
   position: absolute;
-  width: 0.05rem;
-  height: 0.09rem;
-  transform: rotate(45deg) scale(0);
+  width: $size - 0.15rem;
+  height: $size - 0.1rem;
+  transform: translate(-50%,-50%) rotate(45deg) scale(0);
   transition: transform 0.2s;
 }
 
@@ -36,7 +37,7 @@
 }
 
 .c-checkbox-input:checked + .c-checkbox-core::after {
-  transform: rotate(45deg) scale(1);
+  transform:translate(-50%,-55%) rotate(45deg) scale(1);
 }
 </style>
 

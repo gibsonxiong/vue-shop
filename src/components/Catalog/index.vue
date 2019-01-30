@@ -24,6 +24,7 @@
       box-sizing: border-box;
       font-size: 0.13rem;
       color: #000;
+      transition: 0.2s all;
 
       &.active {
         background: #fff;
@@ -91,7 +92,7 @@
 
 <template>
   <div class="c-catalog">
-    <c-header :backType="0" :theme="'white'">
+    <c-header ref="header" :backType="0">
       <c-search-input
         slot="center"
         @click.native="$emit('toSearch')"
@@ -161,6 +162,11 @@ export default {
     changeCatalog(id) {
       this.catalogIndex = id;
       this.fetchTypeList(id);
+    },
+
+    //父类调用
+    tabActived() {
+      this.$refs.header.resizeCenter();
     }
   },
 
