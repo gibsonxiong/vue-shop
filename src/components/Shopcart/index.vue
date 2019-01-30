@@ -2,7 +2,25 @@
 @import "~@/css/mixin";
 @import "~@/css/var";
 .c-shopcart {
+  &.in-tab {
+    .c-page-body {
+      padding-bottom: 1.05rem;
+    }
+
+    .item_page_footer {
+      bottom: 0.55rem;
+    }
+  }
+
+  .c-page-body {
+    padding-bottom: 0.5rem;
+  }
+
   .list {
+    background-color: #fff;
+    // margin-top: -1px;
+    margin-bottom: 0.4rem;
+    border-top: 1px solid $color-border;
     padding: 0 0.15rem;
   }
 
@@ -21,9 +39,9 @@
       align-self: flex-start;
       width: 0.9rem;
       height: 0.9rem;
-      margin-left: 0.08rem;
-      margin-right: 0.08rem;
-      border: 1px solid #f8f8f8;
+      margin-left: 0.1rem;
+      margin-right: 0.1rem;
+      border: 1px solid #eee;
     }
 
     .item-content {
@@ -32,8 +50,11 @@
     }
 
     .item-name {
-      font-size: 0.13rem;
-      color: #444;
+      font-size: 0.12rem;
+      // color: #444;
+      max-height: 0.34rem;
+      line-height: 0.17rem;
+      overflow: hidden;
     }
 
     .item-price {
@@ -48,7 +69,7 @@
 
     .item-prop {
       position: relative;
-      background: #f8f8f8;
+      background: #f5f5f5;
       color: #999;
       border-radius: 0.03rem;
       padding: 0.04rem 0.05rem;
@@ -76,25 +97,79 @@
       @include flexbox(space-between);
     }
   }
+
+  .item_page_footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: pxTorem(100);
+    border-top: 1px solid #eaeaea;
+    background: rgba(255, 255, 255, 1);
+    z-index: 3;
+    .item_page_footer_content {
+      width: 100%;
+      box-sizing: border-box;
+      height: 100%;
+
+      .item_page_footer_follow_wrap {
+        @include flexbox(space-between);
+        @include flex;
+      }
+      .amount-wrap {
+        padding-right: 0.12rem;
+        text-align: right;
+      }
+
+      .amount {
+        padding-top: 0.02rem;
+      }
+
+      .amount-strong {
+        font-size: 0.15rem;
+        font-weight: 600;
+        color: $color-primary;
+      }
+
+      .hint {
+        font-size: 0.1rem;
+        color: #999;
+      }
+
+      .item_page_footer_buys_wrap {
+        height: 100%;
+        .item_page_footer_buys {
+          color: #fff;
+          height: 100%;
+          min-width: 0.9rem;
+          background: #f94a92;
+        }
+      }
+    }
+  }
 }
 </style>
 
 <template>
-  <div class="c-shopcart">
-    <c-header :title="'购物车'" :backType="0"></c-header>
-    <div class="c-page-body header-pd tab-pd">
-      <div class="list" v-if="list && list.length > 0">
+  <div class="c-shopcart" :class="{'in-tab':inTab}">
+    <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
+    <div class="c-page-body header-pd">
+      <div class="list" v-if="list && list.length > 0" style="margin-top:0.1rem;">
         <div class="item" v-for="(item,index) in list" :key="index">
           <label class="item-checkbox-wrap">
             <c-checkbox v-model="bool"></c-checkbox>
           </label>
           <img
             class="item-img"
-            src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg"
+            src="//gw.alicdn.com/bao/uploaded/i2/2010197355/O1CN011ZH7Nc24CdYb7wOWq_!!2010197355.jpg_200x200Q50s50.jpg"
             alt
           >
           <div class="item-content">
-            <div class="item-name">商品名称商品名称商品名称商品名称商品品名称商品品名称商品品333</div>
+            <router-link
+              tag="div"
+              to="/items/1"
+              class="item-name"
+            >商品名称商品名称商品名称商品名称名称商品品名称商品名称商品品名称商品商品品名称商品品名称商品品333</router-link>
             <div class="item-prop-wrap">
               <div class="item-prop">粉色超大的奥术大师多加速度氨基酸等级-啊是的哈; XL-19238123123</div>
             </div>
@@ -112,22 +187,44 @@
         <button @click="$emit('gotoHome')">顺便逛逛</button>
       </c-empty-hint>
     </div>
+    <div class="item_page_footer">
+      <div class="item_page_footer_content chen_center_absolute">
+        <div class="item_page_footer_follow_wrap">
+          <label>
+            <c-checkbox v-model="bool" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
+          </label>
+          <div class="amount-wrap">
+            <div class="amount">
+              合计:
+              <span class="amount-strong">￥199</span>
+            </div>
+            <div class="hint">不含运费</div>
+          </div>
+        </div>
+        <div class="chen_center_absolute_center item_page_footer_buys_wrap">
+          <div class="chen_center_absolute_column item_page_footer_buys" @click="closePopModel(1)">
+            <span>结算(0)</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 
 <script>
-import { CellSwipe } from "mint-ui";
-
 export default {
-  components: {
-    CellSwipe
+  props: {
+    inTab: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
       num: "",
       bool: true,
-      list: [1, 2]
+      list: [1, 2, 5, 1, 34, 434]
     };
   }
 };

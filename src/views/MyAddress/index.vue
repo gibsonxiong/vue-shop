@@ -3,22 +3,22 @@
 .c-page-body {
   background: #f3f3f3;
 }
-.shippingaddress_con {
+.my-ddress_con {
   padding: 0.1rem;
   background: #fff;
   margin-top: 0.05rem;
 }
-.shippingaddress_con div:first-of-type {
+.my-ddress_con div:first-of-type {
   border-bottom: 1px solid #f4f4f4;
   padding-bottom: 0.1rem;
 }
-.shippingaddress_con div:last-of-type {
+.my-ddress_con div:last-of-type {
   display: flex;
   align-items: center;
   padding-top: 0.1rem;
   color: #666;
 }
-.shippingaddress_con div:first-of-type p:last-of-type {
+.my-ddress_con div:first-of-type p:last-of-type {
   color: #666;
 }
 
@@ -63,11 +63,11 @@ label{
 </style>
 
 <template>
-  <div class="shippingaddress-page">
+  <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
       <!--  -->
-      <div class="shippingaddress_con">
+      <div class="my-ddress_con">
         <div>
           <p>
             <span>王伊</span>
@@ -93,7 +93,7 @@ label{
           </p>
         </div>
       </div>
-      <div class="shippingaddress_con">
+      <div class="my-ddress_con">
         <div>
           <p>
             <span>王伊</span>
@@ -119,7 +119,7 @@ label{
           </p>
         </div>
       </div>
-      <div class="shippingaddress_con">
+      <div class="my-ddress_con">
         <div>
           <p>
             <span>王伊</span>

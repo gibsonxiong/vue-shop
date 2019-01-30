@@ -1,7 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-@import "~@/css/common";
 .item_page {
   .item_page_content {
     height: 100%;
@@ -384,7 +383,7 @@
             <i class="iconfont icon-shop"></i>
             <span>店铺</span>
           </div>
-          <div class="chen_center_absolute_column item_page_footer_follow">
+          <div class="chen_center_absolute_column item_page_footer_follow" @click="$router.push('/shopcart')">
             <i class="iconfont icon-cart"></i>
             <span>购物车</span>
           </div>

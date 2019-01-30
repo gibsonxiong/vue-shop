@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 .c-page-body {
-  background: #f3f3f3;
+  // background: #f3f3f3;
 }
 input {
   border: 0;

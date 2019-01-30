@@ -7,7 +7,7 @@
 <template>
   <div class="item-list-page">
     <div v-show="!search.visible">
-      <c-header>
+      <c-header :centerStyle="{'padding-left':'0.42rem','padding-right':'0.15rem'}">
         <c-search-input slot="center" v-model="searchText" @click.native="showSearch" disabled="disabled" style="width:100%;"></c-search-input>
       </c-header>
       <div class="c-page-body header-pd">

@@ -1,15 +1,14 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 .c-page-body {
-//   padding: 0.15rem;
-  // margin-top: 0.2rem;
+  background: #fff;
 }
-.regist_label {
-  font-size: 0.25rem;
-  margin-top: 0.2rem;
+.register_label {
+  font-size: 0.24rem;
+  margin-top: 0.1rem;
   // text-align: center;
 }
-.regist{
+.register{
     padding:0.15rem;
 }
 input {
@@ -30,11 +29,11 @@ color: $color-primary;
 </style>
 <template>
   <div class="record-page">
-    <c-header></c-header>
+    <c-header theme="transparent"></c-header>
     <div class="c-page-body header-pd">
-      <div class="regist">
+      <div class="register">
         <!-- 注册 -->
-        <p class="regist_label">注册</p>
+        <p class="register_label">注册</p>
         <ul>
           <li>
             <input placeholder="请输入手机号">
