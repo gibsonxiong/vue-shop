@@ -41,11 +41,7 @@ $border-color:#ddd;
     <button class="c-number-input__sub" :disabled="subDisabled" @click="adjust(false)">
       <i class="iconfont icon-move"></i>
     </button>
-<<<<<<< HEAD
-    <input type="number" :step="step" disabled :value="value" @change="handleChange($event.target.value)">
-=======
     <input class="c-number-input__inner" ref="input" type="number" :step="step" :value="value" @change="handleChange($event.target.value)">
->>>>>>> 348378eeb520d654701f602da8c9ac18750144a5
     <button class="c-number-input__plus" :disabled="plusDisabled" @click="adjust(true)">
       <i class="iconfont icon-add1"></i>
     </button>
