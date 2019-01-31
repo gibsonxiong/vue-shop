@@ -4,7 +4,7 @@
 }
 
 .tab {
-  background: rgba(249, 250, 250, 0.96);
+  background: rgba(249, 250, 250, 0.98);
   display: flex;
   height: 0.55rem;
   align-items: center;
@@ -20,7 +20,7 @@
   &__item {
     flex: 1;
     text-align: center;
-    color: #555;
+    color: #5d656b;
     user-select: none;
 
     &.active {
@@ -130,7 +130,7 @@ export default {
     this.tab.active = Number(this.$route.query.tab || 0);
   },
   mounted(){
-    console.log(this.$refs.tabContent);
+
   }
 };
 </script>

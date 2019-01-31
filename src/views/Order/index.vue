@@ -23,6 +23,20 @@
   color: $color-primary;
   border-bottom: 2px solid $color-primary;
 }
+
+.c-btn {
+  border: 1px solid #666;
+  background-color: transparent;
+  color: #666;
+  padding: 0.05rem 0.1rem;
+  border-radius: 1rem;
+  margin-left: 0.1rem;
+
+  &.btn-primary {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
 </style>
 
 <template>
@@ -39,7 +53,7 @@
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(content,index) in contents" :key="index" @click="to_oderDetail()" >
+          <li v-for="(content,index) in contents" :key="index" @click="to_oderDetail()">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
@@ -93,12 +107,8 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <span
-                style="border:1px solid #666;color:#666;padding:0.05rem 0.1rem;border-radius: 1rem;margin:0 0.1rem;"
-              >取消订单</span>
-              <span
-                style="border:1px solid $color-primary;color:$color-primary;padding:0.05rem 0.1rem;border-radius: 1rem;"
-              >支付订单</span>
+              <button class="c-btn">取消订单</button>
+              <span class="c-btn btn-primary">支付订单</span>
             </div>
             <!--  -->
           </li>
@@ -165,10 +175,10 @@ function fetchData(typeId) {
     }
   ];
 
-  if(typeId === 0){
+  if (typeId === 0) {
     return data;
-  }else{
-    return data.filter(item=>{
+  } else {
+    return data.filter(item => {
       return item.odertype === typeId;
     });
   }
@@ -192,20 +202,19 @@ export default {
     tab(index) {
       this.curId = index;
       this.contents = fetchData(index);
-       for (var i in this.contents) {
-          this.contents[i].odertype =
-            {
-              "0": "全部",
-              "1": "待付款",
-              "2": "待发货",
-              "3": "待收货",
-              "4": "已完成"
-            }[ this.contents[i].odertype] || "";
-            
-        }
+      for (var i in this.contents) {
+        this.contents[i].odertype =
+          {
+            "0": "全部",
+            "1": "待付款",
+            "2": "待发货",
+            "3": "待收货",
+            "4": "已完成"
+          }[this.contents[i].odertype] || "";
+      }
     },
-    to_oderDetail(){
-      this.$router.push('/orderDetail')
+    to_oderDetail() {
+      this.$router.push("/orderDetail");
     }
   },
   created() {

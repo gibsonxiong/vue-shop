@@ -8,13 +8,14 @@ import Order from '@/views/Order';
 import OrderDetail from '@/views/OrderDetail';
 import Footprint from '@/views/Footprint';
 import MyLove from '@/views/MyLove';
-import ShippingAddress from '@/views/ShippingAddress';
+import MyAddress from '@/views/MyAddress';
 import AddressDetail from '@/views/AddressDetail';
 import Recharge from '@/views/Recharge';
 import RechargeRecord from '@/views/RechargeRecord';
-import Regist from '@/views/Regist';
+import Register from '@/views/Register';
 import Login from '@/views/Login';
 import Coupon from '@/views/Coupon';
+import Shopcart from '@/views/Shopcart';
 
 Vue.use(Router);
 
@@ -56,8 +57,8 @@ const router = new Router({
       component: MyLove
     },
     {
-      path: '/shippingaddress',
-      component: ShippingAddress
+      path: '/myAddress',
+      component: MyAddress
     },
     {
       path: '/addressdetail',
@@ -72,8 +73,8 @@ const router = new Router({
       component: RechargeRecord
     },
     {
-      path: '/regist',
-      component: Regist
+      path: '/register',
+      component: Register
     },
     {
       path: '/login',
@@ -82,7 +83,11 @@ const router = new Router({
     {
       path: '/coupon',
       component: Coupon
-    }
+    },
+    {
+      path: '/shopcart',
+      component: Shopcart
+    },
   ]
 });
 

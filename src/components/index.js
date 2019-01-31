@@ -16,6 +16,8 @@ import Checkbox from './Checkbox';
 
 import Button from './Button';
 
+import CellList from './CellList';
+import Cell from './Cell';
 
 Vue.component('c-header', Header);
 
@@ -34,4 +36,5 @@ Vue.component('c-empty-hint', EmptyHint);
 Vue.component('c-checkbox', Checkbox);
 Vue.component('c-button', Button);
 
-
+Vue.component('c-cell-list', CellList);
+Vue.component('c-cell', Cell);

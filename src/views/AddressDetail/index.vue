@@ -42,7 +42,7 @@
 </style>
 
 <template>
-  <div class="shippingaddress-page">
+  <div class="address-detail-page">
     <c-header :title="'新建地址'"></c-header>
     <div class="c-page-body header-pd">
         <ul>

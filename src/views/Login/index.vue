@@ -1,12 +1,11 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 .c-page-body {
-//   padding: 0.15rem;
-  // margin-top: 0.2rem;
+  background: #fff;
 }
 .login_label {
-  font-size: 0.25rem;
-  margin-top: 0.2rem;
+  font-size: 0.24rem;
+  margin-top: 0.1rem;
   // text-align: center;
 }
 .login{
@@ -27,7 +26,7 @@ ul {
 </style>
 <template>
   <div class="record-page">
-    <c-header></c-header>
+    <c-header theme="transparent"></c-header>
     <div class="c-page-body header-pd">
       <div class="login">
         <!-- 注册 -->
@@ -43,8 +42,8 @@ ul {
         </ul>
         <c-button :title="'登录'"></c-button>
         <div style="padding:0.2rem 0rem;color:#848484;display:flex;justify-content: space-between;">
-          <p>验证码登录</p>
-          <p >新用户注册</p>
+          <!-- <p>验证码登录</p> -->
+          <router-link tag="span" to="/register">新用户注册</router-link>
         </div>
       </div>
     </div>

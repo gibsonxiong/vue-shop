@@ -1,7 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-@import "~@/css/common";
 .item_page {
   .item_page_content {
     height: 100%;
@@ -284,8 +283,7 @@
                   color: #fff;
                 }
                 .select_data_item_active_none {
-                  color: #000;
-                  background: #ccc;
+                  color: #bbb;
                 }
               }
             }
@@ -410,8 +408,8 @@
           <!-- <div class="chen_center_absolute_column item_page_footer_follow">
             <i class="iconfont icon-shop"></i>
             <span>店铺</span>
-          </div> -->
-          <div class="chen_center_absolute_column item_page_footer_follow">
+          </div>-->
+          <div class="chen_center_absolute_column item_page_footer_follow" @click="$router.push('/shopcart')">
             <i class="iconfont icon-cart"></i>
             <span>购物车</span>
           </div>
@@ -668,7 +666,7 @@ export default {
         return;
       this.disabledList = [];
       this.selectValue[typeIndex] = value;
-      console.log(this.selectValue);
+
       this.simulated_data.difference.forEach((val, n) => {
         let types = val.difference.split(",");
 
@@ -679,7 +677,6 @@ export default {
         types.forEach((type, index) => {
           if (typeIndex === index) return;
           console.log(`typeIndex === index 时`);
-          this.disabledList[index] = this.disabledList[index] || [];
           this.disabledList[index].push(type);
         });
       });

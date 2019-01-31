@@ -53,6 +53,7 @@
   }
 
   .right-container {
+    background-color: #ffffff;
     height: 100%;
     flex: 1;
     overflow: auto;

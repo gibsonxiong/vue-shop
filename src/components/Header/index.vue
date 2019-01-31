@@ -2,28 +2,28 @@
 @import "~@/css/var";
 $height: 0.44rem;
 $color: #444;
-$color-active:rgba(0, 0, 0, 0.2);
-$bg-color:#f8f8f8;
+$color-active: rgba(0, 0, 0, 0.2);
+$bg-color: #f8f8f8;
 .c-header {
   position: fixed;
   z-index: 90;
   top: 0;
   right: 0;
   left: 0;
-  color:$color;
+  color: $color;
   background: $bg-color;
   border-bottom: 1px solid rgba(230, 230, 230, 0.5);
   height: $height;
 
   &.transparent {
     background: transparent;
+    border: none;
   }
 
   // &.white {
   //   $color: #444;
   //   background: #fff;
   //   color: $color;
-    
 
   //   .header-title {
   //     color: $color;
@@ -118,7 +118,7 @@ $bg-color:#f8f8f8;
       </div>
       <div
         class="header-center"
-        :style="{'padding-left':`${centerPaddingX}px`, 'padding-right':`${centerPaddingX}px` }"
+        :style="innerCenterStyle"
       >
         <slot name="center">
           <h2 class="header-title">{{title}}</h2>
@@ -145,7 +145,17 @@ export default {
       type: String,
       default: ""
     },
-    theme: String
+    theme: String,
+    centerStyle: {}
+  },
+  computed: {
+    innerCenterStyle() {
+      return {
+        "padding-left": `${this.centerPaddingX}px`,
+        "padding-right": `${this.centerPaddingX}px`,
+        ...this.centerStyle
+      };
+    }
   },
   data() {
     return {
