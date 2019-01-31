@@ -56,6 +56,22 @@
           color: #ff5959;
           min-width: 15%;
         }
+        .des_price {
+          padding: pxTorem(5) 0rem;
+          .price_now {
+            font-size: pxTorem(40);
+            color: #ff5555;
+          }
+          .price_old {
+            font-size: 12px;
+            text-decoration: line-through;
+            color: #cccccc;
+          }
+        }
+        .express_price{
+          font-size: 12px;
+          color: #7B7B7B;
+        }
       }
       .item_select_classification {
         background: #fff;
@@ -146,7 +162,7 @@
       .item_page_footer_follow_wrap {
         width: 50%;
         .item_page_footer_follow {
-          width: 33%;
+          width: 50%;
         }
       }
 
@@ -320,9 +336,6 @@
                 新款最牛逼的鞋子
                 新款最牛逼的鞋子
                 新款最牛逼的鞋子
-                新款最牛逼的鞋子
-                新款最牛逼的鞋子
-                新款最牛逼的鞋子
               </div>
               <div class="dex_share chen_center_absolute_column">
                 <div>
@@ -331,6 +344,16 @@
                 <div>分享</div>
               </div>
             </div>
+            <div class="des_price">
+              <span class="price_now">￥
+                <span>59</span>
+              </span>
+              <span class="price_old">￥930</span>
+            </div>
+            <div class="chen_center_absolute express_price">
+              <div>快递：15.00</div>
+              <div>销量：0 件</div>
+            </div>
           </div>
           <div class="item_select_classification chen_center_absolute" @click="closePopModel(1)">
             <div>请选择型号</div>
@@ -338,7 +361,7 @@
               <i class="iconfont icon-right"></i>
             </div>
           </div>
-          <div class="item_select_shop_name chen_center_absolute">
+          <!-- <div class="item_select_shop_name chen_center_absolute">
             <div class="chen_center_absolute">
               <div class="shop_name_img">
                 <img src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg" alt>
@@ -346,7 +369,7 @@
               <div>我的小店</div>
             </div>
             <div class="shop_name_btn">进店逛逛</div>
-          </div>
+          </div> -->
           <div class="item_details_parameters">
             <div class="chen_center_absolute item_details_checkout">
               <div
@@ -384,10 +407,10 @@
             <i class="iconfont icon-like"></i>
             <span>关注</span>
           </div>
-          <div class="chen_center_absolute_column item_page_footer_follow">
+          <!-- <div class="chen_center_absolute_column item_page_footer_follow">
             <i class="iconfont icon-shop"></i>
             <span>店铺</span>
-          </div>
+          </div> -->
           <div class="chen_center_absolute_column item_page_footer_follow">
             <i class="iconfont icon-cart"></i>
             <span>购物车</span>
@@ -443,7 +466,7 @@
                     :class="[disabledList[index1] && disabledList[index1].indexOf(item.name) !== -1?'select_data_item_active_none':'',selectValue[index1] === item.name?'select_data_item_active':'']"
                   >{{item.name}}</div>
                 </div>
-              </li>              
+              </li>
               <li class="chen_center_absolute item_detail_number">
                 <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
                 <div>
@@ -638,24 +661,27 @@ export default {
       //确认购买按钮
     },
     selectDataItem(typeIndex, value) {
-      if(this.disabledList[typeIndex] && this.disabledList[typeIndex].indexOf(value) !== -1) return;
+      if (
+        this.disabledList[typeIndex] &&
+        this.disabledList[typeIndex].indexOf(value) !== -1
+      )
+        return;
       this.disabledList = [];
       this.selectValue[typeIndex] = value;
       console.log(this.selectValue);
       this.simulated_data.difference.forEach((val, n) => {
-        let types = val.difference.split(',');
-        
-        if(types[typeIndex] !== value)return;
+        let types = val.difference.split(",");
 
-        if(val.stock != 0) return;
+        if (types[typeIndex] !== value) return;
 
-        types.forEach((type,index)=>{
-          if(typeIndex === index) return;
+        if (val.stock != 0) return;
+
+        types.forEach((type, index) => {
+          if (typeIndex === index) return;
           console.log(`typeIndex === index 时`);
           this.disabledList[index] = this.disabledList[index] || [];
           this.disabledList[index].push(type);
         });
-      
       });
       this.$forceUpdate();
     }

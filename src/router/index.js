@@ -14,6 +14,7 @@ import Recharge from '@/views/Recharge';
 import RechargeRecord from '@/views/RechargeRecord';
 import Regist from '@/views/Regist';
 import Login from '@/views/Login';
+import Coupon from '@/views/Coupon';
 
 Vue.use(Router);
 
@@ -29,7 +30,10 @@ const router = new Router({
     },
     {
       path: '/items',
-      component: ItemList
+      component: ItemList,
+      meta:{
+        title: '商品分类'
+      }
     },
     {
       path: '/items/:itemId',
@@ -74,6 +78,10 @@ const router = new Router({
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/coupon',
+      component: Coupon
     }
   ]
 });

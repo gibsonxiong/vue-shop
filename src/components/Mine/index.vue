@@ -1,5 +1,11 @@
 <style lang="scss" scoped>
 .c-mine {
+  a{
+    width: 100%;
+    padding: 5px 0px;
+    display: block;
+    text-align: center;
+  }
 }
 </style>
 
@@ -16,6 +22,7 @@
       <router-link to="/rechargerecord">充值记录</router-link>
       <router-link to="/regist">注册</router-link>
       <router-link to="/login">登录</router-link>
+      <router-link to="/coupon">优惠券领取中心</router-link>
     </div>
   </div>
 </template>
