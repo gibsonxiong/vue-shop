@@ -8,14 +8,14 @@
   margin-top: 0.1rem;
   // text-align: center;
 }
-.login{
-    padding:0.15rem;
+.login {
+  padding: 0.15rem;
 }
 input {
   padding: 0.15rem 0;
   border: 0;
   width: 79%;
-//   height: 100%;
+  //   height: 100%;
 }
 li {
   border-bottom: 1px solid #f4f4f4;
@@ -29,20 +29,19 @@ ul {
     <c-header theme="transparent"></c-header>
     <div class="c-page-body header-pd">
       <div class="login">
-        <!-- 注册 -->
         <p class="login_label">登录</p>
         <ul>
-           <li>
-            <input placeholder="请输入手机号">
+          <li>
+            <input v-model="phone" placeholder="请输入手机号">
           </li>
           <li>
-            <input placeholder="请输入密码">
+            <input v-model="password" placeholder="请输入密码">
             <span style="color:#999; display: inline-block;margin: auto;">忘记密码</span>
           </li>
         </ul>
-        <c-button :title="'登录'"></c-button>
+        <c-button @click="login">登录</c-button>
         <div style="padding:0.2rem 0rem;color:#848484;display:flex;justify-content: space-between;">
-          <!-- <p>验证码登录</p> -->
+          <p>验证码登录</p>
           <router-link tag="span" to="/register">新用户注册</router-link>
         </div>
       </div>
@@ -50,11 +49,37 @@ ul {
   </div>
 </template>
 <script>
+import services from '@/services';
+
 export default {
   data() {
-    return {};
+    return {
+      phone:'',
+      password:''
+    };
   },
-  methods: {},
+  methods: {
+    async login(){
+      try {
+        let { phone,password } = this;
+        let res = await services.login({
+          phone,
+          password
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+        
+        services.$setToken(res.data.token);
+        setTimeout(() => {
+          this.$router.back();
+        }, 1000);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    }
+  },
   created() {}
 };
 </script>

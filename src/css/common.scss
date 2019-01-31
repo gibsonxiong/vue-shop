@@ -119,5 +119,10 @@ textarea:-ms-input-placeholder {
   &.btn-primary {
     border-color: $color-primary;
     color: $color-primary;
+
+    &:disabled {
+      border-color: $color-primary-disabled;
+      color: $color-primary-disabled;
+    }
   }
 }

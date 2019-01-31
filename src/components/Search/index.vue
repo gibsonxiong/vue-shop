@@ -2,7 +2,7 @@
 @import "~@/css/var";
 @import "~@/css/mixin";
 .c-search {
-  .c-page-body{
+  .c-page-body {
   }
 
   .list {
@@ -28,41 +28,40 @@
     }
   }
 
-  .history-wrap{
+  .history-wrap {
     padding: 0.15rem;
-    .wrap-header{
+    .wrap-header {
       @include flexbox(space-between);
     }
 
-    .wrap-title{
+    .wrap-title {
       font-size: 0.12rem;
       margin: 0;
       padding: 0;
     }
 
-    .tag-wrap{
-      padding-top:0.1rem;
+    .tag-wrap {
+      padding-top: 0.1rem;
       overflow: hidden;
     }
-  
+
     .history-tag {
       float: left;
       padding: 0.07rem 0.1rem;
       background: #eaeaea;
-      color:#585858;
+      color: #585858;
       overflow: hidden;
       border-radius: 0.025rem;
       margin: 0rem 0.12rem 0.12rem 0rem;
     }
   }
-
 }
 </style>
 
 <template>
   <div v-show="visible" class="c-search">
     <c-header :backType="0" ref="header" :centerStyle="{'padding-left':'0.42rem'}">
-      <a slot="left" @click="hideSearch">
+      <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
       </a>
       <c-search-input
@@ -70,13 +69,19 @@
         slot="center"
         v-model="searchText"
         @search="search"
+        @input="fetchSearchTip"
         style="width:100%;"
       ></c-search-input>
-      <a slot="right" @click="search">搜索</a>
+      <a slot="right" @click="search(searchText)">搜索</a>
     </c-header>
     <div class="c-page-body header-pd">
       <div class="list" v-if="searchText.length > 0">
-        <div class="item" v-for="(item,index) in 100" :key="index">美丽动人的小肖</div>
+        <div
+          class="item"
+          v-for="(item,index) in searchTipList"
+          :key="index"
+          @click="search(item)"
+        >{{item}}</div>
       </div>
       <div class v-else>
         <div class="history-wrap">
@@ -85,7 +90,12 @@
             <i class="iconfont icon-delete"></i>
           </div>
           <div class="tag-wrap">
-            <span class="history-tag" v-for="(item,index) in historyList" :key="index" @click="$router.push({path:'/items',query:{searchText:item}})">{{item}}</span>
+            <span
+              class="history-tag"
+              v-for="(item,index) in searchHistoryList"
+              :key="index"
+              @click="search(item)"
+            >{{item}}</span>
           </div>
         </div>
       </div>
@@ -95,6 +105,8 @@
 
 
 <script>
+import services from '@/services';
+
 export default {
   props: {
     visible: {
@@ -110,20 +122,14 @@ export default {
     return {
       searchText: "",
       list: [1],
-      historyList:[
-        '面膜',
-        '飞机大炮',
-        '无敌帅气的衣服',
-        '农药',
-        '全钛眼睛框 纯钛',
-        'lush',
-        'lush洗发水'
-      ]
+      searchTipList:[],
+      searchHistoryList:[]
     };
   },
   watch: {
     visible(val) {
       if (val) {
+        this.searchText = this.defaultSearchText;
         this.$refs.searchInput.focus();
         this.$nextTick(() => {
           this.$refs.header.resizeCenter();
@@ -132,18 +138,43 @@ export default {
     }
   },
   methods: {
-    search() {
-      console.log(this.searchText);
+    search(searchText) {
+      this.$emit('search',searchText);
     },
-    hideSearch() {
-      this.$emit("hideSearch");
+    async fetchSearchTip(searchText){
+      if(!searchText) return;
+
+      try {
+        let res = await services.fetchSearchTip({
+          searchText
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+        
+        this.searchTipList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     },
-    getHistory(){
-      
+    async fetchSearchHistory(){
+  
+      try {
+        let res = await services.fetchSearchHistory();
+
+        if (services.$isError(res)) throw new Error(res.message);
+        
+        this.searchHistoryList = res.data;
+      } catch (err) {
+        
+        return this.$toast(err.message);
+      }
     }
   },
   created() {
     this.searchText = this.defaultSearchText;
+
+    this.fetchSearchTip(this.searchText);
+    this.fetchSearchHistory();
   }
 };
 </script>

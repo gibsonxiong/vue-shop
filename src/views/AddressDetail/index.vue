@@ -71,7 +71,7 @@
             <mt-switch ></mt-switch>
           </li>
         </ul>
-        <c-button :title="'保存地址'"></c-button>
+        <c-button>保存地址</c-button>
     </div>
   </div>
 </template>

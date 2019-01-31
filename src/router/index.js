@@ -16,16 +16,17 @@ import Register from '@/views/Register';
 import Login from '@/views/Login';
 import Coupon from '@/views/Coupon';
 import Shopcart from '@/views/Shopcart';
+import Personal from '@/views/Personal';
+import Setting from '@/views/Setting';
 
 Vue.use(Router);
 
 const config = {
-  title:'商城'
+  title: '商城'
 }
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: Index
     },
@@ -88,6 +89,14 @@ const router = new Router({
       path: '/shopcart',
       component: Shopcart
     },
+    {
+      path: '/personal',
+      component: Personal
+    },
+    {
+      path: '/setting',
+      component: Setting
+    },
   ]
 });
 
@@ -102,4 +111,3 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router;
-

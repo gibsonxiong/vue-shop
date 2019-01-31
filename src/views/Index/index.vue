@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <c-search :visible="search.visible" @hideSearch="hideSearch"></c-search>
+    <c-search :visible="search.visible" @close="hideSearch" @search="handleSearch"></c-search>
   </div>
 </template>
 
@@ -124,6 +124,9 @@ export default {
     },
     hideSearch() {
       this.search.visible = false;
+    },
+    handleSearch(q){
+      this.$router.push({path:'/items',query:{searchText:q}});
     }
   },
   created() {

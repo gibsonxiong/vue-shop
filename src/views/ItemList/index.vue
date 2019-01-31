@@ -222,7 +222,7 @@
         </div>
       </div>
     </div>
-    <c-search :defaultSearchText="searchText" :visible="search.visible" @hideSearch="hideSearch"></c-search>
+    <c-search :defaultSearchText="searchText" :visible="search.visible" @close="hideSearch" @search="handleSearch"></c-search>
   </div>
 </template>
 
@@ -250,6 +250,18 @@ export default {
     },
     listActiveClick(num) {
       this.listActive = num;
+    },
+    handleSearch(searchText){
+      this.searchText = searchText;
+      this.search.visible = false;
+
+      let route = {
+        ...this.$route,
+        query:{
+          searchText:searchText
+        }
+      }
+      this.$router.replace(route);
     }
   },
   created() {

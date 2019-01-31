@@ -49,22 +49,37 @@
 <template>
   <div class="c-mine">
     <c-header :title="'我的'" :backType="0">
-      <a slot="right">
+      <router-link slot="right" to="/setting">
         <i class="iconfont icon-setting" style="font-size:0.18rem;"></i>
-      </a>
+      </router-link>
     </c-header>
     <div class="c-page-body header-pd tab-pd">
       <div class="top">
         <div class="top-wrap">
-          <img
-            class="avator"
-            src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg"
-            alt
-          >
-          <div>
-            <router-link class="c-btn btn-light" to="/login">登录 / 注册</router-link>
-          </div>
-          <!-- <div class="nickname">gibsonxiong</div> -->
+          <template v-if="true">
+            <router-link to="/login" >
+              <img
+                class="avator"
+                src="@/assets/default_avator.jpg"
+                alt
+              >
+            </router-link>
+            <div>
+              <router-link to="/login" class="c-btn btn-light" >登录 / 注册</router-link>
+            </div>
+          </template>
+          <template v-else>
+            <router-link to="/personal">
+              <img
+                class="avator"
+                src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg"
+                alt
+              >
+            </router-link>
+            <router-link to="/personal">  
+              <div class="nickname">gibsonxiong</div>
+            </router-link>
+          </template>
         </div>
       </div>
 

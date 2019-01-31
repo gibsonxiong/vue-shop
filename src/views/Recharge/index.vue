@@ -102,7 +102,7 @@ font-size:0.3rem;padding-right:0.1rem;color:#09BB07;
           </span>
        </div>
       <!--支付宝支付  end  -->
-      <c-button :title="'下一步'"></c-button>
+      <c-button>下一步</c-button>
      
     </div>
   </div>

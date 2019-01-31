@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-page-body {
   background: #fff;
 }
@@ -8,14 +9,15 @@
   margin-top: 0.1rem;
   // text-align: center;
 }
-.register{
-    padding:0.15rem;
+.register {
+  padding: 0.15rem;
 }
 input {
   padding: 0.15rem 0;
   border: 0;
-  width: 74%;
-//   height: 100%;
+  // width: 74%;
+  //   height: 100%;
+  @include flex;
 }
 li {
   border-bottom: 1px solid #f4f4f4;
@@ -23,8 +25,20 @@ li {
 ul {
   margin: 0.2rem 0;
 }
-.fu{
-color: $color-primary;
+.fu {
+  color: $color-primary;
+}
+
+.sms-btn {
+  color: #848484;
+  display: inline-block;
+  margin: auto;
+  border: none;
+  background: transparent;
+}
+
+.flexbox{
+  @include flexbox;
 }
 </style>
 <template>
@@ -36,17 +50,18 @@ color: $color-primary;
         <p class="register_label">注册</p>
         <ul>
           <li>
-            <input placeholder="请输入手机号">
-            <span style="color:#848484; display: inline-block;margin: auto;">发送验证码</span>
+            <input v-model="phone" placeholder="请输入手机号">
+          </li>
+          <li class="flexbox">
+            <input v-model="smsCode" placeholder="请输入验证码">
+            <button v-if="timer>0" class="c-btn btn-primary" disabled="disabled" style="width:100px;">{{timer}}s后重发</button>
+            <button v-else class="c-btn btn-primary" @click="getSmsCode" style="width:100px;">发送验证码</button>
           </li>
           <li>
-            <input placeholder="还未发送验证码">
-          </li>
-          <li>
-            <input placeholder="6-4位密码">
+            <input v-model="password" placeholder="6-14位密码">
           </li>
         </ul>
-        <c-button :title="'立即注册'"></c-button>
+        <c-button @click="register">立即注册</c-button>
         <p style="padding:0.2rem 0.1rem;color:#c4c4c4;">
           继续注册表示已经阅读并同意
           <span class="fu">《服务条款》</span>
@@ -56,11 +71,68 @@ color: $color-primary;
   </div>
 </template>
 <script>
+import services from "@/services";
+
 export default {
   data() {
-    return {};
+    return {
+      timer: 0,
+
+      phone: "",
+      smsCode: "",
+      password: ""
+    };
   },
-  methods: {},
+  methods: {
+    countdown(num) {
+      if (num) {
+        this.timer = num;
+      }
+
+      setTimeout(() => {
+        if (this.timer > 0) {
+          this.timer--;
+          this.countdown();
+        }
+      }, 1000);
+    },
+
+    async getSmsCode() {
+      try {
+        let { phone } = this;
+        let res = await services.getSmsCode({
+          phone
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+        this.countdown(60);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async register() {
+      try {
+        let { phone, smsCode, password } = this;
+        let res = await services.register({
+          phone,
+          smsCode,
+          password
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+
+        setTimeout(() => {
+          this.$router.back();
+        }, 1000);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    }
+  },
   created() {}
 };
 </script>
