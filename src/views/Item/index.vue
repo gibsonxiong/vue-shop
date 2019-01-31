@@ -659,21 +659,17 @@ export default {
       //确认购买按钮
     },
     selectDataItem(typeIndex, value) {
-      if (
-        this.disabledList[typeIndex] &&
-        this.disabledList[typeIndex].indexOf(value) !== -1
-      )
-        return;
-      this.disabledList = [];
+      if(this.disabledList[typeIndex] && this.disabledList[typeIndex].indexOf(value) !== -1) return;
+      this.disabledList = this.disabledList || [];
+      this.simulated_data.specifications.forEach((item,index)=>{
+        if(index === typeIndex) return;
+        this.disabledList[index] = [];
+      });
       this.selectValue[typeIndex] = value;
-
       this.simulated_data.difference.forEach((val, n) => {
         let types = val.difference.split(",");
-
         if (types[typeIndex] !== value) return;
-
         if (val.stock != 0) return;
-
         types.forEach((type, index) => {
           if (typeIndex === index) return;
           console.log(`typeIndex === index 时`);
