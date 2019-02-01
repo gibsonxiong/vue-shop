@@ -102,7 +102,7 @@
     flex-wrap: wrap;
     padding: 0 4.5px;
 
-    .recommend-box{
+    .recommend-box {
       width: 50%;
       padding-top: 9px;
       padding-left: 4.5px;
@@ -184,7 +184,12 @@
         </mt-swipe-item>
       </mt-swipe>
       <div class="link-wrap">
-        <router-link :to="{path:'/items',query:{searchText:'天猫'}}" class="link-item" v-for="(item,index) in 10" :key="index">
+        <router-link
+          :to="{path:'/items'}"
+          class="link-item"
+          v-for="(item,index) in 10"
+          :key="index"
+        >
           <img
             class="link-img"
             src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
@@ -200,15 +205,11 @@
           <div class="section-title-inner">猜你喜欢</div>
         </div>
         <div class="recommend-container">
-          <div class="recommend-box" v-for="(item,index) in 10" :key="index">
-            <router-link tag="div" class="recommend-item" to="/items/0">
-              <img
-                class="recommend-img"
-                src="https://gw.alicdn.com/bao/uploaded/i4/2629063154/TB2esP6jwJkpuFjSszcXXXfsFXa_!!2629063154.jpg_500x500q90.jpg"
-                alt
-              >
+          <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
+            <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
+              <img class="recommend-img" :src="item.imgSrc" alt>
               <div class="recommend-info">
-                <div class="recommend-title">复古近视眼镜框女文艺圆脸 韩版大脸圆形简约超轻眼镜架潮无镜片</div>
+                <div class="recommend-title">{{item.name}}</div>
                 <div class="recommend-price-box">
                   <span class="recommend-price">￥29.6</span>
                   <span class="recommend-sale">394人已购买</span>
@@ -224,11 +225,17 @@
 
 
 <script>
+import services from '@/services';
+
 export default {
   data() {
     return {
-      headerOpacity: 0
+      headerOpacity: 0,
+      recommendList:[]
     };
+  },
+  created(){
+    this.fetchRecommendList();
   },
   mounted() {
     this.bindEvent();
@@ -245,6 +252,21 @@ export default {
     //父类调用
     tabActived() {
       this.$refs.header.resizeCenter();
+    },
+    async fetchRecommendList(){
+      try {
+        let { searchText, itemTypeId } = this;
+        let res = await services.fetchItemList({
+          itemTypeId,
+          searchText
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.recommendList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   }
 };

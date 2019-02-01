@@ -42,6 +42,13 @@ function addInterceptors(_request) {
 addInterceptors(request);
 
 let userData = require('./data/user').default;
+let catalogData = require('./data/catalog').default;
+let itemTypeData = require('./data/item-type').default;
+let itemData = require('./data/item').default;
+let propData = require('./data/prop').default;
+let propValueData = require('./data/prop-value').default;
+let skuData = require('./data/sku').default;
+let shopcartData = require('./data/shopcart').default;
 
 function mock(data, code = 0, message = '') {
   return new Promise((resolve, reject) => {
@@ -124,56 +131,76 @@ const services = {
     ]);
   },
 
-  
+
   async fetchCatalogList() {
-    let data = [{
-        name: '女装',
-        id: 0,
-      },
-      {
-        name: '手机数码',
-        id: 1,
-      },
-      {
-        name: '人群偏爱',
-        id: 2,
-      },
-      {
-        name: '男装',
-        id: 3,
-      },
-      {
-        name: '鞋靴',
-        id: 4,
-      },
-      {
-        name: '百货',
-        id: 5,
-      },
-      {
-        name: '食品',
-        id: 6,
-      },
-      {
-        name: '家电',
-        id: 7,
-      },
-      {
-        name: '内衣配饰',
-        id: 8,
-      },
-      {
-        name: '家装',
-        id: 9,
-      },
-      {
-        name: '生活服务',
-        id: 10,
-      },
-    ];
+    let data = catalogData;
 
     return await mock(data);
-  }
+  },
+
+  async fetchItemTypeList({
+    catalogId
+  }) {
+    let data = itemTypeData.filter(item => item.catalogId === catalogId);
+
+    return await mock(data);
+  },
+
+  async fetchItemList({
+    itemTypeId,
+    searchText,
+  }) {
+    let data = itemData;
+
+    if (itemTypeId) {
+      data = data.filter(item => item.itemTypeId == itemTypeId);
+    }
+
+    if (searchText) {
+      data = data.filter(item => item.name.indexOf(searchText) !== -1);
+    }
+
+
+    return await mock(data);
+  },
+
+  async fetchItem({
+    itemId
+  }) {
+    let data = itemData.filter(item => item.id == itemId)[0];
+
+    data = JSON.parse(JSON.stringify(data));
+
+    data.propIds = data.propIds.split(',');
+    data.props = data.propIds.map(id => propData.find(prop => prop.id == id));
+    data.propValueIds = data.propValueIds.split(',');
+    data.propValueIds = data.propValueIds.map(item => {
+      return item.split('|');
+    });
+    data.propValues = data.propValueIds.map(item => {
+      return item.map(id => propValueData.find(propValue => propValue.id == id));
+    });
+    data.skus = skuData.filter(item => item.itemId == itemId);
+
+    return await mock(data);
+  },
+
+
+  //获取购物车列表
+  async fetchShopcartList() {
+    let data = shopcartData.filter(item => {
+      return item.userId == 0;
+    });
+
+    data = JSON.parse(JSON.stringify(data));
+
+    data.forEach(item=>{
+      item.item = itemData.find(_item=>_item.id == item.itemId);
+      item.sku = skuData.find(sku=>sku.id == item.skuId);
+    });
+
+    return await mock(data);
+  },
 };
 
 export default services;

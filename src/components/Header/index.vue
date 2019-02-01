@@ -171,31 +171,11 @@ export default {
       this.centerPaddingX = maxWidth;
     },
     toBack() {
-      if (typeof Square != "undefined") {
-        Square.goback();
-      } else if (
-        window.webkit &&
-        window.webkit.messageHandlers &&
-        window.webkit.messageHandlers.GOBACK
-      ) {
-        window.webkit.messageHandlers.GOBACK.postMessage(0);
-      } else {
-        history.back();
-      }
+      history.back();
     },
 
     toRoot() {
-      if (typeof Square != "undefined") {
-        Square.closeActivity();
-      } else if (
-        window.webkit &&
-        window.webkit.messageHandlers &&
-        window.webkit.messageHandlers.GOROOT
-      ) {
-        window.webkit.messageHandlers.GOROOT.postMessage(0);
-      } else {
-        history.back();
-      }
+      history.back();
     }
   },
   mounted() {

@@ -1,7 +1,7 @@
 
 <style scoped lang="scss">
 @import "~@/css/mixin";
-@import "~@/css/common";
+
 .item-list-page {
   .header_r_i {
     > i {
@@ -27,8 +27,19 @@
         @include border-right(rgba(230, 230, 230, 0.5));
       }
       .select_item_active {
-        color: #f50;
+        color: $color-primary;
       }
+    }
+    .des_money {
+      font-size: 0.16rem;
+      font-weight: 600;
+      color: $color-primary;
+    }
+    .buy_btn {
+      padding: pxTorem(5) pxTorem(12);
+      background: $color-primary;
+      color: #fff;
+      font-size: 0.12rem;
     }
     .list_content {
       flex: 1;
@@ -38,6 +49,7 @@
       // padding-bottom: pxTorem(20);
       .list_box {
         // overflow: hidden;
+        padding: 0 pxTorem(10);
         &::after {
           content: "";
           display: block;
@@ -47,20 +59,21 @@
         .list_box_item {
           float: left;
           width: 50%;
-          padding: pxTorem(26) pxTorem(18) 0rem;
+          padding: pxTorem(26) pxTorem(10) 0rem;
           overflow: hidden;
           display: block;
           .item_pic {
             width: 100%;
+            background-color: #fff;
             .pic {
               width: 100%;
-              a {
-                display: block;
-                img {
-                  width: 100%;
-                  object-fit: cover;
-                }
+              // a {
+              //   display: block;
+              img {
+                width: 100%;
+                object-fit: cover;
               }
+              // }
             }
             .des {
               padding: pxTorem(20) pxTorem(14);
@@ -74,15 +87,6 @@
                 // -webkit-line-clamp: 2;
                 // -webkit-box-orient: vertical;
                 // line-height: 1.5em;
-              }
-              .des_money {
-                font-size: pxTorem(34);
-                color: #ff5555;
-              }
-              .buy_btn {
-                padding: pxTorem(8) pxTorem(10);
-                background: #ff5555;
-                color: #fff;
               }
             }
           }
@@ -99,6 +103,7 @@
           padding: pxTorem(26) pxTorem(18) 0rem;
           overflow: hidden;
           display: block;
+          background-color: #fff;
           &::after {
             content: "";
             display: block;
@@ -111,13 +116,13 @@
             align-items: center;
             .pic {
               width: 20%;
-              a {
-                display: block;
-                img {
-                  width: 100%;
-                  object-fit: cover;
-                }
+              // a {
+              //   display: block;
+              img {
+                width: 100%;
+                object-fit: cover;
               }
+              // }
             }
             .des {
               width: 80%;
@@ -132,19 +137,10 @@
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
               }
-              .des_money {
-                font-size: pxTorem(34);
-                color: #ff5555;
-              }
-              .buy_btn {
-                padding: pxTorem(8) pxTorem(10);
-                background: #ff5555;
-                color: #fff;
-              }
             }
           }
         }
-      }    
+      }
     }
   }
 }
@@ -163,7 +159,7 @@
         ></c-search-input>
         <div slot="right" class="header_r_i" @click="listTypeClick">
           <i class="iconfont icon-apps" v-show="listType"></i>
-          <i class="iconfont icon-sortlight" v-show="!listType"></i>
+          <i class="iconfont icon-sort" v-show="!listType"></i>
         </div>
         <!-- <div slot="right" class="header_r_i"><i class="iconfont icon-sortlight"></i></div> -->
       </c-header>
@@ -199,43 +195,53 @@
           </div>
           <div class="list_content">
             <ul :class="[listType?'list_box_column':'list_box']">
-              <li class="list_box_item" v-for="(val,index) in 8" :key="index">
+              <router-link
+                tag="li"
+                :to="`/items/${item.id}`"
+                class="list_box_item"
+                v-for="(item,index) in itemList"
+                :key="index"
+              >
                 <div class="item_pic">
                   <div class="pic">
-                    <a>
-                      <img
-                        src="//img.alicdn.com/img/i3/122348980/O1CN01rFHdoM2GCtANhjTGw_!!0-saturn_solar.jpg_250x250.jpg"
-                      >
-                    </a>
+                    <img :src="item.imgSrc">
                   </div>
                   <div class="des">
-                    <p>简短的消息提示框，支持自定义位置、持续时间和样式</p>
+                    <p>{{item.name}}</p>
                     <div class="chen_center_absolute">
-                      <div class="des_money">￥ 100.00</div>
-                      <div class="buy_btn">购买</div>
+                      <div class="des_money">￥100.00</div>
+                      <div class="buy_btn" @click.stop>购买</div>
                     </div>
                   </div>
                 </div>
-              </li>
+              </router-link>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <c-search :defaultSearchText="searchText" :visible="search.visible" @close="hideSearch" @search="handleSearch"></c-search>
+    <c-search
+      :defaultSearchText="searchText"
+      :visible="search.visible"
+      @close="hideSearch"
+      @search="handleSearch"
+    ></c-search>
   </div>
 </template>
 
 <script>
+import services from "@/services";
 export default {
   data() {
     return {
       searchText: "",
+      itemTypeId: "",
       search: {
         visible: false
       },
       listType: false, //商品列表排列方式
-      listActive: 0 //列表按钮点击变色
+      listActive: 0, //列表按钮点击变色
+      itemList: []
     };
   },
   methods: {
@@ -251,21 +257,40 @@ export default {
     listActiveClick(num) {
       this.listActive = num;
     },
-    handleSearch(searchText){
+    handleSearch(searchText) {
       this.searchText = searchText;
       this.search.visible = false;
 
+      this.fetchItemList();
       let route = {
         ...this.$route,
-        query:{
-          searchText:searchText
+        query: {
+          searchText: searchText
         }
-      }
+      };
       this.$router.replace(route);
+    },
+    async fetchItemList() {
+      try {
+        let { searchText, itemTypeId } = this;
+        let res = await services.fetchItemList({
+          itemTypeId,
+          searchText
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.itemList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   },
   created() {
     this.searchText = this.$route.query.searchText || "";
+    this.itemTypeId = this.$route.query.itemTypeId || "";
+
+    this.fetchItemList();
   }
 };
 </script>

@@ -68,6 +68,7 @@
         ref="searchInput"
         slot="center"
         v-model="searchText"
+        :placeholder="`搜索你喜欢的宝贝`"
         @search="search"
         @input="fetchSearchTip"
         style="width:100%;"
@@ -105,7 +106,7 @@
 
 
 <script>
-import services from '@/services';
+import services from "@/services";
 
 export default {
   props: {
@@ -122,14 +123,15 @@ export default {
     return {
       searchText: "",
       list: [1],
-      searchTipList:[],
-      searchHistoryList:[]
+      searchTipList: [],
+      searchHistoryList: []
     };
   },
   watch: {
     visible(val) {
       if (val) {
         this.searchText = this.defaultSearchText;
+        this.fetchSearchTip(this.searchText);
         this.$refs.searchInput.focus();
         this.$nextTick(() => {
           this.$refs.header.resizeCenter();
@@ -139,10 +141,10 @@ export default {
   },
   methods: {
     search(searchText) {
-      this.$emit('search',searchText);
+      this.$emit("search", searchText);
     },
-    async fetchSearchTip(searchText){
-      if(!searchText) return;
+    async fetchSearchTip(searchText) {
+      if (!searchText) return;
 
       try {
         let res = await services.fetchSearchTip({
@@ -150,22 +152,20 @@ export default {
         });
 
         if (services.$isError(res)) throw new Error(res.message);
-        
+
         this.searchTipList = res.data;
       } catch (err) {
         return this.$toast(err.message);
       }
     },
-    async fetchSearchHistory(){
-  
+    async fetchSearchHistory() {
       try {
         let res = await services.fetchSearchHistory();
 
         if (services.$isError(res)) throw new Error(res.message);
-        
+
         this.searchHistoryList = res.data;
       } catch (err) {
-        
         return this.$toast(err.message);
       }
     }

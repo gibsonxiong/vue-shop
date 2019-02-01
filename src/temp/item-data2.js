@@ -1,68 +1,66 @@
-
-
 var _DATA_Detail = {
   "seller": {
     "enable": true,
-    "userId": 1648683338,
-    "shopId": 104143807,
-    "shopName": "kabeilin卡贝琳服饰旗舰店",
-    "shopUrl": "//kabeilin.m.tmall.com",
-    "allProduct": "//kabeilin.m.tmall.com/shop/shop_auction_search.htm?sort=default",
-    "shopIcon": "//img.alicdn.com/imgextra//22/3a/TB1eNPZlcbpK1RjSZFySut_qFXa.jpg",
-    "wwUrl": "//h5.m.taobao.com/ww/index.htm#!dialog-a2FiZWlsaW7ljaHotJ3nkLPmnI3ppbDml5foiLDlupc=-583789686010",
+    "userId": 2069747240,
+    "shopId": 110317718,
+    "shopName": "jeanmarc旗舰店",
+    "shopUrl": "//jeanmarc.m.tmall.com",
+    "allProduct": "//jeanmarc.m.tmall.com/shop/shop_auction_search.htm?sort=default",
+    "shopIcon": "//img.alicdn.com/imgextra//b8/72/TB17F9dDIbpK1RjSZFySut_qFXa.jpg",
+    "wwUrl": "//h5.m.taobao.com/ww/index.htm#!dialog-amVhbm1hcmPml5foiLDlupc=-567898584368",
     "fans": null,
     "certIcon": null,
     "creditLevelIcon": "//img.alicdn.com/tfs/TB1u5sBnlfH8KJjy1XbXXbLdXXa-198-36.png?getAvatar=avatar",
-    "allItemCount": 491,
+    "allItemCount": 184,
     "newItemCount": null,
-    "rateSum": 319377,
+    "rateSum": 164661,
     "weitaoId": null,
     "sellerType": "B",
     "shopType": "B",
     "evaluates": [{
       "title": "宝贝描述",
-      "score": "4.8 ",
+      "score": "4.9 ",
       "type": "desc",
       "level": "1"
     }, {
       "title": "卖家服务",
-      "score": "4.8 ",
+      "score": "4.9 ",
       "type": "serv",
       "level": "1"
     }, {
       "title": "物流服务",
-      "score": "4.8 ",
+      "score": "4.9 ",
       "type": "post",
       "level": "1"
     }],
-    "sellerNick": "kabeilin卡贝琳服饰旗舰店",
-    "creditLevel": "15",
+    "sellerNick": "jeanmarc旗舰店",
+    "creditLevel": "14",
     "tagIcon": null,
     "shopTitleIcon": null,
-    "starts": "2013-05-14 18:22:39",
+    "starts": "2014-04-19 13:55:41",
     "goodRatePercentage": null,
-    "encryptSellerId": "UvFx0Omx4vGvGONTT",
+    "encryptSellerId": "UvCNLOFc0MGI0vNTT",
     "certShopList": null
   },
   "item": {
     "enable": true,
-    "itemId": 583789686010,
-    "title": "法国小众红色连衣裙女秋冬维多利亚复古大红色针织毛衣裙小红裙子",
-    "subtitle": "",
-    "images": ["//img.alicdn.com/imgextra/i1/1648683338/O1CN01FqP9ee1aWqY88wFIu_!!1648683338.jpg", "//img.alicdn.com/imgextra/i3/1648683338/O1CN01DUBOiD1aWqYRMsSJy_!!1648683338.jpg", "//img.alicdn.com/imgextra/i4/1648683338/O1CN01DNGbp61aWqY88xvEX_!!1648683338.jpg", "//img.alicdn.com/imgextra/i3/1648683338/O1CN01fXFdpy1aWqYRrqEww_!!1648683338.jpg", "//img.alicdn.com/imgextra/i4/1648683338/O1CN01o9ZFpC1aWqYIKg2Ly_!!1648683338.jpg"],
+    "itemId": 567898584368,
+    "title": "jeanmarc超轻纯钛眼镜框男 近视眼镜架方框 潮人眼镜大框不挑脸型",
+    "subtitle": "简约大方 比两张A4纸轻",
+    "images": ["//img.alicdn.com/imgextra/i1/2069747240/O1CN019vy39t23Ly0pw6grz_!!2069747240.jpg", "//img.alicdn.com/imgextra/i1/2069747240/TB2NPrHm7OWBuNjSsppXXXPgpXa_!!2069747240.jpg", "//img.alicdn.com/imgextra/i4/2069747240/TB2Ed1WdRjTBKNjSZFDXXbVgVXa_!!2069747240.jpg", "//img.alicdn.com/imgextra/i1/2069747240/TB2xYzSm25TBuNjSspcXXbnGFXa_!!2069747240.jpg", "//img.alicdn.com/imgextra/i1/2069747240/TB2pXUFeyMnBKNjSZFoXXbOSFXa_!!2069747240.jpg"],
     "videos": null,
-    "categoryId": "50010850",
-    "rootCategoryId": "16",
+    "categoryId": "50011894",
+    "rootCategoryId": "28",
     "brandValueId": "null",
     "logo": null,
-    "skuText": "请选择颜色分类 尺码 ",
+    "skuText": "请选择颜色分类 ",
     "standingDate": "0",
     "storePacket": null,
     "servItemExtend": null,
     "carShipTime": null,
     "commentCount": null,
-    "favcount": 150000,
-    "tmallDescUrl": "http://mdetail.tmall.com/templates/pages/desc?id=583789686010",
+    "favcount": 1464,
+    "tmallDescUrl": "http://mdetail.tmall.com/templates/pages/desc?id=567898584368",
     "taobaoPcDescUrl": null,
     "moduleDescUrl": null,
     "moduleDescParams": null,
@@ -98,47 +96,17 @@ var _DATA_Detail = {
   },
   "rate": {
     "enable": true,
-    "totalCount": 6341,
-    "keywords": [{
-      "attribute": "620-11",
-      "word": "宝贝很赞",
-      "count": 1545,
-      "type": 1
-    }, {
-      "attribute": "522-11",
-      "word": "版型好看",
-      "count": 826,
-      "type": 1
-    }, {
-      "attribute": "1822-11",
-      "word": "穿着漂亮",
-      "count": 713,
-      "type": 1
-    }, {
-      "attribute": "622-11",
-      "word": "挺厚实的",
-      "count": 698,
-      "type": 1
-    }, {
-      "attribute": "322-11",
-      "word": "颜色很美",
-      "count": 615,
-      "type": 1
-    }, {
-      "attribute": "322-13",
-      "word": "颜色不行",
-      "count": 141,
-      "type": -1
-    }],
+    "totalCount": 92,
+    "keywords": null,
     "rateList": [{
-      "content": "第一次在卡贝琳买衣服，质量棒棒棒的，很厚实的面料，挺正的红色，不会起球，不会掉色，很显白，妈妈也说好看，荷叶领，袖口也带有荷叶装饰，要是买再大一码就更好了，还会继续关注卡贝琳！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！",
-      "userName": "q**9",
-      "headPic": "//wwc.alicdn.com/avatar/getAvatar.do?userIdStr=vFkSPFHuXH*evF8LPmHSXmgGvFxWXmNSM0*ePClIvmg4MFv4OFIYXFM-vFP-OFkY&width=40&height=40&type=sns",
-      "memberLevel": "6",
+      "content": "眼镜很舒服 很亲 感谢小谢同学的推荐 以后还会再来",
+      "userName": "有**寞",
+      "headPic": "//wwc.alicdn.com/avatar/getAvatar.do?userIdStr=vFkSPFHuXH*evF8LPmHSXmlzPGcGPmg0MFxGX87HXFPev8gSvG7hX8kuMHxuv8QS&width=40&height=40&type=sns",
+      "memberLevel": "7",
       "userIcon": null,
-      "dateTime": "2019-01-29",
-      "skuInfo": "颜色分类:红色（如图）;尺码:M",
-      "images": ["//gw.alicdn.com/bao/uploaded/i3/O1CN01FNi3MO22zz00qdCFq_!!0-rate.jpg", "//gw.alicdn.com/bao/uploaded/i1/O1CN01ShRvLl22zz05wQ8mJ_!!0-rate.jpg"],
+      "dateTime": "2019-01-01",
+      "skuInfo": "颜色分类:绅士蓝",
+      "images": ["//gw.alicdn.com/bao/uploaded/i2/O1CN014vvg9S27EsKuhQMrd_!!0-rate.jpg", "//gw.alicdn.com/bao/uploaded/i2/O1CN01Kg6Hgl27EsKx9ajFK_!!0-rate.jpg"],
       "tmallMemberLevel": 0,
       "headExtraPic": "//gw.alicdn.com/tfs/TB19maGhm_I8KJjy0FoXXaFnVXa-69-69.png",
       "memberIcon": "//gw.alicdn.com/tfs/TB1UqAjeOqAXuNjy1XdXXaYcVXa-130-42.png",
@@ -171,7 +139,7 @@ var _DATA_Detail = {
     "price": {
       "price": {
         "priceMoney": null,
-        "priceText": "258.00",
+        "priceText": "396.00",
         "priceTitle": null,
         "lineThrough": null
       },
@@ -181,116 +149,35 @@ var _DATA_Detail = {
       "sku2info": {
         "0": {
           "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
+            "priceMoney": 39600,
+            "priceText": "396.00",
             "priceTitle": "价格",
             "lineThrough": null
           },
-          "quantity": 1200
+          "quantity": 300
         },
-        "4115504778405": {
+        "3627595081082": {
           "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778404": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
+            "priceMoney": 39600,
+            "priceText": "396.00",
             "priceTitle": "价格",
             "lineThrough": null
           },
           "quantity": 100
         },
-        "4115504778401": {
+        "3627595081083": {
           "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
+            "priceMoney": 39600,
+            "priceText": "396.00",
             "priceTitle": "价格",
             "lineThrough": null
           },
           "quantity": 100
         },
-        "4115504778400": {
+        "3627595081084": {
           "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778403": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778402": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778397": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778396": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778399": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778398": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778395": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
-            "priceTitle": "价格",
-            "lineThrough": null
-          },
-          "quantity": 100
-        },
-        "4115504778394": {
-          "price": {
-            "priceMoney": 25800,
-            "priceText": "258.00",
+            "priceMoney": 39600,
+            "priceText": "396.00",
             "priceTitle": "价格",
             "lineThrough": null
           },
@@ -317,89 +204,33 @@ var _DATA_Detail = {
   "skuBase": {
     "enable": true,
     "skus": [{
-      "skuId": 4115504778397,
-      "propPath": "20509:28314;1627207:383940027",
+      "skuId": 3627595081082,
+      "propPath": "1627207:3232483",
       "images": null
     }, {
-      "skuId": 4115504778401,
-      "propPath": "20509:28315;1627207:383940027",
+      "skuId": 3627595081083,
+      "propPath": "1627207:3232484",
       "images": null
     }, {
-      "skuId": 4115504778405,
-      "propPath": "20509:28316;1627207:383940027",
-      "images": null
-    }, {
-      "skuId": 4115504778396,
-      "propPath": "20509:28314;1627207:380986350",
-      "images": null
-    }, {
-      "skuId": 4115504778400,
-      "propPath": "20509:28315;1627207:380986350",
-      "images": null
-    }, {
-      "skuId": 4115504778404,
-      "propPath": "20509:28316;1627207:380986350",
-      "images": null
-    }, {
-      "skuId": 4115504778394,
-      "propPath": "20509:28314;1627207:1803972581",
-      "images": null
-    }, {
-      "skuId": 4115504778398,
-      "propPath": "20509:28315;1627207:1803972581",
-      "images": null
-    }, {
-      "skuId": 4115504778402,
-      "propPath": "20509:28316;1627207:1803972581",
-      "images": null
-    }, {
-      "skuId": 4115504778395,
-      "propPath": "20509:28314;1627207:2794675581",
-      "images": null
-    }, {
-      "skuId": 4115504778399,
-      "propPath": "20509:28315;1627207:2794675581",
-      "images": null
-    }, {
-      "skuId": 4115504778403,
-      "propPath": "20509:28316;1627207:2794675581",
+      "skuId": 3627595081084,
+      "propPath": "1627207:3232481",
       "images": null
     }],
     "props": [{
-      "pid": 20509,
-      "name": "尺码",
-      "values": [{
-        "vid": 28314,
-        "name": "S",
-        "image": null
-      }, {
-        "vid": 28315,
-        "name": "M",
-        "image": null
-      }, {
-        "vid": 28316,
-        "name": "L",
-        "image": null
-      }]
-    }, {
       "pid": 1627207,
       "name": "颜色分类",
       "values": [{
-        "vid": 383940027,
-        "name": "红色（如图）",
-        "image": "//img.alicdn.com/imgextra/i2/1648683338/O1CN01SbpmGK1aWqYLwevQb_!!1648683338.jpg"
+        "vid": 3232483,
+        "name": "经典黑",
+        "image": "//img.alicdn.com/imgextra/i2/2069747240/TB2AQPeXyb.BuNjt_jDXXbOzpXa_!!2069747240.jpg"
       }, {
-        "vid": 380986350,
-        "name": "黑色（如图）",
-        "image": "//img.alicdn.com/imgextra/i1/1648683338/O1CN01wWV6N81aWqYRMWGy9_!!1648683338.jpg"
+        "vid": 3232484,
+        "name": "绅士蓝",
+        "image": "//img.alicdn.com/imgextra/i2/2069747240/TB2NR2ymYuWBuNjSszgXXb8jVXa_!!2069747240.jpg"
       }, {
-        "vid": 1803972581,
-        "name": "红色长款（如图）",
-        "image": "//img.alicdn.com/imgextra/i3/1648683338/O1CN01VNN8nf1aWqYRMWPKP_!!1648683338.jpg"
-      }, {
-        "vid": 2794675581,
-        "name": "黑色长款（如图）",
-        "image": "//img.alicdn.com/imgextra/i4/1648683338/O1CN01nf4cb41aWqYSk3Dmc_!!1648683338.jpg"
+        "vid": 3232481,
+        "name": "时尚灰",
+        "image": "//img.alicdn.com/imgextra/i1/2069747240/TB27sneeS8YBeNkSnb4XXaevFXa_!!2069747240.jpg"
       }]
     }],
     "components": null,
@@ -412,22 +243,22 @@ var _DATA_Detail = {
   "jumpUrl": {
     "enable": true,
     "apis": {
-      "barterUrl": "//suggest.taobao.com/sug?area=app_detail&nid=583789686010",
+      "barterUrl": "//suggest.taobao.com/sug?area=app_detail&nid=567898584368",
       "skipEsi": "http://mdskip.m.tmall.com/mobile/queryH5Detail.htm",
       "reqMemberUrl": "//vip.tmall.com/tm-member/superfans/index",
       "cartUrl": "//h5.m.taobao.com/awp/base/cart.htm",
-      "addFavUrl": "//fav.m.tmall.com/to_collection.htm?xid=0db2&pds=addfav#h#detail&itemNumId=583789686010",
-      "statsUrl": "//go.mmstat.com/1.gif?logtype=2&category=cart_{loc}_50010850",
+      "addFavUrl": "//fav.m.tmall.com/to_collection.htm?xid=0db2&pds=addfav#h#detail&itemNumId=567898584368",
+      "statsUrl": "//go.mmstat.com/1.gif?logtype=2&category=cart_{loc}_50011894",
       "reUrl": "//u.m.taobao.com/reg/newUser.htm?pds=reg%23h%23",
       "memberShopUrl": "//vip.tmall.com/tm-member/superfans/index",
       "rateUrl": "//rate.tmall.com/list_detail_rate.htm",
-      "propertyUrl": "//mdetail.tmall.com/mobile/itemPackage.do?itemId=583789686010",
-      "descUrl": "//dsc.taobaocdn.com/i6/580/781/583789686010/TB1RixmDpzqK1RjSZFo8qvfcXla.desc%7Cvar%5Edesc%3Bsign%5E7af414d30908f3c6a77de503f635a7e3%3Blang%5Egbk%3Bt%5E1548387327",
-      "recommendUrl": "//aldcdn.tmall.com/recommend.htm?appId=03126&itemId=583789686010",
+      "propertyUrl": "//mdetail.tmall.com/mobile/itemPackage.do?itemId=567898584368",
+      "descUrl": "//dsc.taobaocdn.com/i4/560/891/567898584368/TB1aNPEg3ZC2uNjSZFn8quxZpla.desc%7Cvar%5Edesc%3Bsign%5E1b2d92e9b8846e205c04456ee5f40593%3Blang%5Egbk%3Bt%5E1548988883",
+      "recommendUrl": "//aldcdn.tmall.com/recommend.htm?appId=03126&itemId=567898584368",
       "loginUrl": "//login.tmall.com/?",
-      "newSelectCityApi": "//mdskip.taobao.com/json/detailSelectCity.do?isAreaSell=false&itemId=583789686010",
+      "newSelectCityApi": "//mdskip.taobao.com/json/detailSelectCity.do?isAreaSell=false&itemId=567898584368",
       "myUrl": "//h5.m.taobao.com/my/index.htm#!myTaobao",
-      "httpsDescUrl": "//desc.alicdn.com/i6/580/781/583789686010/TB1RixmDpzqK1RjSZFo8qvfcXla.desc%7Cvar%5Edesc%3Bsign%5E7af414d30908f3c6a77de503f635a7e3%3Blang%5Egbk%3Bt%5E1548387327",
+      "httpsDescUrl": "//desc.alicdn.com/i4/560/891/567898584368/TB1aNPEg3ZC2uNjSZFn8quxZpla.desc%7Cvar%5Edesc%3Bsign%5E1b2d92e9b8846e205c04456ee5f40593%3Blang%5Egbk%3Bt%5E1548988883",
       "longTailUrl": "//aldcdn.tmall.com/recommend.htm ",
       "logOutUrl": "//login.m.taobao.com/logout.htm?pds=logout%23h%23"
     }
@@ -602,55 +433,29 @@ var _DATA_Detail = {
     "enable": true,
     "groupProps": [{
       "基本信息": [{
-        "品牌": "卡贝琳 "
+        "上市时间": "2018年春季 "
       }, {
-        "适用年龄": "18-24周岁 "
+        "镜架材质": "纯钛 "
       }, {
-        "材质": "涤纶 "
+        "镜架款式": "全框 "
       }, {
-        "尺码": "S M L "
+        "品牌": "jean marc "
       }, {
-        "面料": "针织 "
+        "适用性别": "男 "
       }, {
-        "图案": "纯色 "
+        "服务内容": "七天免费试戴 眼镜加工QS保证 "
       }, {
-        "风格": "通勤 "
+        "颜色分类": "经典黑 绅士蓝 时尚灰 "
       }, {
-        "通勤": "韩版 "
+        "货号": "28220 "
       }, {
-        "领型": "娃娃领 "
+        "镜面宽度": "52 "
       }, {
-        "腰型": "中腰 "
+        "鼻梁宽度": "17 "
       }, {
-        "衣门襟": "套头 "
+        "镜框高度": "46 "
       }, {
-        "颜色分类": "红色（如图） 黑色（如图） 红色长款（如图） 黑色长款（如图） "
-      }, {
-        "袖型": "喇叭袖 "
-      }, {
-        "组合形式": "单件 "
-      }, {
-        "货号": "L4491 "
-      }, {
-        "成分含量": "30%及以下 "
-      }, {
-        "裙型": "其他 "
-      }, {
-        "年份季节": "2018年冬季 "
-      }, {
-        "袖长": "长袖 "
-      }, {
-        "裙长": "短裙 "
-      }, {
-        "流行元素/工艺": "木耳 系带 "
-      }, {
-        "款式": "其他/other "
-      }, {
-        "销售渠道类型": "纯电商(只在线上销售) "
-      }, {
-        "廓形": "H型 "
-      }, {
-        "材质成分": "粘胶纤维(粘纤)49.3% 聚酯纤维29.6% 聚酰胺纤维(锦纶)21.1% "
+        "镜腿长度": "140 "
       }]
     }],
     "propsList": null
@@ -673,7 +478,7 @@ var _DATA_Detail = {
       "goNewAuctionFlow": false,
       "isShowEcityVerticalSign": false,
       "isHouseholdService": false,
-      "isSevenDaysRefundment": false,
+      "isSevenDaysRefundment": true,
       "isVaccine": false,
       "isHasPos": false,
       "isAutoYushou": false,
@@ -708,7 +513,7 @@ var _DATA_Detail = {
       "isMeilihui": false,
       "isLadderGroupon": false,
       "isHidePoi": false,
-      "isNewAttraction": false,
+      "isNewAttraction": true,
       "isPreSellBrand": false,
       "loginBeforeCart": false,
       "isAutoFinancing": false,
@@ -762,7 +567,150 @@ var _DATA_Detail = {
       "module": "pintuan"
     }
   },
-  "detailDesc": {}
+  "detailDesc": {
+    "newWapDescJson": [{
+      "component": "mui/shopactivity/index",
+      "moduleType": 0,
+      "enable": true,
+      "moduleName": "店铺活动",
+      "moduleKey": "shop_discount"
+    }, {
+      "component": "mui/shopcoupon/index",
+      "moduleType": 0,
+      "enable": true,
+      "moduleName": "优惠券",
+      "moduleKey": "coupon"
+    }, {
+      "component": "mui/custommodule/index",
+      "data": [{
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i1/2069747240/TB2OhHkdTCWBKNjSZFtXXaC3FXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "991"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i2/2069747240/TB2dou6XBcXBuNjt_biXXXpmpXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "526"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i3/2069747240/TB2ZwjedOMnBKNjSZFzXXc_qVXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "992"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i4/2069747240/TB2lE5PGQCWBuNjy0FaXXXUlXXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "989"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i1/2069747240/TB2g8YgdHsrBKNjSZFpXXcXhFXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "993"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i1/2069747240/TB23HTDm7OWBuNjSsppXXXPgpXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "992"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i3/2069747240/TB2rJNInnJYBeNjy1zeXXahzVXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "953"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i4/2069747240/TB2qDnfdTqWBKNjSZFAXXanSpXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "837"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i3/2069747240/TB2CvWndUOWBKNjSZKzXXXfWFXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "691"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i1/2069747240/TB2pEk8GqSWBuNjSsrbXXa0mVXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "566"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i1/2069747240/TB2j9X.dPQnBKNjSZSgXXXHGXXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "791"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i4/2069747240/TB2aGzOm29TBuNjy1zbXXXpepXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "938"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i2/2069747240/TB2FQhSdL6TBKNjSZJiXXbKVFXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "936"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i4/2069747240/TB2xaWseIyYBuNkSnfoXXcWgVXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "524"
+      }, {
+        "hotAreaList": [],
+        "img": "//img.alicdn.com/imgextra/i3/2069747240/TB24h17joR1BeNjy0FmXXb0wVXa_!!2069747240.jpg",
+        "width": "620",
+        "height": "853"
+      }],
+      "moduleType": 0,
+      "enable": true,
+      "moduleName": "商品图片",
+      "moduleKey": "item_picture"
+    }, {
+      "component": "mui/standardItemProps/index",
+      "data": [{
+        "props": [{
+          "ptext": "上市时间",
+          "vtexts": ["2018年春季"]
+        }, {
+          "ptext": "货号",
+          "vtexts": ["28220"]
+        }, {
+          "ptext": "镜架材质",
+          "vtexts": ["纯钛"]
+        }, {
+          "ptext": "颜色分类",
+          "vtexts": ["经典黑", "绅士蓝", "时尚灰"]
+        }, {
+          "ptext": "镜架款式",
+          "vtexts": ["全框"]
+        }, {
+          "ptext": "品牌",
+          "vtexts": ["jean marc"]
+        }, {
+          "ptext": "镜面宽度",
+          "vtexts": ["52"]
+        }, {
+          "ptext": "鼻梁宽度",
+          "vtexts": ["17"]
+        }, {
+          "ptext": "镜框高度",
+          "vtexts": ["46"]
+        }]
+      }],
+      "moduleType": 0,
+      "enable": true,
+      "moduleName": "产品信息",
+      "moduleKey": "item_info"
+    }, {
+      "component": "mui/custommodule/index",
+      "data": [{
+        "img": "https://gw.alicdn.com/tfs/TB1k9XsQpXXXXXLXpXXXXXXXXXX-750-368.png",
+        "width": 750,
+        "height": 368
+      }],
+      "moduleType": 1,
+      "enable": true,
+      "moduleKey": "custompriceDesc"
+    }],
+    "newWapDescDynUrl": "//detailskip.taobao.com/json/wap/tmallH5Desc.do?itemId=567898584368&sellerId=2069747240&isPreview=false"
+  }
 };
 
 
@@ -777,11 +725,6 @@ var _DATA_Mdskip = {
   },
   "consumerProtection": {
     "items": [{
-      "desc": "极速退货",
-      "serviceId": 5303,
-      "title": "极速退货",
-      "type": 0
-    }, {
       "desc": "该商品由中国人保承保正品保证险",
       "serviceId": 3838,
       "title": "正品保证",
@@ -802,7 +745,7 @@ var _DATA_Mdskip = {
       "title": "七天退换",
       "type": 0
     }],
-    "params": "155:5303,3838,2979,3851,2973",
+    "params": "155:3838,2979,3851,2973",
     "passValue": "none",
     "strength": "normal"
   },
@@ -811,9 +754,9 @@ var _DATA_Mdskip = {
     "areaId": 440303,
     "areaSell": false,
     "completedTo": "广东省 深圳市 罗湖区",
-    "from": "广东东莞",
+    "from": "广东深圳",
     "overseaContraBandFlag": false,
-    "postage": "EMS: 10.00",
+    "postage": "快递: 0.00",
     "to": "罗湖区"
   },
   "extendedData": {},
@@ -870,47 +813,16 @@ var _DATA_Mdskip = {
     "series": false,
     "shareGroup": false,
     "showSMww": false,
-    "includeSkuData": true,
-    "needVideoFlow": true
+    "includeSkuData": true
   },
   "item": {
-    "descType": 0,
+    "descType": 2,
     "infoText": {},
-    "itemId": 583789686010,
+    "itemId": 567898584368,
     "showShopActivitySize": 2,
-    "skuText": "请选择颜色分类/尺码",
-    "title": "法国小众红色连衣裙女秋冬维多利亚复古大红色针织毛衣裙小红裙子",
-    "videoDetail": {
-      "anchors": [{
-        "desc": "模特",
-        "endTime": 20000
-      }],
-      "interactiveInfo": {
-        "interactiveId": "269933419",
-        "userId": "1648683338"
-      },
-      "spatialVideoDimension": "3:4",
-      "type": 3,
-      "url": "https://cloud.video.taobao.com/play/u/1648683338/p/2/e/6/t/1/216365003935.mp4?appKey=38829",
-      "videoId": "216365003935",
-      "videoThumbnailURL": "https://img.alicdn.com/bao/uploaded/i2/1648683338/O1CN01zJVVxb1aWqYIkJReC_!!1648683338.jpg"
-    },
-    "videos": [{
-      "anchors": [{
-        "desc": "模特",
-        "endTime": 20000
-      }],
-      "interactiveInfo": {
-        "interactiveId": "269933419",
-        "userId": "1648683338"
-      },
-      "spatialVideoDimension": "3:4",
-      "type": 2,
-      "url": "https://cloud.video.taobao.com/play/u/1648683338/p/2/e/6/t/1/216365003935.mp4?appKey=38829",
-      "videoId": "216365003935",
-      "videoThumbnailURL": "https://img.alicdn.com/bao/uploaded/i2/1648683338/O1CN01zJVVxb1aWqYIkJReC_!!1648683338.jpg",
-      "weexRecommendUrl": "https://market.m.taobao.com/apps/market/detailrax/recommend-items.html?spm=a2116h.app.0.0.16d957e9U2bxVj&wh_weex=true&itemId=583789686010"
-    }]
+    "skuText": "请选择颜色分类",
+    "title": "jeanmarc超轻纯钛眼镜框男 近视眼镜架方框 潮人眼镜大框不挑脸型",
+    "videos": []
   },
   "layout": {
     "success": true
@@ -1038,29 +950,28 @@ var _DATA_Mdskip = {
   "otherInfo": {
     "bucketId": 9,
     "success": true,
-    "systemTime": "1548988037653"
+    "systemTime": "1548989512875"
   },
   "params": {
     "trackParams": {
-      "shop_id": "104143807",
-      "serverAbTest": "detail_main_video_test_base",
-      "bizParams": "video_flow_contrast",
-      "detailabtestdetail": "6193_5738.6665_5409"
+      "shop_id": "110317718",
+      "bizParams": "shopCouPon_current,video_flow_contrast",
+      "detailabtestdetail": "6665_5409"
     }
   },
   "price": {
     "extraPrices": [{
       "lineThrough": true,
-      "priceText": "258",
+      "priceText": "396",
       "priceTitle": "专柜价"
     }],
     "newExtraPrices": [{
       "lineThrough": true,
-      "priceText": "258",
+      "priceText": "396",
       "priceTitle": "专柜价"
     }],
     "price": {
-      "priceText": "146",
+      "priceText": "178",
       "priceTitle": "活动价"
     },
     "priceTag": [{
@@ -1068,13 +979,13 @@ var _DATA_Mdskip = {
     }],
     "shopProm": [{
       "activityId": 0,
-      "content": ["购买可得73积分"],
+      "content": ["购买可得89积分"],
       "iconText": "积分",
-      "title": "购买可得73积分",
+      "title": "购买可得89积分",
       "type": 5
     }],
     "transmitPrice": {
-      "priceText": "146",
+      "priceText": "178",
       "priceTitle": "活动价"
     }
   },
@@ -1090,7 +1001,15 @@ var _DATA_Mdskip = {
       }],
       "picUrl": "//img.alicdn.com//L1/279/1/tmc-0.33519253382873341548036900127-81x81.png"
     },
-    "coupon": {},
+    "coupon": {
+      "couponList": [{
+        "icon": "//gw.alicdn.com/tfs/TB1XjtERXXXXXbPXFXXXXXXXXXX-180-36.png",
+        "title": "领取优惠券",
+        "useHuaBian": false
+      }],
+      "linkWriting": "领取",
+      "mtop": "mtop.tmall.detail.couponpage"
+    },
     "entrances": {
       "double11Banner": {
         "icon": "//img.alicdn.com//L1/279/1/tmc-0.25179027331992521548036864954-1125x144.png"
@@ -1120,166 +1039,59 @@ var _DATA_Mdskip = {
       "name": "颜色分类",
       "pid": 1627207,
       "values": [{
-        "image": "//gw.alicdn.com/bao/uploaded/i2/1648683338/O1CN01SbpmGK1aWqYLwevQb_!!1648683338.jpg",
-        "name": "红色（如图）",
-        "vid": 383940027
+        "image": "//gw.alicdn.com/bao/uploaded/i2/2069747240/TB2AQPeXyb.BuNjt_jDXXbOzpXa_!!2069747240.jpg",
+        "name": "经典黑",
+        "vid": 3232483
       }, {
-        "image": "//gw.alicdn.com/bao/uploaded/i1/1648683338/O1CN01wWV6N81aWqYRMWGy9_!!1648683338.jpg",
-        "name": "黑色（如图）",
-        "vid": 380986350
+        "image": "//gw.alicdn.com/bao/uploaded/i2/2069747240/TB2NR2ymYuWBuNjSszgXXb8jVXa_!!2069747240.jpg",
+        "name": "绅士蓝",
+        "vid": 3232484
       }, {
-        "image": "//gw.alicdn.com/bao/uploaded/i3/1648683338/O1CN01VNN8nf1aWqYRMWPKP_!!1648683338.jpg",
-        "name": "红色长款（如图）",
-        "vid": 1803972581
-      }, {
-        "image": "//gw.alicdn.com/bao/uploaded/i4/1648683338/O1CN01nf4cb41aWqYSk3Dmc_!!1648683338.jpg",
-        "name": "黑色长款（如图）",
-        "vid": 2794675581
-      }]
-    }, {
-      "name": "尺码",
-      "pid": 20509,
-      "values": [{
-        "name": "S",
-        "vid": 28314
-      }, {
-        "name": "M",
-        "vid": 28315
-      }, {
-        "name": "L",
-        "vid": 28316
+        "image": "//gw.alicdn.com/bao/uploaded/i1/2069747240/TB27sneeS8YBeNkSnb4XXaevFXa_!!2069747240.jpg",
+        "name": "时尚灰",
+        "vid": 3232481
       }]
     }],
     "skus": [{
-      "propPath": "1627207:383940027;20509:28314",
-      "skuId": 4115504778397
+      "propPath": "1627207:3232483",
+      "skuId": 3627595081082
     }, {
-      "propPath": "1627207:383940027;20509:28315",
-      "skuId": 4115504778401
+      "propPath": "1627207:3232484",
+      "skuId": 3627595081083
     }, {
-      "propPath": "1627207:383940027;20509:28316",
-      "skuId": 4115504778405
-    }, {
-      "propPath": "1627207:380986350;20509:28314",
-      "skuId": 4115504778396
-    }, {
-      "propPath": "1627207:380986350;20509:28315",
-      "skuId": 4115504778400
-    }, {
-      "propPath": "1627207:380986350;20509:28316",
-      "skuId": 4115504778404
-    }, {
-      "propPath": "1627207:1803972581;20509:28314",
-      "skuId": 4115504778394
-    }, {
-      "propPath": "1627207:1803972581;20509:28315",
-      "skuId": 4115504778398
-    }, {
-      "propPath": "1627207:1803972581;20509:28316",
-      "skuId": 4115504778402
-    }, {
-      "propPath": "1627207:2794675581;20509:28314",
-      "skuId": 4115504778395
-    }, {
-      "propPath": "1627207:2794675581;20509:28315",
-      "skuId": 4115504778399
-    }, {
-      "propPath": "1627207:2794675581;20509:28316",
-      "skuId": 4115504778403
+      "propPath": "1627207:3232481",
+      "skuId": 3627595081084
     }]
   },
   "skuCore": {
     "sku2info": {
-      "4115504778405": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 6504
-      },
-      "4115504778404": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 433
-      },
-      "4115504778399": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 873
-      },
-      "4115504778398": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 8290
-      },
-      "4115504778397": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 4729
-      },
-      "4115504778396": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 618
-      },
-      "4115504778403": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 706
-      },
-      "4115504778402": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 7922
-      },
-      "4115504778401": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 91424
-      },
-      "4115504778400": {
-        "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
-        },
-        "quantity": 495
-      },
       "0": {
         "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
+          "priceMoney": 17800,
+          "priceText": "178"
         },
-        "quantity": 131764
+        "quantity": 34
       },
-      "4115504778395": {
+      "3627595081082": {
         "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
+          "priceMoney": 17800,
+          "priceText": "178"
         },
-        "quantity": 896
+        "quantity": 0
       },
-      "4115504778394": {
+      "3627595081083": {
         "price": {
-          "priceMoney": 14600,
-          "priceText": "146"
+          "priceMoney": 17800,
+          "priceText": "178"
         },
-        "quantity": 8874
+        "quantity": 34
+      },
+      "3627595081084": {
+        "price": {
+          "priceMoney": 17800,
+          "priceText": "178"
+        },
+        "quantity": 0
       }
     },
     "skuItem": {
@@ -1318,21 +1130,18 @@ var _DATA_Mdskip = {
     },
     "askAll": {
       "askIcon": "https://img.alicdn.com/tps/TB1tVU6PpXXXXXFaXXXXXXXXXXX-102-60.png",
-      "askText": "你好165/50公斤請問建議尺寸",
-      "linkUrl": "//h5.m.taobao.com/wendajia/question2017.html?refId=583789686010",
+      "askText": "600度可以吗",
+      "linkUrl": "//h5.m.taobao.com/wendajia/question2017.html?refId=567898584368",
       "modelList": [{
-        "answerCountText": "2个回答",
-        "askText": "你好165/50公斤請問建議尺寸"
+        "answerCountText": "3个回答",
+        "askText": "600度可以吗"
       }, {
-        "answerCountText": "6个回答",
-        "askText": "157穿长款会到哪里"
+        "answerCountText": "1个回答",
+        "askText": "800度可以\n戴吗？"
       }],
-      "questNum": 123,
+      "questNum": 2,
       "showNum": 2,
-      "title": "问大家(123)"
-    },
-    "videoFlow": {
-      "bitmap": "13"
+      "title": "问大家(2)"
     },
     "freshFood": {
       "nationalFlag": "//g.alicdn.com/mui/flag-img/circle@2x/CN.png"
