@@ -1,51 +1,273 @@
 <style lang="scss" scoped>
+@import "~@/css/var";
+@import "~@/css/mixin";
+
 .c-home {
-  img{
-    width: 100%;
+  .c-page-body {
+    overflow-x: hidden;
+  }
+
+  .mint-swipe {
+    overflow: hidden;
+    position: relative;
+    height: 1.6rem;
+
+    .banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .link-wrap {
+    padding: 0.05rem 0;
+    background-color: #fff;
+    @include flexbox;
+    flex-wrap: wrap;
+
+    .link-item {
+      width: 20%;
+      padding: 0.05rem;
+      text-align: center;
+    }
+
+    .link-img {
+      width: 100%;
+    }
+
+    .link-name {
+      font-size: 0.12rem;
+      margin-top: 0.05rem;
+      color: rgb(102, 102, 102);
+    }
+  }
+
+  .section {
+    $color: $color-primary;
+    $bgcolor: #f5f5f5;
+    .section-title {
+      position: relative;
+      color: $color;
+      text-align: center;
+      height: 0.35rem;
+      line-height: 0.35rem;
+      font-size: 0.17rem;
+      background-color: $bgcolor;
+    }
+
+    .section-title-line {
+      display: inline-block;
+      width: 1.4rem;
+      height: 1px;
+      background: $color;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .section-title-inner {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      padding: 0 0.08rem;
+      background-color: $bgcolor;
+      font-size: 0.15rem;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        background: $color;
+        width: 0.03rem;
+        height: 0.03rem;
+        border-radius: 100%;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+
+      &::before {
+        left: -0.03rem;
+      }
+
+      &:after {
+        right: -0.03rem;
+      }
+    }
+  }
+
+  .recommend-container {
+    @include flexbox;
+    flex-wrap: wrap;
+    padding: 0 4.5px;
+
+    .recommend-box {
+      width: 50%;
+      padding-top: 9px;
+      padding-left: 4.5px;
+      padding-right: 4.5px;
+    }
+
+    .recommend-item {
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .recommend-img {
+      width: 100%;
+    }
+
+    .recommend-info {
+      padding-left: 10px;
+      padding-right: 9px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .recommend-title {
+      height: 37px;
+      position: relative;
+      overflow: hidden;
+      line-height: 18.5px;
+      text-overflow: ellipsis;
+      min-height: 0;
+    }
+
+    .recommend-price-box {
+      margin-top: 11px;
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .recommend-price {
+      font-size: 14px;
+      line-height: 16px;
+      color: $color-primary;
+    }
+
+    .recommend-sale {
+      float: right;
+      font-size: 12px;
+      color: #999999;
+      margin-top: 2px;
+    }
   }
 }
 </style>
 
 <template>
   <div class="c-home">
-    <c-header :backType="0" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`}">
-      <c-search-input slot="center" @click.native="$emit('toSearch')" style="width:100%;" disabled="disabled"></c-search-input>
+    <c-header
+      ref="header"
+      :backType="0"
+      theme="transparent"
+      :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`}"
+    >
+      <c-search-input
+        slot="center"
+        @click.native="$emit('toSearch')"
+        style="width:100%;"
+        disabled="disabled"
+      ></c-search-input>
     </c-header>
-    <div class="c-page-body tab-pd" ref="body" style="text-align:center;">
-      <img src="https://oss.suning.com/aps/aps_learning/image/429081201/20190122/4cc97e0036ac4c9abde8fede11fa7575.jpg?format=_is_1242w_610h" alt="">
+    <div class="c-page-body tab-pd" ref="body">
+      <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
+        <mt-swipe-item v-for="(val, index) in 3" :key="index">
+          <router-link to="/">
+            <img
+              class="banner-img"
+              src="https://oss.suning.com/aps/aps_learning/image/429081201/20190122/4cc97e0036ac4c9abde8fede11fa7575.jpg?format=_is_1242w_610h"
+            >
+          </router-link>
+        </mt-swipe-item>
+      </mt-swipe>
+      <div class="link-wrap">
+        <router-link
+          :to="{path:'/items'}"
+          class="link-item"
+          v-for="(item,index) in 10"
+          :key="index"
+        >
+          <img
+            class="link-img"
+            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
+            alt
+          >
+          <div class="link-name">天猫国际</div>
+        </router-link>
+      </div>
 
-      <router-link to="/items/1">商品详情</router-link>
-
-      <div style="height:500px;"></div>
-
-      <img src="https://oss.suning.com/aps/aps_learning/image/429081201/20190122/4cc97e0036ac4c9abde8fede11fa7575.jpg?format=_is_1242w_610h" alt="" v-for="(item,index) in 30" :key="index">
+      <div class="section" style="margin-top:0.15rem;">
+        <div class="section-title">
+          <span class="section-title-line"></span>
+          <div class="section-title-inner">猜你喜欢</div>
+        </div>
+        <div class="recommend-container">
+          <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
+            <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
+              <img class="recommend-img" :src="item.imgSrc" alt>
+              <div class="recommend-info">
+                <div class="recommend-title">{{item.name}}</div>
+                <div class="recommend-price-box">
+                  <span class="recommend-price">￥29.6</span>
+                  <span class="recommend-sale">394人已购买</span>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
+import services from '@/services';
+
 export default {
-  data(){
+  data() {
     return {
-      headerOpacity:0,
-    }
+      headerOpacity: 0,
+      recommendList:[]
+    };
   },
-  created() {
-    console.log("home created");
+  created(){
+    this.fetchRecommendList();
   },
-  mounted(){
+  mounted() {
     this.bindEvent();
   },
   methods: {
-    bindEvent(){
+    bindEvent() {
       let body = this.$refs.body;
-      body.addEventListener('scroll',()=>{
+      body.addEventListener("scroll", () => {
         let end = 100;
-        let scrollTop  = Math.min(body.scrollTop, end);
+        let scrollTop = Math.min(body.scrollTop, end);
         this.headerOpacity = scrollTop / end;
       });
+    },
+    //父类调用
+    tabActived() {
+      this.$refs.header.resizeCenter();
+    },
+    async fetchRecommendList(){
+      try {
+        let { searchText, itemTypeId } = this;
+        let res = await services.fetchItemList({
+          itemTypeId,
+          searchText
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.recommendList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
-  },
+  }
 };
 </script>

@@ -1,43 +1,45 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 $height: 0.44rem;
+$color: #444;
+$color-active: rgba(0, 0, 0, 0.2);
+$bg-color: #f8f8f8;
 .c-header {
   position: fixed;
   z-index: 90;
   top: 0;
   right: 0;
   left: 0;
-  // padding-right: 0.1rem;
-  // padding-left: 0.1rem;
-  border-bottom: 0;
-  background: $color-primary;
+  color: $color;
+  background: $bg-color;
+  border-bottom: 1px solid rgba(230, 230, 230, 0.5);
   height: $height;
 
   &.transparent {
     background: transparent;
+    border: none;
   }
 
-  &.white {
-    $color: #444;
-    background: #fff;
-    color: $color;
-    border-bottom: 1px solid rgba(230, 230, 230, 0.5);;
+  // &.white {
+  //   $color: #444;
+  //   background: #fff;
+  //   color: $color;
 
-    .header-title {
-      color: $color;
-    }
+  //   .header-title {
+  //     color: $color;
+  //   }
 
-    .header-left,
-    .header-right {
-      a {
-        color: $color;
+  //   .header-left,
+  //   .header-right {
+  //     a {
+  //       color: $color;
 
-        &:active {
-          text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
-        }
-      }
-    }
-  }
+  //       &:active {
+  //         text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  //       }
+  //     }
+  //   }
+  // }
 
   .header-body {
     overflow: hidden;
@@ -56,9 +58,9 @@ $height: 0.44rem;
   }
 
   .header-title {
-    color: #fff;
+    color: $color;
     text-align: center;
-    font-size: 0.17rem;
+    font-size: 0.15rem;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
@@ -69,12 +71,13 @@ $height: 0.44rem;
   .header-right {
     a {
       font-size: 0.14rem;
-      font-weight: 100;
-      color: #fff;
+      font-weight: 400;
+      color: $color;
       margin: 0 5px;
 
       &:active {
-        text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);
+        opacity: 0.5;
+        // text-shadow: 0px 0px 5px $color-active;
       }
     }
   }
@@ -109,13 +112,13 @@ $height: 0.44rem;
       <div class="header-left" ref="left">
         <a class="header-back" v-if="backType !== 0" @click="backType === 1 ? toBack(): toRoot()">
           <i class="iconfont icon-back" style="padding-right: 0.02rem;font-size: 0.22rem;"></i>
-          <span>{{backText}}</span>
+          <span style="margin-left: -0.04rem;">{{backText}}</span>
         </a>
         <slot name="left"></slot>
       </div>
       <div
         class="header-center"
-        :style="{'padding-left':`${centerPaddingX}px`, 'padding-right':`${centerPaddingX}px` }"
+        :style="innerCenterStyle"
       >
         <slot name="center">
           <h2 class="header-title">{{title}}</h2>
@@ -142,7 +145,17 @@ export default {
       type: String,
       default: ""
     },
-    theme: String
+    theme: String,
+    centerStyle: {}
+  },
+  computed: {
+    innerCenterStyle() {
+      return {
+        "padding-left": `${this.centerPaddingX}px`,
+        "padding-right": `${this.centerPaddingX}px`,
+        ...this.centerStyle
+      };
+    }
   },
   data() {
     return {
@@ -158,31 +171,11 @@ export default {
       this.centerPaddingX = maxWidth;
     },
     toBack() {
-      if (typeof Square != "undefined") {
-        Square.goback();
-      } else if (
-        window.webkit &&
-        window.webkit.messageHandlers &&
-        window.webkit.messageHandlers.GOBACK
-      ) {
-        window.webkit.messageHandlers.GOBACK.postMessage(0);
-      } else {
-        history.back();
-      }
+      history.back();
     },
 
     toRoot() {
-      if (typeof Square != "undefined") {
-        Square.closeActivity();
-      } else if (
-        window.webkit &&
-        window.webkit.messageHandlers &&
-        window.webkit.messageHandlers.GOROOT
-      ) {
-        window.webkit.messageHandlers.GOROOT.postMessage(0);
-      } else {
-        history.back();
-      }
+      history.back();
     }
   },
   mounted() {

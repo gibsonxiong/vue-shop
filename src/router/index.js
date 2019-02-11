@@ -8,28 +8,35 @@ import Order from '@/views/Order';
 import OrderDetail from '@/views/OrderDetail';
 import Footprint from '@/views/Footprint';
 import MyLove from '@/views/MyLove';
-import ShippingAddress from '@/views/ShippingAddress';
+import MyAddress from '@/views/MyAddress';
 import AddressDetail from '@/views/AddressDetail';
 import Recharge from '@/views/Recharge';
 import RechargeRecord from '@/views/RechargeRecord';
-import Regist from '@/views/Regist';
+import Register from '@/views/Register';
 import Login from '@/views/Login';
+import Coupon from '@/views/Coupon';
+import Shopcart from '@/views/Shopcart';
+import Personal from '@/views/Personal';
+import Setting from '@/views/Setting';
+import Evaluate from '@/views/Evaluate';
 
 Vue.use(Router);
 
 const config = {
-  title:'商城'
+  title: '商城'
 }
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: Index
     },
     {
       path: '/items',
-      component: ItemList
+      component: ItemList,
+      meta:{
+        title: '商品分类'
+      }
     },
     {
       path: '/items/:itemId',
@@ -52,8 +59,8 @@ const router = new Router({
       component: MyLove
     },
     {
-      path: '/shippingaddress',
-      component: ShippingAddress
+      path: '/myAddress',
+      component: MyAddress
     },
     {
       path: '/addressdetail',
@@ -68,13 +75,33 @@ const router = new Router({
       component: RechargeRecord
     },
     {
-      path: '/regist',
-      component: Regist
+      path: '/register',
+      component: Register
     },
     {
       path: '/login',
       component: Login
-    }
+    },
+    {
+      path: '/coupon',
+      component: Coupon
+    },
+    {
+      path: '/shopcart',
+      component: Shopcart
+    },
+    {
+      path: '/personal',
+      component: Personal
+    },
+    {
+      path: '/setting',
+      component: Setting
+    },
+    {
+      path: '/evaluate',
+      component: Evaluate
+    },
   ]
 });
 
@@ -89,4 +116,3 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router;
-

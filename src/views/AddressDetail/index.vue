@@ -42,7 +42,7 @@
 </style>
 
 <template>
-  <div class="shippingaddress-page">
+  <div class="address-detail-page">
     <c-header :title="'新建地址'"></c-header>
     <div class="c-page-body header-pd">
         <ul>
@@ -71,7 +71,7 @@
             <mt-switch ></mt-switch>
           </li>
         </ul>
-        <c-button :title="'保存地址'"></c-button>
+        <c-button>保存地址</c-button>
     </div>
   </div>
 </template>

@@ -24,6 +24,7 @@
       box-sizing: border-box;
       font-size: 0.13rem;
       color: #000;
+      transition: 0.2s all;
 
       &.active {
         background: #fff;
@@ -52,6 +53,7 @@
   }
 
   .right-container {
+    background-color: #ffffff;
     height: 100%;
     flex: 1;
     overflow: auto;
@@ -91,12 +93,13 @@
 
 <template>
   <div class="c-catalog">
-    <c-header :backType="0" :theme="'white'">
+    <c-header ref="header" :backType="0">
       <c-search-input
         slot="center"
         @click.native="$emit('toSearch')"
         disabled="disabled"
         style="width:100%;"
+        placeholder="搜索你喜欢的宝贝"
       ></c-search-input>
     </c-header>
 
@@ -113,12 +116,12 @@
       <div class="right-container">
         <div class="c-header-pd c-tab-pd">
           <ul class="type-list">
-            <li class="type-item" v-for="(item,index) in 30" :key="index">
-              <router-link to="/items">
+            <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
+              <router-link :to="{path:'/items',query:{itemTypeId:item.id}}">
                 <div style="padding:0 0.05rem;">
-                  <img src="//image.suning.cn/uimg/asbs/ad/1493946827440_app_list.jpg">
+                  <img :src="item.imgSrc">
                 </div>
-                <span>笔记本笔记本笔</span>
+                <span>{{item.name}}</span>
               </router-link>
             </li>
           </ul>
@@ -137,7 +140,7 @@ export default {
     return {
       catalogList: [],
       catalogIndex: "",
-      typeList: []
+      itemTypeList: []
     };
   },
   methods: {
@@ -147,20 +150,30 @@ export default {
 
         this.catalogList = res.data;
         let defaultId = this.catalogList[0].id;
-        this.activeCatalog(id);
-      } catch (err) {}
+        this.changeCatalog(defaultId);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     },
-    async fetchTypeList(catalogId) {
+    async fetchItemTypeList(catalogId) {
       try {
-        let res = await services.fetchTypeList(catalogId);
+        let res = await services.fetchItemTypeList({catalogId});
 
-        this.typeList = res.data;
-      } catch (err) {}
+        this.itemTypeList = res.data;
+        this.$forceUpdate();
+      } catch (err) {
+
+      }
     },
 
     changeCatalog(id) {
       this.catalogIndex = id;
-      this.fetchTypeList(id);
+      this.fetchItemTypeList(id);
+    },
+
+    //父类调用
+    tabActived() {
+      this.$refs.header.resizeCenter();
     }
   },
 

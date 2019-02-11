@@ -1,3 +1,7 @@
+body {
+  color: #051b28;
+}
+
 $placeholder-color:rgba(193, 193, 193, 1);
 
 ::-webkit-input-placeholder {
@@ -50,16 +54,18 @@ textarea:-ms-input-placeholder {
 .c-page-body {
   height: 100vh;
   overflow: auto;
+  background-color: #f5f5f5;
   -webkit-overflow-scrolling: touch;
 
   &.header-pd {
     padding-top: 0.44rem;
   }
-  
+
   &.tab-pd {
     padding-bottom: 0.55rem;
   }
 }
+
 //chen 自定义flex样式
 .chen_center_absolute {
   display: flex;
@@ -73,6 +79,7 @@ textarea:-ms-input-placeholder {
   justify-content: center;
   align-items: center;
 }
+
 .chen_center_absolute_center {
   display: flex;
   justify-content: center;
@@ -85,6 +92,7 @@ textarea:-ms-input-placeholder {
   justify-content: space-between;
   align-items: center;
 }
+
 //chen 自定义flex样式
 
 .c-header-pd {
@@ -95,4 +103,26 @@ textarea:-ms-input-placeholder {
   padding-bottom: 0.55rem;
 }
 
+.c-btn {
+  border: 1px solid #666;
+  background-color: transparent;
+  color: #666;
+  padding: 0.05rem 0.1rem;
+  border-radius: 1rem;
+  margin-left: 0.1rem;
 
+  &.btn-light {
+    border-color: #fff;
+    color: #fff;
+  }
+
+  &.btn-primary {
+    border-color: $color-primary;
+    color: $color-primary;
+
+    &:disabled {
+      border-color: $color-primary-disabled;
+      color: $color-primary-disabled;
+    }
+  }
+}

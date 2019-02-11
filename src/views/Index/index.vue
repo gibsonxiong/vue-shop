@@ -4,7 +4,7 @@
 }
 
 .tab {
-  background: rgba(249, 250, 250, 0.96);
+  background: rgba(249, 250, 250, 0.98);
   display: flex;
   height: 0.55rem;
   align-items: center;
@@ -20,7 +20,7 @@
   &__item {
     flex: 1;
     text-align: center;
-    color: #555;
+    color: #5d656b;
     user-select: none;
 
     &.active {
@@ -49,7 +49,7 @@
         v-show="index === tab.active"
       >
         <keep-alive>
-          <component v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
+          <component ref="tabContent" v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
         </keep-alive>
       </div>
       <div class="tab tab--fixed">
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <c-search :visible="search.visible" @hideSearch="hideSearch"></c-search>
+    <c-search :visible="search.visible" @close="hideSearch" @search="handleSearch"></c-search>
   </div>
 </template>
 
@@ -107,6 +107,10 @@ export default {
     activeTab(index) {
       this.tab.active = index;
 
+      this.$nextTick(()=>{
+        this.$refs.tabContent[index].tabActived && this.$refs.tabContent[index].tabActived();
+      })
+
       let newRoute = {
         ...this.$route,
         query: {
@@ -120,10 +124,16 @@ export default {
     },
     hideSearch() {
       this.search.visible = false;
+    },
+    handleSearch(q){
+      this.$router.push({path:'/items',query:{searchText:q}});
     }
   },
   created() {
     this.tab.active = Number(this.$route.query.tab || 0);
+  },
+  mounted(){
+
   }
 };
 </script>

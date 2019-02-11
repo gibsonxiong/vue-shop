@@ -1,35 +1,55 @@
 <style lang="scss" scoped>
-$border-color:#ddd;
+$border-color: #e1e1e1;
+$btn-border-radius: 0.04rem;
+$btn-width: 0.25rem;
+$btn-color: #777;
+$btn-bgcolor: #fff;
+$btn-bgcolor-active: #eee;
 .c-number-input {
-    display: inline-flex;
-    align-items: stretch;
-    width: 0.9rem;
-    height: 0.23rem;
-    font-size: 0.14rem;
+  display: inline-flex;
+  align-items: stretch;
+  width: 0.82rem;
+  height: 0.23rem;
+  font-size: 0.12rem;
+  vertical-align: middle;
 
   &__sub,
-  &__plus{
-        background: #f5f5f5;
-    border:1px solid $border-color;
-    padding:0 0.04rem;
-    font-size: 0.12rem;
-    color: #777;
+  &__plus {
+    color: $btn-color;
+    background: $btn-bgcolor;
+    border: 1px solid $border-color;
+    width: $btn-width;
+    transition: 0.2s all;
 
-    &:disabled{
+    &:not(:disabled):active {
+      background: $btn-bgcolor-active;
+    }
+
+    &:disabled {
       color: #e4e4e4;
     }
 
-    .iconfont{
+    .iconfont {
       font-size: 0.12rem;
     }
   }
 
-  &__inner{
+  &__sub {
+    border-radius: $btn-border-radius 0 0 $btn-border-radius;
+  }
+
+  &__plus {
+    border-radius: 0 $btn-border-radius $btn-border-radius 0;
+  }
+
+  &__inner {
+    -webkit-appearance: none;
     flex: 1;
     width: 100%;
     border: 0;
-    border-top:1px solid $border-color;
-    border-bottom:1px solid $border-color;
+    border-radius: 0;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
     background-color: #ffffff;
     text-align: center;
   }
@@ -41,11 +61,15 @@ $border-color:#ddd;
     <button class="c-number-input__sub" :disabled="subDisabled" @click="adjust(false)">
       <i class="iconfont icon-move"></i>
     </button>
-<<<<<<< HEAD
-    <input type="number" :step="step" disabled :value="value" @change="handleChange($event.target.value)">
-=======
-    <input class="c-number-input__inner" ref="input" type="number" :step="step" :value="value" @change="handleChange($event.target.value)">
->>>>>>> 348378eeb520d654701f602da8c9ac18750144a5
+    <input
+      class="c-number-input__inner"
+      :disabled="inputDisabled"
+      ref="input"
+      type="number"
+      :step="step"
+      :value="value"
+      @change="handleChange($event.target.value)"
+    >
     <button class="c-number-input__plus" :disabled="plusDisabled" @click="adjust(true)">
       <i class="iconfont icon-add1"></i>
     </button>
@@ -65,26 +89,29 @@ export default {
       default: 1
     },
     min: [String, Number],
-    max: [String, Number]
+    max: [String, Number],
+    inputDisabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
-    return {
-    };
+    return {};
   },
-  computed:{
-    subDisabled(){
+  computed: {
+    subDisabled() {
       //小于最小值
-      if ( (this.min || this.min === 0) && this.value <= this.min) {
+      if ((this.min || this.min === 0) && this.value <= this.min) {
         return true;
-      }else{
+      } else {
         return false;
       }
     },
-    plusDisabled(){
+    plusDisabled() {
       //小于最小值
-      if ( (this.max || this.max === 0) && this.value >= this.max) {
+      if ((this.max || this.max === 0) && this.value >= this.max) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
@@ -107,7 +134,7 @@ export default {
       value = Number(value);
       // debugger;
       console.log(value);
-      
+
       if (!this.checkRang(value)) {
         this.$refs.input.value = this.value;
         return alert("超出范围");
