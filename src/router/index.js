@@ -18,6 +18,8 @@ import Coupon from '@/views/Coupon';
 import Shopcart from '@/views/Shopcart';
 import Personal from '@/views/Personal';
 import Setting from '@/views/Setting';
+import Evaluate from '@/views/Evaluate';
+import ConfirmOrder from '@/views/ConfirmOrder';
 
 Vue.use(Router);
 
@@ -97,6 +99,14 @@ const router = new Router({
       path: '/setting',
       component: Setting
     },
+    {
+      path: '/evaluate',
+      component: Evaluate
+    },
+    {
+      path: '/confirmorder',
+      component: ConfirmOrder
+    }
   ]
 });
 

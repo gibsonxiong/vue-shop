@@ -157,8 +157,13 @@
           name="收货地址"
           @click="$router.push('/myAddress')"
         ></c-cell>
+        <c-cell
+          icon="icon-location"
+          :iconStyle="{'color':'rgb(104, 167, 234)'}"
+          name="评价"
+          @click="$router.push('/evaluate')"
+        ></c-cell>
       </c-cell-list>
-
       <!-- <div class="c-cell-list">
         <div class="c-cell" v-for="(item,index) in 3" :key="index">
           <div class="c-cell-left">
