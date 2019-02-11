@@ -63,7 +63,7 @@
                 <span>{{content.oderId}}</span>
               </div>
               <div style="width:20%;text-align:right;">
-                <span>{{content.odertype}}</span>
+                <span>{{content.odertype | odertype}}</span>
                 <span style="transform:rotateZ(180deg);display: inline-block;">
                   <i style="font-size:14px;" class="iconfont icon-back_light"></i>
                 </span>
@@ -198,27 +198,42 @@ export default {
       contents: []
     };
   },
-  methods: {
-    tab(index) {
-      this.curId = index;
-      this.contents = fetchData(index);
-      for (var i in this.contents) {
-        this.contents[i].odertype =
-          {
+  filters:{
+    odertype(val){
+      return ({
             "0": "全部",
             "1": "待付款",
             "2": "待发货",
             "3": "待收货",
             "4": "已完成"
-          }[this.contents[i].odertype] || "";
+          })[val] || '';
+    }
+  },
+  methods: {
+    tab(index) {
+      this.curId = index;
+      this.contents = fetchData(index);
+
+      let newRoute = {
+        ...this.$route,
+        query:{
+          index
+        }
       }
+
+      this.$router.replace(newRoute);
     },
     to_oderDetail() {
       this.$router.push("/orderDetail");
     }
   },
   created() {
-    this.tab(0);
+    let index = this.$route.query.index;
+    if(index){
+      this.tab(Number(index));
+    }else{
+      this.tab(0);
+    }
   }
 };
 </script>

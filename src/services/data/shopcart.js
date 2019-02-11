@@ -25,6 +25,18 @@ export default [
     0,
     1,
     2
+  ),
+
+  new Shopcart(
+    2,
+    0,
+    1,
+    2,
+    1
   )
 
 ];
+
+export {
+  Shopcart
+};

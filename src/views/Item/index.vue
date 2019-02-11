@@ -309,7 +309,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-              @include flexbox;
+            @include flexbox;
             .btn {
               @include flex;
               padding: pxTorem(30) 0rem;
@@ -491,7 +491,7 @@
               <li class="chen_center_absolute item_detail_number">
                 <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
                 <div>
-                  <c-number-input :min="1" :max="20" v-model="number_input"></c-number-input>
+                  <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
                 </div>
               </li>
             </ul>
@@ -499,11 +499,7 @@
               <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
               <button class="btn" @click="submit('buy')">立刻购买</button>
             </div>
-            <div
-              v-else
-              class="item_detail_confirm"
-              @click="submit(pop_model)"
-            >
+            <div v-else class="item_detail_confirm" @click="submit(pop_model)">
               <button class="btn">确定</button>
             </div>
           </div>
@@ -600,8 +596,7 @@ export default {
           des: "2019秋季"
         }
       ],
-      number_input: 1, //输入数量数据
-      pop_model: 0, //控制购买详情弹出层
+      pop_model: '', //控制购买详情弹出层
       selectValue: [], //选择规格数据
       disabledList: [], //禁用的数组
       // simulated_data: {
@@ -675,7 +670,8 @@ export default {
       //   ]
       // },
       itemId: "",
-      itemInfo: {}
+      itemInfo: {},
+      quantity:1,
     };
   },
   created() {
@@ -703,8 +699,7 @@ export default {
         return sku.propValueIds === this.selectValue.join(",");
       })[0];
 
-      console.log("selectSku");
-      console.log(sku);
+      console.log("selectSku =>", sku);
       return sku;
     },
     selectTip() {
@@ -748,8 +743,27 @@ export default {
       this.pop_model = "";
     },
     //加入购物车
-    submit(type) {
+    async submit(type) {
       console.log(type);
+
+      if (type === "cart") {
+        try {
+          let { itemId } = this;
+          let res = await services.addShopcart({
+            itemId:this.itemId,
+            skuId:this.selectSku.id,
+            quantity:this.quantity
+          });
+
+          if (services.$isError(res)) throw new Error(res.message);
+
+          this.$toast(res.message);
+
+          this.closePopModel();
+        } catch (err) {
+          return this.$toast(err.message);
+        }
+      }
     },
     selectDataItem(typeIndex, propValueId) {
       if (
