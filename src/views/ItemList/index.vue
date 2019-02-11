@@ -12,6 +12,7 @@
     // position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
     .list_select {
       // position: absolute;
       // top: 0;
@@ -28,6 +29,20 @@
       }
       .select_item_active {
         color: $color-primary;
+      }
+      .price_i {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: pxTorem(3);
+        color: #666666;
+        i {
+          font-size: 10px;
+          line-height: pxTorem(14);
+        }
+        .i_active {
+          color: #f94a92;
+        }
       }
     }
     .des_money {
@@ -143,6 +158,66 @@
       }
     }
   }
+  .item_select {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(23, 22, 122, 0.2);
+    .select_box {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      .select_bg {
+        height: 100%;
+        width: 15%;
+        background: rgba(0, 0, 0, 0.7);
+      }
+      .select_content {
+        width: 85%;
+        height: 100%;
+        background: #fff;
+        position: relative;
+        .select_price {
+          padding: pxTorem(45) pxTorem(26);
+          @include border-bottom(#e7e7e7);
+          .select_input {
+            span {
+              padding: 0px pxTorem(12);
+            }
+            input {
+              width: pxTorem(120);
+              padding: pxTorem(10) pxTorem(5);
+              border-radius: 4px;
+              box-shadow: none;
+              background: #f2f2f2;
+              border: none;
+            }
+          }
+        }
+        .content_bottom {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          .bottom_box {
+            @include border-top(#e7e7e7);
+            > div {
+              width: 50%;
+              padding: pxTorem(30) 0px;
+              text-align: center;
+            }
+            > div:nth-child(2) {
+              background: #ff5000;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
 
@@ -169,25 +244,28 @@
             <div
               class="select_item chen_center_absolute_center"
               :class="{'select_item_active':listActive==0}"
-              @click="listActiveClick(0)"
+              @click="listAllClick(0)"
             >综合</div>
             <div
               class="select_item chen_center_absolute_center"
               :class="{'select_item_active':listActive==1}"
-              @click="listActiveClick(1)"
+              @click="listNumClick(1)"
             >销量</div>
             <div
               class="select_item chen_center_absolute_center"
               :class="{'select_item_active':listActive==2}"
-              @click="listActiveClick(2)"
+              @click="listPriceClick(2)"
             >
-              价格
-              <i></i>
+              <div>价格</div>
+              <div class="price_i">
+                <i class="iconfont icon-triangleupfill" :class="{'i_active':iSort == 1}"></i>
+                <i class="iconfont icon-triangledownfill" :class="{'i_active':iSort == 2}"></i>
+              </div>
             </div>
             <div
               class="select_item chen_center_absolute_center"
               :class="{'select_item_active':listActive==3}"
-              @click="listActiveClick(3)"
+              @click="listSelectClick(3)"
             >
               筛选
               <i class="iconfont icon-filter"></i>
@@ -220,6 +298,27 @@
         </div>
       </div>
     </div>
+    <div v-show="selectBox" class="item_select">
+      <div class="select_box">
+        <div class="select_bg" @click="selectNone()"></div>
+        <div class="select_content">
+          <div class="select_price chen_center_absolute">
+            <div>价格区间（元）</div>
+            <div class="chen_center_absolute_center select_input">
+              <input type="number" placeholder="最低价">
+              <span>-</span>
+              <input type="number" placeholder="最高价">
+            </div>
+          </div>
+          <div class="content_bottom">
+            <div class="bottom_box chen_center_absolute_center">
+              <div>重置</div>
+              <div>确定</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <c-search
       :defaultSearchText="searchText"
       :visible="search.visible"
@@ -234,14 +333,16 @@ import services from "@/services";
 export default {
   data() {
     return {
-      searchText: "",
-      itemTypeId: "",
+      searchText: "11",
+      itemTypeId: "1",
       search: {
         visible: false
       },
       listType: false, //商品列表排列方式
       listActive: 0, //列表按钮点击变色
-      itemList: []
+      itemList: [],
+      iSort: 0, //排序图片变色
+      selectBox: false    //筛选条件
     };
   },
   methods: {
@@ -254,8 +355,31 @@ export default {
     listTypeClick() {
       this.listType = !this.listType;
     },
-    listActiveClick(num) {
+    listAllClick(num) {
+      //综合
       this.listActive = num;
+      this.iSort = 0;
+    },
+    listNumClick(num) {
+      //销量
+      this.listActive = num;
+      this.iSort = 0;
+    },
+    listPriceClick(num) {
+      //价格
+      this.listActive = num;
+      this.iSort =
+        this.iSort == 0 ? 1 : this.iSort == 1 ? 2 : this.iSort == 2 ? 1 : 0;
+      console.log(this.iSort);
+    },
+    listSelectClick(num) {
+      //筛选
+      this.listActive = num;
+      this.selectBox = true;
+    },
+    selectNone(){
+      //筛选消失
+      this.selectBox = false;
     },
     handleSearch(searchText) {
       this.searchText = searchText;
@@ -281,6 +405,7 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.itemList = res.data;
+        console.log(this.itemList);
       } catch (err) {
         return this.$toast(err.message);
       }

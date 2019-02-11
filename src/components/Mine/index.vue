@@ -134,7 +134,7 @@
           :iconStyle="{'color':'rgb(203, 52, 228)'}"
           name="我的优惠券"
           value="1张"
-          @click="$router.push('/mylove')"
+          @click="$router.push('/coupon')"
         ></c-cell>
       </c-cell-list>
 
