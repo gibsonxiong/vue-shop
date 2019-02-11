@@ -676,7 +676,6 @@ export default {
   },
   created() {
     this.itemId = this.$route.params.itemId;
-
     this.fetchItem();
   },
   computed: {
@@ -717,7 +716,6 @@ export default {
       });
       console.log("selectTip");
       console.log(unselectProps, selectPropValues, this.selectValue);
-
       if (unselectProps.length === 0) {
         return `已选择：${selectPropValues.join(",")}`;
       } else {
