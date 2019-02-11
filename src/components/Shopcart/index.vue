@@ -202,7 +202,7 @@
           </div>
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <div class="chen_center_absolute_column item_page_footer_buys" @click="submit">结算({{checkedCount}})</div>
+          <div class="chen_center_absolute_column item_page_footer_buys" @click="$router.push('/confirmorder')">结算({{checkedCount}})</div>
         </div>
       </div>
     </div>
@@ -259,8 +259,8 @@ export default {
       }
     },
 
-    submit(){
-      console.log(this.checkedFlags)
+    ConfirmOrder(){
+      
     }
   },
   created(){

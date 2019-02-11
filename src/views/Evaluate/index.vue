@@ -33,7 +33,7 @@ img {
 </style>
 <template>
   <div class="record-page">
-    <c-header title="评价"></c-header>
+    <c-header :title="'评价'"></c-header>
     <div class="c-page-body header-pd">
       <div class="evaluate" v-for="(item,index) in item" :key='index'>
         <div class="evaluate_t" style="display:flex;align-items: center;">
