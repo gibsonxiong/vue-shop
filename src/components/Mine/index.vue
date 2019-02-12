@@ -93,23 +93,23 @@
         ></c-cell>
       </c-cell-list>
       <div class="order-wrap">
-        <router-link tag="div" :to="{path:'/order', query:{type:'0'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/order', query:{index:'1'}}" class="order-item">
           <i class="order-item-icon iconfont icon-pay"></i>
           <div class="order-item-name">待付款</div>
         </router-link>
-        <router-link tag="div" :to="{path:'/order', query:{type:'1'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/order', query:{index:'2'}}" class="order-item">
           <i class="order-item-icon iconfont icon-deliver"></i>
           <div class="order-item-name">待发货</div>
         </router-link>
-        <router-link tag="div" :to="{path:'/order', query:{type:'2'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/order', query:{index:'3'}}" class="order-item">
           <i class="order-item-icon iconfont icon-icon-receive"></i>
           <div class="order-item-name">待收货</div>
         </router-link>
-        <router-link tag="div" :to="{path:'/order', query:{type:'3'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/order', query:{index:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-comment"></i>
-          <div class="order-item-name">待评价</div>
+          <div class="order-item-name">已完成</div>
         </router-link>
-        <router-link tag="div" :to="{path:'/order', query:{type:'4'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/order', query:{index:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-refund"></i>
           <div class="order-item-name">退款/售后</div>
         </router-link>

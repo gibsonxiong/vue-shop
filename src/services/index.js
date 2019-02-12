@@ -49,6 +49,9 @@ let propData = require('./data/prop').default;
 let propValueData = require('./data/prop-value').default;
 let skuData = require('./data/sku').default;
 let shopcartData = require('./data/shopcart').default;
+let {Shopcart} = require('./data/shopcart');
+
+let testUserId = 0;
 
 function mock(data, code = 0, message = '') {
   return new Promise((resolve, reject) => {
@@ -189,7 +192,7 @@ const services = {
   //获取购物车列表
   async fetchShopcartList() {
     let data = shopcartData.filter(item => {
-      return item.userId == 0;
+      return item.userId == testUserId;
     });
 
     data = JSON.parse(JSON.stringify(data));
@@ -197,10 +200,50 @@ const services = {
     data.forEach(item=>{
       item.item = itemData.find(_item=>_item.id == item.itemId);
       item.sku = skuData.find(sku=>sku.id == item.skuId);
+      item.sku.propValues = item.sku.propValueIds.split(',').map(propValueId=>{
+        return propValueData.find(item=>item.id == propValueId).name;
+      }).join(';');
     });
 
     return await mock(data);
   },
+
+  //加入购物车
+  async addShopcart({
+    itemId,
+    skuId,
+    quantity
+  }){
+    shopcartData.push(new Shopcart(shopcartData.length-1, testUserId, itemId,skuId,quantity));
+
+    return mock(null, 0, '加入购物车成功');
+  },
+
+  //删除购物车
+  async removeShopcart({
+    shopcartId,
+  }){
+    let index = shopcartData.findIndex(item=>item.id == shopcartId);
+
+    shopcartData.splice(index,-1);
+
+    return mock(null, 0, '删除购物车成功');
+  },
+
+  //更新购物车
+  async updateShopcart({
+    shopcartId,
+    quantity
+  }){
+    return mock(null, 0, '');
+  },
+
+  //提交订单
+  async submitOrder({
+
+  }){
+
+  }  
 };
 
 export default services;
