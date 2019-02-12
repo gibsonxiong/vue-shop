@@ -159,11 +159,7 @@
           <label class="item-checkbox-wrap">
             <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
           </label>
-          <img
-            class="item-img"
-            :src="shopcart.item.imgSrc"
-            alt
-          >
+          <img class="item-img" :src="shopcart.item.imgSrc" alt>
           <div class="item-content">
             <router-link
               tag="div"
@@ -171,7 +167,7 @@
               class="item-name"
             >{{shopcart.item.name}}</router-link>
             <div class="item-prop-wrap">
-              <div class="item-prop">粉色超大的奥术大师多加速度氨基酸等级-啊是的哈; XL-19238123123</div>
+              <div class="item-prop">{{shopcart.sku.propValues}}</div>
             </div>
 
             <div class="item-bottom">
@@ -196,13 +192,16 @@
           <div class="amount-wrap">
             <div class="amount">
               合计:
-              <span class="amount-strong">￥199</span>
+              <span class="amount-strong">￥{{checkedAmount}}</span>
             </div>
             <div class="hint">不含运费</div>
           </div>
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <div class="chen_center_absolute_column item_page_footer_buys" @click="$router.push('/confirmorder')">结算({{checkedCount}})</div>
+          <div
+            class="chen_center_absolute_column item_page_footer_buys"
+            @click="submit"
+          >结算({{checkedCount}})</div>
         </div>
       </div>
     </div>
@@ -211,8 +210,8 @@
 
 
 <script>
-import Vue from 'vue';
-import services from '@/services';
+import Vue from "vue";
+import services from "@/services";
 export default {
   props: {
     inTab: {
@@ -226,24 +225,31 @@ export default {
       list: []
     };
   },
-  computed:{
-    allChecked:{
-      get(){
-        let flags =  Object.values(this.checkedFlags);
-        return flags.length > 0 &&  flags.every(item=> item);
+  computed: {
+    allChecked: {
+      get() {
+        let flags = Object.values(this.checkedFlags);
+        return flags.length > 0 && flags.every(item => item);
       },
-      set(val){
-        for(let key in this.checkedFlags){
+      set(val) {
+        for (let key in this.checkedFlags) {
           this.checkedFlags[key] = val;
         }
       }
     },
-    checkedCount(){
-      return Object.values(this.checkedFlags).filter(item=>item).length;
+    checkedCount() {
+      return Object.values(this.checkedFlags).filter(item => item).length;
+    },
+    checkedAmount() {
+      return this.list
+        .filter(item => this.checkedFlags[item.id])
+        .reduce((prev, current) => {
+          return prev + current.sku.price * current.quantity;
+        }, 0);
     }
   },
-  methods:{
-    async fetchShopcartList(){
+  methods: {
+    async fetchShopcartList() {
       try {
         let res = await services.fetchShopcartList();
 
@@ -251,7 +257,7 @@ export default {
 
         this.list = res.data;
 
-        this.list.forEach(item=>{
+        this.list.forEach(item => {
           Vue.set(this.checkedFlags, item.id, false);
         });
       } catch (err) {
@@ -259,11 +265,12 @@ export default {
       }
     },
 
-    ConfirmOrder(){
-      
+    submit() {
+
+      this.$router.push("/confirmorder");
     }
   },
-  created(){
+  created() {
     this.fetchShopcartList();
   }
 };

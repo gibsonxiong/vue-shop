@@ -121,9 +121,13 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+    
+    };
   },
-  created() {},
-  methods: {}
+  created() {
+  },
+  methods: {    
+  }
 };
 </script>

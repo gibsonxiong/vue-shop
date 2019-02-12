@@ -15,6 +15,7 @@ import RechargeRecord from '@/views/RechargeRecord';
 import Register from '@/views/Register';
 import Login from '@/views/Login';
 import Coupon from '@/views/Coupon';
+import MyCoupon from '@/views/MyCoupon';
 import Shopcart from '@/views/Shopcart';
 import Personal from '@/views/Personal';
 import Setting from '@/views/Setting';
@@ -89,6 +90,10 @@ const router = new Router({
       component: Coupon
     },
     {
+      path: '/myCoupon',
+      component: MyCoupon
+    },
+    {
       path: '/shopcart',
       component: Shopcart
     },
@@ -102,6 +107,7 @@ const router = new Router({
     },
     {
       path: '/evaluate',
+      name: 'evaluate',
       component: Evaluate
     },
     {
