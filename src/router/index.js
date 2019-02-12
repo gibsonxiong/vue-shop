@@ -20,6 +20,7 @@ import Personal from '@/views/Personal';
 import Setting from '@/views/Setting';
 import Evaluate from '@/views/Evaluate';
 import ConfirmOrder from '@/views/ConfirmOrder';
+import PersonalData from '@/views/PersonalData';
 
 Vue.use(Router);
 
@@ -106,6 +107,10 @@ const router = new Router({
     {
       path: '/confirmorder',
       component: ConfirmOrder
+    },
+    {
+      path: '/personaldata',
+      component: PersonalData
     }
   ]
 });

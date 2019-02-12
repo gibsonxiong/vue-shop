@@ -160,8 +160,8 @@
         <c-cell
           icon="icon-location"
           :iconStyle="{'color':'rgb(104, 167, 234)'}"
-          name="评价"
-          @click="$router.push('/evaluate')"
+          name="个人资料"
+          @click="$router.push('/personaldata')"
         ></c-cell>
       </c-cell-list>
       <!-- <div class="c-cell-list">

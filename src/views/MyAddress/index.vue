@@ -66,69 +66,16 @@ label{
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
-      <!--  -->
-      <div class="my-ddress_con">
+      <div class="my-ddress_con" v-for="items in navList" :key="items">
         <div>
           <p>
-            <span>王伊</span>
-            <span>18570414200</span>
+            <span>{{items.name}}</span>
+            <span>{{items.phone}}</span>
           </p>
           <p>
-            <span>广东省深圳市宝安区</span>
-            <span>观澜街道</span>
-            <span>招商观园18-6A</span>
-          </p>
-        </div>
-        <div>
-           <span>
-            <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
-            <label for="gcs-checkbox"></label>
-          </span>
-          <p style="width:65%">设置默认</p>
-          <p style="width:35%;text-align:right;">
-            <i class="iconfont icon-post"></i>
-            <span style="padding-right:0.1rem;">编辑</span>
-            <i class="iconfont icon-delete_light"></i>
-            <span>删除</span>
-          </p>
-        </div>
-      </div>
-      <div class="my-ddress_con">
-        <div>
-          <p>
-            <span>王伊</span>
-            <span>18570414200</span>
-          </p>
-          <p>
-            <span>广东省深圳市宝安区</span>
-            <span>观澜街道</span>
-            <span>招商观园18-6A</span>
-          </p>
-        </div>
-        <div>
-           <span>
-            <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
-            <label for="gcs-checkbox"></label>
-          </span>
-          <p style="width:65%">设置默认</p>
-          <p style="width:35%;text-align:right;">
-            <i class="iconfont icon-post"></i>
-            <span style="padding-right:0.1rem;">编辑</span>
-            <i class="iconfont icon-delete_light"></i>
-            <span>删除</span>
-          </p>
-        </div>
-      </div>
-      <div class="my-ddress_con">
-        <div>
-          <p>
-            <span>王伊</span>
-            <span>18570414200</span>
-          </p>
-          <p>
-            <span>广东省深圳市宝安区</span>
-            <span>观澜街道</span>
-            <span>招商观园18-6A</span>
+            <span>{{items.city}}</span>
+            <span>{{items.address}}</span>
+            <span>{{items.hourse_num}}</span>
           </p>
         </div>
         <div>
@@ -157,7 +104,14 @@ label{
 <script>
 export default {
   data() {
-    return {};
+    return {
+       navList: [
+                {name: '王伊', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园8-6A',isActive: false},
+                {name: '王二', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园38-6A',isActive: false},
+                {name: '王三', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园58-6A',isActive: false},
+                {name: '王四', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园78-6A',isActive: false}
+            ]
+    };
   },
   methods: {
     new_address() {

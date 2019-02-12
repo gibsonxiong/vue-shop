@@ -107,8 +107,8 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <button class="c-btn">取消订单</button>
-              <span class="c-btn btn-primary">支付订单</span>
+              <button class="c-btn" @click="one_to">{{content.btn_one}}</button>
+              <span class="c-btn btn-primary" @click="two_to">{{content.btn_two}}</span>
             </div>
             <!--  -->
           </li>
@@ -123,7 +123,7 @@ function fetchData(typeId) {
   let data = [
     {
       oderId: "SH20190123113437236624",
-      odertype: 4,
+      odertype: 1,
       shopName: "母婴用品商城",
       goodsImg:
         "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
@@ -132,7 +132,9 @@ function fetchData(typeId) {
       price: 3.33,
       size: 2,
       consize: 2,
-      Dprice: 20
+      Dprice: 20,
+      btn_one:'取消订单',
+      btn_two:'付款'
     },
     {
       oderId: "SH20190123113437232333",
@@ -145,7 +147,9 @@ function fetchData(typeId) {
       price: 8.8,
       size: 11,
       consize: 3,
-      Dprice: 100
+      Dprice: 100,
+      btn_one:'申请开票',
+      btn_two:'提醒发货'
     },
     {
       oderId: "SH20190123113437232333",
@@ -158,7 +162,9 @@ function fetchData(typeId) {
       price: 77,
       size: 3,
       consize: 9,
-      Dprice: 30
+      Dprice: 30,
+      btn_one:'查看物流',
+      btn_two:'确认收货'
     },
     {
       oderId: "SH20190123113437232333",
@@ -171,7 +177,9 @@ function fetchData(typeId) {
       price: 887,
       size: 13,
       consize: 11,
-      Dprice: 3000
+      Dprice: 3000,
+      btn_one:'删除订单',
+      btn_two:'评价'
     }
   ];
 
@@ -213,8 +221,23 @@ export default {
           }[this.contents[i].odertype] || "";
       }
     },
+    one_to(){
+      for (var i in this.contents) {
+        console.log(this.contents[i].btn_one)
+        if(this.contents[i].btn_one ==='取消订单'){
+          alert(123)
+        }
+          // if(this.contents[i].btn_one == '删除订单'){
+            
+          //     alert("删除订单")
+          // }
+      }
+    },
+    two_to(){
+
+    },
     to_oderDetail() {
-      this.$router.push("/orderDetail");
+      // this.$router.push("/orderDetail");
     }
   },
   created() {
