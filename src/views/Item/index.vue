@@ -1,14 +1,13 @@
-<style lang="scss">
+
+<style scoped lang="scss">
+@import "~@/css/mixin";
+@import "~@/css/var";
 .item_details {
   img {
     width: 100%;
     object-fit: cover;
   }
 }
-</style>
-<style scoped lang="scss">
-@import "~@/css/mixin";
-@import "~@/css/var";
 .item_page {
   .item_page_content {
     height: 100%;
@@ -88,6 +87,43 @@
         i {
           opacity: 0.4;
         }
+        .item_look_more {
+          color: $color-primary-active;
+        }
+        .evaluate {
+          .evaluate_header {
+            display: flex;
+            align-items: center;
+            padding-top: pxTorem(10);
+            .header_img {
+              width: pxTorem(70);
+              img {
+                width: 100%;
+                object-fit: cover;
+              }
+            }
+          }
+          .evaluate_des {
+            padding: pxTorem(13) 0px;
+          }
+          .evaluate_img {
+            &::after {
+              content: "";
+              display: block;
+              clear: both;
+            }
+            img {
+              float: left;
+              height: 1rem;
+              width: 33%;
+              object-fit: cover;
+              padding: pxTorem(6) pxTorem(6) pxTorem(0) pxTorem(0);
+            }
+            img:nth-child(3n) {
+              padding: pxTorem(6) pxTorem(0) pxTorem(0) pxTorem(0);
+            }
+          }
+        }
       }
       .item_select_shop_name {
         background: #fff;
@@ -129,12 +165,6 @@
             }
           }
         }
-        // .item_details {
-        //   img {
-        //     width: 100%;
-        //     object-fit: cover;
-        //   }
-        // }
         .item_parameters {
           padding: pxTorem(10) pxTorem(26);
           .item_parameters_list {
@@ -362,6 +392,49 @@
             <div class="chen_center_absolute express_price">
               <div>快递：15.00</div>
               <div>销量：0 件</div>
+            </div>
+          </div>
+          <div class="item_select_classification item_white">
+            <div class="chen_center_absolute">
+              <div>商品评价(
+                <span>333</span>)
+              </div>
+              <router-link :to="{ name: 'evaluate', params: { userId: 123 }}">
+                <div class="item_look_more">
+                  <span>查看更多</span>
+                  <i class="iconfont icon-right"></i>
+                </div>
+              </router-link>
+            </div>
+            <div class="evaluate">
+              <div class="evaluate_header">
+                <div class="header_img">
+                  <img
+                    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549866693683&di=2809ed20f7353ea896749a31db949739&imgtype=0&src=http%3A%2F%2Fpic41.photophoto.cn%2F20161129%2F0005018388660581_b.jpg"
+                  >
+                </div>
+                <div>赵钱孙李</div>
+              </div>
+              <div
+                class="evaluate_des"
+              >摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气</div>
+              <div class="evaluate_img">
+                <img
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                >
+                <img
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                >
+                <img
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                >
+                <img
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                >
+                <img
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                >
+              </div>
             </div>
           </div>
           <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
@@ -596,7 +669,7 @@ export default {
           des: "2019秋季"
         }
       ],
-      pop_model: '', //控制购买详情弹出层
+      pop_model: "", //控制购买详情弹出层
       selectValue: [], //选择规格数据
       disabledList: [], //禁用的数组
       // simulated_data: {
@@ -671,7 +744,7 @@ export default {
       // },
       itemId: "",
       itemInfo: {},
-      quantity:1,
+      quantity: 1
     };
   },
   created() {
@@ -748,9 +821,9 @@ export default {
         try {
           let { itemId } = this;
           let res = await services.addShopcart({
-            itemId:this.itemId,
-            skuId:this.selectSku.id,
-            quantity:this.quantity
+            itemId: this.itemId,
+            skuId: this.selectSku.id,
+            quantity: this.quantity
           });
 
           if (services.$isError(res)) throw new Error(res.message);

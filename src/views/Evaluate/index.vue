@@ -94,7 +94,9 @@ export default {
           item.iscolor = item.iscolor == 0 ? 1 : 0
       }
   },
-  created() {}
+  created() {
+    console.log(this.$route.params);
+  }
 };
 </script>
 

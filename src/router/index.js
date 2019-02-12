@@ -106,6 +106,7 @@ const router = new Router({
     },
     {
       path: '/evaluate',
+      name: 'evaluate',
       component: Evaluate
     },
     {
