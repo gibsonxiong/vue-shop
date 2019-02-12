@@ -132,9 +132,16 @@
         <c-cell
           icon="icon-youhuiquan"
           :iconStyle="{'color':'rgb(203, 52, 228)'}"
-          name="我的优惠券"
+          name="领取优惠券"
           value="1张"
           @click="$router.push('/coupon')"
+        ></c-cell>
+        <c-cell
+          icon="icon-youhuiquan"
+          :iconStyle="{'color':'rgb(203, 52, 228)'}"
+          name="我的优惠券"
+          value="1张"
+          @click="$router.push('/myCoupon')"
         ></c-cell>
       </c-cell-list>
 
