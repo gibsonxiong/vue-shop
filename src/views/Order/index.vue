@@ -107,8 +107,8 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <button class="c-btn" @click="one_to">{{content.btn_one}}</button>
-              <span class="c-btn btn-primary" @click="two_to">{{content.btn_two}}</span>
+              <button class="c-btn" >{{content.btn_one}}</button>
+              <span class="c-btn btn-primary" >{{content.btn_two}}</span>
             </div>
             <!--  -->
           </li>
@@ -221,33 +221,16 @@ export default {
     tab(index) {
       this.curId = index;
       this.contents = fetchData(index);
-
       let newRoute = {
         ...this.$route,
         query:{
           index
         }
       }
-
       this.$router.replace(newRoute);
     },
-    one_to(){
-      for (var i in this.contents) {
-        console.log(this.contents[i].btn_one)
-        if(this.contents[i].btn_one ==='取消订单'){
-          alert(123)
-        }
-          // if(this.contents[i].btn_one == '删除订单'){
-            
-          //     alert("删除订单")
-          // }
-      }
-    },
-    two_to(){
-
-    },
     to_oderDetail() {
-      // this.$router.push("/orderDetail");
+       this.$router.push("/orderDetail");
     }
   },
   created() {

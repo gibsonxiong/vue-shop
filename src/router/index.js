@@ -22,6 +22,8 @@ import Setting from '@/views/Setting';
 import Evaluate from '@/views/Evaluate';
 import ConfirmOrder from '@/views/ConfirmOrder';
 import PersonalData from '@/views/PersonalData';
+import Remark from '@/views/Remark';
+import RefundList from '@/views/RefundList';
 
 Vue.use(Router);
 
@@ -117,6 +119,13 @@ const router = new Router({
     {
       path: '/personaldata',
       component: PersonalData
+    },
+    {
+      path: '/remark',
+      component: Remark
+    },{
+      path:'/refundlist',
+      component:RefundList
     }
   ]
 });
