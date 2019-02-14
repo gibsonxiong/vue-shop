@@ -109,7 +109,7 @@
           <i class="order-item-icon iconfont icon-comment"></i>
           <div class="order-item-name">已完成</div>
         </router-link>
-        <router-link tag="div" :to="{path:'/order', query:{index:'4'}}" class="order-item">
+        <router-link tag="div" :to="{path:'/refundlist', query:{index:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-refund"></i>
           <div class="order-item-name">退款/售后</div>
         </router-link>
@@ -169,6 +169,12 @@
           :iconStyle="{'color':'rgb(104, 167, 234)'}"
           name="个人资料"
           @click="$router.push('/personaldata')"
+        ></c-cell>
+         <c-cell
+          icon="icon-location"
+          :iconStyle="{'color':'rgb(104, 167, 234)'}"
+          name="评价"
+          @click="$router.push('/remark')"
         ></c-cell>
       </c-cell-list>
       <!-- <div class="c-cell-list">
