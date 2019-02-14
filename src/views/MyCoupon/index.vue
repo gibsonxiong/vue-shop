@@ -2,6 +2,7 @@
 @import "~@/css/var";
 @import "~@/css/common";
 @import "~@/css/mixin";
+
 .coupon_page {
   box-sizing: border-box;
   .header_r {
@@ -175,12 +176,13 @@ export default {
           type: 2
         }
       ],
-      currencyList: [] //当前所展示数据
+      currencyList: [], //当前所展示数据
     };
   },
   created() {
     this.tilLists();
   },
+  mounted() {},
   methods: {
     tilActiveClick(num) {
       //使用按钮点击
@@ -196,7 +198,8 @@ export default {
       //   let arr = this.lists.filter(item => {
       //     return item.price += 100;
       //   });
-    }
+    },
+    
   }
 };
 </script>
