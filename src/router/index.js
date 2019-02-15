@@ -24,6 +24,8 @@ import ConfirmOrder from '@/views/ConfirmOrder';
 import PersonalData from '@/views/PersonalData';
 import Remark from '@/views/Remark';
 import RefundList from '@/views/RefundList';
+import RefundDetail from '@/views/RefundDetail';
+import Refund from '@/views/Refund';
 
 Vue.use(Router);
 
@@ -126,6 +128,12 @@ const router = new Router({
     },{
       path:'/refundlist',
       component:RefundList
+    },{
+      path:'/refund_detail',
+      component:RefundDetail
+    },{
+      path:'/refund',
+      component:Refund
     }
   ]
 });

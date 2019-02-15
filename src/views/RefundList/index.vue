@@ -96,7 +96,7 @@ img {
               </p>
             </div>
             <div class="li_four">
-              <span class="see_de">查看详情</span>
+              <span class="see_de" @click="$router.push('/refund_detail')">查看详情</span>
             </div>
           </li>
           <li>

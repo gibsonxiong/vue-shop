@@ -19,6 +19,8 @@ import Button from './Button';
 import CellList from './CellList';
 import Cell from './Cell';
 
+import Popup from './Popup';
+
 Vue.component('c-header', Header);
 
 Vue.component('c-home', Home);
@@ -38,3 +40,6 @@ Vue.component('c-button', Button);
 
 Vue.component('c-cell-list', CellList);
 Vue.component('c-cell', Cell);
+
+Vue.component('c-popup', Popup);
+
