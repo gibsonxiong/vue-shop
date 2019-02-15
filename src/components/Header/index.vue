@@ -173,7 +173,6 @@ export default {
     toBack() {
       history.back();
     },
-
     toRoot() {
       history.back();
     }

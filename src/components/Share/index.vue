@@ -1,31 +1,3 @@
-<style lang="scss">
-@import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
-@import "~@/css/mixin";
-#share_component {
-  .soshm-item {
-    margin: pxTorem(14) pxTorem(10);
-    width: pxTorem(160);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .soshm-item-icon {
-      width: 40%;
-      height: 40%;
-      img {
-        object-fit: cover;
-      }
-    }
-    .soshm-item-text{
-        display: block;
-    }
-  }
-  &::after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-}
-</style>
 
 <style lang="scss" scoped>
 @import "~@/css/var";
@@ -76,20 +48,47 @@
   }
 }
 </style>
-
+<style lang="scss">
+@import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
+@import "~@/css/mixin";
+#share_component {
+  .soshm-item {
+    margin: pxTorem(14) pxTorem(10);
+    width: pxTorem(160);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .soshm-item-icon {
+      width: 40%;
+      height: 40%;
+      img {
+        object-fit: cover;
+      }
+    }
+    .soshm-item-text {
+      display: block;
+    }
+  }
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+</style>
 <template>
-  <!-- <transition name="fade"> -->
-  <div v-show="shareShow" class="share">
-    <div class="share_wrap">
-      <div class="share_model" @click="shareNone"></div>
-      <div class="share_box">
-        <p class="share_p">分享到</p>
-        <div id="share_component"></div>
-        <div class="share_line"></div>
+  <transition name="fade">
+    <div v-show="shareShow" class="share">
+      <div class="share_wrap">
+        <div class="share_model" @click="shareNone"></div>
+        <div class="share_box">
+          <p class="share_p">分享到</p>
+          <div id="share_component"></div>
+          <div class="share_line"></div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- </transition> -->
+  </transition>
 </template>
 
 
