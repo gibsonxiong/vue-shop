@@ -27,6 +27,7 @@
     -webkit-appearance: none;
     display: inline-block;
     padding: 0 0.15rem 0 0.32rem;
+    box-sizing: border-box;
 
     &:disabled {
       background: rgba(222, 222, 222, 0.6) !important;
@@ -47,7 +48,7 @@
           :placeholder="placeholder"
           @input="handleInput"
           class="c-search-input__inner"
-          type="text"
+          type="search"
           autofocus
           autocomplete="off"
         >

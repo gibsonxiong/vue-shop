@@ -29,6 +29,11 @@
     padding: 0.15rem 0;
     border-bottom: 1px solid $color-border;
 
+    .remove-btn {
+      float: right;
+      font-size: 0.2rem;
+    }
+
     .item-checkbox-wrap {
       display: inline-block;
       align-self: stretch;
@@ -139,10 +144,17 @@
       .item_page_footer_buys_wrap {
         height: 100%;
         .item_page_footer_buys {
+          border: none;
           color: #fff;
           height: 100%;
           min-width: 0.9rem;
-          background: #f94a92;
+          background: $color-primary;
+          border: 1px solid $color-primary;
+
+          &:disabled {
+            background: $color-primary-disabled;
+            border: 1px solid $color-primary-disabled;
+          }
         }
       }
     }
@@ -154,56 +166,78 @@
   <div class="c-shopcart" :class="{'in-tab':inTab}">
     <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
     <div class="c-page-body header-pd">
-      <div class="list" v-if="list && list.length > 0" style="margin-top:0.1rem;">
-        <div class="item" v-for="(shopcart,index) in list" :key="index">
-          <label class="item-checkbox-wrap">
-            <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
-          </label>
-          <img class="item-img" :src="shopcart.item.imgSrc" alt>
-          <div class="item-content">
-            <router-link
-              tag="div"
-              :to="`/items/${shopcart.item.id}`"
-              class="item-name"
-            >{{shopcart.item.name}}</router-link>
-            <div class="item-prop-wrap">
-              <div class="item-prop">{{shopcart.sku.propValues}}</div>
+      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">登录后可以查看购物车
+        <router-link tag="button" to="/login">登录</router-link>
+      </div>
+      <div v-else-if="list && list.length > 0">
+        <div class="list" style="margin-top:0.1rem;">
+          <div class="item" v-for="(shopcart,index) in list" :key="index">
+            <label class="item-checkbox-wrap">
+              <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
+            </label>
+            <img class="item-img" :src="shopcart.item.imgList[0]" alt>
+            <div class="item-content">
+              <router-link
+                tag="div"
+                :to="`/items/${shopcart.item.id}`"
+                class="item-name"
+              >{{shopcart.item.name}}</router-link>
+              <div class="item-prop-wrap">
+                <div class="item-prop">{{shopcart.sku.propDesc}}</div>
+              </div>
+
+              <div class="item-bottom">
+                <div class="item-price">￥{{shopcart.sku.price}}</div>
+                <c-number-input
+                  v-model="shopcart.quantity"
+                  :min="1"
+                  @input="updateShopcart(shopcart.id,$event)"
+                ></c-number-input>
+
+                <!-- <i class="iconfont icon-add1"></i> -->
+              </div>
+              <div
+                style="padding-top: 15px;
+                margin-bottom: -15px;
+                overflow: hidden;
+                color: #ccc;"
+              >
+                <i
+                  class="iconfont icon-close_light remove-btn"
+                  @click="removeShopcart(shopcart.id)"
+                ></i>
+              </div>
             </div>
-
-            <div class="item-bottom">
-              <div class="item-price">￥{{shopcart.sku.price}}</div>
-              <c-number-input v-model="shopcart.quantity" :min="1"></c-number-input>
-
-              <!-- <i class="iconfont icon-add1"></i> -->
+          </div>
+        </div>
+        <div class="item_page_footer">
+          <div class="item_page_footer_content chen_center_absolute">
+            <div class="item_page_footer_follow_wrap">
+              <label>
+                <c-checkbox v-model="allChecked" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
+              </label>
+              <div class="amount-wrap">
+                <div class="amount">
+                  合计:
+                  <span class="amount-strong">￥{{checkedAmount}}</span>
+                </div>
+                <div class="hint">不含运费</div>
+              </div>
+            </div>
+            <div class="chen_center_absolute_center item_page_footer_buys_wrap">
+              <button
+                :disabled="checkedCount === 0"
+                class="chen_center_absolute_column item_page_footer_buys"
+                @click="submit"
+              >结算({{checkedCount}})</button>
             </div>
           </div>
         </div>
       </div>
+
       <c-empty-hint v-else icon="icon-goods_light" hint="您的购物车是空的哦！">
         <button @click="$emit('gotoHome')">顺便逛逛</button>
       </c-empty-hint>
-    </div>
-    <div class="item_page_footer">
-      <div class="item_page_footer_content chen_center_absolute">
-        <div class="item_page_footer_follow_wrap">
-          <label>
-            <c-checkbox v-model="allChecked" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
-          </label>
-          <div class="amount-wrap">
-            <div class="amount">
-              合计:
-              <span class="amount-strong">￥{{checkedAmount}}</span>
-            </div>
-            <div class="hint">不含运费</div>
-          </div>
-        </div>
-        <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <div
-            class="chen_center_absolute_column item_page_footer_buys"
-            @click="submit"
-          >结算({{checkedCount}})</div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -215,6 +249,7 @@ import services from "@/services";
 export default {
   props: {
     inTab: {
+      isLogin: false,
       type: Boolean,
       default: true
     }
@@ -237,15 +272,16 @@ export default {
         }
       }
     },
+    checkedItems() {
+      return this.list.filter(item => this.checkedFlags[item.id]);
+    },
     checkedCount() {
       return Object.values(this.checkedFlags).filter(item => item).length;
     },
     checkedAmount() {
-      return this.list
-        .filter(item => this.checkedFlags[item.id])
-        .reduce((prev, current) => {
-          return prev + current.sku.price * current.quantity;
-        }, 0);
+      return this.checkedItems.reduce((prev, current) => {
+        return prev + current.sku.price * current.quantity;
+      }, 0);
     }
   },
   methods: {
@@ -265,13 +301,64 @@ export default {
       }
     },
 
-    submit() {
+    async updateShopcart(id, quantity) {
+      try {
+        let res = await services.updateShopcart({
+          shopcartId: id,
+          quantity
+        });
 
-      this.$router.push("/confirmorder");
+        if (services.$isError(res)) throw new Error(res.message);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    //删除购物车
+    async removeShopcart(id) {
+      try {
+        let res = await services.removeShopcart({
+          shopcartId: id
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        let index = this.list.findIndex(item => item.id == id);
+        this.list.splice(index, 1);
+        this.$toast(res.message);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    submit() {
+      console.log(this.checkedItems);
+
+      // let queryData = JSON.stringify(this.checkedItems);
+
+      let queryData = [];
+
+      this.checkedItems.forEach(shopcart => {
+        let { id, itemId, skuId, quantity } = shopcart;
+        queryData.push({
+          shopcartId: id,
+          itemId,
+          skuId,
+          quantity
+        });
+      });
+
+      queryData = JSON.stringify(queryData);
+
+      this.$router.push({ path: "/confirmorder", query: { p: queryData } });
     }
   },
   created() {
-    this.fetchShopcartList();
+    this.isLogin = services.$isLogin();
+
+    if (this.isLogin) {
+      this.fetchShopcartList();
+    }
   }
 };
 </script>

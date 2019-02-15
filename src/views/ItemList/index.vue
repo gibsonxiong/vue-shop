@@ -282,7 +282,7 @@
               >
                 <div class="item_pic">
                   <div class="pic">
-                    <img :src="item.imgSrc">
+                    <img :src="item.imgList[0]">
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
@@ -398,7 +398,7 @@ export default {
       try {
         let { searchText, itemTypeId } = this;
         let res = await services.fetchItemList({
-          itemTypeId,
+          categoryId:itemTypeId,
           searchText
         });
 

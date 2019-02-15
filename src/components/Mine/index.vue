@@ -56,19 +56,8 @@
     <div class="c-page-body header-pd tab-pd">
       <div class="top">
         <div class="top-wrap">
-          <template v-if="true">
-            <router-link to="/login" >
-              <img
-                class="avator"
-                src="@/assets/default_avator.jpg"
-                alt
-              >
-            </router-link>
-            <div>
-              <router-link to="/login" class="c-btn btn-light" >登录 / 注册</router-link>
-            </div>
-          </template>
-          <template v-else>
+          <!-- 已登录 -->
+          <template v-if="isLogin">
             <router-link to="/personal">
               <img
                 class="avator"
@@ -79,6 +68,19 @@
             <router-link to="/personal">  
               <div class="nickname">gibsonxiong</div>
             </router-link>
+          </template>
+          <!-- 未登录 -->
+          <template  v-else>
+            <router-link to="/login" >
+              <img
+                class="avator"
+                src="@/assets/default_avator.jpg"
+                alt
+              >
+            </router-link>
+            <div>
+              <router-link to="/login" class="c-btn btn-light" >登录 / 注册</router-link>
+            </div>
           </template>
         </div>
       </div>
@@ -107,7 +109,7 @@
         </router-link>
         <router-link tag="div" :to="{path:'/order', query:{index:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-comment"></i>
-          <div class="order-item-name">已完成</div>
+          <div class="order-item-name">待评价</div>
         </router-link>
         <router-link tag="div" :to="{path:'/refundlist', query:{index:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-refund"></i>
@@ -164,18 +166,6 @@
           name="收货地址"
           @click="$router.push('/myAddress')"
         ></c-cell>
-        <c-cell
-          icon="icon-location"
-          :iconStyle="{'color':'rgb(104, 167, 234)'}"
-          name="个人资料"
-          @click="$router.push('/personaldata')"
-        ></c-cell>
-         <c-cell
-          icon="icon-location"
-          :iconStyle="{'color':'rgb(104, 167, 234)'}"
-          name="评价"
-          @click="$router.push('/remark')"
-        ></c-cell>
       </c-cell-list>
       <!-- <div class="c-cell-list">
         <div class="c-cell" v-for="(item,index) in 3" :key="index">
@@ -194,5 +184,19 @@
 
 
 <script>
-export default {};
+import services  from '@/services';
+
+export default {
+  data(){
+    return {
+      isLogin:false,
+    }
+  },
+
+  created(){
+    this.isLogin = services.$isLogin();
+
+
+  }
+};
 </script>

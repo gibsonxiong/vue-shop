@@ -2,6 +2,7 @@
 @import "~@/css/var";
 .c-page-body {
   background: #f3f3f3;
+  padding-bottom: 0.8rem;
 }
 .confirmoder_one {
   padding: 0.18rem 0.1rem 0.21rem;
@@ -11,7 +12,7 @@
   background-size: auto 0.03rem;
 }
 
-.confirmoder_address_info{
+.confirmoder_address_info {
   flex: 1;
 }
 .confirm_three {
@@ -46,6 +47,8 @@
 }
 .confirmoder_one i {
   padding-right: 0.1rem;
+  font-size: 0.2rem;
+  font-weight: 600;
 }
 .confirm_four ul li {
   display: flex;
@@ -81,9 +84,11 @@
   text-align: right;
   padding: 0.1rem 0;
 }
-.total span {
+.strong {
   color: $color-primary;
+  font-weight: 600;
 }
+
 input {
   margin: auto;
   width: 100%;
@@ -96,7 +101,7 @@ input {
   <div class="confirmorder-page">
     <c-header :title="'确认订单'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="confirmoder_one">
+      <router-link to="/myaddress" tag="div" class="confirmoder_one">
         <i class="iconfont icon-location_light"></i>
         <ul class="confirmoder_address_info">
           <li>
@@ -112,7 +117,7 @@ input {
         <p style="transform:rotateZ(180deg);display: inline-block;">
           <i style="font-size:16px;padding-right:0.1rem;" class="iconfont icon-back_light"></i>
         </p>
-      </div>
+      </router-link>
       <div class="confirm_three">
         <!--  -->
         <div style="width:95%;margin:auto;padding:0.1rem 0;">
@@ -122,75 +127,62 @@ input {
         <!--  -->
         <div
           style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-top:1px solid #F4F4F4;"
+          v-for="(item,index) in orderInfo.orderItems"
+          :key="index"
         >
           <div style="width:20%;">
-            <img
-              style="width:0.7rem;height:0.7rem;"
-              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548311060508&di=d504b800e303f9f0156d74b574c8e6f1&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F17%2F09%2F07%2F319cc6336af17b547d9b3b873954b8da.jpg"
-              alt
-            >
+            <img style="width:0.7rem;height:0.7rem;" :src="item.item.imgList[0]" alt>
           </div>
           <div style="width:65%;padding:0 0.1rem">
-            <span>意大利进口奶瓶 荣誉出品意大利进口奶瓶荣誉出品</span>
-            <p style="color:#999;font-size:12px;">随机发</p>
+            <span>{{item.item.name}}</span>
+            <p style="color:#999;font-size:12px;">{{item.sku.propValues}}</p>
           </div>
           <div style="width:15%;text-align:right;">
-            <span>￥3.88</span>
+            <span>￥{{item.sku.price}}</span>
             <div style="color:#999;font-size:12px;">
-              <span>×100</span>
+              <span>x{{item.quantity}}</span>
             </div>
           </div>
         </div>
-        <!--  -->
-        <div
-          style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-top:1px solid #F4F4F4;"
-        >
-          <div style="width:20%;">
-            <img
-              style="width:0.7rem;height:0.7rem;"
-              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548311060508&di=d504b800e303f9f0156d74b574c8e6f1&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F17%2F09%2F07%2F319cc6336af17b547d9b3b873954b8da.jpg"
-              alt
-            >
-          </div>
-          <div style="width:65%;padding:0 0.1rem">
-            <span>意大利进口奶瓶 荣誉出品意大利进口奶瓶荣誉出品</span>
-            <p style="color:#999;font-size:12px;">随机发</p>
-          </div>
-          <div style="width:15%;text-align:right;">
-            <span>￥3.88</span>
-            <div style="color:#999;font-size:12px;">
-              <span>×100</span>
-            </div>
-          </div>
-        </div>
-        <!--  -->
         <div class="confirm_four">
           <ul>
             <li style="border-bottom: 1px solid #f4f4f4;">
-              <div>买家留言</div>
+              <div>商品小计</div>
+              <div>
+                <span>￥{{orderInfo.itemFee}}</span>
+              </div>
+            </li>
+            <li style="border-bottom: 1px solid #f4f4f4;">
+              <div>运费</div>
+              <div>￥{{orderInfo.postFee}}</div>
+            </li>
+            <li style="border-bottom: 1px solid #f4f4f4;">
+              <div>优惠券</div>
+              <div>没有可用优惠券</div>
+            </li>
+            <li style="border-bottom: 1px solid #f4f4f4;">
+              <div>买家留言：</div>
               <div>
                 <input placeholder="50字以内（选填）">
               </div>
             </li>
-            <li style="border-bottom: 1px solid #f4f4f4;">
-              <div>商品小计</div>
-              <div>￥0.90</div>
-            </li>
-            <li>
-              <div>运费</div>
-              <div>￥10</div>
-            </li>
           </ul>
         </div>
         <!--  -->
-        <p class="total" style>共1件商品 共计：￥192</p>
+        <p class="total" style>
+          共
+          <span class="strong">{{orderInfo.itemCount}}</span> 件商品
+          <span style="padding-left:0.05rem;">
+            合计：
+            <span class="strong">￥{{orderFee}}</span>
+          </span>
+        </p>
       </div>
       <!--  -->
       <!--  -->
       <div class="confirm_six">
         需付：
-        <span>￥</span>
-        <span>221.00</span>
+        <span class="strong">￥{{orderFee}}</span>
         <span>提交订单</span>
       </div>
     </div>
@@ -198,10 +190,57 @@ input {
 </template>
 
 <script>
+import services from "@/services";
+
 export default {
   data() {
-    return {};
+    return {
+      orderInfo: {}
+    };
   },
-  methods: {}
+  computed: {
+    orderFee() {
+      let { itemFee, postFee } = this.orderInfo;
+      if (!itemFee) return 0;
+      return itemFee + postFee;
+    }
+  },
+  methods: {
+    async buildOrder(params) {
+      try {
+        let res = await services.buildOrder({
+          params
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderInfo = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async createOrder() {
+      try {
+        let res = await services.buildOrder({
+          params
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderInfo = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    }
+  },
+  created() {
+    let params = JSON.parse(this.$route.query.p);
+
+    console.log(params);
+
+    // this.itemList = JSON.parse(param);
+
+    this.buildOrder(params);
+  }
 };
 </script>

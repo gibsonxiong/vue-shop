@@ -14,7 +14,7 @@
     box-sizing: border-box;
     overflow-x: hidden;
     .mint-swipe {
-      height: pxTorem(570);
+      height: pxTorem(750);
       width: 100%;
       overflow: hidden;
       .mint-swipe-item {
@@ -201,6 +201,10 @@
         width: 40%;
         .item_page_footer_follow {
           width: 50%;
+
+          &.active {
+            color: $color-primary;
+          }
         }
       }
 
@@ -368,7 +372,7 @@
     <div class="c-page-body header-pd">
       <div class="item_page_content">
         <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
-          <mt-swipe-item v-for="(val, index) in itemInfo.detailImgSrcs" :key="index">
+          <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
               <img :src="val" alt>
             </router-link>
@@ -396,7 +400,8 @@
           </div>
           <div class="item_select_classification item_white">
             <div class="chen_center_absolute">
-              <div>商品评价(
+              <div>
+                商品评价(
                 <span>333</span>)
               </div>
               <router-link :to="{ name: 'evaluate', params: { userId: 123 }}">
@@ -463,7 +468,7 @@
                 @click="itemParametersShow"
               >参数</div>
             </div>
-            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.desc">
+            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.detail">
               <!-- <li v-for="(val, index) in item_details_data" :key="index">
                 <img :src="val.url">
               </li>-->
@@ -485,7 +490,11 @@
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
-          <div class="chen_center_absolute_column item_page_footer_follow">
+          <div
+            class="chen_center_absolute_column item_page_footer_follow"
+            :class="{'active':favoriteId}"
+            @click="favorite()"
+          >
             <i class="iconfont icon-like"></i>
             <span>关注</span>
           </div>
@@ -524,7 +533,7 @@
           <div class="item_detail_pop_parents">
             <div class="item_detail_top_img">
               <div class="item_detail_img_box">
-                <img :src="itemInfo.imgSrc">
+                <img :src="itemInfo.imgList[0]">
               </div>
               <div class="item_detail_top_price">
                 <div class="item_detail_top_des">
@@ -532,7 +541,7 @@
                     ￥{{selectSku ? selectSku.price : itemPrice}}
                     <!-- <span>78.00</span> -->
                   </div>
-                  <div v-if="selectSku">库存 {{selectSku.quantity}}件</div>
+                  <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
                   <div>{{selectTip}}</div>
                   <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
                 </div>
@@ -544,14 +553,14 @@
             <ul class="item_detail_center">
               <li
                 class="item_detail_select_data"
-                v-for="(val,index) in itemInfo.props"
+                v-for="(val,index) in itemInfo.propnames"
                 :key="index"
               >
                 <div class="select_data_til">{{val.name}}</div>
                 <div class="select_data_lists">
                   <div
                     class="select_data_item"
-                    v-for="(item,index2) in itemInfo.propValues[index]"
+                    v-for="(item,index2) in itemInfo.propvalues[index]"
                     :key="index2"
                     @click="selectDataItem(index, item.id)"
                     :class="{
@@ -562,7 +571,10 @@
                 </div>
               </li>
               <li class="chen_center_absolute item_detail_number">
-                <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
+                <div class="select_data_til" style="margin-bottom: 0rem;">
+                  数量
+                  <span v-if="selectSku">({{selectSku.quantity}}件)</span>
+                </div>
                 <div>
                   <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
                 </div>
@@ -590,52 +602,6 @@ export default {
   data() {
     return {
       itemDetails: "1",
-      // imgS: [
-      //   //轮播图
-      //   {
-      //     id: 0,
-      //     url:
-      //       "http://img5.imgtn.bdimg.com/it/u=3152579570,2101947547&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 1,
-      //     url:
-      //       "http://img4.imgtn.bdimg.com/it/u=1697179575,3344030537&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 2,
-      //     url:
-      //       "http://img0.imgtn.bdimg.com/it/u=3922443166,3222977178&fm=26&gp=0.jpg"
-      //   }
-      // ],
-      // item_details_data: [
-      //   //详情图片
-      //   {
-      //     id: 0,
-      //     url:
-      //       "http://img2.imgtn.bdimg.com/it/u=1734456176,2066289348&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 1,
-      //     url:
-      //       "http://img1.imgtn.bdimg.com/it/u=404896549,3263823906&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 2,
-      //     url:
-      //       "http://img5.imgtn.bdimg.com/it/u=2451808208,2212241971&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 3,
-      //     url:
-      //       "http://img3.imgtn.bdimg.com/it/u=1334521210,4048204431&fm=26&gp=0.jpg"
-      //   },
-      //   {
-      //     id: 4,
-      //     url:
-      //       "http://img1.imgtn.bdimg.com/it/u=2091543393,1004231476&fm=11&gp=0.jpg"
-      //   }
-      // ],
       item_parameters_data: [
         //参数详情
         {
@@ -744,12 +710,14 @@ export default {
       // },
       itemId: "",
       itemInfo: {},
-      quantity: 1
+      quantity: 1,
+      favoriteId: ""
     };
   },
   created() {
     this.itemId = this.$route.params.itemId;
     this.fetchItem();
+    this.getFavoriteByItemId();
   },
   computed: {
     itemPrice() {
@@ -768,31 +736,32 @@ export default {
       if (!(this.itemInfo && this.itemInfo.skus)) return null;
 
       let sku = this.itemInfo.skus.filter(sku => {
-        return sku.propValueIds === this.selectValue.join(",");
+        console.log(sku.propvalues.join(","), this.selectValue.join(","));
+        return sku.propvalues.join(",") === this.selectValue.join(",");
       })[0];
 
       console.log("selectSku =>", sku);
       return sku;
     },
     selectTip() {
-      if (!(this.itemInfo && this.itemInfo.props)) return "";
+      if (!(this.itemInfo && this.itemInfo.propnames)) return "";
 
-      let unselectProps = [];
-      let selectPropValues = [];
-      this.itemInfo.props.forEach((prop, index) => {
+      let unselectPropnames = [];
+      let selectPropvalues = [];
+      this.itemInfo.propnames.forEach((prop, index) => {
         if (this.selectValue[index] || this.selectValue[index] === 0) {
           let propValue = this.getPropValue(index, this.selectValue[index]);
-          selectPropValues.push(propValue ? propValue.name : "");
+          selectPropvalues.push(propValue ? propValue.name : "");
         } else {
-          unselectProps.push(prop.name);
+          unselectPropnames.push(prop.name);
         }
       });
       console.log("selectTip");
-      console.log(unselectProps, selectPropValues, this.selectValue);
-      if (unselectProps.length === 0) {
-        return `已选择：${selectPropValues.join(",")}`;
+      console.log(unselectPropnames, selectPropvalues, this.selectValue);
+      if (unselectPropnames.length === 0) {
+        return `已选择：${selectPropvalues.join(",")}`;
       } else {
-        return `请选择：${unselectProps.join(",")}`;
+        return `请选择：${unselectPropnames.join(",")}`;
       }
     }
   },
@@ -836,33 +805,33 @@ export default {
         }
       }
     },
-    selectDataItem(typeIndex, propValueId) {
+    selectDataItem(propnameIndex, propValueId) {
       if (
-        this.disabledList[typeIndex] &&
-        this.disabledList[typeIndex].indexOf(propValueId) !== -1
+        this.disabledList[propnameIndex] &&
+        this.disabledList[propnameIndex].indexOf(propValueId) !== -1
       )
         return;
 
       //属性选择
-      Vue.set(this.selectValue, typeIndex, propValueId);
-      // this.selectValue[typeIndex] = propValueId;
+      Vue.set(this.selectValue, propnameIndex, propValueId);
+      // this.selectValue[propnameIndex] = propValueId;
 
       this.disabledList = this.disabledList || [];
-      this.itemInfo.props.forEach((item, index) => {
-        if (index === typeIndex) return;
+      this.itemInfo.propnames.forEach((item, index) => {
+        if (index === propnameIndex) return;
         Vue.set(this.disabledList, index, []);
         // this.disabledList[index] = [];
       });
 
       this.itemInfo.skus.forEach((sku, n) => {
-        let propValueIds = sku.propValueIds.split(",");
+        let propValueIds = sku.propvalues;
         //不是相关属性
-        if (propValueIds[typeIndex] != propValueId) return;
+        if (propValueIds[propnameIndex] != propValueId) return;
         //库存不为0
         if (sku.quantity > 0) return;
 
         propValueIds.forEach((_propValueId, index) => {
-          if (typeIndex === index) return;
+          if (propnameIndex === index) return;
           this.disabledList[index].push(Number(_propValueId));
         });
       });
@@ -878,14 +847,56 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        res.data.detailImgSrcs = res.data.detailImgSrcs.split(",");
         this.itemInfo = res.data;
       } catch (err) {
         return this.$toast(err.message);
       }
     },
     getPropValue(index, valueId) {
-      return this.itemInfo.propValues[index].find(item => item.id == valueId);
+      return this.itemInfo.propvalues[index].find(item => item.id == valueId);
+    },
+    async favorite() {
+      try {
+        let { itemId } = this;
+        let res;
+
+        //已经收藏
+        if (this.favoriteId) {
+          res = await services.removeFavorite({
+            favoriteId:this.favoriteId
+          });
+
+           if (services.$isError(res)) throw new Error(res.message);
+
+           this.$toast(res.message);
+           this.favoriteId = '';
+        } else {
+          res = await services.addFavorite({
+            itemId
+          });
+
+          if (services.$isError(res)) throw new Error(res.message);
+
+          this.$toast(res.message);
+          this.favoriteId = res.data.id;
+        }
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async getFavoriteByItemId() {
+      try {
+        let { itemId } = this;
+        let res = await services.getFavoriteByItemId({
+          itemId
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.favoriteId = res.data ? res.data.id : "";
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   }
 };

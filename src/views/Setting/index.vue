@@ -7,16 +7,23 @@
   <div class="setting-page">
     <c-header :title="'设置'"></c-header>
     <div class="c-page-body header-pd">
-      <c-button>退出登录</c-button>
+      <div style="text-align:center;">
+        <c-button @click="logout">退出登录</c-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import services from '@/services';
 export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    logout(){
+      services.$removeToken();
+    }
+  }
 };
 </script>

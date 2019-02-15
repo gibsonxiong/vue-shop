@@ -119,7 +119,7 @@
             <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
               <router-link :to="{path:'/items',query:{itemTypeId:item.id}}">
                 <div style="padding:0 0.05rem;">
-                  <img :src="item.imgSrc">
+                  <img :src="item.img">
                 </div>
                 <span>{{item.name}}</span>
               </router-link>
