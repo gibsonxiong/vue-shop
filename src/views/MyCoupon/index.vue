@@ -113,7 +113,7 @@
               <div class="item_l chen_center_absolute_column">
                 <p class="num">
                   ￥
-                  <span>{{val.price}}</span>
+                  <span>{{val.price | add}}</span>
                 </p>
                 <p class="des">无金额门槛</p>
               </div>
@@ -178,6 +178,13 @@ export default {
       ],
       currencyList: [], //当前所展示数据
     };
+  },
+  filters:{
+    add(val){
+      if (!val) return '';
+      val = Math.floor(val);
+      return val;
+    }
   },
   created() {
     this.tilLists();

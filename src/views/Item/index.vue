@@ -1,7 +1,24 @@
-
+<style lang="scss">
+.item_details {
+  width: 100%;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+</style>
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
+.fade-enter-active,
+.fade-leave-active {
+  transform: translateY(0);
+  transition: 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  transform: translateY(100%);
+}
 .item_page {
   .item_page_content {
     height: 100%;
@@ -146,13 +163,7 @@
         background: #fff;
         font-size: pxTorem(28);
         padding-bottom: pxTorem(123);
-        .item_details {
-          width: 100%;
-          img {
-            width: 100%;
-            object-fit: cover;
-          }
-        }
+
         .item_details_checkout {
           > div {
             width: 100%;
@@ -367,12 +378,11 @@
   <div class="item_page">
     <c-header :title="'商品详情'">
       <a slot="right">
-        <i class="iconfont icon-fenxiang" style="font-size:0.2rem;"
-         @click="shareCeshi"></i>
+        <i class="iconfont icon-fenxiang" style="font-size:0.2rem;" @click="shareCeshi"></i>
       </a>
     </c-header>
     <div class="c-page-body header-pd">
-      <c-share  :shareShow="share" @shareClose="shareNone"></c-share>
+      <c-share :shareShow="share" @shareClose="shareNone"></c-share>
       <div class="item_page_content">
         <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
@@ -401,7 +411,7 @@
               <div>销量：0 件</div>
             </div>
           </div>
-          
+
           <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
             <div>请选择型号</div>
             <div>
@@ -530,31 +540,32 @@
         </div>
       </div>
     </div>
-    <div class="item_detail_pop_model" v-if="pop_model">
-      <div class="item_detail_pop_box">
-        <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
-        <div class="item_detail_pop_content">
-          <div class="item_detail_pop_parents">
-            <div class="item_detail_top_img">
-              <div class="item_detail_img_box">
-                <img :src="itemInfo.imgList[0]">
-              </div>
-              <div class="item_detail_top_price">
-                <div class="item_detail_top_des">
-                  <div class="price_num">
-                    ￥{{selectSku ? selectSku.price : itemPrice}}
-                    <!-- <span>78.00</span> -->
+    <transition name="fade">
+      <div class="item_detail_pop_model" v-if="pop_model">
+        <div class="item_detail_pop_box">
+          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
+          <div class="item_detail_pop_content">
+            <div class="item_detail_pop_parents">
+              <div class="item_detail_top_img">
+                <div class="item_detail_img_box">
+                  <img :src="itemInfo.imgList[0]">
+                </div>
+                <div class="item_detail_top_price">
+                  <div class="item_detail_top_des">
+                    <div class="price_num">
+                      ￥{{selectSku ? selectSku.price : itemPrice}}
+                      <!-- <span>78.00</span> -->
+                    </div>
+                    <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
+                    <div>{{selectTip}}</div>
+                    <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
                   </div>
-                  <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
-                  <div>{{selectTip}}</div>
-                  <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
-                </div>
-                <div class="item_detail_top_cancel" @click="closePopModel()">
-                  <i class="iconfont icon-round_close_light"></i>
+                  <div class="item_detail_top_cancel" @click="closePopModel()">
+                    <i class="iconfont icon-round_close_light"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-            <ul class="item_detail_center">
+              <ul class="item_detail_center">
               <li
                 class="item_detail_select_data"
                 v-for="(val,index) in itemInfo.propnames"
@@ -583,18 +594,19 @@
                   <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
                 </div>
               </li>
-            </ul>
-            <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-              <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
-              <button class="btn" @click="submit('buy')">立刻购买</button>
-            </div>
-            <div v-else class="item_detail_confirm" @click="submit(pop_model)">
-              <button class="btn">确定</button>
+              </ul>
+              <div v-if="pop_model === 'sku'" class="item_detail_confirm">
+                <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
+                <button class="btn" @click="submit('buy')">立刻购买</button>
+              </div>
+              <div v-else class="item_detail_confirm" @click="submit(pop_model)">
+                <button class="btn">确定</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -642,7 +654,7 @@ export default {
       pop_model: "", //控制购买详情弹出层
       selectValue: [], //选择规格数据
       disabledList: [], //禁用的数组
-      
+
       itemId: "",
       itemInfo: {},
       quantity: 1,
@@ -799,13 +811,13 @@ export default {
         //已经收藏
         if (this.favoriteId) {
           res = await services.removeFavorite({
-            favoriteId:this.favoriteId
+            favoriteId: this.favoriteId
           });
 
-           if (services.$isError(res)) throw new Error(res.message);
+          if (services.$isError(res)) throw new Error(res.message);
 
-           this.$toast(res.message);
-           this.favoriteId = '';
+          this.$toast(res.message);
+          this.favoriteId = "";
         } else {
           res = await services.addFavorite({
             itemId
