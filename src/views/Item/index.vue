@@ -541,24 +541,14 @@
       </div>
     </div>
     <transition name="fade">
-    <div class="item_detail_pop_model" v-if="pop_model">
-      <div class="item_detail_pop_box">
-        <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
-        <div class="item_detail_pop_content">
-          <div class="item_detail_pop_parents">
-            <div class="item_detail_top_img">
-              <div class="item_detail_img_box">
-                <img :src="itemInfo.imgList[0]">
-              </div>
-              <div class="item_detail_top_price">
-                <div class="item_detail_top_des">
-                  <div class="price_num">
-                    ￥{{selectSku ? selectSku.price : itemPrice}}
-                    <!-- <span>78.00</span> -->
-                  </div>
-                  <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
-                  <div>{{selectTip}}</div>
-                  <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
+      <div class="item_detail_pop_model" v-if="pop_model">
+        <div class="item_detail_pop_box">
+          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
+          <div class="item_detail_pop_content">
+            <div class="item_detail_pop_parents">
+              <div class="item_detail_top_img">
+                <div class="item_detail_img_box">
+                  <img :src="itemInfo.imgList[0]">
                 </div>
                 <div class="item_detail_top_price">
                   <div class="item_detail_top_des">
@@ -566,7 +556,7 @@
                       ￥{{selectSku ? selectSku.price : itemPrice}}
                       <!-- <span>78.00</span> -->
                     </div>
-                    <div v-if="selectSku">库存 {{selectSku.quantity}}件</div>
+                    <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
                     <div>{{selectTip}}</div>
                     <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
                   </div>
@@ -575,8 +565,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <ul class="item_detail_center">
+              <ul class="item_detail_center">
               <li
                 class="item_detail_select_data"
                 v-for="(val,index) in itemInfo.propnames"
@@ -605,13 +594,14 @@
                   <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
                 </div>
               </li>
-            </ul>
-            <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-              <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
-              <button class="btn" @click="submit('buy')">立刻购买</button>
-            </div>
-            <div v-else class="item_detail_confirm" @click="submit(pop_model)">
-              <button class="btn">确定</button>
+              </ul>
+              <div v-if="pop_model === 'sku'" class="item_detail_confirm">
+                <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
+                <button class="btn" @click="submit('buy')">立刻购买</button>
+              </div>
+              <div v-else class="item_detail_confirm" @click="submit(pop_model)">
+                <button class="btn">确定</button>
+              </div>
             </div>
           </div>
         </div>
@@ -821,13 +811,13 @@ export default {
         //已经收藏
         if (this.favoriteId) {
           res = await services.removeFavorite({
-            favoriteId:this.favoriteId
+            favoriteId: this.favoriteId
           });
 
-           if (services.$isError(res)) throw new Error(res.message);
+          if (services.$isError(res)) throw new Error(res.message);
 
-           this.$toast(res.message);
-           this.favoriteId = '';
+          this.$toast(res.message);
+          this.favoriteId = "";
         } else {
           res = await services.addFavorite({
             itemId
