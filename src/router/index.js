@@ -21,9 +21,11 @@ import Personal from '@/views/Personal';
 import Setting from '@/views/Setting';
 import Evaluate from '@/views/Evaluate';
 import ConfirmOrder from '@/views/ConfirmOrder';
-import PersonalData from '@/views/PersonalData';
 import Remark from '@/views/Remark';
 import RefundList from '@/views/RefundList';
+import ResetPassword from '@/views/ResetPassword';
+import RefundDetail from '@/views/RefundDetail';
+import Refund from '@/views/Refund';
 
 Vue.use(Router);
 
@@ -88,6 +90,10 @@ const router = new Router({
       component: Login
     },
     {
+      path:'/reset-password',
+      component:ResetPassword
+    },
+    {
       path: '/coupon',
       component: Coupon
     },
@@ -117,15 +123,17 @@ const router = new Router({
       component: ConfirmOrder
     },
     {
-      path: '/personaldata',
-      component: PersonalData
-    },
-    {
       path: '/remark',
       component: Remark
     },{
       path:'/refundlist',
       component:RefundList
+    },{
+      path:'/refund_detail',
+      component:RefundDetail
+    },{
+      path:'/refund',
+      component:Refund
     }
   ]
 });

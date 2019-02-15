@@ -25,7 +25,7 @@
     box-sizing: border-box;
     overflow-x: hidden;
     .mint-swipe {
-      height: pxTorem(570);
+      height: pxTorem(750);
       width: 100%;
       overflow: hidden;
       .mint-swipe-item {
@@ -213,6 +213,10 @@
         width: 40%;
         .item_page_footer_follow {
           width: 50%;
+
+          &.active {
+            color: $color-primary;
+          }
         }
       }
 
@@ -381,7 +385,7 @@
       <c-share :shareShow="share" @shareClose="shareNone"></c-share>
       <div class="item_page_content">
         <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
-          <mt-swipe-item v-for="(val, index) in itemInfo.detailImgSrcs" :key="index">
+          <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
               <img :src="val">
             </router-link>
@@ -478,7 +482,7 @@
                 @click="itemParametersShow"
               >参数</div>
             </div>
-            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.desc">
+            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.detail">
               <!-- <li v-for="(val, index) in item_details_data" :key="index">
                 <img :src="val.url">
               </li>-->
@@ -500,7 +504,11 @@
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
-          <div class="chen_center_absolute_column item_page_footer_follow">
+          <div
+            class="chen_center_absolute_column item_page_footer_follow"
+            :class="{'active':favoriteId}"
+            @click="favorite()"
+          >
             <i class="iconfont icon-like"></i>
             <span>关注</span>
           </div>
@@ -533,14 +541,24 @@
       </div>
     </div>
     <transition name="fade">
-      <div class="item_detail_pop_model" v-if="pop_model">
-        <div class="item_detail_pop_box">
-          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
-          <div class="item_detail_pop_content">
-            <div class="item_detail_pop_parents">
-              <div class="item_detail_top_img">
-                <div class="item_detail_img_box">
-                  <img :src="itemInfo.imgSrc">
+    <div class="item_detail_pop_model" v-if="pop_model">
+      <div class="item_detail_pop_box">
+        <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
+        <div class="item_detail_pop_content">
+          <div class="item_detail_pop_parents">
+            <div class="item_detail_top_img">
+              <div class="item_detail_img_box">
+                <img :src="itemInfo.imgList[0]">
+              </div>
+              <div class="item_detail_top_price">
+                <div class="item_detail_top_des">
+                  <div class="price_num">
+                    ￥{{selectSku ? selectSku.price : itemPrice}}
+                    <!-- <span>78.00</span> -->
+                  </div>
+                  <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
+                  <div>{{selectTip}}</div>
+                  <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
                 </div>
                 <div class="item_detail_top_price">
                   <div class="item_detail_top_des">
@@ -557,40 +575,43 @@
                   </div>
                 </div>
               </div>
-              <ul class="item_detail_center">
-                <li
-                  class="item_detail_select_data"
-                  v-for="(val,index) in itemInfo.props"
-                  :key="index"
-                >
-                  <div class="select_data_til">{{val.name}}</div>
-                  <div class="select_data_lists">
-                    <div
-                      class="select_data_item"
-                      v-for="(item,index2) in itemInfo.propValues[index]"
-                      :key="index2"
-                      @click="selectDataItem(index, item.id)"
-                      :class="{
+            </div>
+            <ul class="item_detail_center">
+              <li
+                class="item_detail_select_data"
+                v-for="(val,index) in itemInfo.propnames"
+                :key="index"
+              >
+                <div class="select_data_til">{{val.name}}</div>
+                <div class="select_data_lists">
+                  <div
+                    class="select_data_item"
+                    v-for="(item,index2) in itemInfo.propvalues[index]"
+                    :key="index2"
+                    @click="selectDataItem(index, item.id)"
+                    :class="{
                       'select_data_item_active_none': disabledList[index] && disabledList[index].includes(item.id),
                       'select_data_item_active':selectValue[index] == item.id
                     }"
-                    >{{item.name}}</div>
-                  </div>
-                </li>
-                <li class="chen_center_absolute item_detail_number">
-                  <div class="select_data_til" style="margin-bottom: 0rem;">数量</div>
-                  <div>
-                    <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
-                  </div>
-                </li>
-              </ul>
-              <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-                <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
-                <button class="btn" @click="submit('buy')">立刻购买</button>
-              </div>
-              <div v-else class="item_detail_confirm" @click="submit(pop_model)">
-                <button class="btn">确定</button>
-              </div>
+                  >{{item.name}}</div>
+                </div>
+              </li>
+              <li class="chen_center_absolute item_detail_number">
+                <div class="select_data_til" style="margin-bottom: 0rem;">
+                  数量
+                  <span v-if="selectSku">({{selectSku.quantity}}件)</span>
+                </div>
+                <div>
+                  <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
+                </div>
+              </li>
+            </ul>
+            <div v-if="pop_model === 'sku'" class="item_detail_confirm">
+              <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
+              <button class="btn" @click="submit('buy')">立刻购买</button>
+            </div>
+            <div v-else class="item_detail_confirm" @click="submit(pop_model)">
+              <button class="btn">确定</button>
             </div>
           </div>
         </div>
@@ -647,12 +668,14 @@ export default {
       itemId: "",
       itemInfo: {},
       quantity: 1,
-      share: false ,//分享组件控制
+      favoriteId: "",
+      share: false //分享组件控制
     };
   },
   created() {
     this.itemId = this.$route.params.itemId;
     this.fetchItem();
+    this.getFavoriteByItemId();
   },
   computed: {
     itemPrice() {
@@ -671,31 +694,32 @@ export default {
       if (!(this.itemInfo && this.itemInfo.skus)) return null;
 
       let sku = this.itemInfo.skus.filter(sku => {
-        return sku.propValueIds === this.selectValue.join(",");
+        console.log(sku.propvalues.join(","), this.selectValue.join(","));
+        return sku.propvalues.join(",") === this.selectValue.join(",");
       })[0];
 
       console.log("selectSku =>", sku);
       return sku;
     },
     selectTip() {
-      if (!(this.itemInfo && this.itemInfo.props)) return "";
+      if (!(this.itemInfo && this.itemInfo.propnames)) return "";
 
-      let unselectProps = [];
-      let selectPropValues = [];
-      this.itemInfo.props.forEach((prop, index) => {
+      let unselectPropnames = [];
+      let selectPropvalues = [];
+      this.itemInfo.propnames.forEach((prop, index) => {
         if (this.selectValue[index] || this.selectValue[index] === 0) {
           let propValue = this.getPropValue(index, this.selectValue[index]);
-          selectPropValues.push(propValue ? propValue.name : "");
+          selectPropvalues.push(propValue ? propValue.name : "");
         } else {
-          unselectProps.push(prop.name);
+          unselectPropnames.push(prop.name);
         }
       });
       console.log("selectTip");
-      console.log(unselectProps, selectPropValues, this.selectValue);
-      if (unselectProps.length === 0) {
-        return `已选择：${selectPropValues.join(",")}`;
+      console.log(unselectPropnames, selectPropvalues, this.selectValue);
+      if (unselectPropnames.length === 0) {
+        return `已选择：${selectPropvalues.join(",")}`;
       } else {
-        return `请选择：${unselectProps.join(",")}`;
+        return `请选择：${unselectPropnames.join(",")}`;
       }
     }
   },
@@ -739,33 +763,33 @@ export default {
         }
       }
     },
-    selectDataItem(typeIndex, propValueId) {
+    selectDataItem(propnameIndex, propValueId) {
       if (
-        this.disabledList[typeIndex] &&
-        this.disabledList[typeIndex].indexOf(propValueId) !== -1
+        this.disabledList[propnameIndex] &&
+        this.disabledList[propnameIndex].indexOf(propValueId) !== -1
       )
         return;
 
       //属性选择
-      Vue.set(this.selectValue, typeIndex, propValueId);
-      // this.selectValue[typeIndex] = propValueId;
+      Vue.set(this.selectValue, propnameIndex, propValueId);
+      // this.selectValue[propnameIndex] = propValueId;
 
       this.disabledList = this.disabledList || [];
-      this.itemInfo.props.forEach((item, index) => {
-        if (index === typeIndex) return;
+      this.itemInfo.propnames.forEach((item, index) => {
+        if (index === propnameIndex) return;
         Vue.set(this.disabledList, index, []);
         // this.disabledList[index] = [];
       });
 
       this.itemInfo.skus.forEach((sku, n) => {
-        let propValueIds = sku.propValueIds.split(",");
+        let propValueIds = sku.propvalues;
         //不是相关属性
-        if (propValueIds[typeIndex] != propValueId) return;
+        if (propValueIds[propnameIndex] != propValueId) return;
         //库存不为0
         if (sku.quantity > 0) return;
 
         propValueIds.forEach((_propValueId, index) => {
-          if (typeIndex === index) return;
+          if (propnameIndex === index) return;
           this.disabledList[index].push(Number(_propValueId));
         });
       });
@@ -781,13 +805,56 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        res.data.detailImgSrcs = res.data.detailImgSrcs.split(",");
         this.itemInfo = res.data;
       } catch (err) {
         return this.$toast(err.message);
       }
     },
     getPropValue(index, valueId) {
+      return this.itemInfo.propvalues[index].find(item => item.id == valueId);
+    },
+    async favorite() {
+      try {
+        let { itemId } = this;
+        let res;
+
+        //已经收藏
+        if (this.favoriteId) {
+          res = await services.removeFavorite({
+            favoriteId:this.favoriteId
+          });
+
+           if (services.$isError(res)) throw new Error(res.message);
+
+           this.$toast(res.message);
+           this.favoriteId = '';
+        } else {
+          res = await services.addFavorite({
+            itemId
+          });
+
+          if (services.$isError(res)) throw new Error(res.message);
+
+          this.$toast(res.message);
+          this.favoriteId = res.data.id;
+        }
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async getFavoriteByItemId() {
+      try {
+        let { itemId } = this;
+        let res = await services.getFavoriteByItemId({
+          itemId
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.favoriteId = res.data ? res.data.id : "";
+      } catch (err) {
+        return this.$toast(err.message);
+      }
       return this.itemInfo.propValues[index].find(item => item.id == valueId);
     },
     shareCeshi() {

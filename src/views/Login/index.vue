@@ -37,8 +37,8 @@ color:$color-primary; display: inline-block;margin: auto;
             <input v-model="phone" placeholder="请输入手机号">
           </li>
           <li>
-            <input v-model="password" placeholder="请输入密码">
-            <span style="color:#999; display: inline-block;margin: auto;">忘记密码</span>
+            <input v-model="password" type="password" placeholder="请输入密码">
+            <router-link to="/reset-password" style="color:#999; display: inline-block;margin: auto;">忘记密码?</router-link>
           </li>
         </ul>
         <c-button @click="login">登录</c-button>

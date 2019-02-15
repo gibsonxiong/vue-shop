@@ -3,7 +3,7 @@ import core from '@/core';
 import config from '@/config';
 
 const request = axios.create({
-  baseURL: config.hostUrl,
+  baseURL: 'http://192.168.3.108:3000',
   timeout: 12000,
   method: 'get'
 });
@@ -13,11 +13,11 @@ function addInterceptors(_request) {
   _request.interceptors.request.use(function (config) {
 
     //添加token
-    if (config.body && 'token' in config.body) {
-      let token = services.$getToken();;
-      if (!token) throw new Error('token失效');
+    if (config.token) {
+      let token = services.$getToken();
+      if (!token) throw new Error('请先登录');
 
-      config.body.token = token;
+      config.headers['x-access-token'] = token;
     }
 
     return config;
@@ -49,7 +49,9 @@ let propData = require('./data/prop').default;
 let propValueData = require('./data/prop-value').default;
 let skuData = require('./data/sku').default;
 let shopcartData = require('./data/shopcart').default;
-let {Shopcart} = require('./data/shopcart');
+let {
+  Shopcart
+} = require('./data/shopcart');
 
 let testUserId = 0;
 
@@ -74,6 +76,14 @@ const services = {
     return localStorage.getItem('shop/token');
   },
 
+  $removeToken() {
+    return localStorage.removeItem('shop/token');
+  },
+
+  $isLogin() {
+    return this.$getToken() !== '' && this.$getToken() !== null;
+  },
+
   $isError(res) {
     return res.code !== 0;
   },
@@ -84,45 +94,49 @@ const services = {
     smsCode,
     password
   }) {
-    console.log(arguments[0]);
-    return mock(null, 0, '注册成功');
+
+    return (await request.post('/register', {
+      phone,
+      smsCode,
+      password
+    })).data;
   },
 
   //获取验证码
   async getSmsCode({
     phone
   }) {
-    console.log(arguments[0]);
-    return mock(null, 0, '发送成功');
+
+    return (await request.post('/getSmsCode', {
+      phone
+    })).data;
   },
 
   //登录
   async login({
-    username,
+    phone,
     password
   }) {
-    console.log(arguments[0]);
-    return mock({
-      token: userData[0].token
-    }, 0, '登录成功');
+    return (await request.post('/login', {
+      phone,
+      password
+    })).data;
   },
 
   //获取搜索关键字提示列表
   async fetchSearchTip({
     searchText
   }) {
-    console.log(arguments[0]);
     return mock([
-      searchText + '1',
-      searchText + '11',
-      searchText + '111',
-      searchText + '1111',
+      searchText + '一',
+      searchText + '二',
+      searchText + '三',
+      searchText + '切',
     ]);
   },
 
   //获取搜索历史列表
   async fetchSearchHistory() {
-    console.log(arguments[0]);
     return mock([
       '面膜',
       '飞机大炮',
@@ -136,76 +150,91 @@ const services = {
 
 
   async fetchCatalogList() {
-    let data = catalogData;
-
-    return await mock(data);
+    return (await request.get('/categorys')).data;
   },
 
   async fetchItemTypeList({
     catalogId
   }) {
-    let data = itemTypeData.filter(item => item.catalogId === catalogId);
-
-    return await mock(data);
+    return (await request.get(`/categorys/${catalogId}`)).data;
   },
 
   async fetchItemList({
-    itemTypeId,
+    categoryId,
     searchText,
   }) {
-    let data = itemData;
-
-    if (itemTypeId) {
-      data = data.filter(item => item.itemTypeId == itemTypeId);
-    }
-
-    if (searchText) {
-      data = data.filter(item => item.name.indexOf(searchText) !== -1);
-    }
-
-
-    return await mock(data);
+    return (await request.get(`/items`, {
+      params: {
+        categoryId,
+        searchText
+      }
+    })).data;
   },
 
   async fetchItem({
     itemId
   }) {
-    let data = itemData.filter(item => item.id == itemId)[0];
+    // let data = itemData.filter(item => item.id == itemId)[0];
 
-    data = JSON.parse(JSON.stringify(data));
+    // data = JSON.parse(JSON.stringify(data));
 
-    data.propIds = data.propIds.split(',');
-    data.props = data.propIds.map(id => propData.find(prop => prop.id == id));
-    data.propValueIds = data.propValueIds.split(',');
-    data.propValueIds = data.propValueIds.map(item => {
-      return item.split('|');
-    });
-    data.propValues = data.propValueIds.map(item => {
-      return item.map(id => propValueData.find(propValue => propValue.id == id));
-    });
-    data.skus = skuData.filter(item => item.itemId == itemId);
+    // data.propIds = data.propIds.split(',');
+    // data.props = data.propIds.map(id => propData.find(prop => prop.id == id));
+    // data.propValueIds = data.propValueIds.split(',');
+    // data.propValueIds = data.propValueIds.map(item => {
+    //   return item.split('|');
+    // });
+    // data.propValues = data.propValueIds.map(item => {
+    //   return item.map(id => propValueData.find(propValue => propValue.id == id));
+    // });
+    // data.skus = skuData.filter(item => item.itemId == itemId);
 
-    return await mock(data);
+    // return await mock(data);
+
+    return (await request.get(`/items/${itemId}`)).data;
   },
 
+  //关注列表
+  async listFavorite() {
+    return (await request.get(`/favorites`, {
+      token: true
+    })).data;
+  },
+
+  //添加关注
+  async addFavorite({
+    itemId
+  }) {
+    return (await request.put(`/favorites`, {
+      itemId
+    }, {
+      token: true
+    })).data;
+  },
+
+  //添加关注
+  async removeFavorite({
+    favoriteId
+  }) {
+    return (await request.delete(`/favorites/${favoriteId}`, {
+      token: true
+    })).data;
+  },
+
+  //通过商品id获取用户关注信息
+  async getFavoriteByItemId({
+    itemId
+  }) {
+    return (await request.get(`/favorites/items/${itemId}`, {
+      token: true
+    })).data;
+  },
 
   //获取购物车列表
   async fetchShopcartList() {
-    let data = shopcartData.filter(item => {
-      return item.userId == testUserId;
-    });
-
-    data = JSON.parse(JSON.stringify(data));
-
-    data.forEach(item=>{
-      item.item = itemData.find(_item=>_item.id == item.itemId);
-      item.sku = skuData.find(sku=>sku.id == item.skuId);
-      item.sku.propValues = item.sku.propValueIds.split(',').map(propValueId=>{
-        return propValueData.find(item=>item.id == propValueId).name;
-      }).join(';');
-    });
-
-    return await mock(data);
+    return (await request.get(`/shopcarts`, {
+      token: true
+    })).data;
   },
 
   //加入购物车
@@ -213,37 +242,55 @@ const services = {
     itemId,
     skuId,
     quantity
-  }){
-    shopcartData.push(new Shopcart(shopcartData.length-1, testUserId, itemId,skuId,quantity));
+  }) {
 
-    return mock(null, 0, '加入购物车成功');
+    return (await request.put(`/shopcarts`, {
+      itemId,
+      skuId,
+      quantity
+    }, {
+      token: true
+    })).data;
   },
 
   //删除购物车
   async removeShopcart({
     shopcartId,
-  }){
-    let index = shopcartData.findIndex(item=>item.id == shopcartId);
+  }) {
 
-    shopcartData.splice(index,-1);
-
-    return mock(null, 0, '删除购物车成功');
+    return (await request.delete(`/shopcarts/${shopcartId}`, {
+      token: true
+    })).data;
   },
 
   //更新购物车
   async updateShopcart({
     shopcartId,
     quantity
-  }){
-    return mock(null, 0, '');
+  }) {
+
+    return (await request.post(`/shopcarts/${shopcartId}`, {
+      quantity
+    }, {
+      token: true
+    })).data;
   },
 
-  //提交订单
-  async submitOrder({
+  //建立订单
+  async buildOrder({
+    params
+  }) {
+    return (await request.post(`/orders/build`, {
+      params
+    }, {
+      token: true
+    })).data;
+  },
 
-  }){
+  //创建订单
+  async createOrder() {
 
-  }  
+  }
 };
 
 export default services;

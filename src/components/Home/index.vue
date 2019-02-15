@@ -207,7 +207,7 @@
         <div class="recommend-container">
           <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
             <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
-              <img class="recommend-img" :src="item.imgSrc" alt>
+              <img class="recommend-img" :src="item.imgList[0]" alt>
               <div class="recommend-info">
                 <div class="recommend-title">{{item.name}}</div>
                 <div class="recommend-price-box">
@@ -257,7 +257,7 @@ export default {
       try {
         let { searchText, itemTypeId } = this;
         let res = await services.fetchItemList({
-          itemTypeId,
+          categoryId:itemTypeId,
           searchText
         });
 
