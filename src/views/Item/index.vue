@@ -2,12 +2,6 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-.item_details {
-  img {
-    width: 100%;
-    object-fit: cover;
-  }
-}
 .item_page {
   .item_page_content {
     height: 100%;
@@ -152,6 +146,13 @@
         background: #fff;
         font-size: pxTorem(28);
         padding-bottom: pxTorem(123);
+        .item_details {
+          width: 100%;
+          img {
+            width: 100%;
+            object-fit: cover;
+          }
+        }
         .item_details_checkout {
           > div {
             width: 100%;
@@ -366,15 +367,17 @@
   <div class="item_page">
     <c-header :title="'商品详情'">
       <a slot="right">
-        <i class="iconfont icon-fenxiang" style="font-size:0.2rem;"></i>
+        <i class="iconfont icon-fenxiang" style="font-size:0.2rem;"
+         @click="shareCeshi"></i>
       </a>
     </c-header>
     <div class="c-page-body header-pd">
+      <c-share  :shareShow="share" @shareClose="shareNone"></c-share>
       <div class="item_page_content">
         <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
-              <img :src="val" alt>
+              <img :src="val">
             </router-link>
           </mt-swipe-item>
         </mt-swipe>
@@ -396,6 +399,13 @@
             <div class="chen_center_absolute express_price">
               <div>快递：15.00</div>
               <div>销量：0 件</div>
+            </div>
+          </div>
+          
+          <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
+            <div>请选择型号</div>
+            <div>
+              <i class="iconfont icon-right"></i>
             </div>
           </div>
           <div class="item_select_classification item_white">
@@ -440,12 +450,6 @@
                   src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
                 >
               </div>
-            </div>
-          </div>
-          <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
-            <div>请选择型号</div>
-            <div>
-              <i class="iconfont icon-right"></i>
             </div>
           </div>
           <!-- <div class="item_select_shop_name chen_center_absolute">
@@ -638,80 +642,12 @@ export default {
       pop_model: "", //控制购买详情弹出层
       selectValue: [], //选择规格数据
       disabledList: [], //禁用的数组
-      // simulated_data: {
-      //   //选择规格模拟后台返回的数据 多规格
-      //   difference: [
-      //     {
-      //       //所有的规格可能情况都在这个数组里
-      //       id: "19",
-      //       price: "200.00",
-      //       stock: "19",
-      //       difference: "100,白色"
-      //     },
-      //     {
-      //       id: "20",
-      //       price: "300.00",
-      //       stock: "29",
-      //       difference: "200,白色"
-      //     },
-      //     {
-      //       id: "21",
-      //       price: "300.00",
-      //       stock: "10",
-      //       difference: "100,黑丝"
-      //     },
-      //     {
-      //       id: "22",
-      //       price: "300.00",
-      //       stock: "0",
-      //       difference: "200,黑丝"
-      //     },
-      //     {
-      //       id: "23",
-      //       price: "500.00",
-      //       stock: "48",
-      //       difference: "100,绿色"
-      //     },
-      //     {
-      //       id: "24",
-      //       price: "500.00",
-      //       stock: "0",
-      //       difference: "200,绿色"
-      //     }
-      //   ],
-      //   specifications: [
-      //     {
-      //       //这里是要被渲染字段
-      //       name: "尺寸",
-      //       item: [
-      //         {
-      //           name: "100"
-      //         },
-      //         {
-      //           name: "200"
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       name: "颜色",
-      //       item: [
-      //         {
-      //           name: "白色"
-      //         },
-      //         {
-      //           name: "黑丝"
-      //         },
-      //         {
-      //           name: "绿色"
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
+      
       itemId: "",
       itemInfo: {},
       quantity: 1,
-      favoriteId: ""
+      favoriteId: "",
+      share: false //分享组件控制
     };
   },
   created() {
@@ -897,6 +833,15 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
+      return this.itemInfo.propValues[index].find(item => item.id == valueId);
+    },
+    shareCeshi() {
+      //分享组件
+      this.share = !this.share;
+    },
+    shareNone(data) {
+      //分享组件
+      this.share = data;
     }
   }
 };
