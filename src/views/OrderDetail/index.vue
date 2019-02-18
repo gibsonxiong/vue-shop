@@ -87,8 +87,57 @@
 .refund_btn span {
   border: 1px solid #bcbcbc;
   border-radius: 1rem;
-   padding: 0.05rem 0.1rem;
-   color: #777;
+  padding: 0.05rem 0.1rem;
+  color: #777;
+}
+</style>
+<style>
+.picker {
+  background: #fff;
+  color: #fff;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+.picker-center-highlight {
+  text-align: center !important;
+}
+.picker-item,
+.picker-center-highlight {
+  height: 30px !important;
+  margin-top: 0px !important;
+  line-height: 30px !important;
+}
+.picker-items {
+  text-align: center !important;
+}
+.picker-items,
+.picker-slot,
+.picker-slot-right {
+  text-align: center !important;
+}
+.picker-slot-wrapper {
+  height: 150px !important;
+}
+.picker-slot.picker-slot-right {
+  text-align: center !important;
+}
+.mt-picker {
+  position: absolute;
+  background: #fff;
+  padding: 0.05rem 0.1rem;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  text-align: right;
+  bottom: 150px;
+}
+.picker-center-highlight {
+  width: auto !important;
 }
 </style>
 
@@ -183,18 +232,55 @@
         </p>
       </div>
       <!--  -->
-      <div class="oderD_six">
+      <div class="oderD_six" @click="oderD_six()">
         <span>取消订单</span>
       </div>
+      <div v-show="cacel_order">
+        <p class="mt-picker" @click="success_order">完成</p>
+      </div>
     </div>
+      <mt-picker v-show="cacel_order" :slots="slots" @change="onValuesChange"></mt-picker>
   </div>
 </template>
 
 <script>
+import { Picker } from "mint-ui";
 export default {
   data() {
-    return {};
+    return {
+      cacel_order: false,
+      slots: [
+        {
+          flex: 1,
+          values: [
+            "我不想买了",
+            "缺货",
+            "信息填写错误，重新拍",
+            "线下交易",
+            "其他原因"
+          ],
+          className: "slot1",
+          textAlign: "right"
+        }
+      ]
+    };
   },
-  methods: {}
+  methods: {
+    oderD_six() {
+      this.cacel_order = true;
+    },
+    success_order() {
+      this.cacel_order = false;
+    },
+    onValuesChange(picker, values) {
+
+      // if (values[0] > values[1]) {
+      //   picker.setSlotValue(1, values[0]);
+      // }
+      for (var i = 0; i < values.length; i++) {
+        console.log(values[i])
+      }
+    }
+  }
 };
 </script>

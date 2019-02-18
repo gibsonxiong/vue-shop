@@ -26,6 +26,7 @@ import RefundList from '@/views/RefundList';
 import ResetPassword from '@/views/ResetPassword';
 import RefundDetail from '@/views/RefundDetail';
 import Refund from '@/views/Refund';
+import NickName from '@/views/NickName';
 
 Vue.use(Router);
 
@@ -134,6 +135,9 @@ const router = new Router({
     },{
       path:'/refund',
       component:Refund
+    },{
+      path:'/nickname',
+      component:NickName
     }
   ]
 });
