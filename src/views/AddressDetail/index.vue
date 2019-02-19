@@ -1,88 +1,163 @@
 <style scoped lang="scss">
 @import "~@/css/var";
-  input{
-    border: 0;
-    color: #b2b2b2;
-  }
-  .c-page-body{
-    background: #f3f3f3;
-  }
-  ul{
-    background: #fff;
-    padding:0 0.1rem;
-  }
-  li{
-    padding: 0.1rem 0;
-    border-bottom: 1px solid #f4f4f4;
-  }
-  li span{
-    width: 20%;
-    display: inline-block;
-    color: #666;
-  }
+input {
+  border: 0;
+  // color: #b2b2b2;
+}
+.c-page-body {
+  background: #f3f3f3;
+}
+ul {
+  background: #fff;
+  padding: 0 0.1rem;
+}
+li {
+  padding: 0.1rem 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+li span {
+  width: 20%;
+  display: inline-block;
+  // color: #666;
+}
 </style>
 <style lang="scss">
 @import "~@/css/var";
- .mint-switch-input:checked + .mint-switch-core{
-        border-color: $color-primary !important;
-    background-color: $color-primary !important;
-  }
-  .mint-switch-core {
-    width:44px;
-    height: 24px !important;
-  }
-  .mint-switch-core::before{
-    height: 22px;
-    width:42px;
-  }
-   .mint-switch-core::after{
-    height: 22px;
-    width:22px;
-  }
+.mint-switch-input:checked + .mint-switch-core {
+  border-color: $color-primary !important;
+  background-color: $color-primary !important;
+}
+.mint-switch-core {
+  width: 44px;
+  height: 24px !important;
+}
+.mint-switch-core::before {
+  height: 22px;
+  width: 42px;
+}
+.mint-switch-core::after {
+  height: 22px;
+  width: 22px;
+}
 </style>
 
 <template>
   <div class="address-detail-page">
-    <c-header :title="'新建地址'"></c-header>
+    <c-header :title="title"></c-header>
     <div class="c-page-body header-pd">
-        <ul>
-          <li>
-            <span>收货人</span>
-            <input placeholder="请填写收货人姓名"/>
-          </li>
-          <li>
-            <span>联系电话</span>
-            <input placeholder="请填写联系电话"/>
-          </li>
-          <li>
-            <span>所在地区</span>
-            <input placeholder="所在地区"/> 
-          </li>
-          <li>
+      <ul>
+        <li>
+          <span>收货人</span>
+          <input v-model="model.name" placeholder="请填写收货人姓名">
+        </li>
+        <li>
+          <span>联系电话</span>
+          <input v-model="model.phone" placeholder="请填写联系电话">
+        </li>
+        <li @click="pickerVisible = true">
+          <span>所在地区</span>
+          <span>{{model.province}} {{model.city}} {{model.area}}</span>
+        </li>
+        <!-- <li>
             <span>所在街道</span>
             <input placeholder="所在街道"/>
-          </li>
-           <li>
-            <span>详细地址</span>
-            <input placeholder="街道，楼牌号等"/>
-          </li>
-           <li style="display:flex;">
-            <p style="width:90%">设置默认地址</p>
-            <mt-switch ></mt-switch>
-          </li>
-        </ul>
-        <c-button>保存地址</c-button>
+        </li>-->
+        <li>
+          <span>详细地址</span>
+          <input v-model="model.detailAddr" placeholder="街道，楼牌号等">
+        </li>
+        <li style="display:flex;">
+          <p style="width:90%">设置默认地址</p>
+          <mt-switch v-model="model.isDefault"></mt-switch>
+        </li>
+      </ul>
+      <c-button @click="submit">保存地址</c-button>
+      <c-region-picker
+        v-show="pickerVisible"
+        @maskClick="pickerVisible = false"
+        @input="handleRegionChange"
+      ></c-region-picker>
     </div>
   </div>
 </template>
 
 <script>
+import services from "@/services";
 export default {
   data() {
-    return {};
+    return {
+      addressId: "",
+      title: "",
+
+      model: {
+        name: "",
+        phone: "",
+        provinceId: "",
+        province: "",
+        cityId: "",
+        city: "",
+        areaId: "",
+        area: "",
+        detailAddr: "",
+        isDefault: false
+      },
+      pickerVisible: false
+    };
   },
   methods: {
+    async fetchAddressInfo() {
+      try {
+        let res = await services.fetchAddressInfo({
+          addressId: this.addressId
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        Object.assign(this.model, res.data);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async submit() {
+      try {
+        let res;
+        if (this.addressId) {
+          res = await services.updateAddress(this.addressId, this.model);
+        } else {
+          res = await services.addAddress(this.model);
+        }
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+
+        setTimeout(() => {
+          this.$router.back();
+        }, 1000);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    handleRegionChange(values) {
+      this.model.provinceId = values[0].id;
+      this.model.province = values[0].name;
+      this.model.cityId = values[1].id;
+      this.model.city = values[1].name;
+      this.model.areaId = values[2].id;
+      this.model.area = values[2].name;
+
+      this.pickerVisible = false;
+    }
   },
-  created() {}
+  created() {
+    this.addressId = this.$route.query.addressId;
+
+    if (this.addressId) {
+      this.title = "修改地址";
+      this.fetchAddressInfo();
+    } else {
+      this.title = "新建地址";
+    }
+  }
 };
 </script>

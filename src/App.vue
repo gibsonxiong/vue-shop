@@ -10,17 +10,59 @@ body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // color: #444;
   overflow: hidden;
-  // height: 100%;
-  // padding-top: 50px;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform;
+  transition: all 350ms ease-out;
+}
+
+.slide-right-enter {
+  transform: translate3d(-20%, 0, 0);
+}
+
+.slide-right-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+
+.slide-right-enter-active {
+  z-index: 0;
+}
+.slide-right-leave-active {
+  z-index: 100;
+}
+
+.slide-left-enter {
+  transform: translate3d(100%, 0, 0);
+}
+
+.slide-left-leave-to {
+  transform: translate3d(-20%, 0, 0);
 }
 </style>
 
 <template>
   <div id="app">
     <!-- <c-header :title="$route.meta.title"></c-header> -->
-    <router-view/>
+    <!-- <transition :name="transitionName"> -->
+      <router-view/>
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -31,11 +73,16 @@ import core from "@/core";
 
 export default {
   name: "App",
-
-  created() {},
-
+  watch: {
+    $route(to, from) {
+      let isBack = !!to.query.v;
+      this.transitionName = isBack ? "slide-right" : "slide-left";
+    }
+  },
   data() {
-    return {};
+    return {
+      transitionName: "slide-left"
+    };
   },
 
   methods: {}

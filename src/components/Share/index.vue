@@ -49,7 +49,7 @@
 }
 </style>
 <style lang="scss">
-@import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
+// @import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
 @import "~@/css/mixin";
 #share_component {
   .soshm-item {

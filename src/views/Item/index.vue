@@ -375,7 +375,7 @@
 </style>
 
 <template>
-  <div class="item_page">
+  <div class="item_page page">
     <c-header :title="'商品详情'">
       <a slot="right">
         <i class="iconfont icon-fenxiang" style="font-size:0.2rem;" @click="shareCeshi"></i>
@@ -445,19 +445,19 @@
               >摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气</div>
               <div class="evaluate_img">
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
               </div>
             </div>
@@ -566,34 +566,34 @@
                 </div>
               </div>
               <ul class="item_detail_center">
-              <li
-                class="item_detail_select_data"
-                v-for="(val,index) in itemInfo.propnames"
-                :key="index"
-              >
-                <div class="select_data_til">{{val.name}}</div>
-                <div class="select_data_lists">
-                  <div
-                    class="select_data_item"
-                    v-for="(item,index2) in itemInfo.propvalues[index]"
-                    :key="index2"
-                    @click="selectDataItem(index, item.id)"
-                    :class="{
+                <li
+                  class="item_detail_select_data"
+                  v-for="(val,index) in itemInfo.propnames"
+                  :key="index"
+                >
+                  <div class="select_data_til">{{val.name}}</div>
+                  <div class="select_data_lists">
+                    <div
+                      class="select_data_item"
+                      v-for="(item,index2) in itemInfo.propvalues[index]"
+                      :key="index2"
+                      @click="selectDataItem(index, item.id)"
+                      :class="{
                       'select_data_item_active_none': disabledList[index] && disabledList[index].includes(item.id),
                       'select_data_item_active':selectValue[index] == item.id
                     }"
-                  >{{item.name}}</div>
-                </div>
-              </li>
-              <li class="chen_center_absolute item_detail_number">
-                <div class="select_data_til" style="margin-bottom: 0rem;">
-                  数量
-                  <span v-if="selectSku">({{selectSku.quantity}}件)</span>
-                </div>
-                <div>
-                  <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
-                </div>
-              </li>
+                    >{{item.name}}</div>
+                  </div>
+                </li>
+                <li class="chen_center_absolute item_detail_number">
+                  <div class="select_data_til" style="margin-bottom: 0rem;">
+                    数量
+                    <span v-if="selectSku">({{selectSku.quantity}}件)</span>
+                  </div>
+                  <div>
+                    <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
+                  </div>
+                </li>
               </ul>
               <div v-if="pop_model === 'sku'" class="item_detail_confirm">
                 <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
@@ -613,10 +613,18 @@
 <script>
 import Vue from "vue";
 import services from "@/services";
+import routerCachePage from "@/routerCache/page";
 
 export default {
+  mixins: [
+    routerCachePage({
+      scrollWrapSelector: ".item_page_content"
+    })
+  ],
   data() {
     return {
+      isLogin: false,
+
       itemDetails: "1",
       item_parameters_data: [
         //参数详情
@@ -663,9 +671,14 @@ export default {
     };
   },
   created() {
+    this.isLogin = services.$isLogin();
+
     this.itemId = this.$route.params.itemId;
     this.fetchItem();
-    this.getFavoriteByItemId();
+
+    if (this.isLogin) {
+      this.getFavoriteByItemId();
+    }
   },
   computed: {
     itemPrice() {
@@ -845,7 +858,6 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
-      return this.itemInfo.propValues[index].find(item => item.id == valueId);
     },
     shareCeshi() {
       //分享组件
