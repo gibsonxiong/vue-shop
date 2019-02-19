@@ -35,6 +35,7 @@
       padding: pxTorem(40) pxTorem(60) pxTorem(30);
       position: relative;
       overflow: auto;
+      
       .share_p {
         font-size: pxTorem(36);
         text-align: center;

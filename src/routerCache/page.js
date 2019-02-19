@@ -41,7 +41,7 @@ export default function (options = {}) {
 
         Object.values(this.$refs).forEach(refs => {
           //refs有可能是单个，也有可以是多个，统一按多个处理
-          if (!refs instanceof Array) {
+          if (!Array.isArray(refs)) {
             refs = [refs];
           }
 

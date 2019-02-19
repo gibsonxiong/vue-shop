@@ -6,10 +6,29 @@
     object-fit: cover;
   }
 }
+
+
 </style>
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
+
+.icon-fenxiang{
+  position: relative;
+  &:after{
+    content: "";
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background-color: rgba(245,245,245,1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+  }
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transform: translateY(0);
@@ -376,15 +395,15 @@
 
 <template>
   <div class="item_page page">
-    <c-header :title="'商品详情'">
+    <c-header :title="'商品详情'" theme="transparent" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,color:`rgba(68, 68, 68,${headerOpacity})`}">
       <a slot="right">
         <i class="iconfont icon-fenxiang" style="font-size:0.2rem;" @click="shareCeshi"></i>
       </a>
     </c-header>
-    <div class="c-page-body header-pd">
-      <c-share :shareShow="share" @shareClose="shareNone"></c-share>
-      <div class="item_page_content">
-        <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
+    <div class="c-page-body" >
+
+      <div class="item_page_content" ref="body">
+        <mt-swipe :auto="10000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
               <img :src="val">
@@ -501,6 +520,7 @@
         </div>
       </div>
     </div>
+    <c-share :shareShow="share" @shareClose="shareNone"></c-share>
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
@@ -625,6 +645,8 @@ export default {
     return {
       isLogin: false,
 
+      headerOpacity: 0,
+
       itemDetails: "1",
       item_parameters_data: [
         //参数详情
@@ -680,6 +702,9 @@ export default {
       this.getFavoriteByItemId();
     }
   },
+  mounted(){
+    this.bindEvent();
+  },
   computed: {
     itemPrice() {
       if (!(this.itemInfo && this.itemInfo.skus)) return "";
@@ -727,6 +752,14 @@ export default {
     }
   },
   methods: {
+    bindEvent() {
+      let body = this.$refs.body;
+      body.addEventListener("scroll", () => {
+        let end = 100;
+        let scrollTop = Math.min(body.scrollTop, end);
+        this.headerOpacity = scrollTop / end;
+      });
+    },
     itemDetailsShow() {
       //商品详情
       this.itemDetails = "1";

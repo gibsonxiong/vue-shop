@@ -18,6 +18,22 @@ $bg-color: #f8f8f8;
   &.transparent {
     background: transparent;
     border: none;
+
+    .icon-back {
+      position: relative;
+      &:after {
+        content: "";
+        width: 0.3rem;
+        height: 0.3rem;
+        border-radius: 50%;
+        background-color: rgba(245, 245, 245, 1);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+    }
   }
 
   // &.white {
@@ -58,7 +74,7 @@ $bg-color: #f8f8f8;
   }
 
   .header-title {
-    color: $color;
+    // color: $color;
     text-align: center;
     font-size: 0.15rem;
     overflow: hidden;
@@ -116,10 +132,7 @@ $bg-color: #f8f8f8;
         </a>
         <slot name="left"></slot>
       </div>
-      <div
-        class="header-center"
-        :style="innerCenterStyle"
-      >
+      <div class="header-center" :style="innerCenterStyle">
         <slot name="center">
           <h2 class="header-title">{{title}}</h2>
         </slot>
