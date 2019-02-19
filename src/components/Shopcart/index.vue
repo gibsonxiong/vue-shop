@@ -246,16 +246,24 @@
 <script>
 import Vue from "vue";
 import services from "@/services";
+import routerCacheComponent from "@/routerCache/component";
+
 export default {
+  mixins:[
+    routerCacheComponent({
+      scrollWrapSelector: ".c-page-body"
+    })
+  ],
   props: {
     inTab: {
-      isLogin: false,
+      
       type: Boolean,
       default: true
     }
   },
   data() {
     return {
+      isLogin: false,
       checkedFlags: {},
       list: []
     };

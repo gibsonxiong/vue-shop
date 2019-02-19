@@ -10,7 +10,7 @@ import store from './store';
 
 import layer from '@c/layer';
 import '@/components';
-import MintUI from 'mint-ui'
+import MintUI from 'mint-ui';
 Vue.use(layer);
 Vue.use(MintUI);
 
@@ -24,6 +24,13 @@ window.webViewRefresh = function(){};
 document.addEventListener('touchstart',()=>{});
 
 Vue.config.productionTip = false;
+
+Vue.filter('gender',val=>{
+  return ({
+    '0':'男',
+    '1':'女'
+  })[val] || '';
+});
 
 
 /* eslint-disable no-new */

@@ -3,7 +3,7 @@ import core from '@/core';
 import config from '@/config';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.108:3000',
+  baseURL: 'http://192.168.3.168:3001',
   timeout: 12000,
   method: 'get'
 });
@@ -28,6 +28,10 @@ function addInterceptors(_request) {
 
   _request.interceptors.response.use(function (response) {
     // 对响应数据做点什么
+
+    if (response.data.code === -99 || response.data.code === -98) {
+      services.$removeToken();
+    }
 
     return response;
   }, function (error) {
@@ -290,7 +294,83 @@ const services = {
   //创建订单
   async createOrder() {
 
-  }
+  },
+
+  //获取可领取优惠券列表
+  async fetchCouponList() {
+    return (await request.get(`/coupons`)).data;
+  },
+
+  //领取优惠券
+  async gainCoupon({
+    couponId
+  }) {
+    return (await request.put(`/coupons/userCoupons`, {
+      couponId
+    }, {
+      token: true
+    })).data;
+  },
+
+  //用户优惠券列表
+  async fetchUserCouponList({
+    status
+  }) {
+    return (await request.get(`/coupons/userCoupons`, {
+      params: {
+        status
+      },
+      token: true
+    })).data;
+  },
+
+  //用户资料
+  async fetchUserInfo() {
+    return (await request.get(`/users/info`, {
+      token: true
+    })).data;
+  },
+
+  async fetchRegion() {
+    return (await request.get(`/regions`)).data;
+  },
+
+  //获取地址列表
+  async fetchAddressList() {
+    return (await request.get(`/address`, {
+      token: true
+    })).data;
+  },
+
+  //获取地址信息
+  async fetchAddressInfo({
+    addressId
+  }) {
+    return (await request.get(`/address/${addressId}`, {
+      token: true
+    })).data;
+  },
+
+  //新增地址
+  async addAddress(data) {
+    return (await request.put(`/address`, data, {
+      token: true
+    })).data;
+  },
+
+  //修改地址
+  async updateAddress(addressId, data) {
+    return (await request.post(`/address/${addressId}`, data, {
+      token: true
+    })).data;
+  },
+
+  //删除地址
+  async removeAddress({addressId}) {
+    return (await request.delete(`/address/${addressId}`, {
+      token: true
+    })).data;
+  },
 };
 
 export default services;

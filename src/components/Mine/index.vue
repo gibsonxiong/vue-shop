@@ -22,7 +22,6 @@
       color: #fff;
       font-size: 0.16rem;
     }
-
   }
 
   .order-wrap {
@@ -59,27 +58,19 @@
           <!-- 已登录 -->
           <template v-if="isLogin">
             <router-link to="/personal">
-              <img
-                class="avator"
-                src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg"
-                alt
-              >
+              <img class="avator" :src="userInfo.avatar">
             </router-link>
-            <router-link to="/personal">  
-              <div class="nickname">gibsonxiong</div>
+            <router-link to="/personal">
+              <div class="nickname">{{userInfo.nickname}}</div>
             </router-link>
           </template>
           <!-- 未登录 -->
-          <template  v-else>
-            <router-link to="/login" >
-              <img
-                class="avator"
-                src="@/assets/default_avator.jpg"
-                alt
-              >
+          <template v-else>
+            <router-link to="/login">
+              <img class="avator" src="@/assets/default_avator.jpg" alt>
             </router-link>
             <div>
-              <router-link to="/login" class="c-btn btn-light" >登录 / 注册</router-link>
+              <router-link to="/login" class="c-btn btn-light">登录 / 注册</router-link>
             </div>
           </template>
         </div>
@@ -122,7 +113,7 @@
           icon="icon-moneybag"
           :iconStyle="{'color':'rgb(203, 52, 228)'}"
           name="我的余额"
-          value="￥0.00"
+          :value="isLogin && userInfo.balance ? `￥${userInfo.balance}` : ''"
           @click="$router.push('/rechargerecord')"
         ></c-cell>
         <c-cell
@@ -135,14 +126,13 @@
           icon="icon-youhuiquan"
           :iconStyle="{'color':'rgb(203, 52, 228)'}"
           name="领取优惠券"
-          value="1张"
           @click="$router.push('/coupon')"
         ></c-cell>
         <c-cell
           icon="icon-youhuiquan"
           :iconStyle="{'color':'rgb(203, 52, 228)'}"
           name="我的优惠券"
-          value="1张"
+          :value="isLogin && userInfo.couponCount ? `${userInfo.couponCount}张` : ''"
           @click="$router.push('/myCoupon')"
         ></c-cell>
       </c-cell-list>
@@ -184,19 +174,42 @@
 
 
 <script>
-import services  from '@/services';
+import services from "@/services";
+import routerCacheComponent from "@/routerCache/component";
 
 export default {
-  data(){
+  mixins: [
+    routerCacheComponent({
+      scrollWrapSelector: ".c-page-body"
+    })
+  ],
+  data() {
     return {
-      isLogin:false,
+      isLogin: false,
+      userInfo: {}
+    };
+  },
+  methods: {
+    async fetchUserInfo() {
+      try {
+        let { itemId } = this;
+        let res = await services.fetchUserInfo();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.userInfo = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   },
 
-  created(){
+  created() {
     this.isLogin = services.$isLogin();
 
-
+    if (this.isLogin) {
+      this.fetchUserInfo();
+    }
   }
 };
 </script>

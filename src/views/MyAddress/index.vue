@@ -38,7 +38,7 @@ i {
 .gcs-checkbox {
   display: none;
 }
-label{
+label {
   margin-right: 0.05rem;
 }
 .gcs-checkbox + label {
@@ -60,40 +60,58 @@ label{
   content: "\2714";
   color: white;
 }
+
+.tag-wrap{
+  flex: 1;
+}
+
+.tag {
+  padding: 0rem 0.04rem;
+  background-color: #f94a92;
+  color: #fff;
+  border-radius: 0.02rem;
+  font-size: 0.12rem;
+}
 </style>
 
 <template>
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="my-ddress_con" v-for="items in navList" :key="items">
+      <div class="my-ddress_con" v-for="(item,index) in addrList" :key="index">
         <div>
           <p>
-            <span>{{items.name}}</span>
-            <span>{{items.phone}}</span>
+            <span>{{item.name}}</span>
+            <span>{{item.phone}}</span>
           </p>
           <p>
-            <span>{{items.city}}</span>
-            <span>{{items.address}}</span>
-            <span>{{items.hourse_num}}</span>
+            <span>{{item.province}}</span>
+            <span>{{item.city}}</span>
+            <span>{{item.area}}</span>
+            <span>{{item.detailAddr}}</span>
           </p>
         </div>
         <div>
-          <span>
+          <p class="tag-wrap">
+            <span v-if="item.isDefault" class="tag">默认</span>
+          </p>
+          <!-- <span>
             <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
             <label for="gcs-checkbox"></label>
           </span>
-          <p style="width:65%">设置默认</p>
+          <p style="width:65%">设置默认</p>-->
           <p style="width:35%;text-align:right;">
-            <i class="iconfont icon-post"></i>
-            <span style="padding-right:0.1rem;">编辑</span>
-            <i class="iconfont icon-delete_light"></i>
-            <span>删除</span>
+            <span @click="updateAddr(item.id)">
+              <i class="iconfont icon-post"></i>编辑
+            </span>
+            <span style="padding-left:0.1rem;" @click="removeAddr(item.id)">
+              <i class="iconfont icon-delete_light"></i>删除
+            </span>
           </p>
         </div>
       </div>
       <!--  -->
-      <div class="shi_btn" @click="new_address()">
+      <div class="shi_btn" @click="addAddr()">
         <i class="iconfont icon-add_light"></i>
         <span>新建地址</span>
       </div>
@@ -102,22 +120,49 @@ label{
 </template>
 
 <script>
+import services from "@/services";
+
 export default {
   data() {
     return {
-       navList: [
-                {name: '王伊', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园8-6A',isActive: false},
-                {name: '王二', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园38-6A',isActive: false},
-                {name: '王三', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园58-6A',isActive: false},
-                {name: '王四', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园78-6A',isActive: false}
-            ]
+      addrList: []
     };
   },
   methods: {
-    new_address() {
+    async fetchAddressList() {
+      try {
+        let res = await services.fetchAddressList();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.addrList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    addAddr() {
       this.$router.push("/addressdetail");
+    },
+    updateAddr(addressId) {
+      this.$router.push({ path: "/addressdetail", query: { addressId } });
+    },
+    async removeAddr(addressId) {
+      try {
+        let res = await services.removeAddress({ addressId });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+
+        let index = this.addrList.findIndex(item => item.id == addressId);
+        this.addrList.splice(index, 1);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   },
-  created() {}
+  created() {
+    this.fetchAddressList();
+  }
 };
 </script>

@@ -222,7 +222,7 @@
 </style>
 
 <template>
-  <div class="item-list-page">
+  <div class="item-list-page page">
     <div v-show="!search.visible">
       <c-header>
         <c-search-input
@@ -330,7 +330,14 @@
 
 <script>
 import services from "@/services";
+import routerCachePage from "@/routerCache/page";
+
 export default {
+  mixins: [
+    routerCachePage({
+      scrollWrapSelector: ".list_content"
+    })
+  ],
   data() {
     return {
       searchText: "11",
@@ -342,7 +349,7 @@ export default {
       listActive: 0, //列表按钮点击变色
       itemList: [],
       iSort: 0, //排序图片变色
-      selectBox: false    //筛选条件
+      selectBox: false //筛选条件
     };
   },
   methods: {
@@ -377,7 +384,7 @@ export default {
       this.listActive = num;
       this.selectBox = true;
     },
-    selectNone(){
+    selectNone() {
       //筛选消失
       this.selectBox = false;
     },
@@ -398,7 +405,7 @@ export default {
       try {
         let { searchText, itemTypeId } = this;
         let res = await services.fetchItemList({
-          categoryId:itemTypeId,
+          categoryId: itemTypeId,
           searchText
         });
 
