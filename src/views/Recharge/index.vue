@@ -62,15 +62,15 @@ label {
   color: #09bb07;
 }
 .icon-zhifubao {
-  font: size 0.18rem;
+  font-size: 0.17rem;
   padding-right: 0.1rem;
   color: #00a1e9;
 }
-.icon-xuanzhong{
-  color:$color-primary;
+.icon-xuanzhong {
+  color: $color-primary;
 }
-.icon-weixuanzhong{
-  color:#e7e7e7;
+.icon-weixuanzhong {
+  color: #e7e7e7;
 }
 </style>
 <template>
@@ -80,75 +80,69 @@ label {
       <ul>
         <li>
           <span>当前余额</span>
-          <span>￥2.15</span>
-          <input disabled>
+          <span>￥{{userInfo.balance}}</span>
         </li>
         <li>
           <span>充值金额</span>
           <span>￥</span>
-          <input class="recharge_num" type="number">
+          <input class="recharge_num" type="number" v-model="amount">
         </li>
       </ul>
       <!--微信支付  -->
-      <div class="pay" @click="weixin()">
+      <div class="pay" @click="payType = 'weixin'" style="margin-top: 0.1rem;">
         <i class="iconfont icon-weixin1" style></i>
         <div style="width:85%">
           <p>微信充值</p>
           <p style="color:#999">微信安全支付</p>
         </div>
-        <i class="iconfont icon-xuanzhong" v-show="isShowA"></i>
-        <i class="iconfont icon-weixuanzhong" v-show="isShowB"></i>
-        <!-- <span>
-          <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
-          <label for="gcs-checkbox"></label>
-        </span> -->
+        <i class="iconfont icon-xuanzhong" v-if="payType === 'weixin'"></i>
+        <i class="iconfont icon-weixuanzhong" v-else></i>
       </div>
       <!-- 微信支付  end -->
       <!-- 支付宝支付 -->
-      <div class="pay" @click="zhifubao()">
+      <div class="pay" @click="payType = 'zhifubao'">
         <i class="iconfont icon-zhifubao"></i>
         <div style="width:85%">
           <p>支付宝充值</p>
           <p style="color:#999">支付宝安全支付</p>
         </div>
-        <i class="iconfont icon-weixuanzhong" v-show="isShowA"></i>
-         <i class="iconfont icon-xuanzhong" v-show="isShowB"></i>
-
-        <!-- <span>
-          <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
-          <label for="gcs-checkbox"></label>
-        </span> -->
+        <i class="iconfont icon-xuanzhong" v-if="payType === 'zhifubao'"></i>
+        <i class="iconfont icon-weixuanzhong" v-else></i>
       </div>
       <!--支付宝支付  end  -->
-      <c-button>下一步</c-button>
+      <c-button @click="recharge">下一步</c-button>
     </div>
   </div>
 </template>
 <script>
+import services from '@/services';
+
 export default {
   data() {
     return {
-      isShowA: true,
-      isShowB: false
+      userInfo: {},
+      amount: "",
+      payType: "weixin"
     };
   },
   methods: {
-    weixin() {
-      if (this.isShowA) {
-        this.isShowA = true;
-        this.isShowB = false;
-      } else {
-        this.isShowA = true;
-        this.isShowB = false;
+    async fetchUserInfo() {
+      try {
+        let res = await services.fetchUserInfo();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.userInfo = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
       }
     },
-    zhifubao() {
-      if (this.isShowA) {
-        this.isShowA = false;
-        this.isShowB = true;
-      }
+    async recharge(){
+
     }
   },
-  created() {}
+  created() {
+    this.fetchUserInfo();
+  }
 };
 </script>

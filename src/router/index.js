@@ -26,6 +26,7 @@ import RefundList from '@/views/RefundList';
 import ResetPassword from '@/views/ResetPassword';
 import RefundDetail from '@/views/RefundDetail';
 import Refund from '@/views/Refund';
+import Logistics from '@/views/Logistics';
 import NickName from '@/views/NickName';
 
 Vue.use(Router);
@@ -135,6 +136,12 @@ const router = new Router({
     },{
       path:'/refund',
       component:Refund
+    },{
+      path: '/logistics',
+      meta:{
+          title: '物流查询'
+      },
+      component: Logistics      
     },{
       path:'/nickname',
       component:NickName

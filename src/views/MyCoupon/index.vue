@@ -1,6 +1,5 @@
 <style scoped lang="scss">
 @import "~@/css/var";
-@import "~@/css/common";
 @import "~@/css/mixin";
 
 .coupon_page {
@@ -93,41 +92,35 @@
         <div class="coupon_til">
           <div
             class="til_list"
-            :class="{'til_list_active':tilActive === 0}"
-            @click="tilActiveClick(0)"
+            :class="{'til_list_active':status === 'unused'}"
+            @click="changeStatus('unused')"
           >未使用</div>
           <div
             class="til_list"
-            :class="{'til_list_active':tilActive === 1}"
-            @click="tilActiveClick(1)"
+            :class="{'til_list_active':status === 'used'}"
+            @click="changeStatus('used')"
           >已使用</div>
           <div
             class="til_list"
-            :class="{'til_list_active':tilActive === 2}"
-            @click="tilActiveClick(2)"
+            :class="{'til_list_active':status === 'expired'}"
+            @click="changeStatus('expired')"
           >已过期</div>
         </div>
         <div class="coupon_lists">
           <ul class="list_box">
-            <li class="list_item" v-for="(val,index) in currencyList" :key="index">
+            <li class="list_item" v-for="(val,index) in list" :key="index">
               <div class="item_l chen_center_absolute_column">
                 <p class="num">
-                  ￥
-                  <span>{{val.price | add}}</span>
+                  ￥{{val.coupon.deductPrice}}
                 </p>
-                <p class="des">无金额门槛</p>
+                <p class="des">{{ val.coupon.limitPrice == 0 ? '无门槛' : `满${val.coupon.limitPrice}使用`}}</p>
               </div>
               <div class="item_r">
-                <p class="r_til">{{val.des}}</p>
-                <p class="r_des">消费任意金额立减20</p>
-                <p class="r_surplus">
-                  剩余
-                  <span>1</span>/
-                  <span>0</span>张
-                </p>
+                <p class="r_til">{{val.coupon.name}}</p>
+                <p class="r_des">{{val.coupon.desc}}</p>
                 <div class="chen_center_absolute r_footer">
                   <div>即领取日一天内有效</div>
-                  <div>已发完</div>
+                  
                 </div>
               </div>
             </li>
@@ -139,72 +132,41 @@
 </template>
 
 <script>
+import services from '@/services';
+
 export default {
   data() {
     return {
-      tilActive: 0, //使用与否
-      lists: [
-        //type  0-未使用    1-已使用    2-已过期
-        {
-          price: 10,
-          des: "笑笑女装",
-          type: 0
-        },
-        {
-          price: 50,
-          des: "涛涛皮鞋",
-          type: 0
-        },
-        {
-          price: 110,
-          des: "小猫宠物",
-          type: 1
-        },
-        {
-          price: 20,
-          des: "大米粮油",
-          type: 1
-        },
-        {
-          price: 5,
-          des: "海尔精装电器",
-          type: 1
-        },
-        {
-          price: 43,
-          des: "双十二店铺",
-          type: 2
-        }
-      ],
-      currencyList: [], //当前所展示数据
+      status: 'unused', //使用与否
+      list: [], //当前所展示数据
     };
   },
   filters:{
-    add(val){
-      if (!val) return '';
-      val = Math.floor(val);
-      return val;
-    }
+
   },
   created() {
-    this.tilLists();
+    this.fetchList();
   },
-  mounted() {},
   methods: {
-    tilActiveClick(num) {
+    changeStatus(status) {
       //使用按钮点击
-      this.tilActive = num;
-      this.tilLists(num);
+      this.status = status;
+      this.fetchList();
     },
-    tilLists(num) {
-      //优惠券数据
-      let type = num || this.tilActive;
-      this.currencyList = this.lists.filter(item => {
-        return item.type === type;
-      });
-      //   let arr = this.lists.filter(item => {
-      //     return item.price += 100;
-      //   });
+    async fetchList() {
+
+      let {status} = this;
+      try {
+        let res = await services.fetchUserCouponList({
+          status
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.list = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     },
     
   }

@@ -23,25 +23,37 @@ input{
   </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
+import services from '@/services';
+
 export default{
   data() {
     return {
         name:''
-     
     };
   },
   methods: {
-    save_nickname(){
-       if(this.name != ''){
-           Toast("保存成功");
-       }else{
-           Toast("请输入您喜欢的昵称")
-       }
+    async save_nickname(){
+       try {
+        let res = await services.updateUserInfo({
+          nickname:this.name
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+
+        setTimeout(() => {
+          this.$router.back();
+        }, 1000);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
          
     }
   },
-  created() {}
+  created() {
+    this.name = this.$route.query.value;
+  }
 };
 </script>
 

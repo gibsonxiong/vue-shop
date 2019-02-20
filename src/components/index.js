@@ -19,7 +19,7 @@ import Button from './Button';
 import CellList from './CellList';
 import Cell from './Cell';
 import Share from './Share';
-
+import RegionPicker from './RegionPicker';
 import Popup from './Popup';
 
 Vue.component('c-header', Header);
@@ -43,5 +43,5 @@ Vue.component('c-cell-list', CellList);
 Vue.component('c-cell', Cell);
 
 Vue.component('c-popup', Popup);
-
+Vue.component('c-region-picker', RegionPicker);
 Vue.component('c-share', Share);

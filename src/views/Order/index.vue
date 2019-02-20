@@ -53,11 +53,11 @@
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(content,index) in contents" :key="index" @click="to_oderDetail()">
+          <li v-for="(content,index) in contents" :key="index">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
-            >
+             >
               <div style="width:80%;">
                 <span>订单号</span>
                 <span>{{content.oderId}}</span>
@@ -77,9 +77,9 @@
             <!--  -->
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-            >
+            @click="to_oderDetail">
               <div style="width:20%;">
-                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg" alt>
+                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg">
               </div>
               <div style="width:65%;padding:0 0.1rem">
                 <span>{{content.goodsName}}</span>
@@ -116,7 +116,7 @@
                 <button class="c-btn btn-primary">提醒发货</button>
               </template>
               <template v-else-if="content.odertype==3">
-                <button class="c-btn">查看物流</button>
+                <button class="c-btn" @click="logistics(content)">查看物流</button>
                 <button class="c-btn btn-primary">确认发货</button>
               </template>
               <template v-else-if="content.odertype==4">
@@ -239,6 +239,14 @@ export default {
     },
     to_oderDetail() {
       this.$router.push("/orderDetail");
+    },
+    logistics(str) {
+      if (!str.btn_one) return;
+      switch (str.btn_one) {
+        case "查看物流":
+          this.$router.push("/logistics");
+          break;
+      }
     }
   },
   created() {
