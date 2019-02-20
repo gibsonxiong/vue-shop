@@ -60,7 +60,7 @@
   display: flex;
   flex-wrap: wrap;
 }
-input {
+#file {
   width: 0.79rem;
   height: 0.79rem;
   position: absolute;
@@ -114,6 +114,7 @@ img {
   left: 0;
   bottom: 0;
 }
+
 </style>
 <template>
   <div class="record-page">
@@ -121,47 +122,47 @@ img {
     <div class="c-page-body header-pd">
       <div class="refund">
         <div class="refund_one">
-          <img src="http://img5.imgtn.bdimg.com/it/u=4131357342,2654337999&fm=200&gp=0.jpg">
+          <img :src="item.img">
           <ul>
-            <li>康复电卷发棒女答卷神器懒人自动陶瓷刘海烫发器网红款小号不伤发</li>
+            <li>{{item.goodsname}}</li>
             <li>
               <span>颜色分类：</span>
-              <span>白色28mm</span>
+              <span>{{item.color}}</span>
             </li>
           </ul>
         </div>
-        <div class="refund_two"  @click="to_popup">
+        <div class="refund_two" @click="to_popup(2)">
           <p>货物状态</p>
           <p>
-            <span>请选择</span>
+            <span>{{shopStatus}}</span>
             <span data-v-75dcebf2 style="transform: rotateZ(180deg); display: inline-block;">
               <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
             </span>
           </p>
         </div>
-        <div class="refund_three" style="border-top: 1px solid #f4f4f4;">
+        <div class="refund_three" style="border-top: 1px solid #f4f4f4;" @click="to_popup(1)">
           <p>退款原因</p>
           <p>
-            <span>请选择</span>
+            <span>{{buyFail}}</span>
             <span data-v-75dcebf2 style="transform: rotateZ(180deg); display: inline-block;">
               <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
             </span>
           </p>
         </div>
-        <div class="refund_four">退款金额：
+        <div class="refund_four">
+          退款金额：
           <span>￥</span>
-          <span>59.30</span>
+          <span>{{item.money}}</span>
         </div>
         <p class="refund_toast">最多￥159.00，含发货邮费￥0.00</p>
         <div class="refund_five">
           退款说明：
-          <input placeholder="选填">
+          <input placeholder="选填" v-model="refund_explain">
         </div>
         <div class="refund_six">
           <p style="padding:0 0 0.1rem 0.05rem;">上传凭证</p>
           <ul class="img_ul">
             <li>
-              <!-- <input type="file" name="file" id="upfile" class="file"> -->
               <!--上传图片  -->
               <div class="feedback_add_img">
                 <div class="img_box" v-for="(val,index) in imgs" :key="index">
@@ -188,8 +189,8 @@ img {
             </li>
           </ul>
         </div>
-        <c-popup :popupShow="show_popup" @popEvent="popEvent"></c-popup>
-        <div class="refund_seven">
+        <c-popup :popupShow="show_popup" :popData="parentsData" :propType="propType" @popDataClick="popDataClick" @popEvent="popEvent"></c-popup>
+        <div class="refund_seven" @click="refund_submit">
           <p>提交</p>
         </div>
       </div>
@@ -198,18 +199,58 @@ img {
 </template>
 <script>
 import { Toast } from "mint-ui";
+import { log } from 'util';
 export default {
   data() {
     return {
       imgs: [],
       imgs_file: [],
+      refund_explain: "",
       file_show: true,
-      show_popup: false
+      show_popup: false,
+      item: {
+        img:
+          "http://img5.imgtn.bdimg.com/it/u=4131357342,2654337999&fm=200&gp=0.jpg",
+        goodsname:
+          "康复电卷发棒女答卷神器懒人自动陶瓷刘海烫发器网红款小号不伤发",
+        color: "白色28mm",
+        money: 10.0
+      },
+      parentsData: [],
+      buyFail: '请选择' ,  //退款原因
+      shopStatus: '请选择' ,  //退货状态
+      propType: 1,
+
     };
   },
   methods: {
-    to_popup() {
+    popDataClick(val){
+      if(val.type === 1){
+        this.buyFail = val.data;
+      }else if(val.type === 2){
+        this.shopStatus = val.data;
+      }
+    },
+    to_popup(num) {
       this.show_popup = true;
+      if (num == 1) {
+        this.propType = 1;
+        this.parentsData = [
+          { label: "拍错/多拍/不喜欢", value: "拍错/多拍/不喜欢" },
+          { label: "快递一直未送到", value: "快递一直未送到" },
+          { label: "未按照约定时间发货", value: "未按照约定时间发货" },
+          { label: "快递无跟踪记录", value: "快递无跟踪记录" },
+          { label: "骑手送错订单", value: "骑手送错订单" },
+          { label: "未按照约定时间送达", value: "未按照约定时间送达" },
+          { label: "骑手提前点确认送达", value: "骑手提前点确认送达" },
+          {label: "商家无法配送，联系我取消", value: "商家无法配送，联系我取消"},
+          { label: "配送时间太长", value: "配送时间太长" },
+          { label: "其他", value: "其他" }
+        ];
+      } else if (num == 2) {
+        this.propType = 2;
+        this.parentsData = [{ label: "暂时没有收到货物", value: "暂时没有收到货物" }];
+      }
     },
     popEvent(data) {
       this.show_popup = data;
@@ -217,6 +258,11 @@ export default {
     img_del(indexof) {
       this.imgs.splice(indexof, 1);
       this.imgs_file.splice(indexof, 1);
+    },
+    refund_submit() {
+      console.log(`退款原因 ${this.buyFail}`);
+      console.log(`退货状态 ${this.shopStatus}`);
+      //提交
     },
     file_up(event) {
       //图片预览

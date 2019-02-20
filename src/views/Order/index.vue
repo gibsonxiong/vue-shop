@@ -107,8 +107,22 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <button class="c-btn" >{{content.btn_one}}</button>
-              <span class="c-btn btn-primary" >{{content.btn_two}}</span>
+              <template v-if="content.odertype==1">
+                <button class="c-btn">取消订单</button>
+                <button class="c-btn btn-primary">付款</button>
+              </template>
+              <template v-else-if="content.odertype==2">
+                <button class="c-btn">申请开票</button>
+                <button class="c-btn btn-primary">提醒发货</button>
+              </template>
+              <template v-else-if="content.odertype==3">
+                <button class="c-btn">查看物流</button>
+                <button class="c-btn btn-primary">确认发货</button>
+              </template>
+              <template v-else-if="content.odertype==4">
+                <button class="c-btn">删除订单</button>
+                <button class="c-btn btn-primary">评价</button>
+              </template>
             </div>
             <!--  -->
           </li>
@@ -132,9 +146,7 @@ function fetchData(typeId) {
       price: 3.33,
       size: 2,
       consize: 2,
-      Dprice: 20,
-      btn_one:'取消订单',
-      btn_two:'付款'
+      Dprice: 20
     },
     {
       oderId: "SH20190123113437232333",
@@ -147,9 +159,7 @@ function fetchData(typeId) {
       price: 8.8,
       size: 11,
       consize: 3,
-      Dprice: 100,
-      btn_one:'申请开票',
-      btn_two:'提醒发货'
+      Dprice: 100
     },
     {
       oderId: "SH20190123113437232333",
@@ -162,9 +172,7 @@ function fetchData(typeId) {
       price: 77,
       size: 3,
       consize: 9,
-      Dprice: 30,
-      btn_one:'查看物流',
-      btn_two:'确认收货'
+      Dprice: 30
     },
     {
       oderId: "SH20190123113437232333",
@@ -177,9 +185,7 @@ function fetchData(typeId) {
       price: 887,
       size: 13,
       consize: 11,
-      Dprice: 3000,
-      btn_one:'删除订单',
-      btn_two:'评价'
+      Dprice: 3000
     }
   ];
 
@@ -206,15 +212,17 @@ export default {
       contents: []
     };
   },
-  filters:{
-    odertype(val){
-      return ({
-            "0": "全部",
-            "1": "待付款",
-            "2": "待发货",
-            "3": "待收货",
-            "4": "待评价"
-          })[val] || '';
+  filters: {
+    odertype(val) {
+      return (
+        {
+          "0": "全部",
+          "1": "待付款",
+          "2": "待发货",
+          "3": "待收货",
+          "4": "待评价"
+        }[val] || ""
+      );
     }
   },
   methods: {
@@ -223,21 +231,21 @@ export default {
       this.contents = fetchData(index);
       let newRoute = {
         ...this.$route,
-        query:{
+        query: {
           index
         }
-      }
+      };
       this.$router.replace(newRoute);
     },
     to_oderDetail() {
-       this.$router.push("/orderDetail");
+      this.$router.push("/orderDetail");
     }
   },
   created() {
     let index = this.$route.query.index;
-    if(index){
+    if (index) {
       this.tab(Number(index));
-    }else{
+    } else {
       this.tab(0);
     }
   }

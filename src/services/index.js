@@ -3,7 +3,7 @@ import core from '@/core';
 import config from '@/config';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.108:3000',
+  baseURL: 'http://192.168.3.168:3000',
   timeout: 12000,
   method: 'get'
 });

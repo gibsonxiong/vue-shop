@@ -38,7 +38,7 @@ i {
 .gcs-checkbox {
   display: none;
 }
-label{
+label {
   margin-right: 0.05rem;
 }
 .gcs-checkbox + label {
@@ -66,7 +66,7 @@ label{
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="my-ddress_con" v-for="items in navList" :key="items">
+      <div class="my-ddress_con" v-for="(items,index) in navList" :key="index">
         <div>
           <p>
             <span>{{items.name}}</span>
@@ -80,15 +80,19 @@ label{
         </div>
         <div>
           <span>
-            <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
+            <input name="cheack_default" type="radio" :value="items.id" v-model="selectedAddress" class="gcs-checkbox">
             <label for="gcs-checkbox"></label>
           </span>
           <p style="width:65%">设置默认</p>
           <p style="width:35%;text-align:right;">
-            <i class="iconfont icon-post"></i>
-            <span style="padding-right:0.1rem;">编辑</span>
-            <i class="iconfont icon-delete_light"></i>
-            <span>删除</span>
+            <span>
+              <i class="iconfont icon-post"></i>
+              <span style="padding-right:0.1rem;">编辑</span>
+            </span>
+            <span @click="delete_address">
+              <i class="iconfont icon-delete_light"></i>
+              <span>删除</span>
+            </span>
           </p>
         </div>
       </div>
@@ -105,17 +109,53 @@ label{
 export default {
   data() {
     return {
-       navList: [
-                {name: '王伊', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园8-6A',isActive: false},
-                {name: '王二', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园38-6A',isActive: false},
-                {name: '王三', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园58-6A',isActive: false},
-                {name: '王四', phone:'18570414200',city:'广东省深圳市宝安区',address:'观澜街道',hourse_num:'招商观园78-6A',isActive: false}
-            ]
+      selectedAddress: 1,
+      navList: [
+        {
+          id: 1,
+          name: "王伊",
+          phone: "18570414200",
+          city: "广东省深圳市宝安区",
+          address: "观澜街道",
+          hourse_num: "招商观园8-6A",
+          isActive: false
+        },
+        {
+          id: 2,
+          name: "王四",
+          phone: "18570414200",
+          city: "广东省深圳市宝安区",
+          address: "观澜街道",
+          hourse_num: "招商观园78-6A",
+          isActive: false
+        },
+         {
+          id: 3,
+          name: "王四",
+          phone: "18570414200",
+          city: "广东省深圳市宝安区",
+          address: "观澜街道",
+          hourse_num: "招商观园78-6A",
+          isActive: false
+        },
+         {
+          id: 4,
+          name: "王四",
+          phone: "18570414200",
+          city: "广东省深圳市宝安区",
+          address: "观澜街道",
+          hourse_num: "招商观园78-6A",
+          isActive: false
+        }
+      ]
     };
   },
   methods: {
     new_address() {
       this.$router.push("/addressdetail");
+    },
+    delete_address(){
+
     }
   },
   created() {}
