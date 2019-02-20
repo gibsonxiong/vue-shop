@@ -101,7 +101,6 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  /* border: 1px solid red; */
 }
 .picker-center-highlight {
   text-align: center !important;
@@ -147,10 +146,12 @@
     <div class="c-page-body header-pd">
       <!--  -->
       <div class="oderD_one">
-        <p>等待付款</p>
-        <p>
-          <span>订单金额：</span>
-          <span>￥2.70</span>
+        <p>{{wait_pay}}</p>
+        <p>{{success_status}}</p>
+        <p v-show="order_money">
+          剩<span>23</span>小时
+          <span>37</span>分
+          自动<span>关闭</span>
         </p>
       </div>
       <!--  -->
@@ -235,11 +236,12 @@
       <div class="oderD_six" @click="oderD_six()">
         <span>取消订单</span>
       </div>
-      <div v-show="cacel_order">
+      <div v-show="cacel_order" class="order_bot">
         <p class="mt-picker" @click="success_order">完成</p>
+        <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
       </div>
     </div>
-      <mt-picker v-show="cacel_order" :slots="slots" @change="onValuesChange"></mt-picker>
+      
   </div>
 </template>
 
@@ -249,6 +251,10 @@ export default {
   data() {
     return {
       cacel_order: false,
+      order_cause:"",
+      success_status:'',
+      wait_pay:'等待买家付款',
+      order_money:true,
       slots: [
         {
           flex: 1,
@@ -269,16 +275,15 @@ export default {
     oderD_six() {
       this.cacel_order = true;
     },
-    success_order() {
+    success_order(values) {
       this.cacel_order = false;
+      this.success_status = this.order_cause;
+      this.wait_pay = '交易关闭';
+      this.order_money = false;
     },
     onValuesChange(picker, values) {
-
-      // if (values[0] > values[1]) {
-      //   picker.setSlotValue(1, values[0]);
-      // }
       for (var i = 0; i < values.length; i++) {
-        console.log(values[i])
+        this.order_cause = values[i] ;
       }
     }
   }

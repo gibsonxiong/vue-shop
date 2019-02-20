@@ -17,7 +17,8 @@
   left: 0;
   bottom: 0;
   z-index: 100;
-  height: 4rem;
+  height: 60%;
+  overflow: auto;
 }
 .pay {
   display: flex;
@@ -59,32 +60,38 @@ li:last-of-type {
   text-align: center;
   padding: 0.15rem;
   position: absolute;
-  right: 0;
-  left: 0;
   bottom: 0;
+  left: 0;
+  right: 0;
 }
 ul {
   padding: 0.1rem;
+  height: 3rem;
+  box-sizing: border-box;
+  overflow: scroll;
 }
 </style>
+<style>
+.mint-radio-label {
+  margin-left: 0px;
+  padding-right: 1rem;
+  display: inline-block;
+}
+.mint-radio-input:checked + .mint-radio-core {
+  background-color: #f94a92;
+  border-color: #f94a92;
+}
+</style>
+
 <template>
-  <div class="popup" v-show="popupShow">
+  <div class="popup" v-if="popupShow">
     <div class="popup_con">
       <p class="popup_label">货物状态</p>
       <ul>
-        <li class="pay" @click="weixin()">
-          <p>未收到货</p>
-          <p>
-            <i class="iconfont icon-xuanzhong" v-show="isShowA"></i>
-            <i class="iconfont icon-weixuanzhong" v-show="isShowB"></i>
-          </p>
-        </li>
-        <li class="pay" @click="zhifubao()">
-          <p>已收到货</p>
-          <p>
-            <i class="iconfont icon-weixuanzhong" v-show="isShowA"></i>
-            <i class="iconfont icon-xuanzhong" v-show="isShowB"></i>
-          </p>
+        <li class="pay">
+          <mt-cell>
+            <mt-radio align="right" v-model="mod" :options="popData" @change="check"></mt-radio>
+          </mt-cell>
         </li>
       </ul>
       <div class="popup_btn" @click="showpopup">
@@ -96,36 +103,70 @@ ul {
 <script>
 export default {
   props: {
-      popupShow:false
+    popupShow: false,
+    popData: {
+      type: Array,
+      default: []
+    },
+    propType: {
+      type: Number,
+      default: 1
+    }
   },
   data() {
     return {
-      isShowA: true,
-      isShowB: false,
-      popup: true
+      popup: true,
+      item_type: [{ not_received: "未收到货" }],
+      item_cause: [],
+      mod: ""
     };
+  },
+  watch: {
+    mod(val) {
+      this.$emit("popDataClick", {
+        type: this.propType,
+        data: val
+      });
+    }
   },
   methods: {
     showpopup: function() {
-      this.$emit('popEvent',false);
+      this.$emit("popEvent", false);
     },
-    weixin() {
-      if (this.isShowA) {
-        this.isShowA = true;
-        this.isShowB = false;
-      } else {
-        this.isShowA = true;
-        this.isShowB = false;
-      }
+    check: function() {
+    
     },
-    zhifubao() {
-      if (this.isShowA) {
-        this.isShowA = false;
-        this.isShowB = true;
+    getData() {
+      let num = this.type;
+      switch (num) {
+        case 1:
+          this.item_cause = [
+            { label: "拍错/多拍/不喜欢", value: "拍错/多拍/不喜欢" },
+            { label: "快递一直未送到", value: "快递一直未送到" },
+            { label: "未按照约定时间发货", value: "未按照约定时间发货" },
+            { label: "快递无跟踪记录", value: "快递无跟踪记录" },
+            { label: "骑手送错订单", value: "骑手送错订单" },
+            { label: "未按照约定时间送达", value: "未按照约定时间送达" },
+            { label: "骑手提前点确认送达", value: "骑手提前点确认送达" },
+            {
+              label: "商家无法配送，联系我取消",
+              value: "商家无法配送，联系我取消"
+            },
+            { label: "配送时间太长", value: "配送时间太长" },
+            { label: "其他", value: "其他" }
+          ];
+          break;
+        case 2:
+          this.item_cause = [
+            { label: "暂时没有收到货物", value: "暂时没有收到货物" }
+          ];
+          break;
       }
     }
   },
-  created() {}
+  mounted() {
+    // this.getData();
+  }
 };
 </script>
 
