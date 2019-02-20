@@ -412,7 +412,7 @@
     <div class="c-page-body" >
 
       <div class="item_page_content" ref="body">
-        <mt-swipe :auto="10000" :showIndicators="true" :speed="600">
+        <mt-swipe :auto="0" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
               <img :src="val">
@@ -578,7 +578,7 @@
             <div class="item_detail_pop_parents">
               <div class="item_detail_top_img">
                 <div class="item_detail_img_box">
-                  <img :src="itemInfo.imgList[0]">
+                  <img v-if="itemInfo.imgList" :src="itemInfo.imgList[0]">
                 </div>
                 <div class="item_detail_top_price">
                   <div class="item_detail_top_des">

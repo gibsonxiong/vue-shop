@@ -281,8 +281,13 @@ const services = {
   },
 
   //订单列表
-  async fetchOrderList() {
+  async fetchOrderList({
+    status
+  }) {
     return (await request.get(`/orders`, {
+      params:{
+        status
+      },
       token: true
     })).data;
   },

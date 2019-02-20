@@ -31,6 +31,7 @@
   padding: 0.05rem 0.1rem;
   border-radius: 1rem;
   margin-left: 0.1rem;
+  min-width: 0.8rem;
 
   &.btn-primary {
     border-color: $color-primary;
@@ -47,7 +48,7 @@
         <li
           v-for="(item,index) in items"
           :key="index"
-          :class="{active: index===curId}"
+          :class="{active: item.id===status}"
           @click="tab(item.id)"
         >{{item.item}}</li>
       </ul>
@@ -60,10 +61,10 @@
             >
               <div style="width:80%;">
                 <span>订单号</span>
-                <span>12312312312312312</span>
+                <span>{{order.orderNo}}</span>
               </div>
               <div style="width:20%;text-align:right;">
-                <span>待付款</span>
+                <span>{{order.status | orderStatus}}</span>
                 <span style="transform:rotateZ(180deg);display: inline-block;">
                   <i style="font-size:14px;" class="iconfont icon-back_light"></i>
                 </span>
@@ -114,19 +115,19 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <template v-if="content.odertype==1">
+              <template v-if="order.status==1">
                 <button class="c-btn">取消订单</button>
                 <button class="c-btn btn-primary">付款</button>
               </template>
-              <template v-else-if="content.odertype==2">
+              <template v-else-if="order.status==2">
                 <button class="c-btn">申请开票</button>
                 <button class="c-btn btn-primary">提醒发货</button>
               </template>
-              <template v-else-if="content.odertype==3">
-                <button class="c-btn" @click="logistics(content)">查看物流</button>
+              <template v-else-if="order.status==3">
+                <button class="c-btn" @click="logistics">查看物流</button>
                 <button class="c-btn btn-primary">确认发货</button>
               </template>
-              <template v-else-if="content.odertype==4">
+              <template v-else-if="order.status==4">
                 <button class="c-btn">删除订单</button>
                 <button class="c-btn btn-primary">评价</button>
               </template>
@@ -145,22 +146,21 @@ import services from "@/services";
 export default {
   data() {
     return {
-      curId: 0,
+      status: '',
       items: [
-        { item: "全部", id: 0 },
-        { item: "待付款", id: 1 },
-        { item: "待发货", id: 2 },
-        { item: "待收货", id: 3 },
-        { item: "待评价", id: 4 }
+        { item: "全部", id: '' },
+        { item: "待付款", id: '1' },
+        { item: "待发货", id: '2' },
+        { item: "待收货", id: '3' },
+        { item: "待评价", id: '4' }
       ],
       orderList: []
     };
   },
   filters: {
-    odertype(val) {
+    orderStatus(val) {
       return (
         {
-          "0": "全部",
           "1": "待付款",
           "2": "待发货",
           "3": "待收货",
@@ -170,9 +170,11 @@ export default {
     }
   },
   methods: {
-    async fetchOrderList() {
+    async fetchOrderList(status) {
       try {
-        let res = await services.fetchOrderList();
+        let res = await services.fetchOrderList({
+          status
+        });
 
         if (services.$isError(res)) throw new Error(res.message);
 
@@ -181,13 +183,15 @@ export default {
         return this.$toast(err.message);
       }
     },
-    tab(index) {
-      this.curId = index;
+    tab(status) {
+      this.status = status;
+
+      this.fetchOrderList(status);
 
       let newRoute = {
         ...this.$route,
         query: {
-          index
+          status
         }
       };
       this.$router.replace(newRoute);
@@ -207,14 +211,12 @@ export default {
     }
   },
   created() {
-    let index = this.$route.query.index;
-    if (index) {
-      this.tab(Number(index));
+    let status = this.$route.query.status;
+    if (status) {
+      this.tab(status);
     } else {
-      this.tab(0);
+      this.tab('');
     }
-
-    this.fetchOrderList();
   }
 };
 </script>
