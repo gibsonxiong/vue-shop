@@ -280,6 +280,13 @@ const services = {
     })).data;
   },
 
+  //订单列表
+  async fetchOrderList() {
+    return (await request.get(`/orders`, {
+      token: true
+    })).data;
+  },
+
   //建立订单
   async buildOrder({
     params
@@ -292,8 +299,14 @@ const services = {
   },
 
   //创建订单
-  async createOrder() {
-
+  async createOrder({
+    params
+  }) {
+    return (await request.post(`/orders/create`, {
+      params
+    }, {
+      token: true
+    })).data;
   },
 
   //物流查询
@@ -347,11 +360,11 @@ const services = {
 
   //用户资料
   async updateUserInfo(info) {
-    return (await request.post(`/users/info`,info, {
+    return (await request.post(`/users/info`, info, {
       token: true
     })).data;
   },
-  
+
 
   async fetchRegion() {
     return (await request.get(`/regions`)).data;
@@ -388,7 +401,9 @@ const services = {
   },
 
   //删除地址
-  async removeAddress({addressId}) {
+  async removeAddress({
+    addressId
+  }) {
     return (await request.delete(`/address/${addressId}`, {
       token: true
     })).data;

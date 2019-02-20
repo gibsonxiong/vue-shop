@@ -141,20 +141,18 @@
         color: #999;
       }
 
-      .item_page_footer_buys_wrap {
-        height: 100%;
-        .item_page_footer_buys {
-          border: none;
-          color: #fff;
-          height: 100%;
-          min-width: 0.9rem;
-          background: $color-primary;
-          border: 1px solid $color-primary;
 
-          &:disabled {
-            background: $color-primary-disabled;
-            border: 1px solid $color-primary-disabled;
-          }
+      .footer-btn {
+        border: none;
+        color: #fff;
+        height: 0.5rem;
+        min-width: 0.9rem;
+        background: $color-primary;
+        border: 1px solid $color-primary;
+
+        &:disabled {
+          background: $color-primary-disabled;
+          border: 1px solid $color-primary-disabled;
         }
       }
     }
@@ -224,13 +222,13 @@
                 <div class="hint">不含运费</div>
               </div>
             </div>
-            <div class="chen_center_absolute_center item_page_footer_buys_wrap">
               <button
                 :disabled="checkedCount === 0"
-                class="chen_center_absolute_column item_page_footer_buys"
+                class="footer-btn"
                 @click="submit"
               >结算({{checkedCount}})</button>
-            </div>
+            <!-- <div class="chen_center_absolute_center item_page_footer_buys_wrap"> -->
+            <!-- </div> -->
           </div>
         </div>
       </div>

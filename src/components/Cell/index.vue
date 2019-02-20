@@ -14,29 +14,30 @@ $padding-y: 0.12rem;
     border-bottom: none;
   }
 
-  &.is-link {
-    padding-right: 0.28rem;
+  // &.is-link {
+  //   padding-right: 0.22rem;
 
-    // &:active {
-    //   margin-left: -$padding-x;
-    //   padding-left: $padding-x;
-    //   background-color: #eee;
-    // }
+  //   // &:active {
+  //   //   margin-left: -$padding-x;
+  //   //   padding-left: $padding-x;
+  //   //   background-color: #eee;
+  //   // }
 
-    &:after {
-      $size: 0.09rem;
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: 0.15rem;
-      transform: translateY(-50%) rotate(-45deg);
-      width: $size;
-      height: $size;
-      border: 1.5px solid #ccc;
-      border-left: 0;
-      border-top: 0;
-    }
-  }
+  //   &:after {
+  //     $size: 0.09rem;
+  //     content: "";
+  //     position: absolute;
+  //     top: 50%;
+  //     right: 0.1rem;
+  //     transform: translateY(-50%) rotate(-45deg);
+  //     width: $size;
+  //     height: $size;
+  //     border: 1.5px solid #ccc;
+  //     opacity: 0.4;
+  //     border-left: 0;
+  //     border-top: 0;
+  //   }
+  // }
 
   .c-cell-link-wrap {
     display: block;
@@ -75,7 +76,10 @@ $padding-y: 0.12rem;
         <span class="c-cell-name">{{name}}</span>
       </div>
       <div class="c-cell-right">
-        <span class="c-cell-value">{{value}}</span>
+        <slot name="right">
+          <span class="c-cell-value">{{value}}</span>
+          <i v-if="isLink" class="iconfont icon-right" style="opacity:0.4;"></i>
+        </slot>
       </div>
     </slot>
   </div>

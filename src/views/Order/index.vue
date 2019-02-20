@@ -53,17 +53,17 @@
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(content,index) in contents" :key="index">
+          <li v-for="(order,index) in orderList" :key="index" @click="to_oderDetail()">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
             >
               <div style="width:80%;">
                 <span>订单号</span>
-                <span>{{content.oderId}}</span>
+                <span>12312312312312312</span>
               </div>
               <div style="width:20%;text-align:right;">
-                <span>{{content.odertype | odertype}}</span>
+                <span>待付款</span>
                 <span style="transform:rotateZ(180deg);display: inline-block;">
                   <i style="font-size:14px;" class="iconfont icon-back_light"></i>
                 </span>
@@ -72,39 +72,45 @@
             <!--  -->
             <div style="width:95%;margin:auto;padding:0.1rem 0;">
               <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
-              <span>{{content.shopName}}</span>
+              <span>母婴用品商城</span>
             </div>
             <!--  -->
             <div
+              v-for="(orderItem,index) in order.order_items"
+              :key="index"
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
               @click="to_oderDetail"
             >
               <div style="width:20%;">
-                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg">
+                <img
+                  style="width:0.7rem;height:0.7rem;"
+                  :src="orderItem.itemImg"
+                  alt
+                >
               </div>
               <div style="width:65%;padding:0 0.1rem">
-                <span>{{content.goodsName}}</span>
-                <p style="color:#999;font-size:12px;">{{content.remark}}</p>
+                <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
+                <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
               </div>
               <div style="width:15%;text-align:right;">
                 <span>￥</span>
-                <span>{{content.price}}</span>
+                <span>{{orderItem.price}}</span>
                 <div style="color:#999;font-size:12px;">
                   <span>×</span>
-                  <span>{{content.size}}</span>
+                  <span>{{orderItem.quantity}}</span>
                 </div>
               </div>
             </div>
-            <!--  -->
+
             <div style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;">
               <p style="text-align: right;">
                 共
-                <span>{{content.consize}}</span>个商品
+                <span>{{order.itemCount}}</span>个商品
                 <span>实付:</span>￥
-                <span>{{content.Dprice}}</span>
+                <span>{{order.orderFee}}</span>
               </p>
             </div>
-            <!--  -->
+
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
@@ -125,7 +131,7 @@
                 <button class="c-btn btn-primary">评价</button>
               </template>
             </div>
-            <!--  -->
+
           </li>
         </ul>
       </div>
@@ -134,70 +140,7 @@
 </template>
 
 <script>
-function fetchData(typeId) {
-  let data = [
-    {
-      oderId: "SH20190123113437236624",
-      odertype: 1,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称111",
-      remark: "随机发",
-      price: 3.33,
-      size: 2,
-      consize: 2,
-      Dprice: 20
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 2,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品333",
-      remark: "随机发",
-      price: 8.8,
-      size: 11,
-      consize: 3,
-      Dprice: 100
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 3,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品444",
-      remark: "随机发",
-      price: 77,
-      size: 3,
-      consize: 9,
-      Dprice: 30
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 4,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品444",
-      remark: "随机发",
-      price: 887,
-      size: 13,
-      consize: 11,
-      Dprice: 3000
-    }
-  ];
-
-  if (typeId === 0) {
-    return data;
-  } else {
-    return data.filter(item => {
-      return item.odertype === typeId;
-    });
-  }
-}
+import services from "@/services";
 
 export default {
   data() {
@@ -210,7 +153,7 @@ export default {
         { item: "待收货", id: 3 },
         { item: "待评价", id: 4 }
       ],
-      contents: []
+      orderList: []
     };
   },
   filters: {
@@ -227,9 +170,20 @@ export default {
     }
   },
   methods: {
+    async fetchOrderList() {
+      try {
+        let res = await services.fetchOrderList();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
     tab(index) {
       this.curId = index;
-      this.contents = fetchData(index);
+
       let newRoute = {
         ...this.$route,
         query: {
@@ -242,18 +196,14 @@ export default {
       this.$router.push("/orderDetail");
     },
     logistics(str) {
-      if (!str.btn_one) return;
-      switch (str.btn_one) {
-        case "查看物流":
-          this.$router.push({
-            path: "/logistics",
-            query: {
-              type: "zhongtong",
-              postid: "75124660965586"
-            }
-          });
-          break;
-      }
+      this.$router.push({
+        path: "/logistics",
+        query: {
+          type: "zhongtong",
+          postid: "75124660965586"
+        }
+      });
+
     }
   },
   created() {
@@ -263,6 +213,8 @@ export default {
     } else {
       this.tab(0);
     }
+
+    this.fetchOrderList();
   }
 };
 </script>
