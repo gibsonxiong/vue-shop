@@ -297,10 +297,17 @@ const services = {
   },
 
   //物流查询
-  async logistics() {
+  async logistics({
+    type,
+    postid
+  }) {
     return (await request({
       method: "GET", //请求方式
-      url: "http://192.168.3.31:8020/kuaidi", //请求地址         
+      url: "/deliver", //请求地址
+      params:{
+        type,
+        postid
+      }
     })).data;
   },
   //获取可领取优惠券列表

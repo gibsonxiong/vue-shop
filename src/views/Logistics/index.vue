@@ -58,7 +58,7 @@
           width: 16%;
           text-align: right;
           vertical-align: top;
-          >div:nth-child(2){
+          > div:nth-child(2) {
             font-size: 11px;
           }
         }
@@ -157,11 +157,11 @@ export default {
         d.getMonth() + 1 < 10
           ? "0" + (d.getMonth() + 1)
           : "" + (d.getMonth() + 1);
-      var day = d.getDate() < 10 ? "0" + d.getDate() : "" + d.getDate();      
+      var day = d.getDate() < 10 ? "0" + d.getDate() : "" + d.getDate();
       return month + "-" + day;
     },
     dateTimes(val) {
-      var d = new Date(val);      
+      var d = new Date(val);
       var hour = d.getHours() < 10 ? "0" + d.getHours() : "" + d.getHours();
       var minutes =
         d.getMinutes() < 10 ? "0" + d.getMinutes() : "" + d.getMinutes();
@@ -170,9 +170,10 @@ export default {
   },
   methods: {
     async getLogis() {
+      let routPars = this.$route.query;
       try {
-        let res = await services.logistics();
-        if (res.data.status !== "200") throw new Error(res.message);
+        let res = await services.logistics(routPars);
+        if (services.$isError(res)) throw new Error(res.message);
         this.logisticsData = res.data.data;
       } catch (err) {
         Toast({
@@ -181,33 +182,9 @@ export default {
           duration: 5000
         });
       }
-    },
-    dateFil() {
-      let d = "2019-01-16 21:30:49";
-      let date = new Date(d); //把定义的时间赋值进来进行下面的转换
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      let hour = date.getHours();
-      let minute = date.getMinutes();
-      let second = date.getSeconds();
-      let a =
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        " " +
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
-      console.log(a);
-    }
+    }    
   },
   mounted() {
-    // this.dateFil();
     this.getLogis();
   }
 };

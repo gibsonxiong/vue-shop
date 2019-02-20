@@ -57,7 +57,7 @@
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
-             >
+            >
               <div style="width:80%;">
                 <span>订单号</span>
                 <span>{{content.oderId}}</span>
@@ -77,7 +77,8 @@
             <!--  -->
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-            @click="to_oderDetail">
+              @click="to_oderDetail"
+            >
               <div style="width:20%;">
                 <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg">
               </div>
@@ -238,7 +239,13 @@ export default {
       if (!str.btn_one) return;
       switch (str.btn_one) {
         case "查看物流":
-          this.$router.push("/logistics");
+          this.$router.push({
+            path: "/logistics",
+            query: {
+              type: "zhongtong",
+              postid: "75124660965586"
+            }
+          });
           break;
       }
     }
