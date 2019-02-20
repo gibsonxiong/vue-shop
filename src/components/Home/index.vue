@@ -226,8 +226,14 @@
 
 <script>
 import services from '@/services';
+import routerCacheComponent from "@/routerCache/component";
 
 export default {
+  mixins:[
+    routerCacheComponent({
+      scrollWrapSelector: ".c-page-body"
+    })
+  ],
   data() {
     return {
       headerOpacity: 0,

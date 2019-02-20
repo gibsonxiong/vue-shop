@@ -6,6 +6,8 @@
     object-fit: cover;
   }
 }
+
+
 </style>
 <style scoped lang="scss">
 @import "~@/css/mixin";
@@ -15,12 +17,31 @@
   // transform: translateY(0);
   transition: opacity 0.3s;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transform: translateY(0);
+  transition: 0.3s;
+}
 .pop-enter,
 .pop-leave-to {
   opacity: 0;
   // transform: translateY(100%);
 }
-
+.icon-fenxiang{
+  position: relative;
+  &:after{
+    content: "";
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background-color: rgba(245,245,245,1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+  }
+}
 .item_page {
   .item_page_content {
     height: 100%;
@@ -382,16 +403,16 @@
 </style>
 
 <template>
-  <div class="item_page">
-    <c-header :title="'商品详情'">
+  <div class="item_page page">
+    <c-header :title="'商品详情'" theme="transparent" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,color:`rgba(68, 68, 68,${headerOpacity})`}">
       <a slot="right">
         <i class="iconfont icon-fenxiang" style="font-size:0.2rem;" @click="shareCeshi"></i>
       </a>
     </c-header>
-    <div class="c-page-body header-pd">
-      <c-share :shareShow="share" @shareClose="shareNone"></c-share>
-      <div class="item_page_content">
-        <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
+    <div class="c-page-body" >
+
+      <div class="item_page_content" ref="body">
+        <mt-swipe :auto="10000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
             <router-link to="/">
               <img :src="val">
@@ -452,19 +473,19 @@
               >摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气</div>
               <div class="evaluate_img">
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
                 <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg_.webp"
+                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
                 >
               </div>
             </div>
@@ -508,6 +529,7 @@
         </div>
       </div>
     </div>
+    <c-share :shareShow="share" @shareClose="shareNone"></c-share>
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
@@ -621,10 +643,20 @@
 <script>
 import Vue from "vue";
 import services from "@/services";
+import routerCachePage from "@/routerCache/page";
 
 export default {
+  mixins: [
+    routerCachePage({
+      scrollWrapSelector: ".item_page_content"
+    })
+  ],
   data() {
     return {
+      isLogin: false,
+
+      headerOpacity: 0,
+
       itemDetails: "1",
       item_parameters_data: [
         //参数详情
@@ -671,9 +703,17 @@ export default {
     };
   },
   created() {
+    this.isLogin = services.$isLogin();
+
     this.itemId = this.$route.params.itemId;
     this.fetchItem();
-    this.getFavoriteByItemId();
+
+    if (this.isLogin) {
+      this.getFavoriteByItemId();
+    }
+  },
+  mounted(){
+    this.bindEvent();
   },
   computed: {
     itemPrice() {
@@ -722,6 +762,14 @@ export default {
     }
   },
   methods: {
+    bindEvent() {
+      let body = this.$refs.body;
+      body.addEventListener("scroll", () => {
+        let end = 100;
+        let scrollTop = Math.min(body.scrollTop, end);
+        this.headerOpacity = scrollTop / end;
+      });
+    },
     itemDetailsShow() {
       //商品详情
       this.itemDetails = "1";
@@ -852,7 +900,6 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
-      return this.itemInfo.propValues[index].find(item => item.id == valueId);
     },
     shareCeshi() {
       //分享组件

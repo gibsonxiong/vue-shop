@@ -134,8 +134,14 @@
 
 <script>
 import services from "@/services";
+import routerCacheComponent from "@/routerCache/component";
 
 export default {
+  mixins:[
+    routerCacheComponent({
+      scrollWrapSelector: ".right-container"
+    })
+  ],
   data() {
     return {
       catalogList: [],
@@ -178,7 +184,9 @@ export default {
   },
 
   created() {
-    this.fetchCatalogList();
+    if(!this.$restored){
+      this.fetchCatalogList();
+    }
   }
 };
 </script>

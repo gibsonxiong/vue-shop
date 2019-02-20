@@ -40,7 +40,7 @@
 </style>
 
 <template>
-  <div class="index-page">
+  <div class="index-page page">
     <div v-show="!search.visible">
       <div
         class="tab-content"
@@ -49,7 +49,7 @@
         v-show="index === tab.active"
       >
         <keep-alive>
-          <component ref="tabContent" v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
+          <component ref="tabContent" :cacheId="`tabContent${index}`" v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
         </keep-alive>
       </div>
       <div class="tab tab--fixed">
@@ -70,7 +70,10 @@
 </template>
 
 <script>
+import routerCachePage from '@/routerCache/page';
+
 export default {
+  mixins:[routerCachePage()],
   data() {
     return {
       tab: {

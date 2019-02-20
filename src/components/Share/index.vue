@@ -35,6 +35,7 @@
       padding: pxTorem(40) pxTorem(60) pxTorem(30);
       position: relative;
       overflow: auto;
+      
       .share_p {
         font-size: pxTorem(36);
         text-align: center;
@@ -49,7 +50,7 @@
 }
 </style>
 <style lang="scss">
-@import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
+// @import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
 @import "~@/css/mixin";
 #share_component {
   .soshm-item {
