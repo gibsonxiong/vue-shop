@@ -53,11 +53,11 @@
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(content,index) in contents" :key="index" @click="to_oderDetail()">
+          <li v-for="(content,index) in contents" :key="index">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
-            >
+             >
               <div style="width:80%;">
                 <span>订单号</span>
                 <span>{{content.oderId}}</span>
@@ -77,9 +77,9 @@
             <!--  -->
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-            >
+            @click="to_oderDetail">
               <div style="width:20%;">
-                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg" alt>
+                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg">
               </div>
               <div style="width:65%;padding:0 0.1rem">
                 <span>{{content.goodsName}}</span>
@@ -107,8 +107,8 @@
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <button class="c-btn" >{{content.btn_one}}</button>
-              <span class="c-btn btn-primary" >{{content.btn_two}}</span>
+              <button class="c-btn" @click="logistics(content)">{{content.btn_one}}</button>
+              <span class="c-btn btn-primary">{{content.btn_two}}</span>
             </div>
             <!--  -->
           </li>
@@ -133,8 +133,8 @@ function fetchData(typeId) {
       size: 2,
       consize: 2,
       Dprice: 20,
-      btn_one:'取消订单',
-      btn_two:'付款'
+      btn_one: "取消订单",
+      btn_two: "付款"
     },
     {
       oderId: "SH20190123113437232333",
@@ -148,8 +148,8 @@ function fetchData(typeId) {
       size: 11,
       consize: 3,
       Dprice: 100,
-      btn_one:'申请开票',
-      btn_two:'提醒发货'
+      btn_one: "申请开票",
+      btn_two: "提醒发货"
     },
     {
       oderId: "SH20190123113437232333",
@@ -163,8 +163,8 @@ function fetchData(typeId) {
       size: 3,
       consize: 9,
       Dprice: 30,
-      btn_one:'查看物流',
-      btn_two:'确认收货'
+      btn_one: "查看物流",
+      btn_two: "确认收货"
     },
     {
       oderId: "SH20190123113437232333",
@@ -178,8 +178,8 @@ function fetchData(typeId) {
       size: 13,
       consize: 11,
       Dprice: 3000,
-      btn_one:'删除订单',
-      btn_two:'评价'
+      btn_one: "删除订单",
+      btn_two: "评价"
     }
   ];
 
@@ -206,15 +206,17 @@ export default {
       contents: []
     };
   },
-  filters:{
-    odertype(val){
-      return ({
-            "0": "全部",
-            "1": "待付款",
-            "2": "待发货",
-            "3": "待收货",
-            "4": "待评价"
-          })[val] || '';
+  filters: {
+    odertype(val) {
+      return (
+        {
+          "0": "全部",
+          "1": "待付款",
+          "2": "待发货",
+          "3": "待收货",
+          "4": "待评价"
+        }[val] || ""
+      );
     }
   },
   methods: {
@@ -223,21 +225,29 @@ export default {
       this.contents = fetchData(index);
       let newRoute = {
         ...this.$route,
-        query:{
+        query: {
           index
         }
-      }
+      };
       this.$router.replace(newRoute);
     },
     to_oderDetail() {
-       this.$router.push("/orderDetail");
+      this.$router.push("/orderDetail");
+    },
+    logistics(str) {
+      if (!str.btn_one) return;
+      switch (str.btn_one) {
+        case "查看物流":
+          this.$router.push("/logistics");
+          break;
+      }
     }
   },
   created() {
     let index = this.$route.query.index;
-    if(index){
+    if (index) {
       this.tab(Number(index));
-    }else{
+    } else {
       this.tab(0);
     }
   }

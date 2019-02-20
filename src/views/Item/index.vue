@@ -10,15 +10,17 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-.fade-enter-active,
-.fade-leave-active {
-  transform: translateY(0);
-  transition: 0.3s;
+.pop-enter-active,
+.pop-leave-active {
+  // transform: translateY(0);
+  transition: opacity 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
-  transform: translateY(100%);
+.pop-enter,
+.pop-leave-to {
+  opacity: 0;
+  // transform: translateY(100%);
 }
+
 .item_page {
   .item_page_content {
     height: 100%;
@@ -257,6 +259,11 @@
         left: 0;
         right: 0;
         background: rgba(0, 0, 0, 0.7);
+        // opacity: 0;
+        // transition: opacity 0.6s;
+      }
+      .pop_model_active{
+          opacity: 1;
       }
       .item_detail_pop_content {
         position: absolute;
@@ -540,10 +547,11 @@
         </div>
       </div>
     </div>
-    <transition name="fade">
-      <div class="item_detail_pop_model" v-if="pop_model">
+    <transition name="pop">
+      <div class="item_detail_pop_model" v-show="pop_model">
         <div class="item_detail_pop_box">
-          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
+          <div class="item_detail_pop_model_hidden"        
+           @click="closePopModel()"></div>
           <div class="item_detail_pop_content">
             <div class="item_detail_pop_parents">
               <div class="item_detail_top_img">
@@ -566,34 +574,34 @@
                 </div>
               </div>
               <ul class="item_detail_center">
-              <li
-                class="item_detail_select_data"
-                v-for="(val,index) in itemInfo.propnames"
-                :key="index"
-              >
-                <div class="select_data_til">{{val.name}}</div>
-                <div class="select_data_lists">
-                  <div
-                    class="select_data_item"
-                    v-for="(item,index2) in itemInfo.propvalues[index]"
-                    :key="index2"
-                    @click="selectDataItem(index, item.id)"
-                    :class="{
+                <li
+                  class="item_detail_select_data"
+                  v-for="(val,index) in itemInfo.propnames"
+                  :key="index"
+                >
+                  <div class="select_data_til">{{val.name}}</div>
+                  <div class="select_data_lists">
+                    <div
+                      class="select_data_item"
+                      v-for="(item,index2) in itemInfo.propvalues[index]"
+                      :key="index2"
+                      @click="selectDataItem(index, item.id)"
+                      :class="{
                       'select_data_item_active_none': disabledList[index] && disabledList[index].includes(item.id),
                       'select_data_item_active':selectValue[index] == item.id
                     }"
-                  >{{item.name}}</div>
-                </div>
-              </li>
-              <li class="chen_center_absolute item_detail_number">
-                <div class="select_data_til" style="margin-bottom: 0rem;">
-                  数量
-                  <span v-if="selectSku">({{selectSku.quantity}}件)</span>
-                </div>
-                <div>
-                  <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
-                </div>
-              </li>
+                    >{{item.name}}</div>
+                  </div>
+                </li>
+                <li class="chen_center_absolute item_detail_number">
+                  <div class="select_data_til" style="margin-bottom: 0rem;">
+                    数量
+                    <span v-if="selectSku">({{selectSku.quantity}}件)</span>
+                  </div>
+                  <div>
+                    <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
+                  </div>
+                </li>
               </ul>
               <div v-if="pop_model === 'sku'" class="item_detail_confirm">
                 <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
@@ -733,7 +741,6 @@ export default {
     //加入购物车
     async submit(type) {
       console.log(type);
-
       if (type === "cart") {
         try {
           let { itemId } = this;

@@ -3,7 +3,7 @@ import core from '@/core';
 import config from '@/config';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.108:3000',
+  baseURL: 'http://192.168.3.168:8081',
   timeout: 12000,
   method: 'get'
 });
@@ -290,6 +290,14 @@ const services = {
   //创建订单
   async createOrder() {
 
+  },
+
+  //物流查询
+  async logistics() {
+    return (await request({
+      method: "GET", //请求方式
+      url: "http://192.168.3.31:8020/kuaidi", //请求地址         
+    })).data;
   }
 };
 
