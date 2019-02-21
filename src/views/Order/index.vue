@@ -31,6 +31,7 @@
   padding: 0.05rem 0.1rem;
   border-radius: 1rem;
   margin-left: 0.1rem;
+  min-width: 0.8rem;
 
   &.btn-primary {
     border-color: $color-primary;
@@ -47,23 +48,23 @@
         <li
           v-for="(item,index) in items"
           :key="index"
-          :class="{active: index===curId}"
+          :class="{active: item.id===status}"
           @click="tab(item.id)"
         >{{item.item}}</li>
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(content,index) in contents" :key="index">
+          <li v-for="(order,index) in orderList" :key="index" @click="to_oderDetail()">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
-             >
+            >
               <div style="width:80%;">
                 <span>订单号</span>
-                <span>{{content.oderId}}</span>
+                <span>{{order.orderNo}}</span>
               </div>
               <div style="width:20%;text-align:right;">
-                <span>{{content.odertype | odertype}}</span>
+                <span>{{order.status | orderStatus}}</span>
                 <span style="transform:rotateZ(180deg);display: inline-block;">
                   <i style="font-size:14px;" class="iconfont icon-back_light"></i>
                 </span>
@@ -72,59 +73,66 @@
             <!--  -->
             <div style="width:95%;margin:auto;padding:0.1rem 0;">
               <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
-              <span>{{content.shopName}}</span>
+              <span>母婴用品商城</span>
             </div>
             <!--  -->
             <div
+              v-for="(orderItem,index) in order.order_items"
+              :key="index"
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-            @click="to_oderDetail">
+              @click="to_oderDetail"
+            >
               <div style="width:20%;">
-                <img style="width:0.7rem;height:0.7rem;" :src="content.goodsImg">
+                <img
+                  style="width:0.7rem;height:0.7rem;"
+                  :src="orderItem.itemImg"
+                  alt
+                >
               </div>
               <div style="width:65%;padding:0 0.1rem">
-                <span>{{content.goodsName}}</span>
-                <p style="color:#999;font-size:12px;">{{content.remark}}</p>
+                <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
+                <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
               </div>
               <div style="width:15%;text-align:right;">
                 <span>￥</span>
-                <span>{{content.price}}</span>
+                <span>{{orderItem.price}}</span>
                 <div style="color:#999;font-size:12px;">
                   <span>×</span>
-                  <span>{{content.size}}</span>
+                  <span>{{orderItem.quantity}}</span>
                 </div>
               </div>
             </div>
-            <!--  -->
+
             <div style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;">
               <p style="text-align: right;">
                 共
-                <span>{{content.consize}}</span>个商品
+                <span>{{order.itemCount}}</span>个商品
                 <span>实付:</span>￥
-                <span>{{content.Dprice}}</span>
+                <span>{{order.orderFee}}</span>
               </p>
             </div>
-            <!--  -->
+
             <div
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
-              <template v-if="content.odertype==1">
+              <template v-if="order.status==1">
                 <button class="c-btn">取消订单</button>
                 <button class="c-btn btn-primary">付款</button>
               </template>
-              <template v-else-if="content.odertype==2">
+              <template v-else-if="order.status==2">
                 <button class="c-btn">申请开票</button>
                 <button class="c-btn btn-primary">提醒发货</button>
               </template>
-              <template v-else-if="content.odertype==3">
-                <button class="c-btn" @click="logistics(content)">查看物流</button>
+              <template v-else-if="order.status==3">
+                <button class="c-btn" @click="logistics">查看物流</button>
                 <button class="c-btn btn-primary">确认发货</button>
               </template>
-              <template v-else-if="content.odertype==4">
+              <template v-else-if="order.status==4">
                 <button class="c-btn">删除订单</button>
                 <button class="c-btn btn-primary">评价</button>
               </template>
             </div>
-            <!--  -->
+
           </li>
         </ul>
       </div>
@@ -133,90 +141,26 @@
 </template>
 
 <script>
-function fetchData(typeId) {
-  let data = [
-    {
-      oderId: "SH20190123113437236624",
-      odertype: 1,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称111",
-      remark: "随机发",
-      price: 3.33,
-      size: 2,
-      consize: 2,
-      Dprice: 20
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 2,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品333",
-      remark: "随机发",
-      price: 8.8,
-      size: 11,
-      consize: 3,
-      Dprice: 100
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 3,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品444",
-      remark: "随机发",
-      price: 77,
-      size: 3,
-      consize: 9,
-      Dprice: 30
-    },
-    {
-      oderId: "SH20190123113437232333",
-      odertype: 4,
-      shopName: "母婴用品商城",
-      goodsImg:
-        "http://pic.51yuansu.com/pic3/cover/01/03/63/5900afd12fd8d_610.jpg",
-      goodsName: "商品名称商品名称商品名称商品444",
-      remark: "随机发",
-      price: 887,
-      size: 13,
-      consize: 11,
-      Dprice: 3000
-    }
-  ];
-
-  if (typeId === 0) {
-    return data;
-  } else {
-    return data.filter(item => {
-      return item.odertype === typeId;
-    });
-  }
-}
+import services from "@/services";
 
 export default {
   data() {
     return {
-      curId: 0,
+      status: '',
       items: [
-        { item: "全部", id: 0 },
-        { item: "待付款", id: 1 },
-        { item: "待发货", id: 2 },
-        { item: "待收货", id: 3 },
-        { item: "待评价", id: 4 }
+        { item: "全部", id: '' },
+        { item: "待付款", id: '1' },
+        { item: "待发货", id: '2' },
+        { item: "待收货", id: '3' },
+        { item: "待评价", id: '4' }
       ],
-      contents: []
+      orderList: []
     };
   },
   filters: {
-    odertype(val) {
+    orderStatus(val) {
       return (
         {
-          "0": "全部",
           "1": "待付款",
           "2": "待发货",
           "3": "待收货",
@@ -226,13 +170,28 @@ export default {
     }
   },
   methods: {
-    tab(index) {
-      this.curId = index;
-      this.contents = fetchData(index);
+    async fetchOrderList(status) {
+      try {
+        let res = await services.fetchOrderList({
+          status
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    tab(status) {
+      this.status = status;
+
+      this.fetchOrderList(status);
+
       let newRoute = {
         ...this.$route,
         query: {
-          index
+          status
         }
       };
       this.$router.replace(newRoute);
@@ -241,20 +200,22 @@ export default {
       this.$router.push("/orderDetail");
     },
     logistics(str) {
-      if (!str.btn_one) return;
-      switch (str.btn_one) {
-        case "查看物流":
-          this.$router.push("/logistics");
-          break;
-      }
+      this.$router.push({
+        path: "/logistics",
+        query: {
+          type: "zhongtong",
+          postid: "75124660965586"
+        }
+      });
+
     }
   },
   created() {
-    let index = this.$route.query.index;
-    if (index) {
-      this.tab(Number(index));
+    let status = this.$route.query.status;
+    if (status) {
+      this.tab(status);
     } else {
-      this.tab(0);
+      this.tab('');
     }
   }
 };

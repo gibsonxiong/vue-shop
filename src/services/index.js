@@ -280,6 +280,18 @@ const services = {
     })).data;
   },
 
+  //订单列表
+  async fetchOrderList({
+    status
+  }) {
+    return (await request.get(`/orders`, {
+      params:{
+        status
+      },
+      token: true
+    })).data;
+  },
+
   //建立订单
   async buildOrder({
     params
@@ -292,15 +304,28 @@ const services = {
   },
 
   //创建订单
-  async createOrder() {
-
+  async createOrder({
+    params
+  }) {
+    return (await request.post(`/orders/create`, {
+      params
+    }, {
+      token: true
+    })).data;
   },
 
   //物流查询
-  async logistics() {
+  async logistics({
+    type,
+    postid
+  }) {
     return (await request({
       method: "GET", //请求方式
-      url: "http://192.168.3.31:8020/kuaidi", //请求地址         
+      url: "/deliver", //请求地址
+      params:{
+        type,
+        postid
+      }
     })).data;
   },
   //获取可领取优惠券列表
@@ -340,11 +365,11 @@ const services = {
 
   //用户资料
   async updateUserInfo(info) {
-    return (await request.post(`/users/info`,info, {
+    return (await request.post(`/users/info`, info, {
       token: true
     })).data;
   },
-  
+
 
   async fetchRegion() {
     return (await request.get(`/regions`)).data;
@@ -381,7 +406,9 @@ const services = {
   },
 
   //删除地址
-  async removeAddress({addressId}) {
+  async removeAddress({
+    addressId
+  }) {
     return (await request.delete(`/address/${addressId}`, {
       token: true
     })).data;
