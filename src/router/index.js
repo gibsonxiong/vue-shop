@@ -29,6 +29,8 @@ import Refund from '@/views/Refund';
 import Logistics from '@/views/Logistics';
 import NickName from '@/views/NickName';
 import PanicBuy from '@/views/PanicBuy';
+import Cashier from '@/views/Cashier';
+import PayResult from '@/views/PayResult';
 
 Vue.use(Router);
 
@@ -149,6 +151,12 @@ const router = new Router({
     },{
       path:'/panic_buy',
       component:PanicBuy
+    },{
+      path:'/cashier',
+      component:Cashier
+    },{
+      path:'/pay-result',
+      component:PayResult
     }
   ]
 });

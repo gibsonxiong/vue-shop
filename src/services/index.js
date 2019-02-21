@@ -1,9 +1,10 @@
 import axios from 'axios';
 import core from '@/core';
 import config from '@/config';
+import router from '@/router';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.31:3001/',
+  baseURL: 'http://192.168.3.168:3001/',
   timeout: 12000,
   method: 'get'
 });
@@ -15,7 +16,10 @@ function addInterceptors(_request) {
     //添加token
     if (config.token) {
       let token = services.$getToken();
-      if (!token) throw new Error('请先登录');
+      if (!token) {
+        router.push('/login');
+        throw new Error('请先登录');
+      }
 
       config.headers['x-access-token'] = token;
     }
@@ -31,13 +35,17 @@ function addInterceptors(_request) {
 
     if (response.data.code === -99 || response.data.code === -98) {
       services.$removeToken();
+      router.push('/login');
     }
 
     return response;
   }, function (error) {
+
     // 请求超时
     if (error.code === 'ECONNABORTED') {
       return Promise.reject(new Error('请求超时'));
+    }else if(error.message === 'Network Error'){
+      return Promise.reject(new Error('服务器出了点小差错'));
     }
     return Promise.reject(error);
   });
@@ -285,9 +293,18 @@ const services = {
     status
   }) {
     return (await request.get(`/orders`, {
-      params:{
+      params: {
         status
       },
+      token: true
+    })).data;
+  },
+
+  //订单列表
+  async fetchOrderInfo({
+    orderId
+  }) {
+    return (await request.get(`/orders/${orderId}`, {
       token: true
     })).data;
   },
@@ -314,6 +331,24 @@ const services = {
     })).data;
   },
 
+  //支付订单
+  async payOrder({
+    orderId
+  }) {
+    return (await request.post(`/orders/${orderId}/pay`, {}, {
+      token: true
+    })).data;
+  },
+
+  //获取订单支付状态
+  async getOrderPayStatus({
+    orderId
+  }) {
+    return (await request.get(`/orders/${orderId}/orderPayStatus`, {
+      token: true
+    })).data;
+  },
+
   //物流查询
   async logistics({
     type,
@@ -322,12 +357,52 @@ const services = {
     return (await request({
       method: "GET", //请求方式
       url: "/deliver", //请求地址
-      params:{
+      params: {
         type,
         postid
       }
     })).data;
   },
+
+  //取消订单
+  async cancelOrder({
+    orderId,
+    cancelReason
+  }) {
+    return (await request.post(`/orders/${orderId}/cancel`, {
+      cancelReason
+    }, {
+      token: true
+    })).data;
+  },
+
+  //删除订单
+  async removeOrder({
+    orderId
+  }) {
+    return (await request.delete(`/orders/${orderId}`, {
+      token: true
+    })).data;
+  },
+
+  //提醒发货
+  async remindDeliver({
+    orderId
+  }) {
+    return (await request.post(`/orders/${orderId}/remindDeliver`, {}, {
+      token: true
+    })).data;
+  },
+
+  //确认收货
+  async confirmReceive({
+    orderId
+  }) {
+    return (await request.post(`/orders/${orderId}/confirmReceive`, {}, {
+      token: true
+    })).data;
+  },
+
   //获取可领取优惠券列表
   async fetchCouponList() {
     return (await request.get(`/coupons`)).data;

@@ -213,7 +213,7 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$toast(res.message);
+        this.$router.push({path:'/cashier',query:{orderId:res.data.orderId}})
       } catch (err) {
         return this.$toast(err.message);
       }

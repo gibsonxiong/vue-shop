@@ -24,20 +24,7 @@
   border-bottom: 2px solid $color-primary;
 }
 
-.c-btn {
-  border: 1px solid #666;
-  background-color: transparent;
-  color: #666;
-  padding: 0.05rem 0.1rem;
-  border-radius: 1rem;
-  margin-left: 0.1rem;
-  min-width: 0.8rem;
 
-  &.btn-primary {
-    border-color: $color-primary;
-    color: $color-primary;
-  }
-}
 </style>
 
 <template>
@@ -54,16 +41,16 @@
       </ul>
       <div class="oder-content">
         <ul>
-          <li v-for="(order,index) in orderList" :key="index" @click="to_oderDetail()">
+          <li v-for="(order,index) in orderList" :key="index" @click="to_oderDetail(order.id)">
             <!--  -->
             <div
               style="display: flex;width:95%;margin:auto;border-bottom:1px solid #F4F4F4;padding:0.1rem 0;"
             >
-              <div style="width:80%;">
+              <div style="width:70%;">
                 <span>订单号</span>
                 <span>{{order.orderNo}}</span>
               </div>
-              <div style="width:20%;text-align:right;">
+              <div style="width:30%;text-align:right;">
                 <span>{{order.status | orderStatus}}</span>
                 <span style="transform:rotateZ(180deg);display: inline-block;">
                   <i style="font-size:14px;" class="iconfont icon-back_light"></i>
@@ -80,14 +67,9 @@
               v-for="(orderItem,index) in order.order_items"
               :key="index"
               style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-              @click="to_oderDetail"
             >
               <div style="width:20%;">
-                <img
-                  style="width:0.7rem;height:0.7rem;"
-                  :src="orderItem.itemImg"
-                  alt
-                >
+                <img style="width:0.7rem;height:0.7rem;" :src="orderItem.itemImg" alt>
               </div>
               <div style="width:65%;padding:0 0.1rem">
                 <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
@@ -116,23 +98,28 @@
               style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
             >
               <template v-if="order.status==1">
-                <button class="c-btn">取消订单</button>
-                <button class="c-btn btn-primary">付款</button>
+                <button class="c-btn" @click.stop="cancelOrder(order.id)">取消订单</button>
+                <button
+                  class="c-btn btn-primary"
+                  @click.stop="$router.push({path:'/cashier', query:{orderId:order.id}})"
+                >付款</button>
               </template>
               <template v-else-if="order.status==2">
-                <button class="c-btn">申请开票</button>
-                <button class="c-btn btn-primary">提醒发货</button>
+                <!-- <button class="c-btn">申请开票</button> -->
+                <button class="c-btn btn-primary" @click.stop="remindDeliver(order.id)">提醒发货</button>
               </template>
               <template v-else-if="order.status==3">
-                <button class="c-btn" @click="logistics">查看物流</button>
-                <button class="c-btn btn-primary">确认发货</button>
+                <button class="c-btn" @click.stop="logistics(order.id)">查看物流</button>
+                <button class="c-btn btn-primary" @click.stop="confirmReceive(order.id)">确认收货</button>
               </template>
               <template v-else-if="order.status==4">
-                <button class="c-btn">删除订单</button>
-                <button class="c-btn btn-primary">评价</button>
+                <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+                <button class="c-btn btn-primary" @click.stop="rateOrder(order.id)">评价</button>
+              </template>
+              <template v-else-if="order.status==9">
+                <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
               </template>
             </div>
-
           </li>
         </ul>
       </div>
@@ -146,13 +133,13 @@ import services from "@/services";
 export default {
   data() {
     return {
-      status: '',
+      status: "",
       items: [
-        { item: "全部", id: '' },
-        { item: "待付款", id: '1' },
-        { item: "待发货", id: '2' },
-        { item: "待收货", id: '3' },
-        { item: "待评价", id: '4' }
+        { item: "全部", id: "" },
+        { item: "待付款", id: "1" },
+        { item: "待发货", id: "2" },
+        { item: "待收货", id: "3" },
+        { item: "待评价", id: "4" }
       ],
       orderList: []
     };
@@ -161,17 +148,19 @@ export default {
     orderStatus(val) {
       return (
         {
-          "1": "待付款",
-          "2": "待发货",
-          "3": "待收货",
-          "4": "待评价"
+          "1": "等待买家付款",
+          "2": "买家已付款",
+          "3": "卖家已发货",
+          "4": "交易成功",
+          '9':"交易关闭"
         }[val] || ""
       );
     }
   },
   methods: {
-    async fetchOrderList(status) {
+    async fetchOrderList() {
       try {
+        let {status} = this;
         let res = await services.fetchOrderList({
           status
         });
@@ -186,7 +175,7 @@ export default {
     tab(status) {
       this.status = status;
 
-      this.fetchOrderList(status);
+      this.fetchOrderList();
 
       let newRoute = {
         ...this.$route,
@@ -196,9 +185,11 @@ export default {
       };
       this.$router.replace(newRoute);
     },
-    to_oderDetail() {
-      this.$router.push("/orderDetail");
+    to_oderDetail(orderId) {
+      this.$router.push({path:"/orderDetail",query:{orderId}});
     },
+
+    //查看物流
     logistics(str) {
       this.$router.push({
         path: "/logistics",
@@ -207,7 +198,66 @@ export default {
           postid: "75124660965586"
         }
       });
+    },
 
+    //取消订单
+    async cancelOrder(orderId) {
+      try {
+        let res = await services.cancelOrder({
+          orderId,
+          cancelReason: "顺便填的"
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.fetchOrderList();
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    //删除订单
+    async removeOrder(orderId) {
+      try {
+        let res = await services.removeOrder({orderId});
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.fetchOrderList();
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    //提醒发货
+    async remindDeliver(orderId) {
+      try {
+        let res = await services.remindDeliver({ orderId });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    //确认收货
+    async confirmReceive(orderId) {
+      try {
+        let res = await services.confirmReceive({ orderId });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.fetchOrderList();
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    //评价
+    rateOrder(orderId) {
+      this.$router.push({ path: "/remark", query: { orderId } });
     }
   },
   created() {
@@ -215,7 +265,7 @@ export default {
     if (status) {
       this.tab(status);
     } else {
-      this.tab('');
+      this.tab("");
     }
   }
 };
