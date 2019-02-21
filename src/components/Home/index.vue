@@ -155,6 +155,9 @@
     }
   }
 }
+.panic_buy{
+  padding:0.1rem;
+}
 </style>
 
 <template>
@@ -198,6 +201,11 @@
           <div class="link-name">天猫国际</div>
         </router-link>
       </div>
+      <!--淘抢购  -->
+        <div class="panic_buy" @click="$router.push('/panic_buy')">
+          <p>淘抢购</p>
+        </div>
+      <!--  -->
 
       <div class="section" style="margin-top:0.15rem;">
         <div class="section-title">

@@ -28,6 +28,7 @@ import RefundDetail from '@/views/RefundDetail';
 import Refund from '@/views/Refund';
 import Logistics from '@/views/Logistics';
 import NickName from '@/views/NickName';
+import PanicBuy from '@/views/PanicBuy';
 
 Vue.use(Router);
 
@@ -145,6 +146,9 @@ const router = new Router({
     },{
       path:'/nickname',
       component:NickName
+    },{
+      path:'/panic_buy',
+      component:PanicBuy
     }
   ]
 });
