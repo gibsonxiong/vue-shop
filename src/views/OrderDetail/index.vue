@@ -149,9 +149,12 @@
         <p>{{wait_pay}}</p>
         <p>{{success_status}}</p>
         <p v-show="order_money">
-          剩<span>23</span>小时
-          <span>37</span>分
-          自动<span>关闭</span>
+          剩
+          <span>{{hh}}</span>小时
+          <span>{{mm}}</span>分
+          <!-- <span>{{ss}}</span>秒 -->
+          自动
+          <span>关闭</span>
         </p>
       </div>
       <!--  -->
@@ -241,7 +244,6 @@
         <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
       </div>
     </div>
-      
   </div>
 </template>
 
@@ -251,10 +253,13 @@ export default {
   data() {
     return {
       cacel_order: false,
-      order_cause:"",
-      success_status:'',
-      wait_pay:'等待买家付款',
-      order_money:true,
+      order_cause: "",
+      success_status: "",
+      wait_pay: "等待买家付款",
+      order_money: true,
+      hh:'0',
+      mm:'0',
+      // ss:'',
       slots: [
         {
           flex: 1,
@@ -278,14 +283,41 @@ export default {
     success_order(values) {
       this.cacel_order = false;
       this.success_status = this.order_cause;
-      this.wait_pay = '交易关闭';
+      this.wait_pay = "交易关闭";
       this.order_money = false;
     },
     onValuesChange(picker, values) {
       for (var i = 0; i < values.length; i++) {
-        this.order_cause = values[i] ;
+        this.order_cause = values[i];
       }
+    },
+    countdown() {
+      //获取当前时间
+      var date = new Date();
+      var now = date.getTime();
+      //设置截止时间
+      var str = "2019/2/21 00:00:00";
+      var endDate = new Date(str);
+      var end = endDate.getTime();
+
+      //时间差
+      var leftTime = end - now;
+      //定义变量 d,h,m,s保存倒计时的时间
+      var d, h, m, s;
+      if (leftTime >= 0) {
+        d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+        h = Math.floor((leftTime / 1000 / 60 / 60) % 24);
+        m = Math.floor((leftTime / 1000 / 60) % 60);
+        s = Math.floor((leftTime / 1000) % 60);
+      }
+      this.hh=h;
+      this.mm = m;
+      // this.ss = s;
+      setTimeout(this.countdown, 1000);
     }
+  },
+  created(){
+    this.countdown();
   }
 };
 </script>
