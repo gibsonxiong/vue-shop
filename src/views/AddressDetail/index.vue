@@ -71,7 +71,9 @@ li span {
           <mt-switch v-model="model.isDefault"></mt-switch>
         </li>
       </ul>
-      <c-button @click="submit">保存地址</c-button>
+      <div style="width:100%;padding:0.2rem;">
+        <c-button @click="submit">保存地址</c-button>
+      </div>
       <c-region-picker
         v-show="pickerVisible"
         @maskClick="pickerVisible = false"
@@ -145,7 +147,6 @@ export default {
       this.model.city = values[1].name;
       this.model.areaId = values[2].id;
       this.model.area = values[2].name;
-
       this.pickerVisible = false;
     }
   },

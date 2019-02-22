@@ -2,7 +2,7 @@
 @import "~@/css/var";
 .c-btn {
   color: #fff;
-  width: 95%;
+  width: 100%;
   margin: auto;
   padding: 0.1rem;
   background: $color-primary;

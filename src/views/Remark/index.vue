@@ -1,24 +1,22 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
-.remark_lable,
 textarea,
 .img_ul {
   background: #fff;
   padding: 0.1rem;
 }
 .remark_lable {
-  width: 100%;
+  // width: 100%;
   text-align: center;
   font-size: 0.15rem;
+  padding: 0.1rem 0;
 }
 .remark_img {
-  margin-top: 0.1rem;
   background: #fff;
 }
 textarea {
   width: 100%;
   border: 0;
-  margin-top: 0.1rem;
   letter-spacing: 0.005rem;
 }
 .remark_add {
@@ -39,8 +37,9 @@ i {
   font-size: 0.25rem;
 }
 .star {
+  width: 55%;
   font-size: 0;
-  padding: 0.1rem;
+  padding: 0.1rem 0;
 }
 .star-item {
   display: inline-block;
@@ -52,15 +51,15 @@ i {
 }
 .star-item.on {
   background-image: url(~@/assets/star-on.png);
-  width: 5%;
+  width: 10%;
 }
 .star-item.half {
   background-image: url(~@/assets/star-half.png);
-  width: 5%;
+  width: 10%;
 }
 .star-item.off {
   background-image: url(~@/assets/star-off.png);
-  width: 5%;
+  width: 10%;
 }
 ul {
   text-align: center;
@@ -69,10 +68,10 @@ ul {
 .star_num {
   background: #fff;
   text-align: center;
-  padding: 0.1rem;
+  padding: 0.1rem 0;
   color: #ff9130;
 }
-.feedback_add_img{
+.feedback_add_img {
   display: flex;
   flex-wrap: wrap;
 }
@@ -87,13 +86,13 @@ input {
   opacity: 0;
 }
 .img_box {
-   width: 0.79rem;
+  width: 0.79rem;
   height: 0.79rem;
   position: relative;
   display: flex;
   margin: 0.05rem;
 }
-.img_del{
+.img_del {
   position: absolute;
   font-size: 0.2rem;
   color: red;
@@ -106,37 +105,97 @@ img {
   width: 100%;
   object-fit: cover;
 }
+.label {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #f4f4f4;
+}
+.remark{
+  margin-bottom: 0.1rem;
+}
+.shop_img{
+  width: 0.5rem;
+  height: 0.5rem;
+  object-fit: cover;
+  padding: 0.1rem;
+}
 </style>
 <template>
   <div class="record-page">
     <c-header :title="'评价'"></c-header>
     <div class="c-page-body header-pd">
       <div class="remark">
-        <p class="remark_lable">商品描述</p>
-        <!-- star -->
-        <!-- <img src="~@/assets/star-off.png"/> -->
-        <ul class="star">
-          <li
-            v-for="(itemClass,index) in itemClasses"
-            :key="index"
-            :class="itemClass"
-            class="star-item"
-            @click="stars(index)"
-            track-by="index"
-          ></li>
-          <!--性能优化 track-by 数据不改变时不会重新渲染-->
-        </ul>
-        <!-- <p class="star_num" v-if="score==1">非常差</p>
-            <p class="star_num" v-if="score==2">差</p>
-            <p class="star_num" v-if="score==3">一般</p>
-            <p class="star_num" v-if="score==4">好</p>
-        <p class="star_num" v-if="score==5">非常好</p>-->
-        <p class="star_num">{{score | score}}</p>
+        <div class="label">
+           <img class="shop_img" 
+          src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551344180&di=c346aacfdf84dfd982931e1a883e5b8e&imgtype=jpg&er=1&src=http%3A%2F%2Fimg001.hc360.cn%2Fk2%2FM06%2F58%2F0B%2FwKhQxFeJnsWEJjlMAAAAAI7wG58411.JPG'/>
+          
+          <p class="remark_lable">商品描述</p>
+          <!-- star -->
+          <ul class="star">
+            <li
+              v-for="(itemClass,index) in itemClasses"
+              :key="index"
+              :class="itemClass"
+              class="star-item"
+              @click="stars(index)"
+              track-by="index"
+            ></li>
+          </ul>
+          <p class="star_num">{{score | score}}</p>
+        </div>
         <div class="remark_img">
           <textarea maxlength="200" rows="5" placeholder="宝贝满足您的期待吗？说说它的优点和美中不足的地方吧"></textarea>
           <ul class="img_ul">
             <li>
-              <!-- <input type="file" name="file" id="upfile" class="file"> -->
+              <!--上传图片  -->
+              <div class="feedback_add_img">
+                <div class="img_box" v-for="(val,index) in imgs" :key="index">
+                  <i class="img_del iconfont icon-roundclosefill" @click="img_del(index)"></i>
+                  <img :src="val">
+                </div>
+                <div class="img_box" v-if="imgs_file.length < 6">
+                  <div class="remark_add">
+                    <i id="portrait" class="iconfont icon-camera_light"></i>
+                    <p>添加图片</p>
+                  </div>
+                  <input
+                    type="file"
+                    name="file"
+                    id="file"
+                    multiple
+                    accept="image/*"
+                    @change="file_up($event)"
+                  >
+                </div>
+              </div>
+              <!--  -->
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="remark">
+        <div class="label">
+          <img class="shop_img" 
+          src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551344180&di=c346aacfdf84dfd982931e1a883e5b8e&imgtype=jpg&er=1&src=http%3A%2F%2Fimg001.hc360.cn%2Fk2%2FM06%2F58%2F0B%2FwKhQxFeJnsWEJjlMAAAAAI7wG58411.JPG'/>
+          <p class="remark_lable">商品描述</p>
+          <!-- star -->
+          <ul class="star">
+            <li
+              v-for="(itemClass,index) in itemClasses"
+              :key="index"
+              :class="itemClass"
+              class="star-item"
+              @click="stars(index)"
+              track-by="index"
+            ></li>
+          </ul>
+          <p class="star_num">{{score | score}}</p>
+        </div>
+        <div class="remark_img">
+          <textarea maxlength="200" rows="5" placeholder="宝贝满足您的期待吗？说说它的优点和美中不足的地方吧"></textarea>
+          <ul class="img_ul">
+            <li>
               <!--上传图片  -->
               <div class="feedback_add_img">
                 <div class="img_box" v-for="(val,index) in imgs" :key="index">
@@ -167,7 +226,7 @@ img {
   </div>
 </template>
 <script>
-import { Toast } from 'mint-ui';
+import { Toast } from "mint-ui";
 export default {
   data() {
     return {
@@ -226,7 +285,7 @@ export default {
       let file = event.target.files;
       for (let i = 0; i < file.length; i++) {
         if (i >= 6) {
-         Toast('最多可上传6张图片');
+          Toast("最多可上传6张图片");
           return;
         } else {
           _this.imgs_file.push(file[i]);
