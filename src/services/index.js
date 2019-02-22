@@ -4,11 +4,7 @@ import config from '@/config';
 import router from '@/router';
 
 const request = axios.create({
-<<<<<<< HEAD
-  baseURL: 'http://192.168.3.31:3001',
-=======
   baseURL: 'http://192.168.3.168:3001/',
->>>>>>> 46b805803f7d0e54add10bb9dbdb1fcc9467f1d6
   timeout: 12000,
   method: 'get'
 });
