@@ -19,16 +19,16 @@ Vue.use(MintUI);
 //   let vConsole = new VConsole();
 // }
 
-window.webViewRefresh = function(){};
+window.webViewRefresh = function () {};
 
-document.addEventListener('touchstart',()=>{});
+document.addEventListener('touchstart', () => {});
 
 Vue.config.productionTip = false;
 
-Vue.filter('gender',val=>{
+Vue.filter('gender', val => {
   return ({
-    '0':'男',
-    '1':'女'
+    '0': '男',
+    '1': '女'
   })[val] || '';
 });
 
@@ -38,6 +38,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

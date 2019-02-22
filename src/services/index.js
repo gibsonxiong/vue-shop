@@ -3,7 +3,7 @@ import core from '@/core';
 import config from '@/config';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.168:3001',
+  baseURL: 'http://192.168.3.31:3001',
   timeout: 12000,
   method: 'get'
 });
@@ -11,7 +11,6 @@ const request = axios.create({
 // 添加请求拦截器
 function addInterceptors(_request) {
   _request.interceptors.request.use(function (config) {
-
     //添加token
     if (config.token) {
       let token = services.$getToken();
