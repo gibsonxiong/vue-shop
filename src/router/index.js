@@ -46,7 +46,7 @@ const router = new Router({
     {
       path: '/items',
       component: ItemList,
-      meta:{
+      meta: {
         title: '商品分类'
       }
     },
@@ -95,8 +95,8 @@ const router = new Router({
       component: Login
     },
     {
-      path:'/reset-password',
-      component:ResetPassword
+      path: '/reset-password',
+      component: ResetPassword
     },
     {
       path: '/coupon',
@@ -130,33 +130,33 @@ const router = new Router({
     {
       path: '/remark',
       component: Remark
-    },{
-      path:'/refundlist',
-      component:RefundList
-    },{
-      path:'/refund_detail',
-      component:RefundDetail
-    },{
-      path:'/refund',
-      component:Refund
-    },{
+    }, {
+      path: '/refundlist',
+      component: RefundList
+    }, {
+      path: '/refund_detail',
+      component: RefundDetail
+    }, {
+      path: '/refund',
+      component: Refund
+    }, {
       path: '/logistics',
-      meta:{
-          title: '物流查询'
+      meta: {
+        title: '物流查询'
       },
-      component: Logistics      
-    },{
-      path:'/nickname',
-      component:NickName
-    },{
-      path:'/panic_buy',
-      component:PanicBuy
-    },{
-      path:'/cashier',
-      component:Cashier
-    },{
-      path:'/pay-result',
-      component:PayResult
+      component: Logistics
+    }, {
+      path: '/nickname',
+      component: NickName
+    }, {
+      path: '/panic_buy',
+      component: PanicBuy
+    }, {
+      path: '/cashier',
+      component: Cashier
+    }, {
+      path: '/pay-result',
+      component: PayResult
     }
   ]
 });
