@@ -15,8 +15,8 @@ li {
   padding: 0.1rem 0;
   border-bottom: 1px solid #f4f4f4;
 }
-li span {
-  width: 20%;
+li span:first-of-type{
+  width: 25%;
   display: inline-block;
   // color: #666;
 }

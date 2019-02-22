@@ -205,6 +205,7 @@
         <div class="panic_buy" @click="$router.push('/panic_buy')">
           <p>淘抢购</p>
         </div>
+        <!-- <m-button :color="'m-Dark'" :size="'m-small'" :width="'m-width_small'">标题</m-button> -->
       <!--  -->
 
       <div class="section" style="margin-top:0.15rem;">
