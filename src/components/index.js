@@ -13,6 +13,7 @@ import GoodsList from './GoodsList';
 import NumberInput from './NumberInput';
 import EmptyHint from './EmptyHint';
 import Checkbox from './Checkbox';
+import Radio from './Radio';
 
 import Button from './Button';
 
@@ -51,3 +52,4 @@ Vue.component('c-region-picker', RegionPicker);
 Vue.component('c-share', Share);
 
 Vue.component('m-button', M_button);
+Vue.component('c-radio', Radio);

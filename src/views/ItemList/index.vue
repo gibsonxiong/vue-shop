@@ -37,8 +37,10 @@
         padding-left: pxTorem(3);
         color: #666666;
         i {
-          font-size: 10px;
+          font-size: 17px;
           line-height: pxTorem(14);
+          color: #b7b7b7;
+          line-height: 0.05rem;
         }
         .i_active {
           color: #f94a92;
@@ -62,6 +64,9 @@
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       // padding-bottom: pxTorem(20);
+      > ul {
+        height: 100%;
+      }
       .list_box {
         // overflow: hidden;
         padding: 0 pxTorem(10);
@@ -155,6 +160,9 @@
             }
           }
         }
+      }
+      .loading_color {
+        color: $color-primary;
       }
     }
   }
@@ -272,28 +280,52 @@
             </div>
           </div>
           <div class="list_content">
-            <ul :class="[listType?'list_box_column':'list_box']">
-              <router-link
-                tag="li"
-                :to="`/items/${item.id}`"
-                class="list_box_item"
-                v-for="(item,index) in itemList"
-                :key="index"
-              >
-                <div class="item_pic">
-                  <div class="pic">
-                    <img :src="item.imgList[0]">
-                  </div>
-                  <div class="des">
-                    <p>{{item.name}}</p>
-                    <div class="chen_center_absolute">
-                      <div class="des_money">￥100.00</div>
-                      <div class="buy_btn" @click.stop>购买</div>
+            <mt-loadmore
+              :top-method="loadTop"
+              @top-status-change="handleTopChange"
+              :bottom-method="loadBottom"
+              @bottom-status-change="handleBottomChange"
+              :bottom-all-loaded="allLoaded"
+              :auto-fill="false"
+              ref="loadmore"
+            >
+              <ul :class="[listType?'list_box_column':'list_box']">
+                <router-link
+                  tag="li"
+                  :to="`/items/${item.id}`"
+                  class="list_box_item"
+                  v-for="(item,index) in itemList"
+                  :key="index"
+                >
+                  <div class="item_pic">
+                    <div class="pic">
+                      <img :src="item.imgList[0]">
+                    </div>
+                    <div class="des">
+                      <p>{{item.name}}</p>
+                      <div class="chen_center_absolute">
+                        <div class="des_money">￥100.00</div>
+                        <div class="buy_btn" @click.stop>购买</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </router-link>
-            </ul>
+                </router-link>
+              </ul>
+              <div slot="top" class="mint-loadmore-top loading_color">
+                <span
+                  v-show="topStatus !== 'loading'"
+                  :class="{ 'is-rotate': topStatus === 'drop' }"
+                >松开刷新</span>
+                <span v-show="topStatus === 'loading'">刷新中...</span>
+              </div>
+              <div slot="bottom" class="mint-loadmore-bottom loading_color">
+                <span
+                  v-show="bottomStatus !== 'loading'"
+                  :class="{ 'is-rotate': bottomStatus === 'drop' }"
+                >松开刷新</span>
+                <span v-show="bottomStatus === 'loading'">加载中...</span>
+              </div>
+            </mt-loadmore>
           </div>
         </div>
       </div>
@@ -331,7 +363,8 @@
 <script>
 import services from "@/services";
 import routerCachePage from "@/routerCache/page";
-
+import { Loadmore, Spinner } from "mint-ui";
+import { setTimeout } from "timers";
 export default {
   mixins: [
     routerCachePage({
@@ -349,10 +382,40 @@ export default {
       listActive: 0, //列表按钮点击变色
       itemList: [],
       iSort: 0, //排序图片变色
-      selectBox: false //筛选条件
+      selectBox: false, //筛选条件
+      allLoaded: false,
+      bottomStatus: "",
+      topStatus: ""
     };
   },
   methods: {
+    loadTop() {
+      // 下拉刷新加载更多数据
+      setTimeout(() => {
+        let firstVal = this.itemList[0];
+        for (let i = 0; i < 2; i++) {
+          this.itemList.unshift(firstVal);
+        }
+        this.$refs.loadmore.onTopLoaded();
+      }, 1500);
+    },
+    loadBottom() {
+      // 加载更多数据
+      setTimeout(() => {
+        let lastValue = this.itemList[1];
+        for (let i = 1; i <= 3; i++) {
+          this.itemList.push(lastValue);
+        }
+        // this.allLoaded = true;
+        this.$refs.loadmore.onBottomLoaded();
+      }, 1500);
+    },
+    handleBottomChange(status) {
+      this.bottomStatus = status;
+    },
+    handleTopChange(status) {
+      this.topStatus = status;
+    },
     showSearch() {
       this.search.visible = true;
     },
@@ -408,10 +471,11 @@ export default {
           categoryId: itemTypeId,
           searchText
         });
-
         if (services.$isError(res)) throw new Error(res.message);
-
         this.itemList = res.data;
+        // for (let i = 0; i < 2; i++) {
+        //   this.itemList.push(...res.data);
+        // }
         console.log(this.itemList);
       } catch (err) {
         return this.$toast(err.message);
@@ -421,7 +485,6 @@ export default {
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.itemTypeId = this.$route.query.itemTypeId || "";
-
     this.fetchItemList();
   }
 };

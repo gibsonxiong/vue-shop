@@ -37,7 +37,7 @@
           justify-content: center;
           border-radius: 4px;
           overflow: hidden;
-          padding-bottom: pxTorem(30);
+          margin-bottom: pxTorem(30);
           .item_l {
             width: 26%;
             background: #fe5455;

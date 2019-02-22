@@ -510,6 +510,7 @@
                 @click="itemParametersShow"
               >参数</div>
             </div>
+            <!-- <div v-lazy-container="{ selector: 'img' }"> -->
             <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.detail">
               <!-- <li v-for="(val, index) in item_details_data" :key="index">
                 <img :src="val.url">
