@@ -181,7 +181,7 @@
                 class="item-name"
               >{{shopcart.item.name}}</router-link>
               <div class="item-prop-wrap">
-                <div class="item-prop">{{shopcart.sku.propDesc}}</div>
+                <div class="item-prop">{{shopcart.sku.propvalueTextList}}</div>
               </div>
 
               <div class="item-bottom">

@@ -15,12 +15,12 @@ function addInterceptors(_request) {
     //添加token
     if (config.token) {
       let token = services.$getToken();
-      if (!token) {
+      if (!token && !config.skipCheckToken) {
         router.push('/login');
         throw new Error('请先登录');
       }
 
-      config.headers['x-access-token'] = token;
+      config.headers['x-access-token'] = token || '';
     }
 
     return config;
@@ -185,24 +185,12 @@ const services = {
   async fetchItem({
     itemId
   }) {
-    // let data = itemData.filter(item => item.id == itemId)[0];
 
-    // data = JSON.parse(JSON.stringify(data));
 
-    // data.propIds = data.propIds.split(',');
-    // data.props = data.propIds.map(id => propData.find(prop => prop.id == id));
-    // data.propValueIds = data.propValueIds.split(',');
-    // data.propValueIds = data.propValueIds.map(item => {
-    //   return item.split('|');
-    // });
-    // data.propValues = data.propValueIds.map(item => {
-    //   return item.map(id => propValueData.find(propValue => propValue.id == id));
-    // });
-    // data.skus = skuData.filter(item => item.itemId == itemId);
-
-    // return await mock(data);
-
-    return (await request.get(`/items/${itemId}`)).data;
+    return (await request.get(`/items/${itemId}`,{
+      token:true,
+      skipCheckToken:true
+    })).data;
   },
 
   //关注列表
@@ -487,6 +475,12 @@ const services = {
       token: true
     })).data;
   },
+
+  async listFootprint(){
+    return (await request.get(`/items/footprints`, {
+      token: true
+    })).data;
+  }
 };
 
 export default services;
