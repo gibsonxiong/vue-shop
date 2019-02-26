@@ -712,9 +712,9 @@ export default {
   },
   mounted() {
     this.bindEvent();
-    // setTimeout(() => {
-    //   this.$previewRefresh();
-    // }, 2000);
+  },
+  beforeDestroy() {
+    this.$preview.self.destroy();
   },
   computed: {
     itemPrice() {
