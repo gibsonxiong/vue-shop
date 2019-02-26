@@ -1,7 +1,9 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 @import "~@/css/mixin";
-
+img {
+  object-fit: cover;
+}
 .c-home {
   .c-page-body {
     overflow-x: hidden;
@@ -155,8 +157,117 @@
     }
   }
 }
-.panic_buy{
-  padding:0.1rem;
+.panic_buy {
+  padding:0 0.1rem;
+  background: #fff;
+  border-bottom-left-radius: 0.1rem;
+  border-bottom-right-radius: 0.1rem;
+  .panic_buy_label {
+    padding: 0.15rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span:first-of-type {
+      font-weight: bold;
+      font-size: 0.16rem;
+    }
+    span:last-of-type {
+      color: #999;
+      font-size: 0.12rem;
+    }
+  }
+}
+// 公告
+.marquee {
+  width: 100%;
+  height: 0.45rem;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  margin-top: 0.1rem;
+  border-top-left-radius: 0.1rem;
+  border-top-right-radius: 0.1rem;
+  border-bottom: 1px solid #cccccc5c;
+}
+.marquee_title {
+  padding: 0 0.1rem;
+  display: flex;
+  align-items: center;
+  color: $color-primary;
+}
+.marquee_box {
+  display: block;
+  position: relative;
+  width: 75%;
+  height: 0.3rem;
+  overflow: hidden;
+}
+.marquee_list {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.marquee_top {
+  transition: all 0.5s;
+  margin-top: -0.3rem;
+}
+
+.marquee_list li {
+  height: 0.3rem;
+  line-height: 0.3rem;
+}
+// 淘抢购
+.buy_time {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: scroll;
+  background: #fff;
+}
+.buy_time_ul {
+  padding-right:0.1rem; 
+  img {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.05rem;
+    border: 1px solid #ccc;
+    padding: 0.1rem;
+  }
+  li:nth-child(2) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: 0.5rem;
+    padding: 0.1rem 0.01rem;
+  }
+  li:nth-child(3) {
+    display: flex;
+    align-items: center;
+    padding-top: 0.05rem; 
+  }
+  li:nth-child(3) span:first-of-type {
+    color: $color-primary;
+    font-size: 0.18rem;
+  }
+  li:nth-child(3) span:last-of-type {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 0.12rem;
+    padding:0 0.05rem ;
+  }
+  li:last-of-type {
+    padding: 0.05rem 0;
+    span {
+      border: 1px solid $color-primary;
+      color: $color-primary;
+      padding: 0.01rem 0.02rem;
+      font-size: 0.1rem;
+      border-radius: 0.1rem;
+    }
+  }
 }
 </style>
 
@@ -202,14 +313,42 @@
         </router-link>
       </div>
       <!-- 今日头条 -->
+      <div class="marquee">
+        <div class="marquee_title">
+          <span>今日头条</span>
+        </div>
+        <div class="marquee_box">
+          <ul class="marquee_list" :class="{marquee_top:animate}">
+            <li v-for="(item, index) in marqueeList" :key="index">
+              <span>{{item.txt}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
       <!-- 今日头条 end -->
       <!--淘抢购  -->
-        <div class="panic_buy" @click="$router.push('/panic_buy')">
-          <p>淘抢购</p>
+      <div class="panic_buy" @click="$router.push('/panic_buy')">
+        <p class="panic_buy_label">
+          <span>正在开团</span>
+          <span>查看全部</span>
+        </p>
+        <div class="buy_time">
+          <ul class="buy_time_ul" v-for="(val,index) in item" :key="index">
+            <li>
+              <img :src="val.img">
+            </li>
+            <li>{{val.name}}</li>
+            <li>
+              <span>￥{{val.price}}</span>
+              <span>￥{{val.Dprice}}</span>
+            </li>
+            <li>
+              <span>限时特价</span>
+            </li>
+          </ul>
         </div>
-        <m-button :color="'danger'" :size="'small'" :width="'m-width_small'">标题</m-button>
+      </div>
       <!--  -->
-
       <div class="section" style="margin-top:0.15rem;">
         <div class="section-title">
           <span class="section-title-line"></span>
@@ -236,11 +375,11 @@
 
 
 <script>
-import services from '@/services';
+import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
 
 export default {
-  mixins:[
+  mixins: [
     routerCacheComponent({
       scrollWrapSelector: ".c-page-body"
     })
@@ -248,16 +387,98 @@ export default {
   data() {
     return {
       headerOpacity: 0,
-      recommendList:[]
+      recommendList: [],
+      animate: false,
+      marqueeList: [
+        {
+          txt: "原来口红不能横着涂！难怪总是沾杯"
+        },
+        {
+          txt: "孕肚上的黑线，藏着这个信息"
+        },
+        {
+          txt: "iPhone SE第二代新机曝光"
+        },
+        {
+          txt: "全面屏版inphone4S真的来了"
+        }
+      ],
+      item: [
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        },
+        {
+          time: "11:00",
+          img:
+            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
+          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
+          price: "99.9",
+          Dprice: "139"
+        }
+      ]
     };
   },
-  created(){
+  created() {
     this.fetchRecommendList();
+    setInterval(this.showMarquee, 2000);
   },
   mounted() {
     this.bindEvent();
   },
   methods: {
+    showMarquee: function() {
+      this.animate = true;
+      setTimeout(() => {
+        this.marqueeList.push(this.marqueeList[0]);
+        this.marqueeList.shift();
+        this.animate = false;
+      }, 500);
+    },
     bindEvent() {
       let body = this.$refs.body;
       body.addEventListener("scroll", () => {
@@ -270,11 +491,11 @@ export default {
     tabActived() {
       this.$refs.header.resizeCenter();
     },
-    async fetchRecommendList(){
+    async fetchRecommendList() {
       try {
         let { searchText, itemTypeId } = this;
         let res = await services.fetchItemList({
-          categoryId:itemTypeId,
+          categoryId: itemTypeId,
           searchText
         });
 
