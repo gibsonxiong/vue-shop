@@ -30,22 +30,50 @@ img {
 .primary {
   color: $color-primary;
 }
+.goodsitem {
+  background: #f8f8f8;
+  display: flex;
+  margin-top:0.1rem ;
+
+}
+.goodsitem img {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+.goodsitem ul li:first-of-type {
+  width: 2.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 0.4rem;
+
+}
+.goodsitem ul {
+  padding: 0.05rem;
+}
 </style>
 <template>
   <div class="record-page">
-    <c-header :title="'评价'"></c-header>
+    <c-header :title="'我的评价'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="evaluate" v-for="(item,index) in item" :key="index">
+      <div class="evaluate" v-for="(item,index) in item" :key="index"  @click="$router.push('/evaluation_detail')">
         <div class="evaluate_t" style="display:flex;align-items: center;">
           <img :src="item.header">
           <span>{{item.uname}}</span>
         </div>
         <p style="color:#999;">
           <span>{{item.createTime}}</span>
-          颜色分类：<span>{{item.colorType}}</span>
+          <span>颜色分类：{{item.colorType}}</span>
         </p>
         <p class="evaluate_txt">{{item.txt}}</p>
         <img v-for="(txt_img,index) in txt_img" :key="index" class="eva_txt_img" :src="txt_img.img">
+        <div class="goodsitem">
+          <img :src="item.goodsImg">
+          <ul>
+            <li>{{item.goodsName}}</li>
+            <li>￥{{item.goodsMoney}}</li>
+          </ul>
+        </div>
         <p style="text-align:right;padding:0.05rem 0;">
           <span
             :class="{ccc:item.iscolor==0,primary:item.iscolor==1}"
@@ -53,6 +81,7 @@ img {
           >{{item.xin}}</span>
           <span class="ccc">0</span>
         </p>
+        
       </div>
     </div>
   </div>
@@ -81,8 +110,12 @@ export default {
             "摸料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气",
           xin: "❤",
           iscolor: 0,
-          createTime: "2018-10-22"
-          ,colorType:'白色'
+          createTime: "2018-10-22",
+          colorType: "白色",
+          goodsImg:
+            "http://uploads.sundxs.com/allimg/1710/43-1G009235505-50.jpg",
+          goodsName: "暖手宝充电宝两用USB移动电源女随身暖手神器mini可爱防爆",
+          goodsMoney: "196.00"
         },
         {
           header:
@@ -92,9 +125,12 @@ export default {
             "摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气",
           xin: "❤",
           iscolor: 0,
-          createTime: "2018-10-22"
-          ,colorType:'白色'
-
+          createTime: "2018-10-22",
+          colorType: "白色",
+          goodsImg:
+            "http://uploads.sundxs.com/allimg/1710/43-1G009235505-50.jpg",
+          goodsName: "暖手宝充电宝两用USB移动电源女随身暖手神器mini可爱防爆",
+          goodsMoney: "196.00"
         },
         {
           header:
@@ -104,9 +140,12 @@ export default {
             "摸着特别舒服，面料柔软，透气摸着特别舒服柔，透气摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气",
           xin: "❤",
           iscolor: 0,
-          createTime: "2018-10-22"
-          ,colorType:'白色'
-
+          createTime: "2018-10-22",
+          colorType: "白色",
+          goodsImg:
+            "http://uploads.sundxs.com/allimg/1710/43-1G009235505-50.jpg",
+          goodsName: "暖手宝充电宝两用USB移动电源女随身暖手神器mini可爱防爆",
+          goodsMoney: "196.00"
         }
       ]
     };
