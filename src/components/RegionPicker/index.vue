@@ -15,6 +15,16 @@
     width: 100%;
   }
 }
+.header{
+  text-align: right;
+  padding: 0.1rem;
+   button{
+  border: 0;
+  background: #fff;
+  padding: 0.05rem;
+  border-radius: 0.1rem;
+}
+}
 </style>
 
 <template>

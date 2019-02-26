@@ -118,7 +118,7 @@ input {
           </div>
           <div style="flex:1;padding:0 0.1rem;font-size:0.12rem;">
             <span>{{item.item.name}}</span>
-            <p style="color:#999;font-size:12px;">{{item.sku.propvalueList}}</p>
+            <p style="color:#999;font-size:12px;">{{item.sku.propvalueTextList}}</p>
           </div>
           <div style="text-align:right;">
             <span>￥{{item.sku.price}}</span>

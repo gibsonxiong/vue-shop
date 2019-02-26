@@ -66,7 +66,7 @@ label {
 }
 
 .tag {
-  padding: 0rem 0.04rem;
+  padding: 0.01rem 0.04rem;
   background-color: #f94a92;
   color: #fff;
   border-radius: 0.02rem;

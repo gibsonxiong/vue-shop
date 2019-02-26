@@ -12,11 +12,11 @@ ul {
   padding: 0 0.1rem;
 }
 li {
-  padding: 0.1rem 0;
+  padding: 0.14rem 0;
   border-bottom: 1px solid #f4f4f4;
 }
-li span {
-  width: 20%;
+li span:first-of-type {
+  width: 25%;
   display: inline-block;
   // color: #666;
 }
@@ -56,7 +56,12 @@ li span {
         </li>
         <li @click="pickerVisible = true">
           <span>所在地区</span>
-          <span>{{model.province}} {{model.city}} {{model.area}}</span>
+          <span
+            style="    display: inline-block;width: 67%;"
+          >{{model.province}} {{model.city}} {{model.area}}</span>
+          <span style="transform: rotateZ(180deg); display: inline-block;">
+            <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
+          </span>
         </li>
         <!-- <li>
             <span>所在街道</span>

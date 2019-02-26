@@ -31,6 +31,8 @@ import NickName from '@/views/NickName';
 import PanicBuy from '@/views/PanicBuy';
 import Cashier from '@/views/Cashier';
 import PayResult from '@/views/PayResult';
+import MyEvaluation from '@/views/MyEvaluation';
+import Evaluation_Detail from '@/views/Evaluation_Detail';
 
 Vue.use(Router);
 
@@ -157,6 +159,12 @@ const router = new Router({
     }, {
       path: '/pay-result',
       component: PayResult
+    }, {
+      path: '/my_ecaluation',
+      component: MyEvaluation
+    }, {
+      path: '/evaluation_detail',
+      component: Evaluation_Detail
     }
   ]
 });
