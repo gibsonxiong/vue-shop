@@ -6,8 +6,6 @@
     object-fit: cover;
   }
 }
-
-
 </style>
 <style scoped lang="scss">
 @import "~@/css/mixin";
@@ -27,18 +25,18 @@
   opacity: 0;
   // transform: translateY(100%);
 }
-.icon-fenxiang{
+.icon-fenxiang {
   position: relative;
-  &:after{
+  &:after {
     content: "";
     width: 0.3rem;
     height: 0.3rem;
     border-radius: 50%;
-    background-color: rgba(245,245,245,1);
+    background-color: rgba(245, 245, 245, 1);
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     z-index: -1;
   }
 }
@@ -283,8 +281,8 @@
         // opacity: 0;
         // transition: opacity 0.6s;
       }
-      .pop_model_active{
-          opacity: 1;
+      .pop_model_active {
+        opacity: 1;
       }
       .item_detail_pop_content {
         position: absolute;
@@ -404,13 +402,16 @@
 
 <template>
   <div class="item_page page">
-    <c-header :title="'商品详情'" theme="transparent" :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,color:`rgba(68, 68, 68,${headerOpacity})`}">
+    <c-header
+      :title="'商品详情'"
+      theme="transparent"
+      :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,color:`rgba(68, 68, 68,${headerOpacity})`}"
+    >
       <a slot="right">
         <i class="iconfont icon-fenxiang" style="font-size:0.2rem;" @click="shareCeshi"></i>
       </a>
     </c-header>
-    <div class="c-page-body" >
-
+    <div class="c-page-body">
       <div class="item_page_content" ref="body">
         <mt-swipe :auto="0" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
@@ -511,7 +512,12 @@
               >参数</div>
             </div>
             <!-- <div v-lazy-container="{ selector: 'img' }"> -->
-            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.detail">
+            <div
+              v-show="itemDetails === '1'"
+              class="item_details"
+              v-html="itemInfo.detail"
+              v-lazy-container="{ selector: 'img' }"
+            >
               <!-- <li v-for="(val, index) in item_details_data" :key="index">
                 <img :src="val.url">
               </li>-->
@@ -573,8 +579,7 @@
     <transition name="pop">
       <div class="item_detail_pop_model" v-show="pop_model">
         <div class="item_detail_pop_box">
-          <div class="item_detail_pop_model_hidden"        
-           @click="closePopModel()"></div>
+          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
           <div class="item_detail_pop_content">
             <div class="item_detail_pop_parents">
               <div class="item_detail_top_img">
@@ -713,7 +718,7 @@ export default {
       this.getFavoriteByItemId();
     }
   },
-  mounted(){
+  mounted() {
     this.bindEvent();
   },
   computed: {
@@ -852,9 +857,15 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.itemInfo = res.data;
+        this.imgDetail();
       } catch (err) {
         return this.$toast(err.message);
       }
+    },
+    imgDetail() {
+      //图片设置data-src
+      let imgs = this.itemInfo.detail;
+      console.log(imgs.find('src'));
     },
     getPropValue(index, valueId) {
       return this.itemInfo.propvalues[index].find(item => item.id == valueId);
