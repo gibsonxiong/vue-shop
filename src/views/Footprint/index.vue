@@ -25,32 +25,40 @@
   <div class="footprint-page">
     <c-header :title="'我的足迹'"></c-header>
     <div class="c-page-body header-pd">
-        <!--  -->
-        <!-- <div class="footprint_t">
-          <span><i class="iconfont icon-shoplight"></i>亿人通互联网商城</span>
-          <span>2019-01-24 14:24:16</span>
-          
-        </div> -->
-        <!--  -->
-        <c-goodslist></c-goodslist>
+        <c-goodslist :data="itemList"></c-goodslist>
      </div>
   </div>
 </template>
 
 <script>
-
+import services from '@/services';
    
-
 export default {
   data() {
     return {
+      list: []
     };
   },
+  computed:{
+    itemList(){
+      return this.list.map(item=> item.item);
+    }
+  },
   methods: {
-   
+   async listFootprint() {
+      try {
+        let res = await services.listFootprint();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.list = res.data;
+      } catch (err) {
+        this.$toast(err.message);
+      }
+    }
   },
   created() {
-    
+    this.listFootprint();
   }
 };
 </script>
