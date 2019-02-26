@@ -99,26 +99,26 @@ img {
 </style>
 <template>
   <div class="record-page">
-    <c-header :title="'我的评价'"></c-header>
+    <c-header :title="'评价详情'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="evaluate" v-for="(item,index) in item" :key="index">
+      <div class="evaluate">
         <div class="evaluate_t" style="display:flex;align-items: center;">
-          <img :src="item.header">
-          <span>{{item.uname}}</span>
+          <img :src="rateInfo.user.avatar">
+          <span>{{rateInfo.user.nickname}}</span>
         </div>
         <p style="color:#999;">
-          <span>{{item.createTime}}</span>
-          <span>颜色分类：{{item.colorType}}</span>
+          <span>{{rateInfo.createTime | date}}</span>
+          <span>{{rateInfo.itemPropvalues}}</span>
         </p>
-        <p class="evaluate_txt">{{item.txt}}</p>
-        <img v-for="(txt_img,index) in txt_img" :key="index" class="eva_txt_img" :src="txt_img.img">
-        <div class="goodsitem">
-          <img :src="item.goodsImg">
+        <p class="evaluate_txt">{{rateInfo.content}}</p>
+        <img v-for="(src,index) in rateInfo.rateImgList" :key="index" class="eva_txt_img" :src="src">
+        <router-link tag="div" :to="{path:`/items/${rateInfo.itemId}`}" class="goodsitem">
+          <img :src="rateInfo.itemImg">
           <ul>
-            <li>{{item.goodsName}}</li>
-            <li>￥{{item.goodsMoney}}</li>
+            <li>{{rateInfo.itemName}}</li>
+            <li>￥{{rateInfo.itemPrice}}</li>
           </ul>
-        </div>
+        </router-link>
       </div>
       <div class="evaluation_nother">
         <p style="border-bottom: 1px solid #cccccc52;padding: 0.1rem 0;">
@@ -126,8 +126,8 @@ img {
           全部评论(
           <span>{{othder_item.length}}</span>)
         </p>
-        <p style="padding:0.5rem;text-align:center;color:#ccc;" v-show="shopdata">沙发还空着，快来抢吧~</p>
-        <div class="evaluation_nother_con" v-for="(val,index) in othder_item" :key="index" >
+        <p style="padding:0.5rem;text-align:center;color:#ccc;" v-if="shopdata">沙发还空着，快来抢吧~</p>
+        <div class="evaluation_nother_con" v-else v-for="(val,index) in othder_item" :key="index">
           <img src="http://img4.imgtn.bdimg.com/it/u=283021115,1881290219&fm=26&gp=0.jpg">
           <ul>
             <li>{{val.name}}</li>
@@ -154,10 +154,19 @@ img {
   </div>
 </template>
 <script>
+import services from "@/services";
+import filter from "@c/filter";
+
 export default {
+  filters:{
+    date:filter.date
+  },
   data() {
     return {
-        shopdata:false,
+      rateId: "",
+      rateInfo:{},
+
+      shopdata: true,
       txt_img: [
         { img: "http://pic25.photophoto.cn/20121025/0035035954531961_b.jpg" },
         {
@@ -222,20 +231,33 @@ export default {
     iscolor(item) {
       item.iscolor = item.iscolor == 0 ? 1 : 0;
     },
-    delete_evalue(){
+    delete_evalue() {},
+    // itemdata(){
+    //   console.log("lengh"+this.othder_item.length)
+    //   if (this.othder_item.length == 0 || !this.othder_item) {
+    //       this.shopdata = true;
+    //     } else {
+    //       this.shopdata = false;
+    //     }
+    // },
+    async fetchRateInfo() {
+      try {
+        let { rateId } = this;
+        let res = await services.fetchRateInfo({
+          rateId
+        });
 
-    },
-    itemdata(){
-      console.log("lengh"+this.othder_item.length)
-      if (this.othder_item.length == 0 || !this.othder_item) {
-          this.shopdata = true;
-        } else {
-          this.shopdata = false;
-        }
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.rateInfo = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   },
   created() {
-    this.itemdata();
+    this.rateId = this.$route.query.rateId;
+    this.fetchRateInfo();
   }
 };
 </script>

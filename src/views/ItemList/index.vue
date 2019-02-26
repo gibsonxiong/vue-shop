@@ -304,8 +304,8 @@
                     <div class="des">
                       <p>{{item.name}}</p>
                       <div class="chen_center_absolute">
-                        <div class="des_money">￥100.00</div>
-                        <div class="buy_btn" @click.stop>购买</div>
+                        <div class="des_money">￥{{item.minPrice}}</div>
+                        <!-- <div class="buy_btn" @click.stop>购买</div> -->
                       </div>
                     </div>
                   </div>

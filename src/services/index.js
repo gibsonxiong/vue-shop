@@ -43,7 +43,7 @@ function addInterceptors(_request) {
     // 请求超时
     if (error.code === 'ECONNABORTED') {
       return Promise.reject(new Error('请求超时'));
-    }else if(error.message === 'Network Error'){
+    } else if (error.message === 'Network Error') {
       return Promise.reject(new Error('服务器出了点小差错'));
     }
     return Promise.reject(error);
@@ -187,9 +187,9 @@ const services = {
   }) {
 
 
-    return (await request.get(`/items/${itemId}`,{
-      token:true,
-      skipCheckToken:true
+    return (await request.get(`/items/${itemId}`, {
+      token: true,
+      skipCheckToken: true
     })).data;
   },
 
@@ -476,11 +476,49 @@ const services = {
     })).data;
   },
 
-  async listFootprint(){
+  //足迹
+  async listFootprint() {
     return (await request.get(`/items/footprints`, {
       token: true
     })).data;
-  }
+  },
+
+  //评价
+  async rate({
+    params
+  }) {
+    return (await request.put(`/rates`, params, {
+      token: true
+    })).data;
+  },
+
+  //商品评价列表
+  async fetchItemRateList({
+    itemId
+  }) {
+    return (await request.get(`/rates/items/${itemId}`, {
+      token: true
+    })).data;
+  },
+
+  //商品评价列表
+  async fetchRateInfo({
+    rateId
+  }) {
+    return (await request.get(`/rates/${rateId}`, {
+      token: true
+    })).data;
+  },
+
+  //商品评价列表
+  async upload(formData, onUploadProgress) {
+    return (await request.put(`/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress,
+    })).data;
+  },
 };
 
 export default services;

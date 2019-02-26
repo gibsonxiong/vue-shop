@@ -222,7 +222,7 @@
               <div class="recommend-info">
                 <div class="recommend-title">{{item.name}}</div>
                 <div class="recommend-price-box">
-                  <span class="recommend-price">￥29.6</span>
+                  <span class="recommend-price">￥{{item.minPrice}}</span>
                   <span class="recommend-sale">394人已购买</span>
                 </div>
               </div>

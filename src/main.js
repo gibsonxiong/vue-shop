@@ -9,11 +9,13 @@ import router from './router';
 import store from './store';
 
 import layer from '@c/layer';
+import popup from '@c/popup';
 import '@/components';
 import MintUI from 'mint-ui';
 import VueLazyload from 'vue-lazyload';
 
 Vue.use(layer);
+Vue.use(popup);
 Vue.use(MintUI);
 Vue.use(VueLazyload)
 
