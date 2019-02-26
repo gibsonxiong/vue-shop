@@ -63,7 +63,7 @@
         }
         .p4 {
           display: flex;
-          align-items: center;
+          align-items:center;
         }
         .p4 span:first-of-type {
           font-size: 0.18rem;
@@ -72,6 +72,8 @@
         .p4 span:nth-child(2) {
           color: #999;
           text-decoration: line-through;
+          font-size: 0.12rem;
+          padding: 0.02rem;
         }
         .rob {
           color: $color-primary;

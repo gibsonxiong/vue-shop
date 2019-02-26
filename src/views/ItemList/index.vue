@@ -102,11 +102,9 @@
                 letter-spacing: 1px;
                 padding-bottom: pxTorem(13);
                 overflow: hidden;
-                // text-overflow: ellipsis;
-                // display: -webkit-box;
-                // -webkit-line-clamp: 2;
-                // -webkit-box-orient: vertical;
-                // line-height: 1.5em;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                white-space: nowrap;
               }
             }
           }
@@ -154,8 +152,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
+                white-space: nowrap;
               }
             }
           }
@@ -279,13 +276,24 @@
               <i class="iconfont icon-filter"></i>
             </div>
           </div>
-          <div class="list_content">
-            <mt-loadmore
+          <div
+            class="list_content"
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loadingDisable"
+            infinite-scroll-distance="40"
+          >
+            <!-- <mt-loadmore
               :top-method="loadTop"
               @top-status-change="handleTopChange"
               :bottom-method="loadBottom"
               @bottom-status-change="handleBottomChange"
               :bottom-all-loaded="allLoaded"
+              :auto-fill="false"
+              ref="loadmore"
+            >-->
+            <mt-loadmore
+              :top-method="loadTop"
+              @top-status-change="handleTopChange"
               :auto-fill="false"
               ref="loadmore"
             >
@@ -318,14 +326,15 @@
                 >松开刷新</span>
                 <span v-show="topStatus === 'loading'">刷新中...</span>
               </div>
-              <div slot="bottom" class="mint-loadmore-bottom loading_color">
+              <!-- <div slot="bottom" class="mint-loadmore-bottom loading_color">
                 <span
                   v-show="bottomStatus !== 'loading'"
                   :class="{ 'is-rotate': bottomStatus === 'drop' }"
                 >松开刷新</span>
                 <span v-show="bottomStatus === 'loading'">加载中...</span>
-              </div>
+              </div>-->
             </mt-loadmore>
+            <div v-show="loadingDisable" class="mint-loadmore-bottom loading_color">加载中...</div>
           </div>
         </div>
       </div>
@@ -363,7 +372,7 @@
 <script>
 import services from "@/services";
 import routerCachePage from "@/routerCache/page";
-import { Loadmore, Spinner } from "mint-ui";
+import { Loadmore, InfiniteScroll } from "mint-ui";
 import { setTimeout } from "timers";
 export default {
   mixins: [
@@ -385,7 +394,8 @@ export default {
       selectBox: false, //筛选条件
       allLoaded: false,
       bottomStatus: "",
-      topStatus: ""
+      topStatus: "",
+      loadingDisable: false //无限滚动控制器
     };
   },
   methods: {
@@ -400,7 +410,7 @@ export default {
       }, 1500);
     },
     loadBottom() {
-      // 加载更多数据
+      //上拉加载更多数据
       setTimeout(() => {
         let lastValue = this.itemList[1];
         for (let i = 1; i <= 3; i++) {
@@ -411,10 +421,23 @@ export default {
       }, 1500);
     },
     handleBottomChange(status) {
+      //上拉事件
       this.bottomStatus = status;
     },
     handleTopChange(status) {
+      //下拉事件
       this.topStatus = status;
+    },
+    loadMore() {
+      //无限滚动事件触发
+      this.loadingDisable = true;
+      setTimeout(() => {
+        let lastValue = this.itemList[1];
+        for (let i = 1; i <= 6; i++) {
+          this.itemList.push(lastValue);
+        }
+        this.loadingDisable = false;
+      }, 300);
     },
     showSearch() {
       this.search.visible = true;

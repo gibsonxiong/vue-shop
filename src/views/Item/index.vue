@@ -506,7 +506,13 @@
               >参数</div>
             </div>
             <!-- <div v-lazy-container="{ selector: 'img' }"> -->
-            <div v-show="itemDetails === '1'" class="item_details" v-html="itemInfo.detail">
+            <div
+              v-show="itemDetails === '1'"
+              class="item_details"
+              ref="imgs_detail"
+              v-html="itemInfo.detail"
+              v-lazy-container="{ selector: 'img' }"
+            >
               <!-- <li v-for="(val, index) in item_details_data" :key="index">
                 <img :src="val.url">
               </li>-->
@@ -712,6 +718,9 @@ export default {
   mounted() {
     this.bindEvent();
   },
+  beforeDestroy() {
+    this.$preview.self.destroy();
+  },
   computed: {
     itemPrice() {
       if (!(this.itemInfo && this.itemInfo.skus)) return "";
@@ -726,7 +735,7 @@ export default {
       if (!(this.itemInfo && this.itemInfo.skus)) return null;
 
       let sku = this.itemInfo.skus.filter(sku => {
-        console.log(sku.propvalues.join(","), this.selectValue.join(","));
+        // console.log(sku.propvalues.join(","), this.selectValue.join(","));
         return sku.propvalues.join(",") === this.selectValue.join(",");
       })[0];
 
@@ -837,7 +846,6 @@ export default {
       }
 
       this.checkQuantity();
-
     },
     checkQuantity() {
       let { skus, propvalues } = this.itemInfo;
@@ -847,7 +855,6 @@ export default {
       propvalues.forEach((p, index) => {
         let toDisabled = [];
         p.forEach(propvalue => {
-
           //有该属性值的sku
           let relatedSkus = this.getRelatedSkus(index, propvalue.id);
 
@@ -875,6 +882,9 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.itemInfo = res.data;
+        this.$nextTick(() => {
+          this.imgDetail();
+        });
 
         this.checkQuantity();
       } catch (err) {
@@ -896,6 +906,18 @@ export default {
         return this.$toast(err.message);
       }
     },
+    imgDetail() {
+      //图片设置data-src
+      this.itemInfo.detail = this.itemInfo.detail.replace(/src/g, "data-src");
+      this.$nextTick(() => {
+        let prews = this.$refs.imgs_detail;
+        let prewImgs = [...prews.querySelectorAll("img")];
+        for (let i in prewImgs) {
+          prewImgs[i].setAttribute("preview", "2");
+        }
+        this.$previewRefresh();
+      });
+    },
     getPropValue(index, valueId) {
       return this.itemInfo.propvalues[index].find(item => item.id == valueId);
     },
@@ -908,9 +930,9 @@ export default {
           //该属性类型没选择，或者选择属性值的属性类型跟改属性类型相同
           if (selectValue[i] == null || selectValue[i] == "" || index == i) {
             inSelectedSku = inSelectedSku && true;
-          }else{
-
-            inSelectedSku = inSelectedSku && sku.propvalues[i] == selectValue[i];
+          } else {
+            inSelectedSku =
+              inSelectedSku && sku.propvalues[i] == selectValue[i];
           }
         });
 

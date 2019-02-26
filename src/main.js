@@ -13,11 +13,15 @@ import popup from '@c/popup';
 import '@/components';
 import MintUI from 'mint-ui';
 import VueLazyload from 'vue-lazyload';
+import preview from 'vue-photo-preview' //图片放大缩小
+import 'vue-photo-preview/dist/skin.css'
+
 
 Vue.use(layer);
 Vue.use(popup);
 Vue.use(MintUI);
 Vue.use(VueLazyload)
+Vue.use(preview)
 
 // if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
 //   let VConsole = require('vconsole');

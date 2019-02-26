@@ -55,6 +55,9 @@ body {
 .slide-left-leave-to {
   transform: translate3d(-20%, 0, 0);
 }
+.pswp{
+  z-index: 99;
+}
 </style>
 
 <template>
