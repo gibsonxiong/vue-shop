@@ -56,8 +56,8 @@
               font-size: 0.22rem;
               color: #00c715;
             }
-            .now_i{
-               color: #FF8D31;
+            .now_i {
+              color: #ff8d31;
             }
           }
           .weichat {
@@ -65,14 +65,14 @@
               font-size: 0.12rem;
               color: #949698;
             }
-            .now_money{
+            .now_money {
               color: $color-primary-active;
             }
           }
         }
       }
     }
-    .pay_btn{
+    .pay_btn {
       padding: 40% 10% 0%;
     }
   }
@@ -100,11 +100,15 @@
               </div>
               <div class="weichat">
                 <p>余额支付</p>
-                <p >当前余额: <span class="now_money">￥<span>88.33</span></span></p>
+                <p>当前余额:
+                  <span class="now_money">￥
+                    <span>88.33</span>
+                  </span>
+                </p>
               </div>
             </div>
             <div class="check">
-              <c-radio :showType="showType" :name="name"></c-radio>
+              <c-radio :showType="showType" :name="name" :radioValue="1" v-model="money"></c-radio>
             </div>
           </div>
           <div class="select_item">
@@ -118,7 +122,7 @@
               </div>
             </div>
             <div class="check">
-              <c-radio :showType="showType" :name="name"></c-radio>
+              <c-radio :showType="showType" :name="name" :radioValue="2" v-model="money"></c-radio>
             </div>
           </div>
         </div>
@@ -149,11 +153,16 @@ export default {
     return {
       orderId: "",
       popupVisible: false,
-      showType: 'radio',
-      name: 'pay'
+      showType: "radio",
+      name: "pay",
+      money: '1'    //1 微信  2 余额
     };
   },
   methods: {
+    payClick(val) {
+      this.paydata = val;
+      console.log(val);
+    },
     async pay() {
       try {
         let { orderId } = this;
