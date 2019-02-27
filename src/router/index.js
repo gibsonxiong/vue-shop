@@ -33,6 +33,7 @@ import Cashier from '@/views/Cashier';
 import PayResult from '@/views/PayResult';
 import MyEvaluation from '@/views/MyEvaluation';
 import Evaluation_Detail from '@/views/Evaluation_Detail';
+import VIP from '@/views/VIP';
 
 Vue.use(Router);
 
@@ -165,6 +166,9 @@ const router = new Router({
     }, {
       path: '/evaluation_detail',
       component: Evaluation_Detail
+    }, {
+      path: '/vip',
+      component: VIP
     }
   ]
 });
