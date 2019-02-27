@@ -23,8 +23,6 @@
   color: $color-primary;
   border-bottom: 2px solid $color-primary;
 }
-
-
 </style>
 
 <template>
@@ -77,7 +75,7 @@
               </div>
               <div style="width:15%;text-align:right;">
                 <span>￥</span>
-                <span>{{orderItem.price}}</span>
+                <span>{{orderItem.itemPrice}}</span>
                 <div style="color:#999;font-size:12px;">
                   <span>×</span>
                   <span>{{orderItem.quantity}}</span>
@@ -152,7 +150,7 @@ export default {
           "2": "买家已付款",
           "3": "卖家已发货",
           "4": "交易成功",
-          '9':"交易关闭"
+          "9": "交易关闭"
         }[val] || ""
       );
     }
@@ -160,7 +158,7 @@ export default {
   methods: {
     async fetchOrderList() {
       try {
-        let {status} = this;
+        let { status } = this;
         let res = await services.fetchOrderList({
           status
         });
@@ -186,7 +184,7 @@ export default {
       this.$router.replace(newRoute);
     },
     to_oderDetail(orderId) {
-      this.$router.push({path:"/orderDetail",query:{orderId}});
+      this.$router.push({ path: "/orderDetail", query: { orderId } });
     },
 
     //查看物流
@@ -202,10 +200,24 @@ export default {
 
     //取消订单
     async cancelOrder(orderId) {
+      let result = await this.$popup.select({
+        data: [
+          "我不想买了",
+          "缺货",
+          "信息填写错误，重新拍",
+          "线下交易",
+          "其他原因"
+        ]
+      });
+
+      console.log(result);
+
+      if (result[0] === "cancel") return;
+
       try {
         let res = await services.cancelOrder({
           orderId,
-          cancelReason: "顺便填的"
+          cancelReason: result[1]
         });
 
         if (services.$isError(res)) throw new Error(res.message);
@@ -219,7 +231,7 @@ export default {
     //删除订单
     async removeOrder(orderId) {
       try {
-        let res = await services.removeOrder({orderId});
+        let res = await services.removeOrder({ orderId });
 
         if (services.$isError(res)) throw new Error(res.message);
 

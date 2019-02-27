@@ -453,33 +453,36 @@
                 商品评价(
                 <span>333</span>)
               </div>
-              <router-link :to="{ name: 'evaluate', params: { userId: 123 }}">
+              <router-link :to="{ path: '/evaluate', query: { itemId }}">
                 <div class="item_look_more">
                   <span>查看更多</span>
                   <i class="iconfont icon-right"></i>
                 </div>
               </router-link>
             </div>
-            <div class="evaluate">
-              <div class="evaluate_header">
-                <div class="header_img">
+            <div v-if="rateList.length > 0">
+              <div class="evaluate"  v-for="(rate,index) in rateList" :key="index">
+                <div class="evaluate_header">
+                  <div class="header_img">
+                    <img
+                      :src="rate.user.avatar"
+                    >
+                  </div>
+                  <div>{{rate.user.nickname}}</div>
+                </div>
+                <div
+                  class="evaluate_des"
+                >{{rate.content}}</div>
+                <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
                   <img
-                    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1549866693683&di=2809ed20f7353ea896749a31db949739&imgtype=0&src=http%3A%2F%2Fpic41.photophoto.cn%2F20161129%2F0005018388660581_b.jpg"
+                    v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex"
+                    :src="img"
                   >
                 </div>
-                <div>赵钱孙李</div>
               </div>
-              <div
-                class="evaluate_des"
-              >摸着特别舒服，面料柔软，透气摸着特别舒服，面料柔，透气摸着特别舒服，面着特别舒服，面料柔软，透气摸着特别舒服，面料柔软，透气</div>
-              <div class="evaluate_img">
-                <img
-                  src="//img.alicdn.com/imgextra/i4/3534152336/O1CN011T7vfnPcYMx5A0u_!!3534152336.jpg_2200x2200Q90s50.jpg"
-                  v-for="(val,index) in 5"
-                  :key="index"
-                  preview="1"
-                >
-              </div>
+            </div>
+            <div v-else>
+              暂无评价
             </div>
           </div>
           <!-- <div class="item_select_shop_name chen_center_absolute">
@@ -697,7 +700,8 @@ export default {
       itemInfo: {},
       quantity: 1,
       favoriteId: "",
-      share: false //分享组件控制
+      share: false, //分享组件控制
+      rateList:[]
     };
   },
   created() {
@@ -705,6 +709,7 @@ export default {
 
     this.itemId = this.$route.params.itemId;
     this.fetchItem();
+    this.fetchItemRateList();
 
     if (this.isLogin) {
       this.getFavoriteByItemId();
@@ -886,6 +891,21 @@ export default {
         return this.$toast(err.message);
       }
     },
+    async fetchItemRateList(){
+      try {
+        let { itemId } = this;
+        let res = await services.fetchItemRateList({
+          itemId
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.rateList = res.data;
+
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
     imgDetail() {
       //图片设置data-src
       this.itemInfo.detail = this.itemInfo.detail.replace(/src/g, "data-src");
@@ -907,7 +927,7 @@ export default {
       return skus.filter(sku => {
         let inSelectedSku = true;
         propnames.forEach((n, i) => {
-          //改属性类型没选择，或者选择属性值的属性类型跟改属性类型相同
+          //该属性类型没选择，或者选择属性值的属性类型跟改属性类型相同
           if (selectValue[i] == null || selectValue[i] == "" || index == i) {
             inSelectedSku = inSelectedSku && true;
           } else {

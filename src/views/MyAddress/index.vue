@@ -25,9 +25,9 @@
 i {
   padding-right: 0.02rem;
 }
-.shi_btn {
+.footer {
   width: 100%;
-  padding: 0.1rem;
+  padding: 0.15rem 0.1rem;
   text-align: center;
   background: $color-primary;
   color: #fff;
@@ -61,7 +61,7 @@ label {
   color: white;
 }
 
-.tag-wrap{
+.tag-wrap {
   flex: 1;
 }
 
@@ -111,10 +111,10 @@ label {
         </div>
       </div>
       <!--  -->
-      <div class="shi_btn" @click="addAddr()">
-        <i class="iconfont icon-add_light"></i>
-        <span>新建地址</span>
-      </div>
+    </div>
+    <div class="footer" @click="addAddr()">
+      <i class="iconfont icon-add_light"></i>
+      <span>新建地址</span>
     </div>
   </div>
 </template>

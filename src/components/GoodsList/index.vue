@@ -25,7 +25,7 @@
           style=" min-height: 0.44rem; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2; overflow: hidden;"
         >{{item.name}}</p>
         <p style="padding-top: 0.05rem;">
-          <span style="color:$color-primary;">￥{{item.minPrice}}</span>
+          <span style="color:$color-primary;">￥{{item.itemPrice}}</span>
           <!-- <span style="color:#999;text-decoration: line-through;">￥1.08</span> -->
         </p>
       </div>

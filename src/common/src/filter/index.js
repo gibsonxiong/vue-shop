@@ -90,13 +90,16 @@ export default {
   },
 
   date(date, format) {
+
     if (!date) return '';
-    if (typeof date === 'string') {
-      date = date.replace(/\-/g, '/');
-      if( /[^/]/.test(date) ) {
-        date = Number(date);
-      }
-    }
+    // if (typeof date === 'string') {
+    //   date = date.replace(/\-/g, '/');
+    //   if( /[^/]/.test(date) ) {
+    //     date = Number(date);
+        
+    //   }
+    //   console.log(date);
+    // }
     date = new Date(date);
     format = format || 'yyyy-MM-dd';
 
