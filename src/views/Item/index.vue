@@ -714,7 +714,7 @@ export default {
     this.bindEvent();
   },
   beforeDestroy() {
-    this.$preview.self.destroy();
+    this.$preview.self.close();
   },
   computed: {
     itemPrice() {
