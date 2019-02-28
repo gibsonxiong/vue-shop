@@ -135,7 +135,7 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         res.data.forEach(item => {
-          if (this.data.length >= 6) {
+          if (this.data.length >= this.maxLength) {
             return;
           }
           this.$emit('add', item.src);

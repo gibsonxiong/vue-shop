@@ -4,7 +4,7 @@
 }
 
 .tab {
-  background: rgba(249, 250, 250, 0.98);
+  background: rgba(249, 250, 250, 0.99);
   display: flex;
   height: 0.55rem;
   align-items: center;
@@ -15,13 +15,13 @@
     width: 100%;
     left: 0;
     bottom: 0;
-        z-index: 50;
+    z-index: 50;
   }
 
   &__item {
     flex: 1;
     text-align: center;
-    color: #5d656b;
+    color: #484e52;
     user-select: none;
 
     &.active {
@@ -30,12 +30,14 @@
   }
 
   &__icon {
-    font-size: 0.24rem;
+    font-size: 0.26rem;
   }
 
   &__name {
-    margin-top: -0.01rem;
-    font-size: 0.11rem;
+    margin-top: -0.04rem;
+    font-size: 0.12rem;
+    transform: scale(0.85);
+    transform-origin: top;
   }
 }
 </style>
@@ -50,7 +52,13 @@
         v-show="index === tab.active"
       >
         <keep-alive>
-          <component ref="tabContent" :cacheId="`tabContent${index}`" v-bind:is="item.component" @toSearch="showSearch" @gotoHome="activeTab(0)"></component>
+          <component
+            ref="tabContent"
+            :cacheId="`tabContent${index}`"
+            v-bind:is="item.component"
+            @toSearch="showSearch"
+            @gotoHome="activeTab(0)"
+          ></component>
         </keep-alive>
       </div>
       <div class="tab tab--fixed">
@@ -71,10 +79,10 @@
 </template>
 
 <script>
-import routerCachePage from '@/routerCache/page';
+import routerCachePage from "@/routerCache/page";
 
 export default {
-  mixins:[routerCachePage()],
+  mixins: [routerCachePage()],
   data() {
     return {
       tab: {
@@ -82,22 +90,22 @@ export default {
         items: [
           {
             name: "首页",
-            icon: "icon-home",
+            icon: "icon-home_light",
             component: "c-home"
           },
           {
             name: "分类",
-            icon: "icon-searchlist",
+            icon: "icon-search_list_light",
             component: "c-catalog"
           },
           {
             name: "购物车",
-            icon: "icon-cart",
+            icon: "icon-cart_light",
             component: "c-shopcart"
           },
           {
             name: "我的",
-            icon: "icon-people",
+            icon: "icon-my_light",
             component: "c-mine"
           }
         ]
@@ -111,9 +119,10 @@ export default {
     activeTab(index) {
       this.tab.active = index;
 
-      this.$nextTick(()=>{
-        this.$refs.tabContent[index].tabActived && this.$refs.tabContent[index].tabActived();
-      })
+      this.$nextTick(() => {
+        this.$refs.tabContent[index].tabActived &&
+          this.$refs.tabContent[index].tabActived();
+      });
 
       let newRoute = {
         ...this.$route,
@@ -129,15 +138,15 @@ export default {
     hideSearch() {
       this.search.visible = false;
     },
-    handleSearch(q){
-      this.$router.push({path:'/items',query:{searchText:q}});
+    handleSearch(q) {
+      this.$router.push({ path: "/items", query: { searchText: q } });
     }
   },
   created() {
     this.tab.active = Number(this.$route.query.tab || 0);
+    //默认不显示搜索页
+    this.search.visible = false;
   },
-  mounted(){
-
-  }
+  mounted() {}
 };
 </script>

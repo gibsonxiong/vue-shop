@@ -1,12 +1,3 @@
-<style lang="scss">
-.item_details {
-  width: 100%;
-  img {
-    width: 100%;
-    object-fit: cover;
-  }
-}
-</style>
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
@@ -87,7 +78,6 @@
       .item_select_des {
         .dex_txt {
           font-size: pxTorem(28);
-          letter-spacing: 1px;
         }
         .dex_share {
           font-size: pxTorem(16);
@@ -250,7 +240,7 @@
           height: 100%;
         }
         .item_page_footer_buys:nth-child(1) {
-          background: #fe9402;
+          background: $color-secondly;
         }
         .item_page_footer_buys:last-child {
           background: $color-primary;
@@ -391,6 +381,10 @@
               font-size: pxTorem(32);
               // width: 100%;
               border: 0;
+
+              &.btn-secondly{
+                background-color:$color-secondly;
+              }
             }
           }
         }
@@ -400,6 +394,15 @@
 }
 </style>
 
+<style lang="scss">
+.item_details {
+  width: 100%;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+</style>
 <template>
   <div class="item_page page">
     <c-header
@@ -450,18 +453,17 @@
           <div class="item_select_classification item_white">
             <div class="chen_center_absolute">
               <div>
-                商品评价(
-                <span>333</span>)
+                商品评价({{rateCount}})
               </div>
-              <router-link :to="{ path: '/evaluate', query: { itemId }}">
-                <div class="item_look_more">
+              <div>
+                <router-link v-if="rateCount > 0" class="item_look_more" :to="{ path: '/evaluate', query: { itemId }}">
                   <span>查看更多</span>
                   <i class="iconfont icon-right"></i>
-                </div>
-              </router-link>
+                </router-link>
+              </div>
             </div>
             <div v-if="rateList.length > 0">
-              <div class="evaluate"  v-for="(rate,index) in rateList" :key="index">
+              <router-link :to="{ path: '/evaluate', query: { itemId }}"  tag="div" class="evaluate" v-for="(rate,index) in rateList" :key="index">
                 <div class="evaluate_header">
                   <div class="header_img">
                     <img
@@ -479,9 +481,11 @@
                     :src="img"
                   >
                 </div>
-              </div>
+              </router-link>
             </div>
-            <div v-else>
+            <div style="    color: #777;
+    font-size: 0.12rem;
+    padding-top: 0.1rem;" v-else>
               暂无评价
             </div>
           </div>
@@ -627,7 +631,7 @@
                 </li>
               </ul>
               <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-                <button class="btn" style="background: #fe9402;" @click="submit('cart')">加入购物车</button>
+                <button class="btn btn-secondly" @click="submit('cart')">加入购物车</button>
                 <button class="btn" @click="submit('buy')">立刻购买</button>
               </div>
               <div v-else class="item_detail_confirm" @click="submit(pop_model)">
@@ -701,7 +705,8 @@ export default {
       quantity: 1,
       favoriteId: "",
       share: false, //分享组件控制
-      rateList:[]
+      rateList:[],
+      rateCount:1
     };
   },
   created() {
@@ -719,7 +724,7 @@ export default {
     this.bindEvent();
   },
   beforeDestroy() {
-    this.$preview.self.destroy();
+    this.$preview.self && this.$preview.self.destroy();
   },
   computed: {
     itemPrice() {
@@ -767,11 +772,13 @@ export default {
   methods: {
     bindEvent() {
       let body = this.$refs.body;
-      body.addEventListener("scroll", () => {
-        let end = 100;
-        let scrollTop = Math.min(body.scrollTop, end);
-        this.headerOpacity = scrollTop / end;
-      });
+      // body.addEventListener("scroll", () => {
+      //   let min = 150;
+      //   let max = 300;
+      //   let scrollTop = Math.max(body.scrollTop, min);
+      //   scrollTop = Math.min(scrollTop, max);
+      //   this.headerOpacity = (scrollTop - min) / (max - min);
+      // });
     },
     itemDetailsShow() {
       //商品详情
@@ -916,6 +923,7 @@ export default {
           prewImgs[i].setAttribute("preview", "2");
         }
         this.$previewRefresh();
+      
       });
     },
     getPropValue(index, valueId) {

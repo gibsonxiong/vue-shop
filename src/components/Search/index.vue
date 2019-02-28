@@ -60,31 +60,32 @@
 
 <template>
   <div v-show="visible" class="c-search">
-    <c-header :backType="0" ref="header" :centerStyle="{'padding-left':'0.42rem'}">
-      <a slot="left" @click="$emit('close')">
+    <c-header :backType="0" ref="header" :centerStyle="{'padding-left':'15px'}">
+      <!-- <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
-      </a>
+      </a> -->
       <c-search-input
         ref="searchInput"
         slot="center"
         v-model="searchText"
         :placeholder="`搜索你喜欢的宝贝`"
-        @search="search"
+        @search="search(searchText)"
         @input="fetchSearchTip"
         style="width:100%;"
       ></c-search-input>
-      <a slot="right" @click="search(searchText)">搜索</a>
+      <!-- <a slot="right" @click="search(searchText)">搜索</a> -->
+      <a slot="right" @click="$emit('close')">取消</a>
     </c-header>
     <div class="c-page-body header-pd">
-      <div class="list" v-if="searchText.length > 0">
+      <!-- <div class="list" v-if="searchText.length > 0">
         <div
           class="item"
           v-for="(item,index) in searchTipList"
           :key="index"
           @click="search(item)"
         >{{item}}</div>
-      </div>
-      <div class v-else>
+      </div> -->
+      <div class>
         <div class="history-wrap">
           <div class="wrap-header">
             <h3 class="wrap-title">历史搜索</h3>
@@ -132,8 +133,8 @@ export default {
       if (val) {
         this.searchText = this.defaultSearchText;
         this.fetchSearchTip(this.searchText);
-        this.$refs.searchInput.focus();
         this.$nextTick(() => {
+        this.$refs.searchInput.focus();
           this.$refs.header.resizeCenter();
         });
       }

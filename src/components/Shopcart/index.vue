@@ -164,11 +164,14 @@
   <div class="c-shopcart" :class="{'in-tab':inTab}">
     <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
     <div class="c-page-body header-pd">
-      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">登录后可以查看购物车
-        <router-link tag="button" to="/login">登录</router-link>
+      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">
+        亲~ 登录后才可以查看购物车
+        <div style="padding-top:0.2rem;">
+          <router-link tag="button" to="/login" class="c-btn btn-primary">去登录</router-link>
+        </div>
       </div>
       <div v-else-if="list && list.length > 0">
-        <div class="list" style="margin-top:0.1rem;">
+        <div class="list" style="margin-top:-1px;">
           <div class="item" v-for="(shopcart,index) in list" :key="index">
             <label class="item-checkbox-wrap">
               <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
@@ -234,8 +237,9 @@
       </div>
 
       <c-empty-hint v-else icon="icon-goods_light" hint="您的购物车是空的哦！">
-        <button @click="$emit('gotoHome')">顺便逛逛</button>
+        <button class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
       </c-empty-hint>
+      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
     </div>
   </div>
 </template>

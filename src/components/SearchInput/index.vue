@@ -21,7 +21,7 @@
     width: 100%;
     height: $height;
     line-height: $height;
-    background: rgba(222, 222, 222, 0.6) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     font-size: 0.14rem;
     color: #444;
     -webkit-appearance: none;
@@ -29,9 +29,9 @@
     padding: 0 0.15rem 0 0.32rem;
     box-sizing: border-box;
 
-    &:disabled {
-      background: rgba(222, 222, 222, 0.6) !important;
-    }
+    // &:disabled {
+    //   background: rgba(240, 240, 240, 0.95) !important;
+    // }
   }
 }
 </style>
@@ -49,7 +49,6 @@
           @input="handleInput"
           class="c-search-input__inner"
           type="search"
-          autofocus
           autocomplete="off"
         >
       </div>

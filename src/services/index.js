@@ -171,11 +171,15 @@ const services = {
   },
 
   async fetchItemList({
+    pageIndex,
+    pageSize,
     categoryId,
     searchText,
   }) {
     return (await request.get(`/items`, {
       params: {
+        pageIndex,
+        pageSize,
         categoryId,
         searchText
       }
@@ -519,6 +523,42 @@ const services = {
       onUploadProgress,
     })).data;
   },
+
+  //退款/售后列表
+  async fetchRefundList() {
+    return (await request.get(`/refunds`, {
+      token: true
+    })).data;
+  },
+
+  //退款/售后列表
+  async fetchRefundInfo(refundId) {
+    return (await request.get(`/refunds/${refundId}`, {
+      token: true
+    })).data;
+  },
+
+  //退款申请信息
+  async fetchRefundApplyInfo({
+    orderId,
+    orderItemId
+  }) {
+    return (await request.get(`/refunds/applyInfo`, {
+      params: {
+        orderId,
+        orderItemId
+      },
+      token: true
+    })).data;
+  },
+
+  //申请退款
+  async applyRefund(params) {
+    return (await request.post(`/refunds/apply`, params, {
+      token: true
+    })).data;
+  },
+
 };
 
 export default services;

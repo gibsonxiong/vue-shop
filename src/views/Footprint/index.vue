@@ -2,21 +2,27 @@
 .footprint-page {
   background: #f3f3f3;
 }
-.c-page-body{
+.c-page-body {
   // padding: 0.44rem 0.1rem 0.1rem 0.1rem;
 }
-.footprint_t{
-  padding: 0.1rem 0;
-  border-bottom:1px solid #f4f4f4;
+
+.list-title {
+  padding: 0.05rem;
+  color: #999;
+  font-size: 0.12rem;
 }
-.footprint_t i{
+.footprint_t {
+  padding: 0.1rem 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+.footprint_t i {
   padding-right: 0.05rem;
 }
-.footprint_t span{
+.footprint_t span {
   display: inline-block;
   width: 49%;
 }
-.footprint_t span:last-of-type{
+.footprint_t span:last-of-type {
   text-align: right;
 }
 </style>
@@ -25,27 +31,51 @@
   <div class="footprint-page">
     <c-header :title="'我的足迹'"></c-header>
     <div class="c-page-body header-pd">
-        <c-goodslist :data="itemList"></c-goodslist>
-     </div>
+      <div>
+        <div v-for="(itemList,dateTitle) in footprintList" :key="dateTitle">
+          <div class="list-title">{{dateTitle}}</div>
+          <c-goods-item
+            v-for="(item,index) in itemList"
+            :key="index"
+            :id="item.itemId"
+            :img="item.itemImg"
+            :name="item.itemName"
+            :price="item.itemPrice"
+          ></c-goods-item>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import services from '@/services';
-   
+import services from "@/services";
+import filter from "@c/filter";
+
 export default {
   data() {
     return {
       list: []
     };
   },
-  computed:{
-    itemList(){
-      return this.list.map(item=> item);
+  computed: {
+    footprintList() {
+      let res = {};
+      this.list.forEach(item => {
+        let dateTitle = filter.date(item.createTime, "yyyy-MM-dd");
+
+        if (!res[dateTitle]) {
+          res[dateTitle] = [];
+        }
+
+        res[dateTitle].push(item);
+      });
+
+      return res;
     }
   },
   methods: {
-   async listFootprint() {
+    async listFootprint() {
       try {
         let res = await services.listFootprint();
 

@@ -5,7 +5,7 @@
 .item-list-page {
   .header_r_i {
     > i {
-      font-size: pxTorem(44);
+      font-size: pxTorem(48);
     }
   }
   .list_wrap {
@@ -19,13 +19,14 @@
       // left: 0;
       // right: 0;
       background: #fff;
-      @include border-bottom(rgba(230, 230, 230, 0.5));
-      padding: pxTorem(30) 0rem;
+      @include border-bottom($color-border);
+      padding: pxTorem(20) 0rem;
+      font-size: 0.14rem;
       .select_item {
         width: 25%;
       }
       .select_item:not(:last-child) {
-        @include border-right(rgba(230, 230, 230, 0.5));
+        @include border-right($color-border);
       }
       .select_item_active {
         color: $color-primary;
@@ -49,7 +50,7 @@
     }
     .des_money {
       font-size: 0.16rem;
-      font-weight: 600;
+      font-weight: 500;
       color: $color-primary;
     }
     .buy_btn {
@@ -85,6 +86,8 @@
           .item_pic {
             width: 100%;
             background-color: #fff;
+            border-radius: 0.06rem;
+            overflow: hidden;
             .pic {
               width: 100%;
               // a {
@@ -99,12 +102,10 @@
               padding: pxTorem(20) pxTorem(14);
               overflow: hidden;
               > p {
-                letter-spacing: 1px;
-                padding-bottom: pxTorem(13);
+                margin-bottom: 0.065rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                white-space: nowrap;
+                height: 0.4rem;
               }
             }
           }
@@ -118,10 +119,11 @@
         }
         .list_box_item {
           width: 100%;
-          padding: pxTorem(26) pxTorem(18) 0rem;
+          padding: pxTorem(26) pxTorem(18);
           overflow: hidden;
           display: block;
           background-color: #fff;
+          border-bottom: 1px solid $color-border;
           &::after {
             content: "";
             display: block;
@@ -130,29 +132,23 @@
           .item_pic {
             width: 100%;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .pic {
-              width: 20%;
-              // a {
-              //   display: block;
-              img {
-                width: 100%;
-                object-fit: cover;
-              }
-              // }
+
+            .c-img-box {
+              width: 1.2rem;
+              height: 1.2rem;
+              padding-top: 0;
+              border-radius: 0.04rem;
+              overflow: hidden;
             }
             .des {
-              width: 80%;
-              padding: pxTorem(20) pxTorem(14);
+              flex: 1;
+              padding-left: 0.07rem;
               overflow: hidden;
               > p {
-                letter-spacing: 1px;
-                padding-bottom: pxTorem(13);
+                margin-bottom: 0.065rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                white-space: nowrap;
+                height: 0.4rem;
               }
             }
           }
@@ -174,20 +170,24 @@
     .select_box {
       height: 100%;
       width: 100%;
-      display: flex;
       .select_bg {
         height: 100%;
-        width: 15%;
+        width: 100%;
         background: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
       }
       .select_content {
-        width: 85%;
+        width: 2.7rem;
         height: 100%;
         background: #fff;
-        position: relative;
+        position: fixed;
+        top: 0;
+        right: 0;
         .select_price {
           padding: pxTorem(45) pxTorem(26);
-          @include border-bottom(#e7e7e7);
+          @include border-bottom($color-border);
           .select_input {
             span {
               padding: 0px pxTorem(12);
@@ -208,14 +208,14 @@
           left: 0;
           right: 0;
           .bottom_box {
-            @include border-top(#e7e7e7);
+            @include border-top($color-border);
             > div {
               width: 50%;
               padding: pxTorem(30) 0px;
               text-align: center;
             }
             > div:nth-child(2) {
-              background: #ff5000;
+              background: $color-primary;
               color: #fff;
             }
           }
@@ -230,13 +230,9 @@
   <div class="item-list-page page">
     <div v-show="!search.visible">
       <c-header>
-        <c-search-input
-          slot="center"
-          v-model="searchText"
-          @click.native="showSearch"
-          disabled="disabled"
-          style="width:100%;"
-        ></c-search-input>
+        <div class="c-input-mask" slot="center" @click="showSearch">
+          <c-search-input v-model="searchText" style="width:100%;"></c-search-input>
+        </div>
         <div slot="right" class="header_r_i" @click="listTypeClick">
           <i class="iconfont icon-apps" v-show="listType"></i>
           <i class="iconfont icon-sort" v-show="!listType"></i>
@@ -267,11 +263,7 @@
                 <i class="iconfont icon-triangledownfill" :class="{'i_active':iSort == 2}"></i>
               </div>
             </div>
-            <div
-              class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':listActive==3}"
-              @click="listSelectClick(3)"
-            >
+            <div class="select_item chen_center_absolute_center" @click="listSelectClick(3)">
               筛选
               <i class="iconfont icon-filter"></i>
             </div>
@@ -306,8 +298,8 @@
                   :key="index"
                 >
                   <div class="item_pic">
-                    <div class="pic">
-                      <img :src="item.imgList[0]">
+                    <div class="c-img-box">
+                      <img v-lazy="item.imgList[0]">
                     </div>
                     <div class="des">
                       <p>{{item.name}}</p>
@@ -382,6 +374,7 @@ export default {
   ],
   data() {
     return {
+      pageIndex: 0,
       searchText: "11",
       itemTypeId: "1",
       search: {
@@ -399,15 +392,19 @@ export default {
     };
   },
   methods: {
-    loadTop() {
+    async loadTop() {
       // 下拉刷新加载更多数据
-      setTimeout(() => {
-        let firstVal = this.itemList[0];
-        for (let i = 0; i < 2; i++) {
-          this.itemList.unshift(firstVal);
-        }
-        this.$refs.loadmore.onTopLoaded();
-      }, 1500);
+      // setTimeout(() => {
+      //   let firstVal = this.itemList[0];
+      //   for (let i = 0; i < 2; i++) {
+      //     this.itemList.unshift(firstVal);
+      //   }
+      //   this.$refs.loadmore.onTopLoaded();
+      // }, 1500);
+      this.pageIndex = 0;
+      await this.fetchItemList();
+
+      this.$refs.loadmore.onTopLoaded();
     },
     loadBottom() {
       //上拉加载更多数据
@@ -428,16 +425,14 @@ export default {
       //下拉事件
       this.topStatus = status;
     },
-    loadMore() {
+    async loadMore() {
       //无限滚动事件触发
       this.loadingDisable = true;
+
+      await this.fetchItemList(true);
       setTimeout(() => {
-        let lastValue = this.itemList[1];
-        for (let i = 1; i <= 6; i++) {
-          this.itemList.push(lastValue);
-        }
         this.loadingDisable = false;
-      }, 300);
+      }, 1000);
     },
     showSearch() {
       this.search.visible = true;
@@ -467,7 +462,6 @@ export default {
     },
     listSelectClick(num) {
       //筛选
-      this.listActive = num;
       this.selectBox = true;
     },
     selectNone() {
@@ -487,19 +481,24 @@ export default {
       };
       this.$router.replace(route);
     },
-    async fetchItemList() {
+    async fetchItemList(append) {
       try {
-        let { searchText, itemTypeId } = this;
+        let { searchText, itemTypeId, pageIndex } = this;
+        pageIndex++;
         let res = await services.fetchItemList({
+          pageIndex: pageIndex,
           categoryId: itemTypeId,
           searchText
         });
         if (services.$isError(res)) throw new Error(res.message);
-        this.itemList = res.data;
-        // for (let i = 0; i < 2; i++) {
-        //   this.itemList.push(...res.data);
-        // }
-        console.log(this.itemList);
+
+        this.pageIndex = pageIndex;
+
+        if (append) {
+          this.itemList = this.itemList.concat(res.data);
+        } else {
+          this.itemList = res.data;
+        }
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -508,7 +507,7 @@ export default {
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.itemTypeId = this.$route.query.itemTypeId || "";
-    this.fetchItemList();
+    // this.fetchItemList();
   }
 };
 </script>

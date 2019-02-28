@@ -2,20 +2,20 @@
 .c-empty-hint {
   text-align: center;
   padding-top: 0.5rem;
-  background-color: #f7f7f7;
-  padding-bottom: 0.8rem;
+  padding-bottom: 0.3rem;
   &__img {
     width: 0.95rem;
   }
   &__icon {
     font-size: 0.95rem;
     line-height: 1;
-    color: #777;
+    color: #868686;
   }
   &__hint {
     line-height: 0.22rem;
     text-align: center;
     padding: 0.1rem 0 0.2rem;
+    color: #868686;
   }
 }
 </style>
