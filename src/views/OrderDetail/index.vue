@@ -92,54 +92,6 @@
   color: #777;
 }
 </style>
-<style>
-.picker {
-  background: #fff;
-  color: #fff;
-  position: absolute;
-  z-index: 10;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-}
-.picker-center-highlight {
-  text-align: center !important;
-}
-.picker-item,
-.picker-center-highlight {
-  height: 30px !important;
-  margin-top: 0px !important;
-  line-height: 30px !important;
-}
-.picker-items {
-  text-align: center !important;
-}
-.picker-items,
-.picker-slot,
-.picker-slot-right {
-  text-align: center !important;
-}
-.picker-slot-wrapper {
-  height: 150px !important;
-}
-.picker-slot.picker-slot-right {
-  text-align: center !important;
-}
-.mt-picker {
-  position: absolute;
-  background: #fff;
-  padding: 0.05rem 0.1rem;
-  left: 0;
-  right: 0;
-  z-index: 11;
-  text-align: right;
-  bottom: 150px;
-}
-.picker-center-highlight {
-  width: auto !important;
-}
-</style>
 
 <template>
   <div class="orderDetail-page">
@@ -209,7 +161,7 @@
               <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
             </div>
             <div style="width:15%;text-align:right;">
-              <span>￥{{orderItem.price}}</span>
+              <span>￥{{orderItem.itemPrice}}</span>
               <div style="color:#999;font-size:12px;">
                 <span>×{{orderItem.quantity}}</span>
               </div>
@@ -253,50 +205,45 @@
         </p>
         <p>
           <span>创建时间</span>
-          <span>{{orderInfo.createTime}}</span>
+          <span>{{orderInfo.createTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
         </p>
         <p v-if="orderInfo.payTime">
           <span>付款时间</span>
-          <span>{{orderInfo.payTime}}</span>
+          <span>{{orderInfo.payTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
         </p>
         <p v-if="orderInfo.deliverTime">
           <span>发货时间</span>
-          <span>{{orderInfo.deliverTime}}</span>
+          <span>{{orderInfo.deliverTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
         </p>
         <p v-if="orderInfo.endTime">
           <span>成交时间</span>
-          <span>{{orderInfo.endTime}}</span>
+          <span>{{orderInfo.endTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
         </p>
       </div>
-      <!--  -->
-      <div class="footer">
-        <template v-if="orderInfo.status==1">
-          <button class="c-btn" @click.stop="cancelOrder(orderInfo.id)">取消订单</button>
-          <button
-            class="c-btn btn-primary"
-            @click.stop="$router.push({path:'/cashier', query:{orderId:orderInfo.id}})"
-          >付款</button>
-        </template>
-        <template v-else-if="orderInfo.status==2">
-          <!-- <button class="c-btn">申请开票</button> -->
-          <button class="c-btn btn-primary" @click.stop="remindDeliver(orderInfo.id)">提醒发货</button>
-        </template>
-        <template v-else-if="orderInfo.status==3">
-          <button class="c-btn" @click.stop="logistics(orderInfo.id)">查看物流</button>
-          <button class="c-btn btn-primary" @click.stop="confirmReceive(orderInfo.id)">确认收货</button>
-        </template>
-        <template v-else-if="orderInfo.status==4">
-          <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
-          <button class="c-btn btn-primary" @click.stop="rateOrder(orderInfo.id)">评价</button>
-        </template>
-        <template v-else-if="orderInfo.status==9">
-          <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
-        </template>
-      </div>
-      <div v-show="cacelOrderPopupVisible" class="order_bot">
-        <p class="mt-picker" @click="success_order">完成</p>
-        <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
-      </div>
+    </div>
+    <div class="footer">
+      <template v-if="orderInfo.status==1">
+        <button class="c-btn" @click.stop="cancelOrder(orderInfo.id)">取消订单</button>
+        <button
+          class="c-btn btn-primary"
+          @click.stop="$router.push({path:'/cashier', query:{orderId:orderInfo.id}})"
+        >付款</button>
+      </template>
+      <template v-else-if="orderInfo.status==2">
+        <!-- <button class="c-btn">申请开票</button> -->
+        <button class="c-btn btn-primary" @click.stop="remindDeliver(orderInfo.id)">提醒发货</button>
+      </template>
+      <template v-else-if="orderInfo.status==3">
+        <button class="c-btn" @click.stop="logistics(orderInfo.id)">查看物流</button>
+        <button class="c-btn btn-primary" @click.stop="confirmReceive(orderInfo.id)">确认收货</button>
+      </template>
+      <template v-else-if="orderInfo.status==4">
+        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
+        <button class="c-btn btn-primary" @click.stop="rateOrder(orderInfo.id)">评价</button>
+      </template>
+      <template v-else-if="orderInfo.status==9">
+        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
+      </template>
     </div>
   </div>
 </template>
@@ -304,42 +251,23 @@
 <script>
 import { Picker } from "mint-ui";
 import services from "@/services";
+import filter from '@c/filter';
 
 export default {
+  filters:{
+    date:filter.date
+  },
   data() {
     return {
       orderId: "",
       orderInfo: {},
 
-      cacelOrderPopupVisible: false,
-      order_cause: "",
       dd: "0",
       hh: "0",
-      mm: "0",
-      slots: [
-        {
-          flex: 1,
-          values: [
-            "我不想买了",
-            "缺货",
-            "信息填写错误，重新拍",
-            "线下交易",
-            "其他原因"
-          ],
-          textAlign: "center"
-        }
-      ]
+      mm: "0"
     };
   },
   methods: {
-    success_order(values) {
-      this.cacelOrderPopupVisible = false;
-    },
-    onValuesChange(picker, values) {
-      for (var i = 0; i < values.length; i++) {
-        this.order_cause = values[i];
-      }
-    },
     async fetchOrderInfo() {
       try {
         let { orderId } = this;
@@ -405,18 +333,30 @@ export default {
 
     //取消订单
     async cancelOrder(orderId) {
+      let result = await this.$popup.select({
+        data: [
+          "我不想买了",
+          "缺货",
+          "信息填写错误，重新拍",
+          "线下交易",
+          "其他原因"
+        ]
+      });
+
+      console.log(result);
+
+      if (result[0] === "cancel") return;
+
       try {
-       this.cacelOrderPopupVisible = false;
-
-
         let res = await services.cancelOrder({
           orderId,
-          cancelReason: "顺便填的"
+          cancelReason: result[1]
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.fetchOrderList();
+        // this.fetchOrderList();
+        this.fetchOrderInfo();
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -456,7 +396,7 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.fetchOrderList();
+        this.fetchOrderInfo();
       } catch (err) {
         return this.$toast(err.message);
       }

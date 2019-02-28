@@ -15,6 +15,7 @@
     width: 100%;
     left: 0;
     bottom: 0;
+        z-index: 50;
   }
 
   &__item {

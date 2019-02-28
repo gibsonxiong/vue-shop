@@ -41,7 +41,7 @@ export default {
   },
   computed:{
     itemList(){
-      return this.list.map(item=> item.item);
+      return this.list.map(item=> item);
     }
   },
   methods: {
