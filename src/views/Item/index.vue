@@ -1,21 +1,43 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-.pop-enter-active,
-.pop-leave-active {
-  // transform: translateY(0);
-  transition: opacity 0.3s;
+// .pop-enter-active,
+// .pop-leave-active {
+//   // transform: translateY(0);
+//   transition: opacity 0.3s;
+// }
+// .fade-enter-active,
+// .fade-leave-active {
+//   transform: translateY(0);
+//   transition: 0.3s;
+// }
+// .pop-enter,
+// .pop-leave-to {
+//   opacity: 0;
+//   // transform: translateY(100%);
+// }
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.4s;
 }
+
+.slide-enter,
+.slide-leave-to {
+  opacity: 0.8;
+  transform: translate3d(0, 100%, 0);
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transform: translateY(0);
-  transition: 0.3s;
+  transition: all 0.4s;
 }
-.pop-enter,
-.pop-leave-to {
+
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
-  // transform: translateY(100%);
 }
+
 .icon-fenxiang {
   position: relative;
   &:after {
@@ -73,7 +95,7 @@
       // padding: 0rem 0rem pxTorem(1);
       .item_white {
         background: #fff;
-        padding: pxTorem(18) pxTorem(14) pxTorem(14);
+        padding: 0.1rem 0.07rem 0.1rem;
       }
       .item_select_des {
         .dex_txt {
@@ -85,7 +107,7 @@
           min-width: 15%;
         }
         .des_price {
-          padding: pxTorem(5) 0rem;
+          padding: 0.1rem 0rem;
           .price_now {
             font-size: pxTorem(40);
             color: $color-primary;
@@ -248,144 +270,125 @@
       }
     }
   }
-  .item_detail_pop_model {
+
+  .item_detail_pop_model_hidden {
+    @include mask;
+  }
+
+  .item_detail_pop_content {
     position: fixed;
-    top: 0;
+    z-index: 110;
     bottom: 0;
     left: 0;
     right: 0;
-    // background: rgba(0, 0, 0, 0.7);
-    z-index: 999;
-    .item_detail_pop_box {
+    background: #fff;
+    .item_detail_pop_parents {
       position: relative;
       height: 100%;
-      width: 100%;
-      z-index: 999;
-      .item_detail_pop_model_hidden {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        // opacity: 0;
-        // transition: opacity 0.6s;
-      }
-      .pop_model_active {
-        opacity: 1;
-      }
-      .item_detail_pop_content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 70%;
-        background: #fff;
-        z-index: 33;
-        .item_detail_pop_parents {
-          position: relative;
+      padding: 0rem pxTorem(30);
+      .item_detail_top_img {
+        @include border-bottom($color-border);
+        padding: 0.08rem 0rem 0.08rem 1.15rem;
+        min-height: 0.9rem;
+        .item_detail_img_box {
+          position: absolute;
+          top: -0.28rem;
+          left: 0.15rem;
+          width: 1.1rem;
+          height: 1.1rem;
+          padding: pxTorem(3);
+          border-radius: pxTorem(6);
+          overflow: hidden;
+          background: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          img {
+            width: 100%;
+            object-fit: cover;
+          }
+        }
+        .item_detail_top_price {
+          display: flex;
           height: 100%;
-          padding: 0rem pxTorem(16);
-          .item_detail_top_img {
-            @include border-bottom(#eee);
-            padding: 0.08rem 0rem 0.08rem 1.2rem;
-            min-height: 1rem;
-            .item_detail_img_box {
-              position: absolute;
-              top: -0.28rem;
-              left: 0.1rem;
-              width: 1.1rem;
-              height: 1.1rem;
-              padding: pxTorem(3);
-              border-radius: pxTorem(6);
+          justify-content: space-between;
+          .item_detail_top_des {
+            width: 86%;
+            .price_num {
+              color: $color-primary;
+              line-height: 1;
+              font-size: 0.18rem;
+              span {
+                font-size: pxTorem(38);
+              }
+            }
+          }
+          .item_detail_top_cancel {
+            > i {
+              color: #666;
+              font-size: pxTorem(48);
+            }
+          }
+        }
+      }
+      .item_detail_center {
+        height: 3rem;
+        overflow: auto;
+        padding: 0 0.15rem;
+        padding-bottom: 0.6rem;
+        margin: 0 -0.15rem;
+        .item_detail_select_data {
+          padding: 0.08rem 0rem 0rem;
+          .select_data_lists {
+            &::after {
+              content: "";
+              display: block;
+              clear: both;
+            }
+            .select_data_item {
+              float: left;
+              color: #333;
+              padding: 0.05rem 0.15rem;
+              background: #f8f8f8;
               overflow: hidden;
-              background: #fff;
-              border: 1px solid rgba(0, 0, 0, 0.1);
-              img {
-                width: 100%;
-                object-fit: cover;
-              }
+              border-radius: pxTorem(5);
+              margin: 0rem pxTorem(18) pxTorem(18) 0rem;
             }
-            .item_detail_top_price {
-              display: flex;
-              height: 100%;
-              justify-content: space-between;
-              .item_detail_top_des {
-                width: 86%;
-                .price_num {
-                  color: $color-primary;
-                  line-height: 1;
-                  font-size: 0.18rem;
-                  span {
-                    font-size: pxTorem(38);
-                  }
-                }
-              }
-              .item_detail_top_cancel {
-                > i {
-                  font-size: pxTorem(48);
-                }
-              }
-            }
-          }
-          .item_detail_center {
-            height: 66%;
-            overflow: auto;
-            padding-bottom: pxTorem(14);
-            .item_detail_select_data {
-              padding: pxTorem(20) 0rem pxTorem(15);
-              @include border-bottom(#eee);
-              .select_data_lists {
-                &::after {
-                  content: "";
-                  display: block;
-                  clear: both;
-                }
-                .select_data_item {
-                  float: left;
-                  padding: pxTorem(13) pxTorem(23);
-                  background: #f5f5f5;
-                  overflow: hidden;
-                  border-radius: pxTorem(5);
-                  margin: 0rem pxTorem(18) pxTorem(18) 0rem;
-                }
-                .select_data_item_active {
-                  background: $color-primary;
-                  color: #fff;
-                }
-                .select_data_item_active_none {
-                  color: #bbb;
-                }
-              }
-            }
-            .select_data_til {
-              font-size: pxTorem(32);
-              margin-bottom: pxTorem(16);
-            }
-            .item_detail_number {
-              padding-top: pxTorem(30);
-            }
-          }
-          .item_detail_confirm {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            @include flexbox;
-            .btn {
-              @include flex;
-              padding: pxTorem(30) 0rem;
-              text-align: center;
+            .select_data_item_active {
               background: $color-primary;
               color: #fff;
-              font-size: pxTorem(32);
-              // width: 100%;
-              border: 0;
-
-              &.btn-secondly{
-                background-color:$color-secondly;
-              }
             }
+            .select_data_item_active_none {
+              color: #bbb;
+            }
+          }
+        }
+        .select_data_til {
+          font-size: pxTorem(24);
+          margin-bottom: pxTorem(16);
+        }
+        .item_detail_number {
+          @include border-top($color-border);
+          padding-top: pxTorem(30);
+        }
+      }
+      .item_detail_confirm {
+        // position: absolute;
+        // bottom: 0;
+        // left: 0;
+        // right: 0;
+        margin: 0 -0.15rem;
+        @include flexbox;
+        .btn {
+          @include flex;
+          padding: pxTorem(30) 0rem;
+          text-align: center;
+          background: $color-primary;
+          color: #fff;
+          font-size: pxTorem(32);
+          // width: 100%;
+          border: 0;
+
+          &.btn-secondly {
+            background-color: $color-secondly;
           }
         }
       }
@@ -452,42 +455,42 @@
           </div>
           <div class="item_select_classification item_white">
             <div class="chen_center_absolute">
+              <div>商品评价({{rateCount}})</div>
               <div>
-                商品评价({{rateCount}})
-              </div>
-              <div>
-                <router-link v-if="rateCount > 0" class="item_look_more" :to="{ path: '/evaluate', query: { itemId }}">
+                <router-link
+                  v-if="rateCount > 0"
+                  class="item_look_more"
+                  :to="{ path: '/evaluate', query: { itemId }}"
+                >
                   <span>查看更多</span>
                   <i class="iconfont icon-right"></i>
                 </router-link>
               </div>
             </div>
             <div v-if="rateList.length > 0">
-              <router-link :to="{ path: '/evaluate', query: { itemId }}"  tag="div" class="evaluate" v-for="(rate,index) in rateList" :key="index">
+              <router-link
+                :to="{ path: '/evaluate', query: { itemId }}"
+                tag="div"
+                class="evaluate"
+                v-for="(rate,index) in rateList"
+                :key="index"
+              >
                 <div class="evaluate_header">
                   <div class="header_img">
-                    <img
-                      :src="rate.user.avatar"
-                    >
+                    <img :src="rate.user.avatar">
                   </div>
                   <div>{{rate.user.nickname}}</div>
                 </div>
-                <div
-                  class="evaluate_des"
-                >{{rate.content}}</div>
+                <div class="evaluate_des">{{rate.content}}</div>
                 <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
-                  <img
-                    v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex"
-                    :src="img"
-                  >
+                  <img v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex" :src="img">
                 </div>
               </router-link>
             </div>
-            <div style="    color: #777;
-    font-size: 0.12rem;
-    padding-top: 0.1rem;" v-else>
-              暂无评价
-            </div>
+            <div
+              style="color: #777;font-size: 0.12rem;padding-top: 0.1rem;"
+              v-else
+            >暂无评价</div>
           </div>
           <!-- <div class="item_select_shop_name chen_center_absolute">
             <div class="chen_center_absolute">
@@ -517,9 +520,6 @@
               v-html="itemInfo.detail"
               v-lazy-container="{ selector: 'img' }"
             >
-              <!-- <li v-for="(val, index) in item_details_data" :key="index">
-                <img :src="val.url">
-              </li>-->
             </div>
             <ul v-show="itemDetails === '0'" class="item_parameters">
               <li
@@ -535,7 +535,7 @@
         </div>
       </div>
     </div>
-    <c-share :shareShow="share" @shareClose="shareNone"></c-share>
+
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
@@ -575,73 +575,79 @@
         </div>
       </div>
     </div>
-    <transition name="pop">
-      <div class="item_detail_pop_model" v-show="pop_model">
-        <div class="item_detail_pop_box">
-          <div class="item_detail_pop_model_hidden" @click="closePopModel()"></div>
-          <div class="item_detail_pop_content">
-            <div class="item_detail_pop_parents">
-              <div class="item_detail_top_img">
-                <div class="item_detail_img_box">
-                  <img v-if="itemInfo.imgList" :src="itemInfo.imgList[0]">
+
+    <c-share :shareShow="share" @shareClose="shareNone"></c-share>
+
+    <transition name="fade">
+      <div class="item_detail_pop_model_hidden" @click="closePopModel()" v-show="pop_model"></div>
+    </transition>
+    <transition name="slide">
+      <div class="item_detail_pop_content" v-show="pop_model">
+        <div class="item_detail_pop_parents">
+          <div class="item_detail_top_img">
+            <div class="item_detail_img_box">
+              <img v-if="itemInfo.imgList" :src="itemInfo.imgList[0]">
+            </div>
+            <div class="item_detail_top_price">
+              <div class="item_detail_top_des">
+                <div class="price_num">
+                  ￥{{selectSku ? selectSku.price : itemPrice}}
+                  <!-- <span>78.00</span> -->
                 </div>
-                <div class="item_detail_top_price">
-                  <div class="item_detail_top_des">
-                    <div class="price_num">
-                      ￥{{selectSku ? selectSku.price : itemPrice}}
-                      <!-- <span>78.00</span> -->
-                    </div>
-                    <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
-                    <div>{{selectTip}}</div>
-                    <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
-                  </div>
-                  <div class="item_detail_top_cancel" @click="closePopModel()">
-                    <i class="iconfont icon-round_close_light"></i>
-                  </div>
-                </div>
+                <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
+                <div style="padding-top:0.05rem;color:#666;">{{selectTip}}</div>
+                <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
               </div>
-              <ul class="item_detail_center">
-                <li
-                  class="item_detail_select_data"
-                  v-for="(val,index) in itemInfo.propnames"
-                  :key="index"
-                >
-                  <div class="select_data_til">{{val.name}}</div>
-                  <div class="select_data_lists">
-                    <div
-                      class="select_data_item"
-                      v-for="(item,index2) in itemInfo.propvalues[index]"
-                      :key="index2"
-                      @click="selectDataItem(index, item.id)"
-                      :class="{
-                      'select_data_item_active_none': disabledList[index] && disabledList[index].includes(item.id),
-                      'select_data_item_active':selectValue[index] == item.id
-                    }"
-                    >{{item.name}}</div>
-                  </div>
-                </li>
-                <li class="chen_center_absolute item_detail_number">
-                  <div class="select_data_til" style="margin-bottom: 0rem;">
-                    数量
-                    <span v-if="selectSku">({{selectSku.quantity}}件)</span>
-                  </div>
-                  <div>
-                    <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
-                  </div>
-                </li>
-              </ul>
-              <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-                <button class="btn btn-secondly" @click="submit('cart')">加入购物车</button>
-                <button class="btn" @click="submit('buy')">立刻购买</button>
-              </div>
-              <div v-else class="item_detail_confirm" @click="submit(pop_model)">
-                <button class="btn">确定</button>
+              <div class="item_detail_top_cancel" @click="closePopModel()">
+                <i class="iconfont icon-round_close_light"></i>
               </div>
             </div>
+          </div>
+          <div class="item_detail_center">
+            <div style="padding:0.15rem 0;">
+              <div
+                class="item_detail_select_data"
+                v-for="(val,index) in itemInfo.propnames"
+                :key="index"
+              >
+                <div class="select_data_til">{{val.name}}</div>
+                <div class="select_data_lists">
+                  <div
+                    class="select_data_item"
+                    v-for="(item,index2) in itemInfo.propvalues[index]"
+                    :key="index2"
+                    @click="selectDataItem(index, item.id)"
+                    :class="{
+                          'select_data_item_active_none': disabledList[index] && disabledList[index].includes(item.id),
+                          'select_data_item_active':selectValue[index] == item.id
+                        }"
+                  >{{item.name}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="chen_center_absolute item_detail_number">
+              <div class="select_data_til" style="margin-bottom: 0rem;">
+                数量
+                <span v-if="selectSku">({{selectSku.quantity}}件)</span>
+              </div>
+              <div>
+                <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
+              </div>
+            </div>
+          </div>
+          <div v-if="pop_model === 'sku'" class="item_detail_confirm">
+            <button class="btn btn-secondly" @click="submit('cart')">加入购物车</button>
+            <button class="btn" @click="submit('buy')">立刻购买</button>
+          </div>
+          <div v-else class="item_detail_confirm" @click="submit(pop_model)">
+            <button class="btn">确定</button>
           </div>
         </div>
       </div>
     </transition>
+    <!-- </div>
+    </div>-->
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -705,8 +711,8 @@ export default {
       quantity: 1,
       favoriteId: "",
       share: false, //分享组件控制
-      rateList:[],
-      rateCount:1
+      rateList: [],
+      rateCount: 1
     };
   },
   created() {
@@ -898,7 +904,7 @@ export default {
         return this.$toast(err.message);
       }
     },
-    async fetchItemRateList(){
+    async fetchItemRateList() {
       try {
         let { itemId } = this;
         let res = await services.fetchItemRateList({
@@ -908,7 +914,6 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.rateList = res.data;
-
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -916,15 +921,14 @@ export default {
     imgDetail() {
       //图片设置data-src
       this.itemInfo.detail = this.itemInfo.detail.replace(/src/g, "data-src");
-      this.$nextTick(() => {
-        let prews = this.$refs.imgs_detail;
-        let prewImgs = [...prews.querySelectorAll("img")];
-        for (let i in prewImgs) {
-          prewImgs[i].setAttribute("preview", "2");
-        }
-        this.$previewRefresh();
-      
-      });
+      // this.$nextTick(() => {
+      //   let prews = this.$refs.imgs_detail;
+      //   let prewImgs = [...prews.querySelectorAll("img")];
+      //   for (let i in prewImgs) {
+      //     prewImgs[i].setAttribute("preview", "2");
+      //   }
+      //   this.$previewRefresh();
+      // });
     },
     getPropValue(index, valueId) {
       return this.itemInfo.propvalues[index].find(item => item.id == valueId);

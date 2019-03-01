@@ -121,7 +121,7 @@
       <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
         <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
           <div class="c-img-box">
-            <img class="recommend-img" v-lazy="item.imgList[0]" alt>
+            <img class="recommend-img" :key="item.imgList[0]" v-lazy="item.imgList[0]" alt>
           </div>
           <div class="recommend-info">
             <div class="recommend-title">{{item.name}}</div>

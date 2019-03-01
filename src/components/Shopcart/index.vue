@@ -236,8 +236,8 @@
         </div>
       </div>
 
-      <c-empty-hint v-else icon="icon-goods_light" hint="您的购物车是空的哦！">
-        <button class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
+      <c-empty-hint v-else icon="icon-cart_light" hint="您的购物车是空的哦！">
+        <button v-if="inTab" class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
       </c-empty-hint>
       <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
     </div>

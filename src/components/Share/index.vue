@@ -2,49 +2,50 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 @import "~@/css/mixin";
-// @import "~@/css/co";
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.4s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  opacity: 0.8;
+  transform: translate3d(0, 100%, 0);
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: all 0.4s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
+
 .share {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 99;
-  .share_wrap {
+  .share_model {
+    @include mask;
+  }
+  .share_box {
+    z-index: 110;
+    padding: pxTorem(40) pxTorem(60) pxTorem(30);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    .share_model {
-      width: 100%;
-      height: 60%;
-      background: rgba(0, 0, 0, 0.5);
+    background: #fff;
+
+    .share_p {
+      font-size: pxTorem(36);
+      text-align: center;
+      padding-bottom: pxTorem(20);
     }
-    .share_box {
-      width: 100%;
-      height: 40%;
-      background: #fff;
-      padding: pxTorem(40) pxTorem(60) pxTorem(30);
-      position: relative;
-      overflow: auto;
-      
-      .share_p {
-        font-size: pxTorem(36);
-        text-align: center;
-        padding-bottom: pxTorem(20);
-      }
-      .share_line {
-        @include border-bottom(#ccc);
-        margin-top: pxTorem(50);
-      }
+    .share_line {
+      @include border-bottom(#ccc);
+      margin-top: pxTorem(50);
     }
   }
 }
@@ -53,15 +54,17 @@
 // @import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
 @import "~@/css/mixin";
 #share_component {
+  display: flex;
+  flex-wrap: wrap;
   .soshm-item {
-    margin: pxTorem(14) pxTorem(10);
-    width: pxTorem(160);
+    margin: 0.1rem 0;
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: center;
     .soshm-item-icon {
-      width: 40%;
-      height: 40%;
+      width: 0.3rem;
+      height: 0.3rem;
       img {
         object-fit: cover;
       }
@@ -78,18 +81,18 @@
 }
 </style>
 <template>
-  <transition name="fade">
-    <div v-show="shareShow" class="share">
-      <div class="share_wrap">
-        <div class="share_model" @click="shareNone"></div>
-        <div class="share_box">
-          <p class="share_p">分享到</p>
-          <div id="share_component"></div>
-          <div class="share_line"></div>
-        </div>
+  <div v-show="shareShow" class="share">
+    <transition name="fade">
+      <div class="share_model" @click="shareNone" v-show="shareShow"></div>
+    </transition>
+    <transition name="slide">
+      <div class="share_box" v-show="shareShow">
+        <p class="share_p">分享到</p>
+        <div id="share_component"></div>
+        <div class="share_line"></div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 

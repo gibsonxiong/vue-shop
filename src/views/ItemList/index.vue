@@ -1,6 +1,13 @@
 
 <style scoped lang="scss">
 @import "~@/css/mixin";
+.c-page-body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
 .item-list-page {
   .header_r_i {
@@ -155,7 +162,7 @@
         }
       }
       .loading_color {
-        color: $color-primary;
+        color: #666;
       }
     }
   }
@@ -237,33 +244,32 @@
           <i class="iconfont icon-apps" v-show="listType"></i>
           <i class="iconfont icon-sort" v-show="!listType"></i>
         </div>
-        <!-- <div slot="right" class="header_r_i"><i class="iconfont icon-sortlight"></i></div> -->
       </c-header>
       <div class="c-page-body header-pd">
         <div class="list_wrap">
           <div class="list_select chen_center_absolute">
             <div
               class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':listActive==0}"
-              @click="listAllClick(0)"
+              :class="{'select_item_active':order=='normal'}"
+              @click="changeOrder('normal')"
             >综合</div>
             <div
               class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':listActive==1}"
-              @click="listNumClick(1)"
+              :class="{'select_item_active':order=='sale'}"
+              @click="changeOrder('sale')"
             >销量</div>
             <div
               class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':listActive==2}"
-              @click="listPriceClick(2)"
+              :class="{'select_item_active':order=='priceAsc'|| order=='priceDesc'}"
+              @click="changeOrder(order=='priceAsc' ? 'priceDesc' : 'priceAsc')"
             >
               <div>价格</div>
               <div class="price_i">
-                <i class="iconfont icon-triangleupfill" :class="{'i_active':iSort == 1}"></i>
-                <i class="iconfont icon-triangledownfill" :class="{'i_active':iSort == 2}"></i>
+                <i class="iconfont icon-triangleupfill" :class="{'i_active':order=='priceAsc'}"></i>
+                <i class="iconfont icon-triangledownfill" :class="{'i_active':order=='priceDesc'}"></i>
               </div>
             </div>
-            <div class="select_item chen_center_absolute_center" @click="listSelectClick(3)">
+            <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
               筛选
               <i class="iconfont icon-filter"></i>
             </div>
@@ -271,24 +277,23 @@
           <div
             class="list_content"
             v-infinite-scroll="loadMore"
-            infinite-scroll-disabled="loadingDisable"
-            infinite-scroll-distance="40"
+            infinite-scroll-disabled="loadMoreDisabled"
+            infinite-scroll-distance="80"
           >
-            <!-- <mt-loadmore
-              :top-method="loadTop"
-              @top-status-change="handleTopChange"
-              :bottom-method="loadBottom"
-              @bottom-status-change="handleBottomChange"
-              :bottom-all-loaded="allLoaded"
-              :auto-fill="false"
-              ref="loadmore"
-            >-->
             <mt-loadmore
               :top-method="loadTop"
               @top-status-change="handleTopChange"
               :auto-fill="false"
               ref="loadmore"
             >
+              <div slot="top" class="mint-loadmore-top loading_color">
+                <span
+                  v-show="topStatus !== 'loading'"
+                  :class="{ 'is-rotate': topStatus === 'drop' }"
+                >释放即可刷新</span>
+                <span v-show="topStatus === 'loading'">刷新中...</span>
+              </div>
+
               <ul :class="[listType?'list_box_column':'list_box']">
                 <router-link
                   tag="li"
@@ -299,48 +304,43 @@
                 >
                   <div class="item_pic">
                     <div class="c-img-box">
-                      <img v-lazy="item.imgList[0]">
+                      <img :key="item.imgList[0]" v-lazy="item.imgList[0]">
                     </div>
                     <div class="des">
                       <p>{{item.name}}</p>
                       <div class="chen_center_absolute">
                         <div class="des_money">￥{{item.minPrice}}</div>
-                        <!-- <div class="buy_btn" @click.stop>购买</div> -->
                       </div>
                     </div>
                   </div>
                 </router-link>
               </ul>
-              <div slot="top" class="mint-loadmore-top loading_color">
-                <span
-                  v-show="topStatus !== 'loading'"
-                  :class="{ 'is-rotate': topStatus === 'drop' }"
-                >松开刷新</span>
-                <span v-show="topStatus === 'loading'">刷新中...</span>
-              </div>
-              <!-- <div slot="bottom" class="mint-loadmore-bottom loading_color">
-                <span
-                  v-show="bottomStatus !== 'loading'"
-                  :class="{ 'is-rotate': bottomStatus === 'drop' }"
-                >松开刷新</span>
-                <span v-show="bottomStatus === 'loading'">加载中...</span>
-              </div>-->
+              <c-empty-hint
+                v-show="loadMoreDisabled && itemList.length === 0"
+                icon="icon-goods_light"
+                hint="没有相关商品"
+              ></c-empty-hint>
             </mt-loadmore>
-            <div v-show="loadingDisable" class="mint-loadmore-bottom loading_color">加载中...</div>
+            <div v-show="loading" class="mint-loadmore-bottom loading_color">加载中...</div>
+            <div
+              v-show="loadMoreDisabled && itemList.length > 0"
+              class="mint-loadmore-bottom loading_color"
+            >没有更多了</div>
+            
           </div>
         </div>
       </div>
     </div>
-    <div v-show="selectBox" class="item_select">
+    <div v-show="selectBoxVisible" class="item_select">
       <div class="select_box">
-        <div class="select_bg" @click="selectNone()"></div>
+        <div class="select_bg" @click="selectBoxVisible=false"></div>
         <div class="select_content">
           <div class="select_price chen_center_absolute">
             <div>价格区间（元）</div>
             <div class="chen_center_absolute_center select_input">
-              <input type="number" placeholder="最低价">
+              <input type="number" v-model="minPrice" placeholder="最低价">
               <span>-</span>
-              <input type="number" placeholder="最高价">
+              <input type="number" v-model="maxPrice" placeholder="最高价">
             </div>
           </div>
           <div class="content_bottom">
@@ -364,8 +364,8 @@
 <script>
 import services from "@/services";
 import routerCachePage from "@/routerCache/page";
-import { Loadmore, InfiniteScroll } from "mint-ui";
-import { setTimeout } from "timers";
+
+
 export default {
   mixins: [
     routerCachePage({
@@ -375,64 +375,36 @@ export default {
   data() {
     return {
       pageIndex: 0,
-      searchText: "11",
+      pageSize:20,
+      searchText: "",
       itemTypeId: "1",
+      order: "normal",
+      minPrice:'',
+      maxPrice:'',
       search: {
         visible: false
       },
       listType: false, //商品列表排列方式
-      listActive: 0, //列表按钮点击变色
       itemList: [],
-      iSort: 0, //排序图片变色
-      selectBox: false, //筛选条件
-      allLoaded: false,
-      bottomStatus: "",
+      selectBoxVisible: false, //筛选条件
       topStatus: "",
-      loadingDisable: false //无限滚动控制器
+      loading: false, //无限滚动控制器
+      loadMoreDisabled: false
     };
   },
   methods: {
     async loadTop() {
-      // 下拉刷新加载更多数据
-      // setTimeout(() => {
-      //   let firstVal = this.itemList[0];
-      //   for (let i = 0; i < 2; i++) {
-      //     this.itemList.unshift(firstVal);
-      //   }
-      //   this.$refs.loadmore.onTopLoaded();
-      // }, 1500);
       this.pageIndex = 0;
       await this.fetchItemList();
 
       this.$refs.loadmore.onTopLoaded();
-    },
-    loadBottom() {
-      //上拉加载更多数据
-      setTimeout(() => {
-        let lastValue = this.itemList[1];
-        for (let i = 1; i <= 3; i++) {
-          this.itemList.push(lastValue);
-        }
-        // this.allLoaded = true;
-        this.$refs.loadmore.onBottomLoaded();
-      }, 1500);
-    },
-    handleBottomChange(status) {
-      //上拉事件
-      this.bottomStatus = status;
     },
     handleTopChange(status) {
       //下拉事件
       this.topStatus = status;
     },
     async loadMore() {
-      //无限滚动事件触发
-      this.loadingDisable = true;
-
-      await this.fetchItemList(true);
-      setTimeout(() => {
-        this.loadingDisable = false;
-      }, 1000);
+      this.fetchItemList(true);
     },
     showSearch() {
       this.search.visible = true;
@@ -443,34 +415,18 @@ export default {
     listTypeClick() {
       this.listType = !this.listType;
     },
-    listAllClick(num) {
-      //综合
-      this.listActive = num;
-      this.iSort = 0;
-    },
-    listNumClick(num) {
-      //销量
-      this.listActive = num;
-      this.iSort = 0;
-    },
-    listPriceClick(num) {
-      //价格
-      this.listActive = num;
-      this.iSort =
-        this.iSort == 0 ? 1 : this.iSort == 1 ? 2 : this.iSort == 2 ? 1 : 0;
-      console.log(this.iSort);
-    },
-    listSelectClick(num) {
-      //筛选
-      this.selectBox = true;
-    },
-    selectNone() {
-      //筛选消失
-      this.selectBox = false;
+    changeOrder(order){
+      if(this.order === order) return;
+
+      this.order = order;
+      this.pageIndex = 0;
+      this.fetchItemList();
     },
     handleSearch(searchText) {
+      this.itemTypeId = "";
       this.searchText = searchText;
       this.search.visible = false;
+      this.pageIndex = 0;
 
       this.fetchItemList();
       let route = {
@@ -483,12 +439,19 @@ export default {
     },
     async fetchItemList(append) {
       try {
-        let { searchText, itemTypeId, pageIndex } = this;
+        this.loadMoreDisabled = true;
+        this.loading = true;
+
+        let { searchText, itemTypeId, order, pageIndex, pageSize, minPrice,maxPrice  } = this;
         pageIndex++;
         let res = await services.fetchItemList({
-          pageIndex: pageIndex,
+          pageIndex,
+          pageSize,
           categoryId: itemTypeId,
-          searchText
+          searchText,
+          order,
+          minPrice,
+          maxPrice
         });
         if (services.$isError(res)) throw new Error(res.message);
 
@@ -499,6 +462,14 @@ export default {
         } else {
           this.itemList = res.data;
         }
+
+        this.loading = false;
+
+        if (res.data.length > 0 && res.data.length == pageSize) {
+          this.$nextTick(() => {
+            this.loadMoreDisabled = false;
+          });
+        }
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -507,7 +478,6 @@ export default {
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.itemTypeId = this.$route.query.itemTypeId || "";
-    // this.fetchItemList();
   }
 };
 </script>

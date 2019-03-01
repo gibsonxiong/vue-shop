@@ -353,13 +353,13 @@ img {
       </div>
       <!-- 今日头条 end -->
       <!--淘抢购  -->
-      <div class="panic_buy" @click="$router.push('/panic_buy')">
+      <div class="panic_buy" >
         <p class="panic_buy_label">
           <span style="color: #5dbaff;"><i class="iconfont icon-goods_hot_fill" style="font-size: 0.18rem;margin-right: 0.05rem;"></i>正在开团</span>
-          <span>查看全部</span>
+          <span @click="$router.push('/panic_buy')">查看全部</span>
         </p>
         <div class="buy_time">
-          <ul class="buy_time_ul" v-for="(item,index) in groupList" :key="index">
+          <ul class="buy_time_ul" v-for="(item,index) in groupList" :key="index" @click="$router.push(`/items/${item.id}`)">
             <li>
               <img :src="item.imgList[0]">
             </li>
@@ -375,7 +375,7 @@ img {
         </div>
       </div>
       <!--  -->
-      <div class="section" style="margin-top:0.15rem;">
+      <!-- <div class="section" style="margin-top:0.15rem;">
         <div class="section-title">
           <span class="section-title-line"></span>
           <div class="section-title-inner">猜你喜欢</div>
@@ -384,7 +384,7 @@ img {
           <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
             <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
               <div class="c-img-box">
-                <img class="recommend-img" v-lazy="item.imgList[0]" alt>
+                <img class="recommend-img" :key="item.imgList[0]" v-lazy="item.imgList[0]" alt>
               </div>
               <div class="recommend-info">
                 <div class="recommend-title">{{item.name}}</div>
@@ -396,7 +396,9 @@ img {
             </router-link>
           </div>
         </div>
-      </div>
+      </div> -->
+
+      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;"></c-recommend-list>
     </div>
   </div>
 </template>

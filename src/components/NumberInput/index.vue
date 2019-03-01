@@ -132,7 +132,7 @@ export default {
     },
     handleChange(value) {
       value = Number(value);
-      // debugger;
+
       console.log(value);
 
       if (!this.checkRang(value)) {

@@ -81,7 +81,10 @@ export default {
     focus() {
       setTimeout(() => {
         this.$refs.input.focus();
-      }, 300);
+      }, 100);
+    },
+    blur() {
+      this.$refs.input.blur();
     }
   }
 };

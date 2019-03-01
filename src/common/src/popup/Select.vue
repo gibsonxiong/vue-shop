@@ -26,13 +26,13 @@
   text-align: right;
 }
 
-.scalefade-enter-active,
-.scalefade-leave-active {
+.slide-enter-active,
+.slide-leave-active {
   transition: all 0.4s;
 }
 
-.scalefade-enter,
-.scalefade-leave-to {
+.slide-enter,
+.slide-leave-to {
   opacity: 0.5;
   transform: translate3d(0, 100%, 0);
 }
@@ -53,7 +53,7 @@
     <transition name="fade">
       <div class="mask" v-if="visible" @click="close('cancel')"></div>
     </transition>
-    <transition name="scalefade">
+    <transition name="slide">
       <div v-if="visible" class="c-picker">
         <p class="header" @click="select">完成</p>
         <mt-picker ref="picker" class="body" :slots="slots"></mt-picker>

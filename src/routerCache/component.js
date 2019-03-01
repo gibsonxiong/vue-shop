@@ -59,8 +59,6 @@ export default function (options = {}) {
 
         this.$cid = parentCid + '_' + cacheId;
 
-        console.log(this.$cid);
-
         let data = sessionStorage.getItem(`${cachePrefix}${this.$cid}`);
 
         if (data) {
@@ -165,7 +163,6 @@ export default function (options = {}) {
     },
 
     created() {
-      console.log(this);
       this.$routerCacheRestore();
     }
 

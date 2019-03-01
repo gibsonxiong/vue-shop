@@ -13,15 +13,13 @@ const request = axios.create({
 function addInterceptors(_request) {
   _request.interceptors.request.use(function (config) {
     //添加token
-    if (config.token) {
-      let token = services.$getToken();
-      if (!token && !config.skipCheckToken) {
-        router.push('/login');
-        throw new Error('请先登录');
-      }
-
-      config.headers['x-access-token'] = token || '';
+    let token = services.$getToken();
+    if (!token && !config.skipCheckToken) {
+      router.push('/login');
+      throw new Error('请先登录');
     }
+
+    config.headers['x-access-token'] = token || '';
 
     return config;
   }, function (error) {
@@ -138,27 +136,22 @@ const services = {
   async fetchSearchTip({
     searchText
   }) {
-    return mock([
-      searchText + '一',
-      searchText + '二',
-      searchText + '三',
-      searchText + '切',
-    ]);
+    return (await request.get('/suggest', {
+      params: {
+        q: searchText
+      }
+    })).data;
   },
 
   //获取搜索历史列表
   async fetchSearchHistory() {
-    return mock([
-      '面膜',
-      '飞机大炮',
-      '无敌帅气的衣服',
-      '农药',
-      '全钛眼睛框 纯钛',
-      'lush',
-      'lush洗发水'
-    ]);
+    return (await request.get('/searchs')).data;
   },
 
+  //删除搜索历史列表
+  async deleteSearchHistory() {
+    return (await request.delete('/searchs')).data;
+  },
 
   async fetchCatalogList() {
     return (await request.get('/categorys')).data;
@@ -182,7 +175,8 @@ const services = {
         pageSize,
         categoryId,
         searchText
-      }
+      },
+      skipCheckToken: true
     })).data;
   },
 
@@ -192,16 +186,13 @@ const services = {
 
 
     return (await request.get(`/items/${itemId}`, {
-      token: true,
       skipCheckToken: true
     })).data;
   },
 
   //关注列表
   async listFavorite() {
-    return (await request.get(`/favorites`, {
-      token: true
-    })).data;
+    return (await request.get(`/favorites`)).data;
   },
 
   //添加关注
@@ -210,8 +201,6 @@ const services = {
   }) {
     return (await request.put(`/favorites`, {
       itemId
-    }, {
-      token: true
     })).data;
   },
 
@@ -219,25 +208,19 @@ const services = {
   async removeFavorite({
     favoriteId
   }) {
-    return (await request.delete(`/favorites/${favoriteId}`, {
-      token: true
-    })).data;
+    return (await request.delete(`/favorites/${favoriteId}`)).data;
   },
 
   //通过商品id获取用户关注信息
   async getFavoriteByItemId({
     itemId
   }) {
-    return (await request.get(`/favorites/items/${itemId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/favorites/items/${itemId}`)).data;
   },
 
   //获取购物车列表
   async fetchShopcartList() {
-    return (await request.get(`/shopcarts`, {
-      token: true
-    })).data;
+    return (await request.get(`/shopcarts`)).data;
   },
 
   //加入购物车
@@ -251,8 +234,6 @@ const services = {
       itemId,
       skuId,
       quantity
-    }, {
-      token: true
     })).data;
   },
 
@@ -261,9 +242,7 @@ const services = {
     shopcartId,
   }) {
 
-    return (await request.delete(`/shopcarts/${shopcartId}`, {
-      token: true
-    })).data;
+    return (await request.delete(`/shopcarts/${shopcartId}`)).data;
   },
 
   //更新购物车
@@ -274,8 +253,6 @@ const services = {
 
     return (await request.post(`/shopcarts/${shopcartId}`, {
       quantity
-    }, {
-      token: true
     })).data;
   },
 
@@ -286,8 +263,7 @@ const services = {
     return (await request.get(`/orders`, {
       params: {
         status
-      },
-      token: true
+      }
     })).data;
   },
 
@@ -295,9 +271,7 @@ const services = {
   async fetchOrderInfo({
     orderId
   }) {
-    return (await request.get(`/orders/${orderId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/orders/${orderId}`)).data;
   },
 
   //建立订单
@@ -306,8 +280,6 @@ const services = {
   }) {
     return (await request.post(`/orders/build`, {
       params
-    }, {
-      token: true
     })).data;
   },
 
@@ -317,8 +289,6 @@ const services = {
   }) {
     return (await request.post(`/orders/create`, {
       params
-    }, {
-      token: true
     })).data;
   },
 
@@ -326,18 +296,14 @@ const services = {
   async payOrder({
     orderId
   }) {
-    return (await request.post(`/orders/${orderId}/pay`, {}, {
-      token: true
-    })).data;
+    return (await request.post(`/orders/${orderId}/pay`, {})).data;
   },
 
   //获取订单支付状态
   async getOrderPayStatus({
     orderId
   }) {
-    return (await request.get(`/orders/${orderId}/orderPayStatus`, {
-      token: true
-    })).data;
+    return (await request.get(`/orders/${orderId}/orderPayStatus`)).data;
   },
 
   //物流查询
@@ -362,8 +328,6 @@ const services = {
   }) {
     return (await request.post(`/orders/${orderId}/cancel`, {
       cancelReason
-    }, {
-      token: true
     })).data;
   },
 
@@ -371,27 +335,21 @@ const services = {
   async removeOrder({
     orderId
   }) {
-    return (await request.delete(`/orders/${orderId}`, {
-      token: true
-    })).data;
+    return (await request.delete(`/orders/${orderId}`)).data;
   },
 
   //提醒发货
   async remindDeliver({
     orderId
   }) {
-    return (await request.post(`/orders/${orderId}/remindDeliver`, {}, {
-      token: true
-    })).data;
+    return (await request.post(`/orders/${orderId}/remindDeliver`, {})).data;
   },
 
   //确认收货
   async confirmReceive({
     orderId
   }) {
-    return (await request.post(`/orders/${orderId}/confirmReceive`, {}, {
-      token: true
-    })).data;
+    return (await request.post(`/orders/${orderId}/confirmReceive`, {})).data;
   },
 
   //获取可领取优惠券列表
@@ -405,8 +363,6 @@ const services = {
   }) {
     return (await request.put(`/coupons/userCoupons`, {
       couponId
-    }, {
-      token: true
     })).data;
   },
 
@@ -417,23 +373,18 @@ const services = {
     return (await request.get(`/coupons/userCoupons`, {
       params: {
         status
-      },
-      token: true
+      }
     })).data;
   },
 
   //用户资料
   async fetchUserInfo() {
-    return (await request.get(`/users/info`, {
-      token: true
-    })).data;
+    return (await request.get(`/users/info`)).data;
   },
 
   //用户资料
   async updateUserInfo(info) {
-    return (await request.post(`/users/info`, info, {
-      token: true
-    })).data;
+    return (await request.post(`/users/info`, info)).data;
   },
 
 
@@ -443,75 +394,57 @@ const services = {
 
   //获取地址列表
   async fetchAddressList() {
-    return (await request.get(`/address`, {
-      token: true
-    })).data;
+    return (await request.get(`/address`)).data;
   },
 
   //获取地址信息
   async fetchAddressInfo({
     addressId
   }) {
-    return (await request.get(`/address/${addressId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/address/${addressId}`)).data;
   },
 
   //新增地址
   async addAddress(data) {
-    return (await request.put(`/address`, data, {
-      token: true
-    })).data;
+    return (await request.put(`/address`, data)).data;
   },
 
   //修改地址
   async updateAddress(addressId, data) {
-    return (await request.post(`/address/${addressId}`, data, {
-      token: true
-    })).data;
+    return (await request.post(`/address/${addressId}`, data)).data;
   },
 
   //删除地址
   async removeAddress({
     addressId
   }) {
-    return (await request.delete(`/address/${addressId}`, {
-      token: true
-    })).data;
+    return (await request.delete(`/address/${addressId}`)).data;
   },
 
   //足迹
   async listFootprint() {
-    return (await request.get(`/items/footprints`, {
-      token: true
-    })).data;
+    return (await request.get(`/items/footprints`)).data;
   },
 
   //评价
   async rate({
     params
   }) {
-    return (await request.put(`/rates`, params, {
-      token: true
-    })).data;
+    return (await request.put(`/rates`, params)).data;
   },
 
   //商品评价列表
   async fetchItemRateList({
     itemId
   }) {
-    return (await request.get(`/rates/items/${itemId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/rates/items/${itemId}`)).data;
   },
 
   //商品评价列表
   async fetchRateInfo({
     rateId
   }) {
-    return (await request.get(`/rates/${rateId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/rates/${rateId}`)).data;
   },
 
   //商品评价列表
@@ -526,16 +459,12 @@ const services = {
 
   //退款/售后列表
   async fetchRefundList() {
-    return (await request.get(`/refunds`, {
-      token: true
-    })).data;
+    return (await request.get(`/refunds`)).data;
   },
 
   //退款/售后列表
   async fetchRefundInfo(refundId) {
-    return (await request.get(`/refunds/${refundId}`, {
-      token: true
-    })).data;
+    return (await request.get(`/refunds/${refundId}`)).data;
   },
 
   //退款申请信息
@@ -547,16 +476,13 @@ const services = {
       params: {
         orderId,
         orderItemId
-      },
-      token: true
+      }
     })).data;
   },
 
   //申请退款
   async applyRefund(params) {
-    return (await request.post(`/refunds/apply`, params, {
-      token: true
-    })).data;
+    return (await request.post(`/refunds/apply`, params)).data;
   },
 
 };

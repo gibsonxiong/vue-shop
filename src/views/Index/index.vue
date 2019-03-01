@@ -53,6 +53,7 @@
       >
         <keep-alive>
           <component
+            v-if="item.inited"
             ref="tabContent"
             :cacheId="`tabContent${index}`"
             v-bind:is="item.component"
@@ -119,6 +120,8 @@ export default {
     activeTab(index) {
       this.tab.active = index;
 
+      this.tab.items[index].inited = true;
+
       this.$nextTick(() => {
         this.$refs.tabContent[index].tabActived &&
           this.$refs.tabContent[index].tabActived();
@@ -143,7 +146,16 @@ export default {
     }
   },
   created() {
-    this.tab.active = Number(this.$route.query.tab || 0);
+    if (this.$restroed) return;
+
+    this.tab.items.forEach(item => {
+      item.inited = false;
+    });
+
+    let activeIndex = Number(this.$route.query.tab || 0);
+    this.tab.active = activeIndex;
+    this.tab.items[activeIndex].inited = true;
+    
     //默认不显示搜索页
     this.search.visible = false;
   },

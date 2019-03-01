@@ -183,7 +183,6 @@ export default function (options = {}) {
       next();
     },
     created() {
-      console.log(this);
       this.$routerCacheRestore();
     }
 

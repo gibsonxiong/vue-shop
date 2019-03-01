@@ -50,7 +50,7 @@ const router = new Router({
       path: '/items',
       component: ItemList,
       meta: {
-        title: '商品分类'
+        title: '商品列表'
       }
     },
     {

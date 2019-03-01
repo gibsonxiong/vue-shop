@@ -6,10 +6,10 @@
   }
 
   .list {
-    // position: fixed;
-    // top: 0.42rem;
-    // bottom: 0;
-    // width: 100%;
+    position: fixed;
+    top: 0.42rem;
+    bottom: 0;
+    width: 100%;
     background-color: #fff;
     margin-top: -1px;
     padding: 0 0.08rem;
@@ -63,33 +63,33 @@
     <c-header :backType="0" ref="header" :centerStyle="{'padding-left':'15px'}">
       <!-- <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
-      </a> -->
+      </a>-->
       <c-search-input
         ref="searchInput"
         slot="center"
         v-model="searchText"
         :placeholder="`搜索你喜欢的宝贝`"
         @search="search(searchText)"
-        @input="fetchSearchTip"
+        @input="throttleFetchSearchTip"
         style="width:100%;"
       ></c-search-input>
       <!-- <a slot="right" @click="search(searchText)">搜索</a> -->
       <a slot="right" @click="$emit('close')">取消</a>
     </c-header>
     <div class="c-page-body header-pd">
-      <!-- <div class="list" v-if="searchText.length > 0">
+      <div class="list" v-if="searchText.length > 0">
         <div
           class="item"
           v-for="(item,index) in searchTipList"
           :key="index"
-          @click="search(item)"
-        >{{item}}</div>
-      </div> -->
-      <div class>
-        <div class="history-wrap">
+          @click="search(item[0])"
+        >{{item[0]}}</div>
+      </div>
+      <div v-show="searchText.length == 0" class>
+        <div class="history-wrap" v-if="searchHistoryList.length > 0">
           <div class="wrap-header">
             <h3 class="wrap-title">历史搜索</h3>
-            <i class="iconfont icon-delete"></i>
+            <i class="iconfont icon-delete" @click="deleteSearchHistory"></i>
           </div>
           <div class="tag-wrap">
             <span
@@ -108,6 +108,13 @@
 
 <script>
 import services from "@/services";
+
+function throttle(method, context, args, duration = 300) {
+  clearTimeout(method.tId);
+  method.tId = setTimeout(function() {
+    method.apply(context, args);
+  }, duration);
+}
 
 export default {
   props: {
@@ -132,9 +139,10 @@ export default {
     visible(val) {
       if (val) {
         this.searchText = this.defaultSearchText;
+        this.fetchSearchHistory();
         this.fetchSearchTip(this.searchText);
         this.$nextTick(() => {
-        this.$refs.searchInput.focus();
+          this.$refs.searchInput.focus();
           this.$refs.header.resizeCenter();
         });
       }
@@ -142,6 +150,7 @@ export default {
   },
   methods: {
     search(searchText) {
+      this.$refs.searchInput.blur();
       this.$emit("search", searchText);
     },
     async fetchSearchTip(searchText) {
@@ -159,6 +168,9 @@ export default {
         return this.$toast(err.message);
       }
     },
+    throttleFetchSearchTip(searchText) {
+      throttle(this.fetchSearchTip, this, [searchText]);
+    },
     async fetchSearchHistory() {
       try {
         let res = await services.fetchSearchHistory();
@@ -166,6 +178,22 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.searchHistoryList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async deleteSearchHistory(){
+      try {
+        let result = await this.$popup.confirm('确定删除全部历史记录？');
+
+        if(result !=='confirm') return;
+
+        let res = await services.deleteSearchHistory();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.searchHistoryList = [];
+        this.$toast(res.message);
       } catch (err) {
         return this.$toast(err.message);
       }

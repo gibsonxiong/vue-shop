@@ -39,13 +39,14 @@
 
 .modal__title {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: normal;
   text-align: center;
   margin: 0;
 }
 
 .modal__body {
   font-size: 16px;
+  font-weight: 500;
   padding: 0px 15px 20px;
 }
 

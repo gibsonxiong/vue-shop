@@ -51,6 +51,16 @@ let api = {
     });
   },
 
+  confirm(content, title, options = {}) {
+    return this.modal(content, title, {
+      ...options,
+      actions: {
+        cancel:'取消',
+        confirm: '确定',
+      }
+    });
+  },
+
   select(options = {}) {
     let vm = mount(Select, {
       ...options

@@ -64,6 +64,7 @@
   .type-list {
     margin-top: -0.125rem;
     overflow: hidden;
+    padding-bottom: 0.8rem;
 
     .type-item {
       float: left;
@@ -109,14 +110,14 @@
           @click="changeCatalog(item.id)"
         >{{item.name}}</li>
       </ul>
-      <div class="right-container">
-        <div class="c-header-pd c-tab-pd">
+      <div class="right-container" ref="rightContainer">
+        <div class="c-header-pd">
           <ul class="type-list">
             <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
               <router-link :to="{path:'/items',query:{itemTypeId:item.id}}">
-                <div style="padding:0.05rem 0.15rem;">
+                <div style="padding:0.1rem 0.15rem;">
                   <div class="c-img-box">
-                    <img :src="item.img">
+                    <img v-lazy="item.img" :key="item.img">
                   </div>
                 </div>
                 <span>{{item.name}}</span>
@@ -169,6 +170,10 @@ export default {
     },
 
     changeCatalog(id) {
+      if(this.catalogIndex == id ) return;
+
+      this.$refs.rightContainer.scrollTop = 0;
+
       this.catalogIndex = id;
       this.fetchItemTypeList(id);
     },
