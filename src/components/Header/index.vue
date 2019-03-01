@@ -36,26 +36,24 @@ $bg-color: #f8f8f8;
     }
   }
 
-  // &.white {
-  //   $color: #444;
-  //   background: #fff;
-  //   color: $color;
+  &.primary {
+    $bc:$color-gradient;
+    $fc:#f8f8f8;
 
-  //   .header-title {
-  //     color: $color;
-  //   }
+    background: $bc;
+    border: none;
 
-  //   .header-left,
-  //   .header-right {
-  //     a {
-  //       color: $color;
+    .header-title {
+      color: $fc;
+    }
 
-  //       &:active {
-  //         text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
-  //       }
-  //     }
-  //   }
-  // }
+    .header-left,
+    .header-right {
+      a {
+        color: $fc;
+      }
+    }
+  }
 
   .header-body {
     overflow: hidden;
@@ -76,7 +74,7 @@ $bg-color: #f8f8f8;
   .header-title {
     // color: $color;
     text-align: center;
-    font-size: 0.15rem;
+    font-size: 0.16rem;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;

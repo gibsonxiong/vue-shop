@@ -5,7 +5,7 @@
 .c-mine {
   .top {
     padding: 0.5rem 0.3rem;
-    background: linear-gradient(to right, #ff5fa1, #ff4390);
+    background: $color-gradient;
 
     .top-wrap {
       @include flexbox;
@@ -47,7 +47,7 @@
 
 <template>
   <div class="c-mine">
-    <c-header :title="'我的'" :backType="0">
+    <c-header theme="primary" :title="'我的'" :backType="0">
       <router-link slot="right" to="/setting">
         <i class="iconfont icon-setting" style="font-size:0.18rem;"></i>
       </router-link>
@@ -78,8 +78,8 @@
 
       <c-cell-list style="margin-top:0.15rem;">
         <c-cell
-          icon="icon-form"
-          :iconStyle="{'color':'rgb(113, 202, 112)'}"
+          icon="icon-dingdan"
+          :iconStyle="{'color':'rgb(249, 30, 30)'}"
           name="我的订单"
           value="查看全部订单"
           @click="$router.push('/order')"
@@ -156,12 +156,12 @@
           name="收货地址"
           @click="$router.push('/myAddress')"
         ></c-cell>
-        <c-cell
+        <!-- <c-cell
           icon="icon-location"
           :iconStyle="{'color':'rgb(104, 167, 234)'}"
           name="我的评价"
           @click="$router.push('/my_ecaluation')"
-        ></c-cell>
+        ></c-cell> -->
         <c-cell
           icon="icon-location"
           :iconStyle="{'color':'rgb(104, 167, 234)'}"

@@ -9,21 +9,22 @@ export default function (options = {}) {
 
   return {
     props: {
-      cacheId: String
+      cacheId: String,
     },
     data() {
       return {
+        $cid:'',
         $restored: false
       };
     },
     methods: {
       $routerCacheStore() {
         let cacheId = this.cacheId;
-        let version = this.$route.query.v;
+        let parentCid = this.$parent && this.$parent.$cid ? this.$parent.$cid : '';
 
-        if (!(version || cacheId)) return;
+        if (!(parentCid && cacheId)) return;
 
-        version = version + '_' + cacheId;
+        this.$cid = parentCid + '_' + cacheId;
 
         let wrap = options.scrollWrapSelector ? this.$el.querySelector(options.scrollWrapSelector) : this.$el;
         let scrollTop = wrap ? wrap.scrollTop : 0;
@@ -35,9 +36,9 @@ export default function (options = {}) {
         data = JSON.stringify(data);
 
         //监听事件
-        this.$routerCacheOn(version);
+        this.$routerCacheOn(this.$cid);
 
-        sessionStorage.setItem(`${cachePrefix}${version}`, data);
+        sessionStorage.setItem(`${cachePrefix}${this.$cid}`, data);
 
         Object.values(this.$refs).forEach(refs => {
           //refs有可能是单个，也有可以是多个，统一按多个处理
@@ -52,20 +53,22 @@ export default function (options = {}) {
       },
       $routerCacheRestore() {
         let cacheId = this.cacheId;
-        let version = this.$route.query.v;
+        let parentCid = this.$parent && this.$parent.$cid ? this.$parent.$cid : '';
 
-        if (!(version || cacheId)) return this.$restored = false;
+        if (!(parentCid && cacheId)) return this.$restored = false;
 
-        version = version + '_' + cacheId;
+        this.$cid = parentCid + '_' + cacheId;
 
-        let data = sessionStorage.getItem(`${cachePrefix}${version}`);
+        console.log(this.$cid);
+
+        let data = sessionStorage.getItem(`${cachePrefix}${this.$cid}`);
 
         if (data) {
 
           data = JSON.parse(data);
           Object.assign(this.$data, data.data);
 
-          this.$routerCacheCheck(version);
+          this.$routerCacheCheck(this.$cid);
 
           this.$restored = true;
 
@@ -84,7 +87,7 @@ export default function (options = {}) {
           this.$restored = false;
         }
 
-        sessionStorage.removeItem(`${cachePrefix}${version}`);
+        sessionStorage.removeItem(`${cachePrefix}${this.$cid}`);
 
       },
       $routerCacheOn(key) {
@@ -162,6 +165,7 @@ export default function (options = {}) {
     },
 
     created() {
+      console.log(this);
       this.$routerCacheRestore();
     }
 

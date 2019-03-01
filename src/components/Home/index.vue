@@ -22,14 +22,14 @@ img {
   }
 
   .link-wrap {
-    padding: 0.05rem 0;
+    padding: 0.08rem 0;
     background-color: #fff;
     @include flexbox;
     flex-wrap: wrap;
 
     .link-item {
-      width: 20%;
-      padding: 0.05rem;
+      width: 25%;
+      padding: 0 0.15rem;
       text-align: center;
     }
 
@@ -117,10 +117,6 @@ img {
       overflow: hidden;
     }
 
-    .recommend-img {
-      width: 100%;
-    }
-
     .recommend-info {
       padding-left: 10px;
       padding-right: 9px;
@@ -145,6 +141,7 @@ img {
 
     .recommend-price {
       font-size: 14px;
+      font-weight: 500;
       line-height: 16px;
       color: $color-primary;
     }
@@ -158,18 +155,19 @@ img {
   }
 }
 .panic_buy {
-  padding:0 0.1rem;
+  padding: 0 0.1rem;
   background: #fff;
-  border-bottom-left-radius: 0.1rem;
-  border-bottom-right-radius: 0.1rem;
+  // border-bottom-left-radius: 0.1rem;
+  // border-bottom-right-radius: 0.1rem;
   .panic_buy_label {
     padding: 0.15rem 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     span:first-of-type {
-      font-weight: bold;
+      font-weight: 500;
       font-size: 0.16rem;
+      color: #051b28;
     }
     span:last-of-type {
       color: #999;
@@ -180,13 +178,13 @@ img {
 // 公告
 .marquee {
   width: 100%;
-  height: 0.45rem;
+  height: 0.4rem;
   background-color: #fff;
   display: flex;
   align-items: center;
   margin-top: 0.1rem;
-  border-top-left-radius: 0.1rem;
-  border-top-right-radius: 0.1rem;
+  // border-top-left-radius: 0.1rem;
+  // border-top-right-radius: 0.1rem;
   border-bottom: 1px solid #cccccc5c;
 }
 .marquee_title {
@@ -194,6 +192,7 @@ img {
   display: flex;
   align-items: center;
   color: $color-primary;
+  font-weight: 500;
 }
 .marquee_box {
   display: block;
@@ -207,6 +206,7 @@ img {
   position: absolute;
   top: 0;
   left: 0;
+  color:#051b28;
 }
 
 .marquee_top {
@@ -225,47 +225,60 @@ img {
   box-sizing: border-box;
   overflow: scroll;
   background: #fff;
+  padding-bottom: 0.25rem;
 }
 .buy_time_ul {
-  padding-right:0.1rem; 
+  width: 1.25rem;
+  margin-right: 0.1rem;
   img {
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
     border-radius: 0.05rem;
-    border: 1px solid #ccc;
-    padding: 0.1rem;
+    object-fit: cover;
+    // border: 1px solid #ccc;
+    // padding: 0.1rem;
   }
   li:nth-child(2) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    height: 0.5rem;
-    padding: 0.1rem 0.01rem;
+    height: 0.4rem;
+    font-size: 0.14rem;
+    padding: 0 0.01rem;
+    margin: 0.08rem 0 0.06rem;
+    color: #051b28;
   }
   li:nth-child(3) {
     display: flex;
     align-items: center;
-    padding-top: 0.05rem; 
   }
   li:nth-child(3) span:first-of-type {
     color: $color-primary;
-    font-size: 0.18rem;
+    font-size: 0.14rem;
+    font-weight: 500;
   }
   li:nth-child(3) span:last-of-type {
     color: #999;
     text-decoration: line-through;
     font-size: 0.12rem;
-    padding:0 0.05rem ;
+    padding-left: 0.02rem;
+    vertical-align: text-bottom;
+    transform: scale(0.9);
+    transform-origin: bottom;
   }
   li:last-of-type {
-    padding: 0.05rem 0;
+    // padding: 0.05rem 0;
     span {
+      margin-top: 0.05rem;
       border: 1px solid $color-primary;
       color: $color-primary;
-      padding: 0.01rem 0.02rem;
-      font-size: 0.1rem;
+      padding: 0.01rem 0.05rem;
+      font-size: 0.12rem;
       border-radius: 0.1rem;
+      transform: scale(0.95);
+      transform-origin: left;
+      display: inline-block;
     }
   }
 }
@@ -279,31 +292,44 @@ img {
       theme="transparent"
       :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`}"
     >
-      <c-search-input
-        slot="center"
-        @click.native="$emit('toSearch')"
-        style="width:100%;"
-        disabled="disabled"
-      ></c-search-input>
+      <div class="c-input-mask" slot="center" @click="$emit('toSearch')">
+        <c-search-input placeholder="搜索你喜欢的宝贝" style="width:100%;"></c-search-input>
+      </div>
     </c-header>
     <div class="c-page-body tab-pd" ref="body">
       <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
-        <mt-swipe-item v-for="(val, index) in 3" :key="index">
-          <router-link to="/">
-            <img
-              class="banner-img"
-              src="https://oss.suning.com/aps/aps_learning/image/429081201/20190122/4cc97e0036ac4c9abde8fede11fa7575.jpg?format=_is_1242w_610h"
-            >
+        <mt-swipe-item v-for="(item, index) in banners" :key="index">
+          <router-link :to="item.url">
+            <img class="banner-img" :src="item.img">
           </router-link>
         </mt-swipe-item>
       </mt-swipe>
       <div class="link-wrap">
-        <router-link
-          :to="{path:'/items'}"
-          class="link-item"
-          v-for="(item,index) in 10"
-          :key="index"
-        >
+        <router-link :to="{path:'/items'}" class="link-item">
+          <img
+            class="link-img"
+            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
+            alt
+          >
+          <div class="link-name">全部商品</div>
+        </router-link>
+        <router-link :to="{path:'/items'}" class="link-item">
+          <img
+            class="link-img"
+            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
+            alt
+          >
+          <div class="link-name">天猫国际</div>
+        </router-link>
+        <router-link :to="{path:'/items'}" class="link-item">
+          <img
+            class="link-img"
+            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
+            alt
+          >
+          <div class="link-name">天猫国际</div>
+        </router-link>
+        <router-link :to="{path:'/items'}" class="link-item">
           <img
             class="link-img"
             src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
@@ -329,18 +355,18 @@ img {
       <!--淘抢购  -->
       <div class="panic_buy" @click="$router.push('/panic_buy')">
         <p class="panic_buy_label">
-          <span>正在开团</span>
+          <span style="color: #5dbaff;"><i class="iconfont icon-goods_hot_fill" style="font-size: 0.18rem;margin-right: 0.05rem;"></i>正在开团</span>
           <span>查看全部</span>
         </p>
         <div class="buy_time">
-          <ul class="buy_time_ul" v-for="(val,index) in item" :key="index">
+          <ul class="buy_time_ul" v-for="(item,index) in groupList" :key="index">
             <li>
-              <img :src="val.img">
+              <img :src="item.imgList[0]">
             </li>
-            <li>{{val.name}}</li>
+            <li>{{item.name}}</li>
             <li>
-              <span>￥{{val.price}}</span>
-              <span>￥{{val.Dprice}}</span>
+              <span>￥{{item.minPrice}}</span>
+              <span>￥1000</span>
             </li>
             <li>
               <span>限时特价</span>
@@ -357,7 +383,9 @@ img {
         <div class="recommend-container">
           <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
             <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
-              <img class="recommend-img" :src="item.imgList[0]" alt>
+              <div class="c-img-box">
+                <img class="recommend-img" v-lazy="item.imgList[0]" alt>
+              </div>
               <div class="recommend-info">
                 <div class="recommend-title">{{item.name}}</div>
                 <div class="recommend-price-box">
@@ -388,7 +416,25 @@ export default {
     return {
       headerOpacity: 0,
       recommendList: [],
+      groupList: [],
       animate: false,
+      banners: [
+        {
+          img:
+            "https://img01.miyabaobei.com/d1/p6/2019/02/26/22/47/224704b2ff257c71eda25466e207701c836872819.jpg",
+          url: "/items/1"
+        },
+        {
+          img:
+            "https://img01.miyabaobei.com/d1/p6/2019/02/26/37/bf/37bf5935ea04621d3f3e1eb15210b038835985827.jpg",
+          url: "/items/2"
+        },
+        {
+          img:
+            "https://img01.miyabaobei.com/d1/p6/2019/02/27/bf/55/bf5569822e2768a8f148c279214f98a0707329542.jpg",
+          url: "/items/3"
+        }
+      ],
       marqueeList: [
         {
           txt: "原来口红不能横着涂！难怪总是沾杯"
@@ -402,69 +448,12 @@ export default {
         {
           txt: "全面屏版inphone4S真的来了"
         }
-      ],
-      item: [
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        },
-        {
-          time: "11:00",
-          img:
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1017541151,1682171234&fm=26&gp=0.jpg",
-          name: "镇定通用款牛颈部就寄行车载舅舅哈很多事是的反腐的说法",
-          price: "99.9",
-          Dprice: "139"
-        }
       ]
     };
   },
   created() {
     this.fetchRecommendList();
+    this.fetchGroupList();
     setInterval(this.showMarquee, 2000);
   },
   mounted() {
@@ -482,9 +471,11 @@ export default {
     bindEvent() {
       let body = this.$refs.body;
       body.addEventListener("scroll", () => {
-        let end = 100;
-        let scrollTop = Math.min(body.scrollTop, end);
-        this.headerOpacity = scrollTop / end;
+        let min = 0;
+        let max = 100;
+        let scrollTop = Math.max(body.scrollTop, min);
+        scrollTop = Math.min(scrollTop, max);
+        this.headerOpacity = (scrollTop - min) / (max - min);
       });
     },
     //父类调用
@@ -493,15 +484,23 @@ export default {
     },
     async fetchRecommendList() {
       try {
-        let { searchText, itemTypeId } = this;
-        let res = await services.fetchItemList({
-          categoryId: itemTypeId,
-          searchText
-        });
+        let res = await services.fetchItemList({ pageSize: 100 });
 
         if (services.$isError(res)) throw new Error(res.message);
 
         this.recommendList = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+    async fetchGroupList() {
+      try {
+        let { searchText, itemTypeId } = this;
+        let res = await services.fetchItemList({});
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.groupList = res.data;
       } catch (err) {
         return this.$toast(err.message);
       }

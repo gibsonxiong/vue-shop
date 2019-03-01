@@ -22,8 +22,8 @@
         flex: 1;
       }
       .til_list_active {
-        color: #fe5455;
-        @include border-bottom(#fe5455, 2px);
+        color: $color-primary;
+        @include border-bottom($color-primary, 2px);
       }
     }
     .coupon_lists {
@@ -40,7 +40,7 @@
           margin-bottom: pxTorem(30);
           .item_l {
             width: 26%;
-            background: #fe5455;
+            background: $color-primary;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -73,6 +73,12 @@
               color: #999999;
             }
           }
+
+          &.disabled {
+            .item_l {
+              background: $color-primary-disabled;
+            }
+          }
         }
       }
     }
@@ -83,9 +89,9 @@
 <template>
   <div class="coupon_page">
     <c-header :title="'我的优惠券'" :backType="1">
-      <div slot="right" class="header_r">
+      <!-- <div slot="right" class="header_r">
         <i class="iconfont icon-my_light"></i>
-      </div>
+      </div> -->
     </c-header>
     <div class="c-page-body header-pd">
       <div class="coupon_wrap">
@@ -108,19 +114,23 @@
         </div>
         <div class="coupon_lists">
           <ul class="list_box">
-            <li class="list_item" v-for="(val,index) in list" :key="index">
+            <li
+              class="list_item"
+              :class="{disabled:val.status !== 'unused'}"
+              v-for="(val,index) in list"
+              :key="index"
+            >
               <div class="item_l chen_center_absolute_column">
-                <p class="num">
-                  ￥{{val.coupon.deductPrice}}
-                </p>
-                <p class="des">{{ val.coupon.limitPrice == 0 ? '无门槛' : `满${val.coupon.limitPrice}使用`}}</p>
+                <p class="num">￥{{val.coupon.deductPrice}}</p>
+                <p
+                  class="des"
+                >{{ val.coupon.limitPrice == 0 ? '无门槛' : `满${val.coupon.limitPrice}使用`}}</p>
               </div>
               <div class="item_r">
                 <p class="r_til">{{val.coupon.name}}</p>
                 <p class="r_des">{{val.coupon.desc}}</p>
                 <div class="chen_center_absolute r_footer">
                   <div>即领取日一天内有效</div>
-                  
                 </div>
               </div>
             </li>
@@ -132,18 +142,16 @@
 </template>
 
 <script>
-import services from '@/services';
+import services from "@/services";
 
 export default {
   data() {
     return {
-      status: 'unused', //使用与否
-      list: [], //当前所展示数据
+      status: "unused", //使用与否
+      list: [] //当前所展示数据
     };
   },
-  filters:{
-
-  },
+  filters: {},
   created() {
     this.fetchList();
   },
@@ -154,8 +162,7 @@ export default {
       this.fetchList();
     },
     async fetchList() {
-
-      let {status} = this;
+      let { status } = this;
       try {
         let res = await services.fetchUserCouponList({
           status
@@ -167,8 +174,7 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
-    },
-    
+    }
   }
 };
 </script>

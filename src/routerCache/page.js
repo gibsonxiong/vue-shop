@@ -10,12 +10,13 @@ export default function (options = {}) {
   return {
     data() {
       return {
+        $cid:'',
         $restored: false
       };
     },
     methods: {
       $routerCacheStore() {
-        let version = String(+new Date());
+        this.$cid = String(+new Date());
 
         let wrap = options.scrollWrapSelector ? this.$el.querySelector(options.scrollWrapSelector) : this.$el;
         let scrollTop = wrap ? wrap.scrollTop : 0;
@@ -27,17 +28,17 @@ export default function (options = {}) {
         data = JSON.stringify(data);
 
         //监听事件
-        this.$routerCacheOn(version);
+        this.$routerCacheOn(this.$cid);
 
         let newRoute = {
           ...this.$route
         };
-        newRoute.query.v = version;
+        newRoute.query.v = this.$cid;
 
         let url = location.origin + '/#' + this.$router.resolve(newRoute).route.fullPath;
         history.replaceState(null, null, url);
 
-        sessionStorage.setItem(`${cachePrefix}${version}`, data);
+        sessionStorage.setItem(`${cachePrefix}${this.$cid}`, data);
 
         Object.values(this.$refs).forEach(refs => {
           //refs有可能是单个，也有可以是多个，统一按多个处理
@@ -51,18 +52,19 @@ export default function (options = {}) {
         });
       },
       $routerCacheRestore() {
-        let version = this.$route.query.v;
+        this.$cid = this.$route.query.v;
 
-        if (!version) return this.$restored = false;
+        if (!this.$cid) return this.$restored = false;
 
-        let data = sessionStorage.getItem(`${cachePrefix}${version}`);
+
+        let data = sessionStorage.getItem(`${cachePrefix}${this.$cid}`);
 
         if (data) {
 
           data = JSON.parse(data);
           Object.assign(this.$data, data.data);
 
-          this.$routerCacheCheck(version);
+          this.$routerCacheCheck(this.$cid);
 
           this.$restored = true;
 
@@ -82,7 +84,7 @@ export default function (options = {}) {
         }
 
         
-        sessionStorage.removeItem(`${cachePrefix}${version}`);
+        sessionStorage.removeItem(`${cachePrefix}${this.$cid}`);
         
         this.$nextTick(()=>{
           let newRoute = {
@@ -181,6 +183,7 @@ export default function (options = {}) {
       next();
     },
     created() {
+      console.log(this);
       this.$routerCacheRestore();
     }
 

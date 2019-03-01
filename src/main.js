@@ -11,6 +11,7 @@ import store from './store';
 import layer from '@c/layer';
 import popup from '@c/popup';
 import '@/components';
+import '@/filters';
 import MintUI from 'mint-ui';
 import VueLazyload from 'vue-lazyload';
 import preview from 'vue-photo-preview' //图片放大缩小
@@ -21,7 +22,12 @@ Vue.use(layer);
 Vue.use(popup);
 Vue.use(MintUI);
 Vue.use(VueLazyload)
-Vue.use(preview)
+Vue.use(preview, {
+  fullscreenEl: false,
+  zoomEl: false,
+  arrowEl:false,
+  tapToClose: true,
+})
 
 // if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
 //   let VConsole = require('vconsole');
@@ -33,13 +39,6 @@ window.webViewRefresh = function () {};
 document.addEventListener('touchstart', () => {});
 
 Vue.config.productionTip = false;
-
-Vue.filter('gender', val => {
-  return ({
-    '0': '男',
-    '1': '女'
-  })[val] || '';
-});
 
 
 /* eslint-disable no-new */

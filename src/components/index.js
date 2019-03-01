@@ -8,7 +8,7 @@ import Mine from './Mine';
 
 import Search from './Search';
 import SearchInput from './SearchInput';
-
+import GoodsItem from './GoodsItem';
 import GoodsList from './GoodsList';
 import NumberInput from './NumberInput';
 import EmptyHint from './EmptyHint';
@@ -26,6 +26,7 @@ import SelectPopup from './SelectPopup';
 import Upload from './Upload';
 import Rate from './Rate';
 import M_button from './M_button';
+import RecommendList from './RecommendList';
 
 Vue.component('c-header', Header);
 
@@ -36,7 +37,7 @@ Vue.component('c-mine', Mine);
 
 Vue.component('c-search', Search);
 Vue.component('c-search-input', SearchInput);
-
+Vue.component('c-goods-item', GoodsItem);
 Vue.component('c-goodslist', GoodsList);
 Vue.component('c-number-input', NumberInput);
 Vue.component('c-empty-hint', EmptyHint);
@@ -56,4 +57,4 @@ Vue.component('m-button', M_button);
 Vue.component('c-radio', Radio);
 Vue.component('c-upload', Upload);
 Vue.component('c-rate', Rate);
-
+Vue.component('c-recommend-list',RecommendList)

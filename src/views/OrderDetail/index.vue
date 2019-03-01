@@ -1,4 +1,6 @@
 <style scoped lang="scss">
+@import '~@/css/var';
+@import '~@/css/mixin';
 .orderDetail-page {
 }
 .c-page-body {
@@ -9,7 +11,10 @@
   color: #fff;
   text-align: center;
   padding: 0.15rem 0;
-  background: linear-gradient(to right, #ffb43e, #fd9526);
+  background: $color-gradient;
+  min-height: 1.2rem;
+
+  @include flexbox(center);
 }
 .oderD_two {
   margin-top: 0.1rem;
@@ -171,7 +176,8 @@
           <p class="refund_btn">
             <button
               class="c-btn"
-              @click="$router.push({path:'/refund',query:{orderId:orderId, itemId:orderItem.itemId}})"
+              v-if="orderInfo.status==2"
+              @click="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
             >退款</button>
           </p>
         </div>

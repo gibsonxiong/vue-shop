@@ -39,7 +39,7 @@
           margin-bottom: pxTorem(30);
           .item_l {
             width: 26%;
-            background: #fe5455;
+            background: $color-primary;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -72,13 +72,13 @@
               color: #999999;
               .coupon_receive{
                   padding: .03rem .13rem;
-                  background: $color-primary-disabled;
+                  background: $color-primary;
                   color: #fff;
                   overflow: hidden;
                   border-radius: .05rem;
                   transition: all .3s ease-in-out;
                   &:active{
-                    background: #666666;
+                    background: $color-primary-active;
                   }
               }
             }

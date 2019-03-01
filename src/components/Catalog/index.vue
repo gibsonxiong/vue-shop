@@ -23,7 +23,7 @@
       text-align: center;
       box-sizing: border-box;
       font-size: 0.13rem;
-      color: #000;
+      color: #333;
       transition: 0.2s all;
 
       &.active {
@@ -94,13 +94,9 @@
 <template>
   <div class="c-catalog">
     <c-header ref="header" :backType="0">
-      <c-search-input
-        slot="center"
-        @click.native="$emit('toSearch')"
-        disabled="disabled"
-        style="width:100%;"
-        placeholder="搜索你喜欢的宝贝"
-      ></c-search-input>
+      <div class="c-input-mask" slot="center" @click="$emit('toSearch')">
+        <c-search-input style="width:100%;" placeholder="搜索你喜欢的宝贝"></c-search-input>
+      </div>
     </c-header>
 
     <div class="c-page-body">
@@ -118,8 +114,10 @@
           <ul class="type-list">
             <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
               <router-link :to="{path:'/items',query:{itemTypeId:item.id}}">
-                <div style="padding:0 0.05rem;">
-                  <img :src="item.img">
+                <div style="padding:0.05rem 0.15rem;">
+                  <div class="c-img-box">
+                    <img :src="item.img">
+                  </div>
                 </div>
                 <span>{{item.name}}</span>
               </router-link>
@@ -137,7 +135,7 @@ import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
 
 export default {
-  mixins:[
+  mixins: [
     routerCacheComponent({
       scrollWrapSelector: ".right-container"
     })
@@ -163,13 +161,11 @@ export default {
     },
     async fetchItemTypeList(catalogId) {
       try {
-        let res = await services.fetchItemTypeList({catalogId});
+        let res = await services.fetchItemTypeList({ catalogId });
 
         this.itemTypeList = res.data;
         this.$forceUpdate();
-      } catch (err) {
-
-      }
+      } catch (err) {}
     },
 
     changeCatalog(id) {
@@ -184,7 +180,7 @@ export default {
   },
 
   created() {
-    if(!this.$restored){
+    if (!this.$restored) {
       this.fetchCatalogList();
     }
   }
