@@ -138,9 +138,10 @@
           .evaluate_header {
             display: flex;
             align-items: center;
-            padding-top: pxTorem(10);
+            padding-top: pxTorem(20);
             .header_img {
-              width: pxTorem(70);
+              width: 0.3rem;
+              margin-right: 0.05rem;
               img {
                 width: 100%;
                 object-fit: cover;
@@ -442,8 +443,8 @@
               <!-- <span class="price_old">￥930</span> -->
             </div>
             <div class="chen_center_absolute express_price">
-              <div>快递：15.00</div>
-              <div>销量：0 件</div>
+              <div>快递：￥{{itemInfo.postFee}}</div>
+              <div>销量：{{itemInfo.saleCount}}件</div>
             </div>
           </div>
 
@@ -453,12 +454,11 @@
               <i class="iconfont icon-right"></i>
             </div>
           </div>
-          <div class="item_select_classification item_white">
+          <div class="item_select_classification item_white" v-if="itemInfo.rateCount > 0">
             <div class="chen_center_absolute">
-              <div>商品评价({{rateCount}})</div>
+              <div>商品评价({{itemInfo.rateCount}})</div>
               <div>
                 <router-link
-                  v-if="rateCount > 0"
                   class="item_look_more"
                   :to="{ path: '/evaluate', query: { itemId }}"
                 >
@@ -479,9 +479,9 @@
                   <div class="header_img">
                     <img :src="rate.user.avatar">
                   </div>
-                  <div>{{rate.user.nickname}}</div>
+                  <div style="color:#777">{{rate.user.nickname}}</div>
                 </div>
-                <div class="evaluate_des">{{rate.content}}</div>
+                <div class="evaluate_des">{{rate.content || '用户没有填写评价内容'}}</div>
                 <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
                   <img v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex" :src="img">
                 </div>
@@ -711,8 +711,7 @@ export default {
       quantity: 1,
       favoriteId: "",
       share: false, //分享组件控制
-      rateList: [],
-      rateCount: 1
+      rateList: []
     };
   },
   created() {
@@ -778,13 +777,13 @@ export default {
   methods: {
     bindEvent() {
       let body = this.$refs.body;
-      // body.addEventListener("scroll", () => {
-      //   let min = 150;
-      //   let max = 300;
-      //   let scrollTop = Math.max(body.scrollTop, min);
-      //   scrollTop = Math.min(scrollTop, max);
-      //   this.headerOpacity = (scrollTop - min) / (max - min);
-      // });
+      body.addEventListener("scroll", () => {
+        let min = 150;
+        let max = 300;
+        let scrollTop = Math.max(body.scrollTop, min);
+        scrollTop = Math.min(scrollTop, max);
+        this.headerOpacity = (scrollTop - min) / (max - min);
+      });
     },
     itemDetailsShow() {
       //商品详情
@@ -911,6 +910,8 @@ export default {
           itemId
         });
 
+        console.log(res);
+
         if (services.$isError(res)) throw new Error(res.message);
 
         this.rateList = res.data;
@@ -921,14 +922,14 @@ export default {
     imgDetail() {
       //图片设置data-src
       this.itemInfo.detail = this.itemInfo.detail.replace(/src/g, "data-src");
-      // this.$nextTick(() => {
-      //   let prews = this.$refs.imgs_detail;
-      //   let prewImgs = [...prews.querySelectorAll("img")];
-      //   for (let i in prewImgs) {
-      //     prewImgs[i].setAttribute("preview", "2");
-      //   }
-      //   this.$previewRefresh();
-      // });
+      this.$nextTick(() => {
+        let prews = this.$refs.imgs_detail;
+        let prewImgs = [...(prews ? prews.querySelectorAll("img") : [])];
+        for (let i in prewImgs) {
+          prewImgs[i].setAttribute("preview", "2");
+        }
+        this.$previewRefresh();
+      });
     },
     getPropValue(index, valueId) {
       return this.itemInfo.propvalues[index].find(item => item.id == valueId);

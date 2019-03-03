@@ -83,7 +83,7 @@ input {
   <div class="confirmorder-page">
     <c-header :title="'确认订单'"></c-header>
     <div class="c-page-body header-pd">
-      <router-link to="/myaddress" tag="div" class="address-wrap">
+      <div @click="selectAddress" class="address-wrap">
         <i class="iconfont icon-location_light"></i>
         <div class="confirmoder_address_info">
           <template v-if="orderInfo.address">
@@ -102,7 +102,7 @@ input {
         <p style="transform:rotateZ(180deg);display: inline-block;">
           <i style="font-size:16px;padding-right:0.1rem;" class="iconfont icon-back_light"></i>
         </p>
-      </router-link>
+      </div>
       <div class="order-info-wrap">
         <div style="width:95%;margin:auto;padding:0.1rem 0;">
           <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
@@ -222,6 +222,16 @@ export default {
       this.params.couponId = item.id;
 
       this.buildOrder();
+    },
+    $watchEvents(){
+      return {
+        selectAddress(addressId){
+          this.params.addressId = addressId;
+        }
+      }
+    },
+    selectAddress(){
+      this.$router.push({path:'/myaddress', query:{isSelect:1}});
     }
   },
   created() {
@@ -244,6 +254,8 @@ export default {
       };
       console.log(this.params);
   
+      this.buildOrder();
+    }else{
       this.buildOrder();
     }
   }

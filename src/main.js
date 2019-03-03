@@ -13,10 +13,9 @@ import popup from '@c/popup';
 import '@/components';
 import '@/filters';
 import MintUI from 'mint-ui';
-import VueLazyload from 'vue-lazyload';
-import preview from 'vue-photo-preview' //图片放大缩小
+const {VueLazyload} = require('@/js/vue-lazyload.js');
+import preview from 'vue-photo-preview' //图片预览
 import 'vue-photo-preview/dist/skin.css'
-
 
 Vue.use(layer);
 Vue.use(popup);
@@ -25,7 +24,7 @@ Vue.use(VueLazyload)
 Vue.use(preview, {
   fullscreenEl: false,
   zoomEl: false,
-  arrowEl:false,
+  arrowEl: false,
   tapToClose: true,
 })
 
@@ -34,9 +33,9 @@ Vue.use(preview, {
 //   let vConsole = new VConsole();
 // }
 
-window.webViewRefresh = function () {};
+window.webViewRefresh = function () { };
 
-document.addEventListener('touchstart', () => {});
+document.addEventListener('touchstart', () => { });
 
 Vue.config.productionTip = false;
 

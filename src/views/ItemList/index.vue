@@ -316,7 +316,7 @@
                 </router-link>
               </ul>
               <c-empty-hint
-                v-show="loadMoreDisabled && itemList.length === 0"
+                v-show="!loading && loadMoreDisabled && itemList.length === 0"
                 icon="icon-goods_light"
                 hint="没有相关商品"
               ></c-empty-hint>
@@ -471,6 +471,7 @@ export default {
           });
         }
       } catch (err) {
+        this.loading = false;
         return this.$toast(err.message);
       }
     }

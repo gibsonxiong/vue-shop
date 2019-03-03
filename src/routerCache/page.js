@@ -118,21 +118,22 @@ export default function (options = {}) {
         sessionStorage.setItem(watchsKey, JSON.stringify(watchs));
       },
       //把watchs变为task
-      $routerCacheEmit(name) {
+      $routerCacheEmit(name,value) {
         let watchs = sessionStorage.getItem(watchsKey);
         watchs = watchs ? JSON.parse(watchs) : {};
         let tasks = sessionStorage.getItem(tasksKey);
         tasks = tasks ? JSON.parse(tasks) : {};
 
         let watch = watchs[name];
-        let task = tasks[name] || (tasks[name] = []);
+        let task = tasks[name] || (tasks[name] = {arr:[]});
 
+        task.value = value;
 
         if (!watch) return;
 
         watch.forEach(key => {
-          if (task.indexOf(key) === -1) {
-            task.push(key);
+          if (task.arr.indexOf(key) === -1) {
+            task.arr.push(key);
           }
         });
 
@@ -160,9 +161,9 @@ export default function (options = {}) {
             watch.splice(index, 1);
           }
 
-          if (task && (index = task.indexOf(key)) >= 0) {
-            watchEvents[name] && watchEvents[name].call(this);
-            task.splice(index, 1);
+          if (task && (index = task.arr.indexOf(key)) >= 0) {
+            watchEvents[name] && watchEvents[name].call(this, task.value);
+            task.arr.splice(index, 1);
           }
         });
 

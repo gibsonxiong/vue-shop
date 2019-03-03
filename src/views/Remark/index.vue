@@ -157,6 +157,13 @@ export default {
         });
 
         if (services.$isError(res)) throw new Error(res.message);
+
+        this.$toast(res.message);
+        
+        setTimeout(() => {
+
+          this.$router.back();
+        }, 1000);
       } catch (err) {
         return this.$toast(err.message);
       }

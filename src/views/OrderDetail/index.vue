@@ -247,6 +247,9 @@
         <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
         <button class="c-btn btn-primary" @click.stop="rateOrder(orderInfo.id)">评价</button>
       </template>
+      <template v-else-if="orderInfo.status==5">
+        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
+      </template>
       <template v-else-if="orderInfo.status==9">
         <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
       </template>

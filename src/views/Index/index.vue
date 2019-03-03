@@ -123,7 +123,8 @@ export default {
       this.tab.items[index].inited = true;
 
       this.$nextTick(() => {
-        this.$refs.tabContent[index].tabActived &&
+        this.$refs.tabContent[index] &&
+          this.$refs.tabContent[index].tabActived &&
           this.$refs.tabContent[index].tabActived();
       });
 
@@ -146,18 +147,20 @@ export default {
     }
   },
   created() {
-    if (this.$restroed) return;
-
-    this.tab.items.forEach(item => {
-      item.inited = false;
-    });
+    if (!this.$restored) {
+      
+      this.tab.items.forEach(item => {
+        item.inited = false;
+      });
+    }
 
     let activeIndex = Number(this.$route.query.tab || 0);
     this.tab.active = activeIndex;
     this.tab.items[activeIndex].inited = true;
-    
+
     //默认不显示搜索页
     this.search.visible = false;
+
   },
   mounted() {}
 };

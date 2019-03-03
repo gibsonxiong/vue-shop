@@ -78,7 +78,7 @@ label {
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="my-ddress_con" v-for="(item,index) in addrList" :key="index">
+      <div class="my-ddress_con" v-for="(item,index) in addrList" :key="index" @click="select(item.id)">
         <div>
           <p>
             <span>{{item.name}}</span>
@@ -101,10 +101,10 @@ label {
           </span>
           <p style="width:65%">设置默认</p>-->
           <p style="width:35%;text-align:right;">
-            <span @click="updateAddr(item.id)">
+            <span @click.stop="updateAddr(item.id)">
               <i class="iconfont icon-post"></i>编辑
             </span>
-            <span style="padding-left:0.1rem;" @click="removeAddr(item.id)">
+            <span style="padding-left:0.1rem;" @click.stop="removeAddr(item.id)">
               <i class="iconfont icon-delete_light"></i>删除
             </span>
           </p>
@@ -121,10 +121,13 @@ label {
 
 <script>
 import services from "@/services";
+import routerCachePage from '@/routerCache/page';
 
 export default {
+  mixins:[routerCachePage()],
   data() {
     return {
+      isSelect:false,
       addrList: []
     };
   },
@@ -159,9 +162,18 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
+    },
+    select(addressId){
+      if(!this.isSelect) return;
+
+      this.$routerCacheEmit('selectAddress',addressId);
+
+      this.$router.back();
     }
   },
   created() {
+    this.isSelect = this.$route.query.isSelect == '1' ;
+
     this.fetchAddressList();
   }
 };

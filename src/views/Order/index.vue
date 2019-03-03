@@ -101,6 +101,9 @@
               <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
               <button class="c-btn btn-primary" @click.stop="rateOrder(order.id)">评价</button>
             </template>
+            <template v-else-if="order.status==5">
+              <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+            </template>
             <template v-else-if="order.status==9">
               <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
             </template>
@@ -129,19 +132,6 @@ export default {
       ],
       orderList: []
     };
-  },
-  filters: {
-    orderStatus(val) {
-      return (
-        {
-          "1": "等待买家付款",
-          "2": "买家已付款",
-          "3": "卖家已发货",
-          "4": "交易成功",
-          "9": "交易关闭"
-        }[val] || ""
-      );
-    }
   },
   methods: {
     async fetchOrderList() {

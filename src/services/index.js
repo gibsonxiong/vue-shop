@@ -4,7 +4,7 @@ import config from '@/config';
 import router from '@/router';
 
 const request = axios.create({
-  baseURL: 'http://192.168.3.168:3001/',
+  baseURL: 'http://192.168.43.193:3001/',
   timeout: 12000,
   method: 'get'
 });
@@ -14,7 +14,9 @@ function addInterceptors(_request) {
   _request.interceptors.request.use(function (config) {
     //添加token
     let token = services.$getToken();
+
     if (!token && !config.skipCheckToken) {
+      console.log(config);
       router.push('/login');
       throw new Error('请先登录');
     }
@@ -62,19 +64,6 @@ let {
   Shopcart
 } = require('./data/shopcart');
 
-let testUserId = 0;
-
-function mock(data, code = 0, message = '') {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        data,
-        code,
-        message
-      });
-    }, 100);
-  });
-}
 
 const services = {
   $setToken(token) {
@@ -108,7 +97,7 @@ const services = {
       phone,
       smsCode,
       password
-    })).data;
+    },{skipCheckToken:true})).data;
   },
 
   //获取验证码
@@ -118,7 +107,7 @@ const services = {
 
     return (await request.post('/getSmsCode', {
       phone
-    })).data;
+    },{skipCheckToken:true})).data;
   },
 
   //登录
@@ -129,7 +118,7 @@ const services = {
     return (await request.post('/login', {
       phone,
       password
-    })).data;
+    },{skipCheckToken:true})).data;
   },
 
   //获取搜索关键字提示列表
@@ -139,13 +128,16 @@ const services = {
     return (await request.get('/suggest', {
       params: {
         q: searchText
-      }
+      },
+      skipCheckToken:true
     })).data;
   },
 
   //获取搜索历史列表
   async fetchSearchHistory() {
-    return (await request.get('/searchs')).data;
+    return (await request.get('/searchs',{
+      skipCheckToken: true
+    })).data;
   },
 
   //删除搜索历史列表
@@ -154,13 +146,17 @@ const services = {
   },
 
   async fetchCatalogList() {
-    return (await request.get('/categorys')).data;
+    return (await request.get('/categorys',{
+      skipCheckToken: true
+    })).data;
   },
 
   async fetchItemTypeList({
     catalogId
   }) {
-    return (await request.get(`/categorys/${catalogId}`)).data;
+    return (await request.get(`/categorys/${catalogId}`,{
+      skipCheckToken: true
+    })).data;
   },
 
   async fetchItemList({
@@ -183,7 +179,6 @@ const services = {
   async fetchItem({
     itemId
   }) {
-
 
     return (await request.get(`/items/${itemId}`, {
       skipCheckToken: true
@@ -215,7 +210,7 @@ const services = {
   async getFavoriteByItemId({
     itemId
   }) {
-    return (await request.get(`/favorites/items/${itemId}`)).data;
+    return (await request.get(`/favorites/items/${itemId}`,{skipCheckToken:true})).data;
   },
 
   //获取购物车列表
@@ -437,7 +432,9 @@ const services = {
   async fetchItemRateList({
     itemId
   }) {
-    return (await request.get(`/rates/items/${itemId}`)).data;
+    return (await request.get(`/rates/items/${itemId}`,{
+      skipCheckToken:true
+    })).data;
   },
 
   //商品评价列表

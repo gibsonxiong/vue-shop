@@ -73,7 +73,7 @@
       }
     }
     .pay_btn {
-      padding: 40% 10% 0%;
+      padding: 0.15rem;
     }
   }
 }
@@ -87,13 +87,12 @@
         <div class="cashier_money">
           需支付:
           <span>
-            ￥
-            <span>78.88</span>
+            ￥{{orderInfo.orderFee}}
           </span>
         </div>
         <div class="select_pay">
           <p class="pay_des">选择支付方式</p>
-          <div class="select_item">
+          <!-- <div class="select_item">
             <div class="des_box">
               <div class="weixin_i">
                 <i class="iconfont icon-refund now_i"></i>
@@ -108,9 +107,9 @@
               </div>
             </div>
             <div class="check">
-              <c-radio :showType="showType" :name="name" :radioValue="1" v-model="money"></c-radio>
+              <c-radio :showType="showType" name="payType" radioValue="balance" v-model="payType"></c-radio>
             </div>
-          </div>
+          </div> -->
           <div class="select_item">
             <div class="des_box">
               <div class="weixin_i">
@@ -122,7 +121,7 @@
               </div>
             </div>
             <div class="check">
-              <c-radio :showType="showType" :name="name" :radioValue="2" v-model="money"></c-radio>
+              <c-radio :showType="showType" name="payType" radioValue="weixin" v-model="payType"></c-radio>
             </div>
           </div>
         </div>
@@ -152,13 +151,29 @@ export default {
   data() {
     return {
       orderId: "",
+      orderInfo:{},
       popupVisible: false,
       showType: "radio",
-      name: "pay",
-      money: '1'    //1 微信  2 余额
+      payType: 'weixin'    //1 微信  2 余额
     };
   },
   methods: {
+    async fetchOrderInfo() {
+      try {
+        let { orderId } = this;
+        let res = await services.fetchOrderInfo({
+          orderId
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderInfo = res.data;
+        
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
     payClick(val) {
       this.paydata = val;
       console.log(val);
@@ -212,6 +227,8 @@ export default {
   },
   created() {
     this.orderId = this.$route.query.orderId;
+
+    this.fetchOrderInfo();
   }
 };
 </script>
