@@ -8,6 +8,8 @@ import App from './App'
 import router from './router';
 import store from './store';
 
+import config from '@/config';
+
 import layer from '@c/layer';
 import popup from '@c/popup';
 import '@/components';
@@ -15,8 +17,9 @@ import '@/filters';
 import MintUI from 'mint-ui';
 const {VueLazyload} = require('@/js/vue-lazyload.js');
 import preview from 'vue-photo-preview' //图片预览
-import 'vue-photo-preview/dist/skin.css'
+import 'vue-photo-preview/dist/skin.css';
 
+Vue.use(config);
 Vue.use(layer);
 Vue.use(popup);
 Vue.use(MintUI);

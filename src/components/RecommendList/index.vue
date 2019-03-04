@@ -105,9 +105,9 @@
 
   .recommend-sale {
     float: right;
-    font-size: 12px;
+    font-size: 0.12rem;
     color: #999999;
-    margin-top: 2px;
+    margin-top: 0.02rem;
   }
 }
 </style>
@@ -127,7 +127,7 @@
             <div class="recommend-title">{{item.name}}</div>
             <div class="recommend-price-box">
               <span class="recommend-price">￥{{item.minPrice}}</span>
-              <span class="recommend-sale">394人已购买</span>
+              <span class="recommend-sale">{{item.saleCount}}人已购买</span>
             </div>
           </div>
         </router-link>

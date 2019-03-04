@@ -167,7 +167,7 @@ img {
     span:first-of-type {
       font-weight: 500;
       font-size: 0.16rem;
-      color: #051b28;
+      // color: #051b28;
     }
     span:last-of-type {
       color: #999;
@@ -206,7 +206,7 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  color:#051b28;
+  // color:#051b28;
 }
 
 .marquee_top {
@@ -243,11 +243,11 @@ img {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    height: 0.4rem;
+    height: 0.36rem;
     font-size: 0.14rem;
     padding: 0 0.01rem;
     margin: 0.08rem 0 0.06rem;
-    color: #051b28;
+    // color: #051b28;
   }
   li:nth-child(3) {
     display: flex;

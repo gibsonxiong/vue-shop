@@ -309,7 +309,10 @@
                     <div class="des">
                       <p>{{item.name}}</p>
                       <div class="chen_center_absolute">
-                        <div class="des_money">￥{{item.minPrice}}</div>
+                        <span class="des_money">￥{{item.minPrice}}</span>
+                        <span style="    font-size: 0.12rem;
+    color: #999999;
+    margin-top: 2px;">{{item.saleCount}}人已购买</span>
                       </div>
                     </div>
                   </div>
@@ -323,7 +326,7 @@
             </mt-loadmore>
             <div v-show="loading" class="mint-loadmore-bottom loading_color">加载中...</div>
             <div
-              v-show="loadMoreDisabled && itemList.length > 0"
+              v-show="!loading && loadMoreDisabled && itemList.length > 0"
               class="mint-loadmore-bottom loading_color"
             >没有更多了</div>
             

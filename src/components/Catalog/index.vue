@@ -8,6 +8,7 @@
   }
 
   .catalog-list {
+    position: relative;
     height: 100%;
     width: 1.05rem;
     background: #f8f8f8;
@@ -23,7 +24,7 @@
       text-align: center;
       box-sizing: border-box;
       font-size: 0.13rem;
-      color: #333;
+      // color: #333;
       transition: 0.2s all;
 
       &.active {
@@ -101,15 +102,17 @@
     </c-header>
 
     <div class="c-page-body">
-      <ul class="catalog-list c-header-pd c-tab-pd">
-        <li
-          v-for="(item,index) in catalogList"
-          :key="index"
-          class="catalog-list-item"
-          :class="{'active':catalogIndex == item.id}"
-          @click="changeCatalog(item.id)"
-        >{{item.name}}</li>
-      </ul>
+      <div class="left-container c-header-pd c-tab-pd">
+        <ul class="catalog-list" ref="leftContainer">
+          <li
+            v-for="(item,index) in catalogList"
+            :key="index"
+            class="catalog-list-item"
+            :class="{'active':catalogIndex == item.id, [`item-${item.id}`]:true}"
+            @click="changeCatalog(item.id)"
+          >{{item.name}}</li>
+        </ul>
+      </div>
       <div class="right-container" ref="rightContainer">
         <div class="c-header-pd">
           <ul class="type-list">
@@ -155,7 +158,9 @@ export default {
 
         this.catalogList = res.data;
         let defaultId = this.catalogList[0].id;
-        this.changeCatalog(defaultId);
+        this.$nextTick(() => {
+          this.changeCatalog(defaultId);
+        });
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -170,23 +175,37 @@ export default {
     },
 
     changeCatalog(id) {
-      if(this.catalogIndex == id ) return;
+      if (this.catalogIndex == id && !force) return;
 
       this.$refs.rightContainer.scrollTop = 0;
 
       this.catalogIndex = id;
       this.fetchItemTypeList(id);
+
+      // this.scrollCatalog();
+    },
+
+    scrollCatalog() {
+      //左边容器滚动定位
+      let id = this.catalogIndex;
+      let activedItem = this.$refs.leftContainer.querySelector(`.item-${id}`);
+      let scrollTop = activedItem ? activedItem.offsetTop : 0;
+      this.$refs.leftContainer.scrollTop = scrollTop;
     },
 
     //父类调用
     tabActived() {
-      this.$refs.header.resizeCenter();
+      this.$refs.header.resizeCenter();     
     }
   },
 
   created() {
     if (!this.$restored) {
       this.fetchCatalogList();
+    } else {
+      this.$nextTick(()=>{
+        this.scrollCatalog();
+      })
     }
   }
 };

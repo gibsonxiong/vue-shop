@@ -141,7 +141,6 @@
         color: #999;
       }
 
-
       .footer-btn {
         border: none;
         color: #fff;
@@ -154,6 +153,11 @@
           background: $color-primary-disabled;
           border: 1px solid $color-primary-disabled;
         }
+
+        &:not(:disabled):active {
+          background: $color-primary-active;
+          border: 1px solid $color-primary-active;
+        }
       }
     }
   }
@@ -164,8 +168,7 @@
   <div class="c-shopcart" :class="{'in-tab':inTab}">
     <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
     <div class="c-page-body header-pd">
-      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">
-        亲~ 登录后才可以查看购物车
+      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">亲~ 登录后才可以查看购物车
         <div style="padding-top:0.2rem;">
           <router-link tag="button" to="/login" class="c-btn btn-primary">去登录</router-link>
         </div>
@@ -225,11 +228,11 @@
                 <div class="hint">不含运费</div>
               </div>
             </div>
-              <button
-                :disabled="checkedCount === 0"
-                class="footer-btn"
-                @click="submit"
-              >结算({{checkedCount}})</button>
+            <button
+              :disabled="checkedCount === 0"
+              class="footer-btn"
+              @click="submit"
+            >结算({{checkedCount}})</button>
             <!-- <div class="chen_center_absolute_center item_page_footer_buys_wrap"> -->
             <!-- </div> -->
           </div>
@@ -251,14 +254,13 @@ import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
 
 export default {
-  mixins:[
+  mixins: [
     routerCacheComponent({
       scrollWrapSelector: ".c-page-body"
     })
   ],
   props: {
     inTab: {
-      
       type: Boolean,
       default: true
     }

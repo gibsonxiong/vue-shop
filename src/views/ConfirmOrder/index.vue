@@ -57,6 +57,11 @@
       background: $color-primary-disabled;
       border: 1px solid $color-primary-disabled;
     }
+
+    &:not(:disabled):active {
+      background: $color-primary-active;
+      border: 1px solid $color-primary-active;
+    }
   }
 }
 
@@ -98,6 +103,7 @@ input {
               <span>{{orderInfo.address.detailAddr}}</span>
             </div>
           </template>
+          <div v-else>请选择地址</div>
         </div>
         <p style="transform:rotateZ(180deg);display: inline-block;">
           <i style="font-size:16px;padding-right:0.1rem;" class="iconfont icon-back_light"></i>
@@ -137,7 +143,7 @@ input {
             @click="popupVisible=true"
           ></c-cell>
           <c-cell name="买家留言：">
-            <input slot="right" type="text" v-model="params.remark" placeholder="50字以内（选填）"/>
+            <input slot="right" type="text" v-model="params.remark" placeholder="50字以内（选填）">
           </c-cell>
         </c-cell-list>
         <!--  -->
@@ -163,7 +169,7 @@ input {
       v-model="params.couponId"
       :data="orderInfo.couponList"
       :visible="popupVisible"
-      @popupVisibleChange="popupVisible = $event"
+      @visibleChange="popupVisible = $event"
       @select="handleCouponSelect"
       nameKey="coupon.name"
       valueKey="id"
@@ -173,10 +179,10 @@ input {
 
 <script>
 import services from "@/services";
-import routerCachePage from '@/routerCache/page';
+import routerCachePage from "@/routerCache/page";
 
 export default {
-  mixins:[routerCachePage()],
+  mixins: [routerCachePage()],
   data() {
     return {
       popupVisible: false,
@@ -201,6 +207,8 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.orderInfo = res.data;
+
+        this.params.addressId = this.orderInfo.address ? this.orderInfo.address.id : '';
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -213,7 +221,10 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$router.push({path:'/cashier',query:{orderId:res.data.orderId}})
+        this.$router.push({
+          path: "/cashier",
+          query: { orderId: res.data.orderId }
+        });
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -223,15 +234,15 @@ export default {
 
       this.buildOrder();
     },
-    $watchEvents(){
+    $watchEvents() {
       return {
-        selectAddress(addressId){
+        selectAddress(addressId) {
           this.params.addressId = addressId;
         }
-      }
+      };
     },
-    selectAddress(){
-      this.$router.push({path:'/myaddress', query:{isSelect:1}});
+    selectAddress() {
+      this.$router.push({ path: "/myaddress", query: { isSelect: 1 } });
     }
   },
   created() {
@@ -243,19 +254,19 @@ export default {
     //     "quantity": 1
     //   }
     // ]
-    if(!this.$restored){
+    if (!this.$restored) {
       let itemParams = JSON.parse(this.$route.query.p);
-  
+
       this.params = {
         addressId: "",
         couponId: "",
         itemParams,
-        remark:''
+        remark: ""
       };
       console.log(this.params);
-  
+
       this.buildOrder();
-    }else{
+    } else {
       this.buildOrder();
     }
   }

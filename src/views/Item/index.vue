@@ -1,21 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/mixin";
 @import "~@/css/var";
-// .pop-enter-active,
-// .pop-leave-active {
-//   // transform: translateY(0);
-//   transition: opacity 0.3s;
-// }
-// .fade-enter-active,
-// .fade-leave-active {
-//   transform: translateY(0);
-//   transition: 0.3s;
-// }
-// .pop-enter,
-// .pop-leave-to {
-//   opacity: 0;
-//   // transform: translateY(100%);
-// }
 
 .slide-enter-active,
 .slide-leave-active {
@@ -126,7 +111,7 @@
       .item_select_classification {
         background: #fff;
         font-size: pxTorem(28);
-        margin: pxTorem(20) 0rem;
+        margin-top: 0.1rem;
         padding: pxTorem(20) pxTorem(14);
         i {
           opacity: 0.4;
@@ -211,23 +196,25 @@
             }
           }
         }
-        .item_parameters {
-          padding: pxTorem(10) pxTorem(26);
-          .item_parameters_list {
-            padding: pxTorem(30) 0rem;
-            > div:nth-child(1) {
-              min-width: 30%;
-              color: #898989;
-            }
-            > div:nth-child(2) {
-              min-width: 70%;
-            }
-          }
-          .item_parameters_list:not(:last-child) {
-            border-bottom: 1px solid #f4f4f4;
-          }
-        }
       }
+    }
+  }
+
+  .item_parameters {
+    padding: pxTorem(10) 0;
+    .item_parameters_list {
+      padding: 0.12rem 0rem;
+      > div:nth-child(1) {
+        width: 25%;
+        color: #898989;
+      }
+      > div:nth-child(2) {
+        width: 75%;
+        color: #444;
+      }
+    }
+    .item_parameters_list:not(:last-child) {
+      border-bottom: 1px solid $color-border;
     }
   }
   .item_page_footer {
@@ -247,10 +234,6 @@
         width: 40%;
         .item_page_footer_follow {
           width: 50%;
-
-          &.active {
-            color: $color-primary;
-          }
         }
       }
 
@@ -261,12 +244,21 @@
           width: 50%;
           color: #fff;
           height: 100%;
-        }
-        .item_page_footer_buys:nth-child(1) {
+          border: 0;
           background: $color-secondly;
+          padding: 0.15rem 0rem;
         }
-        .item_page_footer_buys:last-child {
+
+        &:active {
+          background: $color-secondly-active;
+        }
+
+        .btn-secondly {
           background: $color-primary;
+
+          &:active {
+            background: $color-primary-active;
+          }
         }
       }
     }
@@ -388,8 +380,16 @@
           // width: 100%;
           border: 0;
 
+          &:active {
+            background-color: $color-primary-active;
+          }
+
           &.btn-secondly {
             background-color: $color-secondly;
+
+            &:active {
+              background-color: $color-secondly-active;
+            }
           }
         }
       }
@@ -448,20 +448,45 @@
             </div>
           </div>
 
-          <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
-            <div>请选择型号</div>
+          <!-- <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
+            <div>选择型号</div>
             <div>
               <i class="iconfont icon-right"></i>
             </div>
           </div>
+          <div
+            class="item_select_classification chen_center_absolute"
+            style="margin-top:0"
+            @click="popupVisible = true"
+          >
+            <div>产品参数</div>
+            <div>
+              <i class="iconfont icon-right"></i>
+            </div>
+          </div>-->
+          <c-cell-list style="margin-top:0.15rem;">
+            <c-cell
+              name="领取优惠券"
+              @click="$router.push('/coupon')"
+            ></c-cell>
+          </c-cell-list>
+          <c-cell-list style="margin-top:0.15rem;">
+            <c-cell
+              name="选择规格"
+              @click="openPopModel('sku')"
+            ></c-cell>
+            <c-cell
+              name="产品参数"
+              @click="popupVisible = true"
+            ></c-cell>
+            
+          </c-cell-list>
+
           <div class="item_select_classification item_white" v-if="itemInfo.rateCount > 0">
             <div class="chen_center_absolute">
               <div>商品评价({{itemInfo.rateCount}})</div>
               <div>
-                <router-link
-                  class="item_look_more"
-                  :to="{ path: '/evaluate', query: { itemId }}"
-                >
+                <router-link class="item_look_more" :to="{ path: '/evaluate', query: { itemId }}">
                   <span>查看更多</span>
                   <i class="iconfont icon-right"></i>
                 </router-link>
@@ -487,10 +512,7 @@
                 </div>
               </router-link>
             </div>
-            <div
-              style="color: #777;font-size: 0.12rem;padding-top: 0.1rem;"
-              v-else
-            >暂无评价</div>
+            <div style="color: #777;font-size: 0.12rem;padding-top: 0.1rem;" v-else>暂无评价</div>
           </div>
           <!-- <div class="item_select_shop_name chen_center_absolute">
             <div class="chen_center_absolute">
@@ -501,36 +523,21 @@
             </div>
             <div class="shop_name_btn">进店逛逛</div>
           </div>-->
-          <div class="item_details_parameters">
+          <div class="item_details_parameters" style="margin-top:0.1rem;">
             <div class="chen_center_absolute item_details_checkout">
-              <div
-                :class="{'details_checkout_active':itemDetails === '1'}"
-                @click="itemDetailsShow"
-              >详情</div>
-              <div
+              <div class="details_checkout_active">商品详情</div>
+              <!-- <div
                 :class="{'details_checkout_active':itemDetails === '0'}"
                 @click="itemParametersShow"
-              >参数</div>
+              >参数</div>-->
             </div>
             <!-- <div v-lazy-container="{ selector: 'img' }"> -->
             <div
-              v-show="itemDetails === '1'"
               class="item_details"
               ref="imgs_detail"
               v-html="itemInfo.detail"
               v-lazy-container="{ selector: 'img' }"
-            >
-            </div>
-            <ul v-show="itemDetails === '0'" class="item_parameters">
-              <li
-                class="item_parameters_list chen_center_absolute"
-                v-for="(val,index) in item_parameters_data"
-                :key="index"
-              >
-                <div>{{val.title}}</div>
-                <div>{{val.des}}</div>
-              </li>
-            </ul>
+            ></div>
           </div>
         </div>
       </div>
@@ -539,13 +546,16 @@
     <div class="item_page_footer">
       <div class="item_page_footer_content chen_center_absolute">
         <div class="chen_center_absolute_center item_page_footer_follow_wrap">
-          <div
-            class="chen_center_absolute_column item_page_footer_follow"
-            :class="{'active':favoriteId}"
-            @click="favorite()"
-          >
-            <i class="iconfont icon-like"></i>
-            <span>关注</span>
+          <div class="item_page_footer_follow chen_center_absolute_column" @click="favorite()">
+            <i
+              style="font-size: 0.2rem;"
+              v-show="favoriteId"
+              class="c-primary iconfont icon-likefill"
+            ></i>
+            <span style="font-size: 0.12rem;" v-show="favoriteId" class="c-primary">取消关注</span>
+            
+            <i style="font-size: 0.2rem;" v-show="!favoriteId" class="iconfont icon-like"></i>
+            <span style="font-size: 0.12rem;" v-show="!favoriteId">关注</span>
           </div>
           <!-- <div class="chen_center_absolute_column item_page_footer_follow">
             <i class="iconfont icon-shop"></i>
@@ -555,23 +565,19 @@
             class="chen_center_absolute_column item_page_footer_follow"
             @click="$router.push('/shopcart')"
           >
-            <i class="iconfont icon-cart"></i>
-            <span>购物车</span>
+            <i style="font-size: 0.2rem;" class="iconfont icon-cart"></i>
+            <span style="font-size: 0.12rem;">购物车</span>
           </div>
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <div
+          <button
             class="chen_center_absolute_column item_page_footer_buys"
             @click="openPopModel('cart')"
-          >
-            <span>加入购物车</span>
-          </div>
-          <div
-            class="chen_center_absolute_column item_page_footer_buys"
+          >加入购物车</button>
+          <button
+            class="chen_center_absolute_column item_page_footer_buys btn-secondly"
             @click="openPopModel('buy')"
-          >
-            <span>立刻购买</span>
-          </div>
+          >立刻购买</button>
         </div>
       </div>
     </div>
@@ -590,13 +596,8 @@
             </div>
             <div class="item_detail_top_price">
               <div class="item_detail_top_des">
-                <div class="price_num">
-                  ￥{{selectSku ? selectSku.price : itemPrice}}
-                  <!-- <span>78.00</span> -->
-                </div>
-                <!-- <div v-if="selectSku">库存 {{selectSku.quantity}}件</div> -->
+                <div class="price_num">￥{{selectSku ? selectSku.price : itemPrice}}</div>
                 <div style="padding-top:0.05rem;color:#666;">{{selectTip}}</div>
-                <!-- <div>{{selectValue.length == 0?'请选择规格': `已选择:${selectValue.join(',')}`}}</div> -->
               </div>
               <div class="item_detail_top_cancel" @click="closePopModel()">
                 <i class="iconfont icon-round_close_light"></i>
@@ -631,7 +632,7 @@
                 <span v-if="selectSku">({{selectSku.quantity}}件)</span>
               </div>
               <div>
-                <c-number-input :min="1" :max="20" v-model="quantity"></c-number-input>
+                <c-number-input :min="1" v-model="quantity"></c-number-input>
               </div>
             </div>
           </div>
@@ -645,9 +646,18 @@
         </div>
       </div>
     </transition>
-    <!-- </div>
-    </div>-->
-    <!-- </transition> -->
+    <c-wrap-popup title="产品参数" :visible="popupVisible" @visibleChange="popupVisible = $event">
+      <ul class="item_parameters">
+        <li
+          class="item_parameters_list chen_center_absolute"
+          v-for="(val,index) in item_parameters_data"
+          :key="index"
+        >
+          <div>{{val.title}}</div>
+          <div>{{val.des}}</div>
+        </li>
+      </ul>
+    </c-wrap-popup>
   </div>
 </template>
 
@@ -668,7 +678,6 @@ export default {
 
       headerOpacity: 0,
 
-      itemDetails: "1",
       item_parameters_data: [
         //参数详情
         {
@@ -702,6 +711,7 @@ export default {
           des: "2019秋季"
         }
       ],
+      popupVisible: false,
       pop_model: "", //控制购买详情弹出层
       selectValue: [], //选择规格数据
       disabledList: [], //禁用的数组
@@ -785,14 +795,6 @@ export default {
         this.headerOpacity = (scrollTop - min) / (max - min);
       });
     },
-    itemDetailsShow() {
-      //商品详情
-      this.itemDetails = "1";
-    },
-    itemParametersShow() {
-      //商品参数
-      this.itemDetails = "0";
-    },
     openPopModel(type) {
       //选择参数
       this.pop_model = type;
@@ -803,14 +805,14 @@ export default {
     },
     //加入购物车
     async submit(type) {
-      let inValid = this.itemInfo.propnames.some((prop, index) => {
+      let invalid = this.itemInfo.propnames.some((prop, index) => {
         if (!this.selectValue[index]) {
           this.$toast(`请选择${prop.name}`);
           return true;
         }
       });
 
-      if (inValid) return;
+      if (invalid) return;
 
       if (type === "cart") {
         try {
@@ -839,6 +841,8 @@ export default {
         ];
 
         queryData = JSON.stringify(queryData);
+
+        this.closePopModel();
 
         this.$router.push({ path: "/confirmorder", query: { p: queryData } });
       }

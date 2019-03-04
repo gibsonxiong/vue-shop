@@ -113,8 +113,8 @@
           >已过期</div>
         </div>
         <div class="coupon_lists">
-          <ul class="list_box">
-            <li
+          <div class="list_box">
+            <!-- <li
               class="list_item"
               :class="{disabled:val.status !== 'unused'}"
               v-for="(val,index) in list"
@@ -133,8 +133,20 @@
                   <div>即领取日一天内有效</div>
                 </div>
               </div>
-            </li>
-          </ul>
+            </li> -->
+            <c-coupon-item
+              v-for="(val,index) in list"
+              :key="index"
+              :name="val.coupon.name"
+              :desc="val.coupon.desc"
+              :deductPrice="val.coupon.deductPrice"
+              :limitPrice="val.coupon.limitPrice"
+              :startTime="val.coupon.startTime"
+              :endTime="val.coupon.endTime"
+              :disabled="val.status !== 'unused'"
+            >
+            </c-coupon-item>
+          </div>
         </div>
       </div>
     </div>

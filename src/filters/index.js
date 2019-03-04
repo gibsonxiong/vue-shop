@@ -1,8 +1,13 @@
 import Vue from 'vue';
+import config from '@/config';
 import filter from '@c/filter';
 
 
 let filters = {
+  hostUrl(val){
+    return config.hostUrl + val;
+  },
+
   //退款类型
   refundType(val) {
     return ({

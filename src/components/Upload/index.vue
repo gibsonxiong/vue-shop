@@ -63,7 +63,7 @@ img {
   <div class="feedback_add_img">
     <div class="img_box" v-for="(val,index) in data" :key="index">
       <i class="img_del iconfont icon-roundclosefill" @click="remove(index)"></i>
-      <img :src="val">
+      <img :src="val | hostUrl">
     </div>
     <div class="img_box" v-if="data.length < maxLength">
       <div class="remark_add">

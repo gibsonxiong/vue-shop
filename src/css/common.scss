@@ -1,5 +1,6 @@
 body {
-  color: #051b28;
+  // color: #051b28;
+  color:#555;
 }
 
 $placeholder-color:rgba(193, 193, 193, 1);
@@ -162,4 +163,8 @@ textarea:-ms-input-placeholder {
     width:100%;
     height: 100%;
   }
+}
+
+.c-primary{
+  color: $color-primary;
 }

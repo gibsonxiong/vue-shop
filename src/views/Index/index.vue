@@ -54,7 +54,7 @@
         <keep-alive>
           <component
             v-if="item.inited"
-            ref="tabContent"
+            :ref="`tabContent${index}`"
             :cacheId="`tabContent${index}`"
             v-bind:is="item.component"
             @toSearch="showSearch"
@@ -123,9 +123,12 @@ export default {
       this.tab.items[index].inited = true;
 
       this.$nextTick(() => {
-        this.$refs.tabContent[index] &&
-          this.$refs.tabContent[index].tabActived &&
-          this.$refs.tabContent[index].tabActived();
+        console.log(this.$refs);
+        this.$refs[`tabContent${index}`] &&
+          this.$refs[`tabContent${index}`][0].tabActived &&
+          this.$refs[`tabContent${index}`][0].tabActived();
+
+          this.$Lazyload._lazyLoadHandler();
       });
 
       let newRoute = {

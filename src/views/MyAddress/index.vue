@@ -78,6 +78,7 @@ label {
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
+      <c-empty-hint v-if="addrList.length == 0" icon="icon-location_light" hint="您没有收货地址哦！"></c-empty-hint>
       <div class="my-ddress_con" v-for="(item,index) in addrList" :key="index" @click="select(item.id)">
         <div>
           <p>
