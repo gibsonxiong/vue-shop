@@ -14,10 +14,11 @@
   padding: 0.1rem 0;
 }
 .eva_txt_img {
-  width: 33.3%;
-  height: 1rem;
-  margin: auto;
-  padding: 0 0.03rem;
+      width: 1.1rem;
+    height: 1.1rem;
+    margin: auto;
+    margin-right: 0.05rem;
+    margin-bottom: 0.05rem;
 }
 img {
   object-fit: cover;
@@ -44,7 +45,7 @@ img {
         </p>
         <p class="evaluate_txt">{{rate.content}}</p>
         <div>
-          <img v-for="(img,index) in rate.rateImgList" :key="index" class="eva_txt_img" :src="img">
+          <img v-for="(img,index) in rate.rateImgList" :key="index" class="eva_txt_img" :src="img | hostUrl">
         </div>
         <p style="text-align:right;padding:0.05rem 0;">
           <i

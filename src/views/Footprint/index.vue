@@ -31,7 +31,7 @@
   <div class="footprint-page">
     <c-header :title="'我的足迹'"></c-header>
     <div class="c-page-body header-pd">
-      <div>
+      <div v-if="list.length > 0">
         <div v-for="(itemList,dateTitle) in footprintList" :key="dateTitle">
           <div class="list-title">{{dateTitle}}</div>
           <c-goods-item
@@ -44,6 +44,8 @@
           ></c-goods-item>
         </div>
       </div>
+      <c-empty-hint v-else icon="icon-footprint" hint="没有留下任何足迹">
+      </c-empty-hint>
     </div>
   </div>
 </template>

@@ -112,28 +112,9 @@
             @click="changeStatus('expired')"
           >已过期</div>
         </div>
-        <div class="coupon_lists">
+
+        <div class="coupon_lists" v-if="list.length > 0">
           <div class="list_box">
-            <!-- <li
-              class="list_item"
-              :class="{disabled:val.status !== 'unused'}"
-              v-for="(val,index) in list"
-              :key="index"
-            >
-              <div class="item_l chen_center_absolute_column">
-                <p class="num">￥{{val.coupon.deductPrice}}</p>
-                <p
-                  class="des"
-                >{{ val.coupon.limitPrice == 0 ? '无门槛' : `满${val.coupon.limitPrice}使用`}}</p>
-              </div>
-              <div class="item_r">
-                <p class="r_til">{{val.coupon.name}}</p>
-                <p class="r_des">{{val.coupon.desc}}</p>
-                <div class="chen_center_absolute r_footer">
-                  <div>即领取日一天内有效</div>
-                </div>
-              </div>
-            </li> -->
             <c-coupon-item
               v-for="(val,index) in list"
               :key="index"
@@ -148,6 +129,8 @@
             </c-coupon-item>
           </div>
         </div>
+        <c-empty-hint v-else icon="icon-youhuiquan" hint="您没有此类优惠券">
+        </c-empty-hint>
       </div>
     </div>
   </div>

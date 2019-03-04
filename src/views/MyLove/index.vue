@@ -25,14 +25,9 @@
   <div class="footprint-page">
     <c-header :title="'我的关注'"></c-header>
     <div class="c-page-body header-pd">
-      <!--  -->
-      <!-- <div class="footprint_t">
-          <span><i class="iconfont icon-shoplight"></i>亿人通互联网商城</span>
-          <span>2019-01-24 14:24:16</span>
-          
-      </div>-->
-      <!--  -->
-      <c-goodslist :data="itemList"></c-goodslist>
+      <c-goodslist :data="itemList" v-if="itemList.length > 0"></c-goodslist>
+      <c-empty-hint v-else icon="icon-like" hint="没有关注的商品">
+      </c-empty-hint>
     </div>
   </div>
 </template>

@@ -33,6 +33,7 @@
       text-align: center;
       padding: 0.1rem 0;
       @include flex;
+      position: relative;
     }
 
     .order-item-icon {
@@ -40,6 +41,12 @@
     }
     .order-item-name {
       font-size: 0.12rem;
+    }
+
+    .order-item-bage {
+      top: 0.05rem;
+      right: 0.1rem;
+      position: absolute;
     }
   }
 }
@@ -89,18 +96,22 @@
         <router-link tag="div" :to="{path:'/order', query:{status:'1'}}" class="order-item">
           <i class="order-item-icon iconfont icon-pay"></i>
           <div class="order-item-name">待付款</div>
+          <span class="c-badge order-item-bage" v-if="orderCount.waitPayCount > 0">{{orderCount.waitPayCount}}</span>
         </router-link>
         <router-link tag="div" :to="{path:'/order', query:{status:'2'}}" class="order-item">
           <i class="order-item-icon iconfont icon-deliver"></i>
           <div class="order-item-name">待发货</div>
+          <span class="c-badge order-item-bage" v-if="orderCount.waitDeliverCount > 0">{{orderCount.waitDeliverCount}}</span>
         </router-link>
         <router-link tag="div" :to="{path:'/order', query:{status:'3'}}" class="order-item">
           <i class="order-item-icon iconfont icon-icon-receive"></i>
-          <div class="order-item-name">待收货</div>
+          <div class="order-item-name" >待收货</div>
+          <span class="c-badge order-item-bage" v-if="orderCount.waitReceiveCount > 0">{{orderCount.waitReceiveCount}}</span>
         </router-link>
         <router-link tag="div" :to="{path:'/order', query:{status:'4'}}" class="order-item">
           <i class="order-item-icon iconfont icon-comment"></i>
           <div class="order-item-name">待评价</div>
+          <span class="c-badge order-item-bage" v-if="orderCount.waitRateCount > 0">{{orderCount.waitRateCount}}</span>
         </router-link>
         <router-link tag="div" :to="{path:'/refundlist'}" class="order-item">
           <i class="order-item-icon iconfont icon-refund"></i>
@@ -198,13 +209,13 @@ export default {
   data() {
     return {
       isLogin: false,
-      userInfo: {}
+      userInfo: {},
+      orderCount:{}
     };
   },
   methods: {
     async fetchUserInfo() {
       try {
-        let { itemId } = this;
         let res = await services.fetchUserInfo();
 
         if (services.$isError(res)) throw new Error(res.message);
@@ -213,7 +224,18 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
-    }
+    },
+    async fetchOrderCount() {
+      try {
+        let res = await services.fetchOrderCount();
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.orderCount = res.data;
+      } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
   },
 
   created() {
@@ -221,6 +243,7 @@ export default {
 
     if (this.isLogin) {
       this.fetchUserInfo();
+      this.fetchOrderCount();
     }
   }
 };

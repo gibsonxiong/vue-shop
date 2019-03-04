@@ -161,7 +161,9 @@ export default {
     }
   },
   created() {
-    this.fetchRecommendList();
+    if(!this.$restored){
+      this.fetchRecommendList();
+    }
   }
 };
 </script>

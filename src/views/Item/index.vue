@@ -127,6 +127,8 @@
             .header_img {
               width: 0.3rem;
               margin-right: 0.05rem;
+              overflow: hidden;
+              border-radius: 50%;
               img {
                 width: 100%;
                 object-fit: cover;
@@ -134,9 +136,11 @@
             }
           }
           .evaluate_des {
-            padding: pxTorem(13) 0px;
+            padding: 0.05rem 0px;
+            padding-left: 0.35rem;
           }
           .evaluate_img {
+            padding-left: 0.35rem;
             &::after {
               content: "";
               display: block;
@@ -144,10 +148,11 @@
             }
             img {
               float: left;
+              width: 1rem;
               height: 1rem;
-              width: 33%;
               object-fit: cover;
-              padding: pxTorem(6) pxTorem(6) pxTorem(0) pxTorem(0);
+              margin-right: 0.1rem;
+              margin-bottom: 0.1rem;
             }
             img:nth-child(3n) {
               padding: pxTorem(6) pxTorem(0) pxTorem(0) pxTorem(0);
@@ -186,14 +191,8 @@
         .item_details_checkout {
           > div {
             width: 100%;
-            padding: pxTorem(18) 0rem;
-            text-align: center;
-            border-bottom: 1px solid #d0d0d0;
-            transition: 0.3s ease;
-            &.details_checkout_active {
-              color: $color-primary;
-              border-bottom: 1px solid $color-primary;
-            }
+            padding: 0.09rem 0.1rem;
+            border-bottom: 1px solid $color-border;
           }
         }
       }
@@ -245,19 +244,20 @@
           color: #fff;
           height: 100%;
           border: 0;
-          background: $color-secondly;
+
+          background: $color-gradient;
           padding: 0.15rem 0rem;
         }
 
         &:active {
-          background: $color-secondly-active;
+          background: $color-primary-active;
         }
 
         .btn-secondly {
-          background: $color-primary;
+          background: $color-secondly;
 
           &:active {
-            background: $color-primary-active;
+            background: $color-secondly-active;
           }
         }
       }
@@ -374,21 +374,21 @@
           @include flex;
           padding: pxTorem(30) 0rem;
           text-align: center;
-          background: $color-primary;
+          background: $color-gradient;
           color: #fff;
           font-size: pxTorem(32);
           // width: 100%;
           border: 0;
 
           &:active {
-            background-color: $color-primary-active;
+            background: $color-primary-active;
           }
 
           &.btn-secondly {
-            background-color: $color-secondly;
+            background: $color-secondly;
 
             &:active {
-              background-color: $color-secondly-active;
+              background: $color-secondly-active;
             }
           }
         }
@@ -508,7 +508,7 @@
                 </div>
                 <div class="evaluate_des">{{rate.content || '用户没有填写评价内容'}}</div>
                 <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
-                  <img v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex" :src="img">
+                  <img v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex" :src="img | hostUrl">
                 </div>
               </router-link>
             </div>
@@ -525,7 +525,7 @@
           </div>-->
           <div class="item_details_parameters" style="margin-top:0.1rem;">
             <div class="chen_center_absolute item_details_checkout">
-              <div class="details_checkout_active">商品详情</div>
+              <div>商品详情</div>
               <!-- <div
                 :class="{'details_checkout_active':itemDetails === '0'}"
                 @click="itemParametersShow"
@@ -552,7 +552,7 @@
               v-show="favoriteId"
               class="c-primary iconfont icon-likefill"
             ></i>
-            <span style="font-size: 0.12rem;" v-show="favoriteId" class="c-primary">取消关注</span>
+            <span style="font-size: 0.12rem;" v-show="favoriteId">取消关注</span>
             
             <i style="font-size: 0.2rem;" v-show="!favoriteId" class="iconfont icon-like"></i>
             <span style="font-size: 0.12rem;" v-show="!favoriteId">关注</span>
@@ -571,11 +571,11 @@
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
           <button
-            class="chen_center_absolute_column item_page_footer_buys"
+            class="chen_center_absolute_column item_page_footer_buys btn-secondly"
             @click="openPopModel('cart')"
           >加入购物车</button>
           <button
-            class="chen_center_absolute_column item_page_footer_buys btn-secondly"
+            class="chen_center_absolute_column item_page_footer_buys"
             @click="openPopModel('buy')"
           >立刻购买</button>
         </div>

@@ -111,7 +111,7 @@ img {
           <span>{{rateInfo.itemPropvalues}}</span>
         </p>
         <p class="evaluate_txt">{{rateInfo.content}}</p>
-        <img v-for="(src,index) in rateInfo.rateImgList" :key="index" class="eva_txt_img" :src="src">
+        <img v-for="(src,index) in rateInfo.rateImgList" :key="index" class="eva_txt_img" :src="src  | hostUrl">
         <router-link tag="div" :to="{path:`/items/${rateInfo.itemId}`}" class="goodsitem">
           <img :src="rateInfo.itemImg">
           <ul>

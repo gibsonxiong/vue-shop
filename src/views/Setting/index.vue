@@ -7,7 +7,7 @@
   <div class="setting-page">
     <c-header :title="'设置'"></c-header>
     <div class="c-page-body header-pd">
-      <div style="text-align:center;">
+      <div style="text-align:center;    padding: 0 0.1rem;">
         <c-button @click="logout">退出登录</c-button>
       </div>
     </div>
@@ -23,6 +23,7 @@ export default {
   methods: {
     logout(){
       services.$removeToken();
+      this.$router.back();
     }
   }
 };

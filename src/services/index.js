@@ -42,27 +42,15 @@ function addInterceptors(_request) {
 
     // 请求超时
     if (error.code === 'ECONNABORTED') {
-      return Promise.reject(new Error('请求超时'));
+      return Promise.reject(new Error('网络不给力~'));
     } else if (error.message === 'Network Error') {
-      return Promise.reject(new Error('服务器出了点小差错'));
+      return Promise.reject(new Error('服务器出了点小差错~'));
     }
     return Promise.reject(error);
   });
 }
 
 addInterceptors(request);
-
-let userData = require('./data/user').default;
-let catalogData = require('./data/catalog').default;
-let itemTypeData = require('./data/item-type').default;
-let itemData = require('./data/item').default;
-let propData = require('./data/prop').default;
-let propValueData = require('./data/prop-value').default;
-let skuData = require('./data/sku').default;
-let shopcartData = require('./data/shopcart').default;
-let {
-  Shopcart
-} = require('./data/shopcart');
 
 
 const services = {
@@ -377,7 +365,11 @@ const services = {
     return (await request.get(`/users/info`)).data;
   },
 
-  //用户资料
+  async fetchOrderCount() {
+    return (await request.get(`/users/orderCount`)).data;
+  },
+
+  //更新用户资料
   async updateUserInfo(info) {
     return (await request.post(`/users/info`, info)).data;
   },
