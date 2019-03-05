@@ -794,6 +794,7 @@ export default {
 
       if (type === "cart") {
         try {
+          this.$showLoading();
           let { itemId } = this;
           let res = await services.addShopcart({
             itemId: this.itemId,
@@ -803,10 +804,12 @@ export default {
 
           if (services.$isError(res)) throw new Error(res.message);
 
+          this.$hideLoading();
           this.$toast(res.message);
 
           this.closePopModel();
         } catch (err) {
+          this.$hideLoading();
           return this.$toast(err.message);
         }
       } else {
@@ -938,6 +941,7 @@ export default {
       try {
         let { itemId } = this;
         let res;
+        this.$showLoading();
 
         //已经收藏
         if (this.favoriteId) {
@@ -946,6 +950,7 @@ export default {
           });
 
           if (services.$isError(res)) throw new Error(res.message);
+
 
           this.$toast(res.message);
           this.favoriteId = "";
@@ -959,7 +964,10 @@ export default {
           this.$toast(res.message);
           this.favoriteId = res.data.id;
         }
+
+        this.$hideLoading();
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },

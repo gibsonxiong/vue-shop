@@ -1,6 +1,6 @@
 <style scoped lang="scss">
-@import '~@/css/var';
-@import '~@/css/mixin';
+@import "~@/css/var";
+@import "~@/css/mixin";
 .orderDetail-page {
 }
 .c-page-body {
@@ -107,7 +107,7 @@
         <template v-if="orderInfo.status == '1'">
           <div>
             <p>等待买家付款</p>
-            <p>剩{{hh}}小时{{mm}}分自动关闭</p>
+            <p>剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动关闭</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '2'">
@@ -118,7 +118,7 @@
         <template v-else-if="orderInfo.status == '3'">
           <div>
             <p>卖家已发货</p>
-            <p>剩{{dd}}天{{hh}}小时{{mm}}分自动确认</p>
+            <p>剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动确认</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '4' || orderInfo.status == '5'">
@@ -260,11 +260,12 @@
 <script>
 import { Picker } from "mint-ui";
 import services from "@/services";
-import filter from '@c/filter';
+import filter from "@c/filter";
+import utils from '@/utils';
 
 export default {
-  filters:{
-    date:filter.date
+  filters: {
+    date: filter.date
   },
   data() {
     return {
@@ -288,16 +289,12 @@ export default {
 
         this.orderInfo = res.data;
         if (this.orderInfo.status === "1") {
-          let endTime = new Date(
-            new Date(this.orderInfo.createTime).getTime() + 24 * 60 * 60 * 1000
-          );
+
+          let endTime = utils.adjustDate(new Date(this.orderInfo.createTime), 'd', 1);
           this.countdown(endTime);
         }
         if (this.orderInfo.status === "3") {
-          let endTime = new Date(
-            new Date(this.orderInfo.deliverTime).getTime() +
-              10 * 24 * 60 * 60 * 1000
-          );
+          let endTime = utils.adjustDate(new Date(this.orderInfo.deliverTime), 'd', 1);
           this.countdown(endTime);
         }
       } catch (err) {
@@ -305,25 +302,12 @@ export default {
       }
     },
     countdown(endTime) {
-      //获取当前时间
-      var date = new Date();
-      var now = date.getTime();
-      var end = endTime.getTime();
+      let { d, h, m } = utils.countdown(endTime);
 
-      //时间差
-      var leftTime = end - now;
-      //定义变量 d,h,m,s保存倒计时的时间
-      var d, h, m, s;
-      if (leftTime >= 0) {
-        d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-        h = Math.floor((leftTime / 1000 / 60 / 60) % 24);
-        m = Math.floor((leftTime / 1000 / 60) % 60);
-        s = Math.floor((leftTime / 1000) % 60);
-      }
       this.dd = d;
       this.hh = h;
       this.mm = m;
-      // this.ss = s;
+
       setTimeout(() => {
         this.countdown(endTime);
       }, 1000);

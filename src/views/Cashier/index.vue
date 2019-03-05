@@ -78,13 +78,13 @@
   }
 
   .COMM_MSGBOX {
-        background-color: #fff;
+    background-color: #fff;
     position: fixed;
     z-index: 110;
     top: 50%;
     left: 50%;
     width: 316px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     overflow: hidden;
     border-radius: 7px;
 
@@ -186,6 +186,7 @@
         </div>
         <div class="pay_btn">
           <c-button @click="pay">支付</c-button>
+          <p style="font-size:0.12rem;color:#777;padding-top:0.05rem;">剩余时间 {{hh}}:{{mm}}:{{ss}}</p>
         </div>
       </div>
     </div>
@@ -210,15 +211,19 @@
 
 <script>
 import services from "@/services";
+import utils from "@/utils";
 
 export default {
   data() {
     return {
       orderId: "",
       orderInfo: {},
-      timeId:null,
+      timeId: null,
       popupVisible: false,
-      payType: "weixin" //1 微信  2 余额
+      payType: "weixin",
+      hh: "0",
+      mm: "0",
+      ss: "0"
     };
   },
   methods: {
@@ -232,6 +237,15 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.orderInfo = res.data;
+
+        if (this.orderInfo.status != "1") {
+          throw new Error('订单已支付');
+        }
+
+        let endTime = new Date(
+          new Date(this.orderInfo.createTime).getTime() + 24 * 60 * 60 * 1000
+        );
+        this.countdown(endTime);
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -284,6 +298,18 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
+    },
+    countdown(endTime) {
+      
+      let { d,h, m, s } = utils.countdown(endTime, 'd');
+
+      this.hh = h;
+      this.mm = m;
+      this.ss = s;
+
+      setTimeout(() => {
+        this.countdown(endTime);
+      }, 1000);
     }
   },
   created() {
