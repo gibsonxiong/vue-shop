@@ -9,10 +9,31 @@
   height: 100%;
 }
 
+.slideY-enter-active,
+.slideY-leave-active {
+  transition: all 0.4s;
+}
+
+.slideY-enter,
+.slideY-leave-to {
+  opacity: 0.8;
+  transform: translate3d(100%, 0, 0);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .item-list-page {
   .header_r_i {
-    > i {
-      font-size: pxTorem(48);
+    .iconfont {
+      font-size: 0.22rem;
     }
   }
   .list_wrap {
@@ -167,64 +188,49 @@
     }
   }
   .item_select {
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(23, 22, 122, 0.2);
-    .select_box {
+    .select_bg {
+      @include mask;
+    }
+    .select_content {
+      z-index: 110;
+      width: 2.7rem;
       height: 100%;
-      width: 100%;
-      .select_bg {
-        height: 100%;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        position: fixed;
-        top: 0;
-        left: 0;
-      }
-      .select_content {
-        width: 2.7rem;
-        height: 100%;
-        background: #fff;
-        position: fixed;
-        top: 0;
-        right: 0;
-        .select_price {
-          padding: pxTorem(45) pxTorem(26);
-          @include border-bottom($color-border);
-          .select_input {
-            span {
-              padding: 0px pxTorem(12);
-            }
-            input {
-              width: pxTorem(120);
-              padding: pxTorem(10) pxTorem(5);
-              border-radius: 4px;
-              box-shadow: none;
-              background: #f2f2f2;
-              border: none;
-            }
+      background: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+      .select_price {
+        padding: pxTorem(45) pxTorem(26);
+        @include border-bottom($color-border);
+        .select_input {
+          span {
+            padding: 0px pxTorem(12);
+          }
+          input {
+            width: pxTorem(120);
+            padding: pxTorem(10) pxTorem(10);
+            border-radius: 4px;
+            box-shadow: none;
+            background: #f4f4f4;
+            border: none;
           }
         }
-        .content_bottom {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          .bottom_box {
-            @include border-top($color-border);
-            > div {
-              width: 50%;
-              padding: pxTorem(30) 0px;
-              text-align: center;
-            }
-            > div:nth-child(2) {
-              background: $color-primary;
-              color: #fff;
-            }
+      }
+      .content_bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        .bottom_box {
+          @include border-top($color-border);
+          > div {
+            width: 50%;
+            padding: pxTorem(30) 0px;
+            text-align: center;
+          }
+          > div:nth-child(2) {
+            background: $color-primary;
+            color: #fff;
           }
         }
       }
@@ -241,8 +247,8 @@
           <c-search-input v-model="searchText" style="width:100%;"></c-search-input>
         </div>
         <div slot="right" class="header_r_i" @click="listTypeClick">
-          <i class="iconfont icon-apps" v-show="listType"></i>
-          <i class="iconfont icon-sort" v-show="!listType"></i>
+          <i class="iconfont icon-cascades" v-show="listType"></i>
+          <i class="iconfont icon-list" v-show="!listType"></i>
         </div>
       </c-header>
       <div class="c-page-body header-pd">
@@ -287,10 +293,8 @@
               ref="loadmore"
             >
               <div slot="top" class="mint-loadmore-top loading_color">
-                <span
-                  v-show="topStatus !== 'loading'"
-                  :class="{ 'is-rotate': topStatus === 'drop' }"
-                >释放即可刷新</span>
+                <span v-show="topStatus === 'pull'">下拉刷新</span>
+                <span v-show="topStatus === 'drop'">释放即可刷新</span>
                 <span v-show="topStatus === 'loading'">刷新中...</span>
               </div>
 
@@ -310,9 +314,11 @@
                       <p>{{item.name}}</p>
                       <div class="chen_center_absolute">
                         <span class="des_money">￥{{item.minPrice}}</span>
-                        <span style="    font-size: 0.12rem;
+                        <span
+                          style="    font-size: 0.12rem;
     color: #999999;
-    margin-top: 2px;">{{item.saleCount}}人已购买</span>
+    margin-top: 2px;"
+                        >{{item.saleCount}}人已购买</span>
                       </div>
                     </div>
                   </div>
@@ -324,20 +330,27 @@
                 hint="没有相关商品"
               ></c-empty-hint>
             </mt-loadmore>
-            <div v-show="loading" class="mint-loadmore-bottom loading_color">加载中...</div>
+            <div v-show="loading" class="mint-loadmore-bottom loading_color">
+              <mt-spinner
+                type="snake"
+                :size="20"
+                style="display: inline-block;"
+              ></mt-spinner>
+            </div>
             <div
               v-show="!loading && loadMoreDisabled && itemList.length > 0"
               class="mint-loadmore-bottom loading_color"
             >没有更多了</div>
-            
           </div>
         </div>
       </div>
     </div>
-    <div v-show="selectBoxVisible" class="item_select">
-      <div class="select_box">
-        <div class="select_bg" @click="selectBoxVisible=false"></div>
-        <div class="select_content">
+    <div class="item_select">
+      <transition name="fade">
+        <div class="select_bg" v-show="selectBoxVisible" @click="selectBoxVisible=false"></div>
+      </transition>
+      <transition name="slideY">
+        <div v-show="selectBoxVisible" class="select_content">
           <div class="select_price chen_center_absolute">
             <div>价格区间（元）</div>
             <div class="chen_center_absolute_center select_input">
@@ -353,7 +366,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </transition>
     </div>
     <c-search
       :defaultSearchText="searchText"
@@ -367,7 +380,7 @@
 <script>
 import services from "@/services";
 import routerCachePage from "@/routerCache/page";
-
+import routerUtils from "@/utils/router-utils";
 
 export default {
   mixins: [
@@ -378,12 +391,12 @@ export default {
   data() {
     return {
       pageIndex: 0,
-      pageSize:20,
+      pageSize: 20,
       searchText: "",
       itemTypeId: "1",
       order: "normal",
-      minPrice:'',
-      maxPrice:'',
+      minPrice: "",
+      maxPrice: "",
       search: {
         visible: false
       },
@@ -418,8 +431,8 @@ export default {
     listTypeClick() {
       this.listType = !this.listType;
     },
-    changeOrder(order){
-      if(this.order === order) return;
+    changeOrder(order) {
+      if (this.order === order) return;
 
       this.order = order;
       this.pageIndex = 0;
@@ -432,20 +445,25 @@ export default {
       this.pageIndex = 0;
 
       this.fetchItemList();
-      let route = {
-        ...this.$route,
-        query: {
-          searchText: searchText
-        }
-      };
-      this.$router.replace(route);
+
+      routerUtils.setQuery({
+        searchText: searchText
+      });
     },
     async fetchItemList(append) {
       try {
         this.loadMoreDisabled = true;
         this.loading = true;
 
-        let { searchText, itemTypeId, order, pageIndex, pageSize, minPrice,maxPrice  } = this;
+        let {
+          searchText,
+          itemTypeId,
+          order,
+          pageIndex,
+          pageSize,
+          minPrice,
+          maxPrice
+        } = this;
         pageIndex++;
         let res = await services.fetchItemList({
           pageIndex,
@@ -474,6 +492,7 @@ export default {
           });
         }
       } catch (err) {
+        this.loadMoreDisabled = false;
         this.loading = false;
         return this.$toast(err.message);
       }

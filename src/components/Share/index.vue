@@ -51,7 +51,6 @@
 }
 </style>
 <style lang="scss">
-// @import url("https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css");
 @import "~@/css/mixin";
 #share_component {
   display: flex;
@@ -81,7 +80,7 @@
 }
 </style>
 <template>
-  <div v-show="shareShow" class="share">
+  <div class="share">
     <transition name="fade">
       <div class="share_model" @click="shareNone" v-show="shareShow"></div>
     </transition>

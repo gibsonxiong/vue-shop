@@ -114,7 +114,6 @@ export default {
     },
     async handleInputChange(event) {
       //图片预览
-      let _this = this;
       let files = event.target.files;
 
       try {

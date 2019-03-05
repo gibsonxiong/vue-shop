@@ -31,9 +31,12 @@ function showLoading(options = {}) {
 
     Object.assign(options, {
         duration: 0,
-        imgUrl: require('./loading.svg'),
+        imgUrl: require('./loading-white.svg'),
+        toastStyle:{
+            'background-color':'#f8f8f8'
+        },
         imgStyle: {
-            width: '40px',
+            width: '0.45rem',
             margin: '0px 0px 0'
         }
     });

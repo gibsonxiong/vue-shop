@@ -22,7 +22,7 @@ img {
   }
 
   .link-wrap {
-    padding: 0.08rem 0;
+    padding: 0.15rem 0;
     background-color: #fff;
     @include flexbox;
     flex-wrap: wrap;
@@ -31,126 +31,21 @@ img {
       width: 25%;
       padding: 0 0.15rem;
       text-align: center;
+
+      &:active{
+        opacity: 0.8;
+      }
     }
 
     .link-img {
       width: 100%;
+      padding: 0 0.1rem;
     }
 
     .link-name {
       font-size: 0.12rem;
       margin-top: 0.05rem;
       color: rgb(102, 102, 102);
-    }
-  }
-
-  .section {
-    $color: $color-primary;
-    $bgcolor: #f5f5f5;
-    .section-title {
-      position: relative;
-      color: $color;
-      text-align: center;
-      height: 0.35rem;
-      line-height: 0.35rem;
-      font-size: 0.17rem;
-      background-color: $bgcolor;
-    }
-
-    .section-title-line {
-      display: inline-block;
-      width: 1.4rem;
-      height: 1px;
-      background: $color;
-      position: absolute;
-      z-index: 1;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .section-title-inner {
-      position: relative;
-      z-index: 2;
-      display: inline-block;
-      padding: 0 0.08rem;
-      background-color: $bgcolor;
-      font-size: 0.15rem;
-
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        background: $color;
-        width: 0.03rem;
-        height: 0.03rem;
-        border-radius: 100%;
-        top: 50%;
-        transform: translate(0, -50%);
-      }
-
-      &::before {
-        left: -0.03rem;
-      }
-
-      &:after {
-        right: -0.03rem;
-      }
-    }
-  }
-
-  .recommend-container {
-    @include flexbox;
-    flex-wrap: wrap;
-    padding: 0 4.5px;
-
-    .recommend-box {
-      width: 50%;
-      padding-top: 9px;
-      padding-left: 4.5px;
-      padding-right: 4.5px;
-    }
-
-    .recommend-item {
-      background: #fff;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .recommend-info {
-      padding-left: 10px;
-      padding-right: 9px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
-
-    .recommend-title {
-      height: 37px;
-      position: relative;
-      overflow: hidden;
-      line-height: 18.5px;
-      text-overflow: ellipsis;
-      min-height: 0;
-    }
-
-    .recommend-price-box {
-      margin-top: 11px;
-      height: 20px;
-      line-height: 20px;
-    }
-
-    .recommend-price {
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 16px;
-      color: $color-primary;
-    }
-
-    .recommend-sale {
-      float: right;
-      font-size: 12px;
-      color: #999999;
-      margin-top: 2px;
     }
   }
 }
@@ -165,7 +60,7 @@ img {
     align-items: center;
     justify-content: space-between;
     span:first-of-type {
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.16rem;
       // color: #051b28;
     }
@@ -306,37 +201,21 @@ img {
       </mt-swipe>
       <div class="link-wrap">
         <router-link :to="{path:'/items'}" class="link-item">
-          <img
-            class="link-img"
-            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
-            alt
-          >
+          <img class="link-img" src="@/assets/shangping.png" alt>
           <div class="link-name">全部商品</div>
         </router-link>
-        <router-link :to="{path:'/items'}" class="link-item">
-          <img
-            class="link-img"
-            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
-            alt
-          >
-          <div class="link-name">天猫国际</div>
+        <router-link :to="{path:'/coupon'}" class="link-item">
+          <img class="link-img" src="@/assets/quan.png" alt>
+          <div class="link-name">领券中心</div>
         </router-link>
-        <router-link :to="{path:'/items'}" class="link-item">
-          <img
-            class="link-img"
-            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
-            alt
-          >
-          <div class="link-name">天猫国际</div>
-        </router-link>
-        <router-link :to="{path:'/items'}" class="link-item">
-          <img
-            class="link-img"
-            src="https://gw.alicdn.com/tfs/TB1Wxi2trsrBKNjSZFpXXcXhFXa-183-144.png"
-            alt
-          >
-          <div class="link-name">天猫国际</div>
-        </router-link>
+        <div class="link-item">
+          <img class="link-img" src="@/assets/qiandao.png" alt>
+          <div class="link-name">每日签到</div>
+        </div>
+        <div class="link-item">
+          <img class="link-img" src="@/assets/yaoxin.png" alt>
+          <div class="link-name">一元邀新</div>
+        </div>
       </div>
       <!-- 今日头条 -->
       <div class="marquee">
@@ -352,16 +231,25 @@ img {
         </div>
       </div>
       <!-- 今日头条 end -->
-      <!--淘抢购  -->
-      <div class="panic_buy" >
+      <div class="panic_buy">
         <p class="panic_buy_label">
-          <span style="color: #5dbaff;"><i class="iconfont icon-goods_hot_fill" style="font-size: 0.18rem;margin-right: 0.05rem;"></i>正在开团</span>
+          <span style="color: #5dbaff;">
+            <i
+              class="iconfont icon-goods_hot_fill"
+              style="font-size: 0.18rem;margin-right: 0.05rem;"
+            ></i>正在开团
+          </span>
           <span @click="$router.push('/panic_buy')">查看全部</span>
         </p>
         <div class="buy_time">
-          <ul class="buy_time_ul" v-for="(item,index) in groupList" :key="index" @click="$router.push(`/items/${item.id}`)">
+          <ul
+            class="buy_time_ul"
+            v-for="(item,index) in groupList"
+            :key="index"
+            @click="$router.push(`/items/${item.id}`)"
+          >
             <li>
-              <img :src="item.imgList[0]">
+              <img v-lazy="item.imgList[0]">
             </li>
             <li>{{item.name}}</li>
             <li>
@@ -374,29 +262,6 @@ img {
           </ul>
         </div>
       </div>
-      <!--  -->
-      <!-- <div class="section" style="margin-top:0.15rem;">
-        <div class="section-title">
-          <span class="section-title-line"></span>
-          <div class="section-title-inner">猜你喜欢</div>
-        </div>
-        <div class="recommend-container">
-          <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
-            <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
-              <div class="c-img-box">
-                <img class="recommend-img" :key="item.imgList[0]" v-lazy="item.imgList[0]" alt>
-              </div>
-              <div class="recommend-info">
-                <div class="recommend-title">{{item.name}}</div>
-                <div class="recommend-price-box">
-                  <span class="recommend-price">￥{{item.minPrice}}</span>
-                  <span class="recommend-sale">394人已购买</span>
-                </div>
-              </div>
-            </router-link>
-          </div>
-        </div>
-      </div> -->
 
       <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;"></c-recommend-list>
     </div>

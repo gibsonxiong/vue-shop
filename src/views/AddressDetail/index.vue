@@ -114,19 +114,23 @@ export default {
   methods: {
     async fetchAddressInfo() {
       try {
+        this.$showLoading();
         let res = await services.fetchAddressInfo({
           addressId: this.addressId
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         Object.assign(this.model, res.data);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },
     async submit() {
       try {
+        this.$showLoading();
         let res;
         if (this.addressId) {
           res = await services.updateAddress(this.addressId, this.model);
@@ -136,12 +140,14 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
 
         setTimeout(() => {
           this.$router.back();
         }, 1000);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },

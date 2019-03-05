@@ -34,6 +34,7 @@ import PayResult from '@/views/PayResult';
 import MyEvaluation from '@/views/MyEvaluation';
 import Evaluation_Detail from '@/views/Evaluation_Detail';
 import VIP from '@/views/VIP';
+import services from '../services';
 
 Vue.use(Router);
 
@@ -44,18 +45,25 @@ const config = {
 const router = new Router({
   routes: [{
       path: '/',
-      component: Index
+      component: Index,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/items',
       component: ItemList,
       meta: {
-        title: '商品列表'
+        title: '商品列表',
+        skipCheckToken: true
       }
     },
     {
       path: '/items/:itemId',
-      component: Item
+      component: Item,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/order',
@@ -91,19 +99,31 @@ const router = new Router({
     },
     {
       path: '/register',
-      component: Register
+      component: Register,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/reset-password',
-      component: ResetPassword
+      component: ResetPassword,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/coupon',
-      component: Coupon
+      component: Coupon,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/myCoupon',
@@ -111,7 +131,10 @@ const router = new Router({
     },
     {
       path: '/shopcart',
-      component: Shopcart
+      component: Shopcart,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/personal',
@@ -119,7 +142,10 @@ const router = new Router({
     },
     {
       path: '/setting',
-      component: Setting
+      component: Setting,
+      meta: {
+        skipCheckToken: true
+      }
     },
     {
       path: '/evaluate',
@@ -153,7 +179,10 @@ const router = new Router({
       component: NickName
     }, {
       path: '/panic_buy',
-      component: PanicBuy
+      component: PanicBuy,
+      meta: {
+        skipCheckToken: true
+      }
     }, {
       path: '/cashier',
       component: Cashier
@@ -179,6 +208,18 @@ router.beforeEach((to, from, next) => {
   to.meta.title = to.meta.title || title;
   document.title = to.meta.title;
   next();
-})
+});
+
+//处理权限逻辑
+router.beforeEach((to, from, next) => {
+  let isLogin = services.$isLogin();
+
+  //没有登录且需要登录的页面
+  if (!isLogin && !to.meta.skipCheckToken) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router;

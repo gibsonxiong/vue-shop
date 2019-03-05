@@ -5,8 +5,8 @@
   padding: 0 0.1rem;
 }
 .header_ing img {
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.45rem;
+  height: 0.45rem;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -14,21 +14,25 @@
   color: #999;
 }
 li {
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid $color-border;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.1rem 0;
+  padding: 0.14rem 0;
+}
+.avatar-wrap {
+  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .header_ing {
   display: flex;
   align-items: center;
 }
 .hiddenInput {
-  width: 0.35rem;
-  height: 0.35rem;
-  position: absolute;
-  opacity: 0;
+  display: none;
+  // position: absolute;
 }
 .icon-back_light {
   padding-right: 0.05rem;
@@ -40,26 +44,29 @@ li {
     <div class="c-page-body header-pd">
       <div class="personaldata">
         <ul>
-          <li @click.stop="uploadHeadImg">
-            <p>头像</p>
-            <div class="header_ing">
-              <!--  -->
-              <div class="head_img">
-                <img :src="userInfo.avatar">
-              </div>
-              <div class="setting_right">
-                <div class="caption"></div>
-              </div>
-              <input type="file" accept="image/*" @change="handleFile" class="hiddenInput">
-              <!--  -->
-              <span data-v-75dcebf2 style="transform: rotateZ(180deg); display: inline-block;">
-                <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
-              </span>
-            </div>
-          </li>
           <li>
+            <label class="avatar-wrap">
+              <p>头像</p>
+              <div class="header_ing">
+                <!--  -->
+                <div class="head_img">
+                  <img v-if="userInfo.avatar" :src="userInfo.avatar | hostUrl">
+                  <img v-else class="avator" src="@/assets/default_avator.jpg">
+                </div>
+                <div class="setting_right">
+                  <div class="caption"></div>
+                </div>
+                <input type="file" accept="image/*" @change="handleInputChange" class="hiddenInput">
+                <!--  -->
+                <span data-v-75dcebf2 style="transform: rotateZ(180deg); display: inline-block;">
+                  <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
+                </span>
+              </div>
+            </label>
+          </li>
+          <li @click="updateNickname">
             <p>昵称</p>
-            <p class="header_ing" @click="updateNickname">
+            <p class="header_ing">
               <span>{{userInfo.nickname}}</span>
               <span style="transform: rotateZ(180deg); display: inline-block;">
                 <i class="iconfont icon-back_light" style="font-size: 14px;"></i>
@@ -92,22 +99,22 @@ export default {
       actions: [
         {
           name: "女",
-          method:()=>{
+          method: () => {
             this.updateUserInfo({
-              gender:'1'
-            })
+              gender: "1"
+            });
           }
         },
         {
           name: "男",
-          method: ()=>{
+          method: () => {
             this.updateUserInfo({
-              gender:'0'
-            })
+              gender: "0"
+            });
           }
         }
       ],
-      sheetVisible: false,
+      sheetVisible: false
     };
   },
   methods: {
@@ -134,8 +141,11 @@ export default {
       }
     },
 
-    updateNickname(){
-      this.$router.push({path:'/nickname', query:{value:this.userInfo.nickname}});
+    updateNickname() {
+      this.$router.push({
+        path: "/nickname",
+        query: { value: this.userInfo.nickname }
+      });
     },
 
     // 打开图片上传
@@ -143,16 +153,27 @@ export default {
       this.$el.querySelector(".hiddenInput").click();
     },
 
-    // 将头像显示
-    handleFile: function(e) {
-      let $target = e.target || e.srcElement;
-      let file = $target.files[0];
-      var reader = new FileReader();
-      reader.onload = data => {
-        let res = data.target || data.srcElement;
-        this.userInfo.avatar = res.result;
-      };
-      reader.readAsDataURL(file);
+    async handleInputChange(event) {
+      //图片预览
+      let files = event.target.files;
+
+      try {
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("img", files[i]);
+        }
+
+        let res = await services.upload(formData);
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        let res2 = await this.updateUserInfo({
+          avatar:res.data[0].src
+        });
+
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     }
   },
   created() {

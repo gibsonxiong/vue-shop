@@ -6,12 +6,17 @@
 
 <template>
   <div class="shopcart-page">
-    <c-shopcart :inTab="false"></c-shopcart>
+    <c-shopcart :inTab="false" ref="shopcart" cacheId="shopcart"></c-shopcart>
   </div>
 </template>
 
 <script>
+import routerCachePage from "@/routerCache/page";
+
 export default {
+  mixins:[
+    routerCachePage()
+  ],
   data() {
     return {
       

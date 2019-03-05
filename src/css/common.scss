@@ -175,10 +175,30 @@ textarea:-ms-input-placeholder {
 
 .c-badge{
   padding: 0 0.05rem;
-  // border: 1px solid $color-primary;
   background: $color-gradient;
   color: #fff;
   font-weight: 500;
-  border-radius: 50%;
+  border-radius: 0.1rem;
   font-size: 0.12rem;
+}
+
+.c-list-enter-active {
+  transition: all 0.3s;
+}
+.c-list-enter, .c-list-leave-to{
+  opacity: 0.5;
+  transform: translateY(10px);
+}
+
+//vue-lazyload
+[lazy]{
+  transition:opacity 0.3s ease-out; 
+}
+
+[lazy="loading"]{
+  opacity: 0;
+}
+
+[lazy="loaded"]{
+  opacity: 1;
 }

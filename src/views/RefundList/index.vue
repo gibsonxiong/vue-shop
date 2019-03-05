@@ -96,31 +96,43 @@ img {
               </p>
             </div>
             <div class="li_four">
-              <span class="see_de" @click="$router.push({path:'/refund_detail', query:{refundId: refund.id}})">查看详情</span>
+              <span
+                class="see_de"
+                @click="$router.push({path:'/refund_detail', query:{refundId: refund.id}})"
+              >查看详情</span>
             </div>
           </li>
         </ul>
+        <c-empty-hint v-if="refundList.length == 0 && !loading" icon="icon-refund" hint="您还没有退款/售后"></c-empty-hint>
       </div>
     </div>
   </div>
 </template>
 <script>
-import services from '@/services';
+import services from "@/services";
 export default {
   data() {
     return {
-      refundList: []
+      refundList: [],
+      loading: false
     };
   },
   methods: {
     async fetchRefundList() {
       try {
+        this.loading = true;
+        this.$showLoading();
+        this.refundList = [];
         let res = await services.fetchRefundList();
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
+        this.$hideLoading();
         this.refundList = res.data;
       } catch (err) {
+        this.loading = false;
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

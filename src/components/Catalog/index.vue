@@ -7,24 +7,24 @@
     display: flex;
   }
 
-  .catalog-list {
+  .left-container {
     position: relative;
-    height: 100%;
-    width: 1.05rem;
     background: #f8f8f8;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 1.05rem;
+  }
 
+  .catalog-list {
     .catalog-list-item {
       position: relative;
-      float: left;
       width: 100%;
       height: 0.5rem;
       line-height: 0.5rem;
       text-align: center;
       box-sizing: border-box;
       font-size: 0.13rem;
-      // color: #333;
       transition: 0.2s all;
 
       &.active {
@@ -40,15 +40,6 @@
           width: 0.04rem;
         }
 
-        // &:after {
-        //   background-color: #fff;
-        //   position: absolute;
-        //   right: -0.01rem;
-        //   top: 0;
-        //   content: "";
-        //   height: 100%;
-        //   width: 0.01rem;
-        // }
       }
     }
   }
@@ -102,16 +93,16 @@
     </c-header>
 
     <div class="c-page-body">
-      <div class="left-container c-header-pd c-tab-pd">
-        <ul class="catalog-list" ref="leftContainer">
-          <li
-            v-for="(item,index) in catalogList"
-            :key="index"
-            class="catalog-list-item"
-            :class="{'active':catalogIndex == item.id, [`item-${item.id}`]:true}"
-            @click="changeCatalog(item.id)"
-          >{{item.name}}</li>
-        </ul>
+      <div class="left-container c-header-pd c-tab-pd" ref="leftContainer">
+      <ul class="catalog-list" >
+        <li
+          v-for="(item,index) in catalogList"
+          :key="index"
+          class="catalog-list-item"
+          :class="{'active':catalogIndex == item.id, [`item-${item.id}`]:true}"
+          @click="changeCatalog(item.id)"
+        >{{item.name}}</li>
+      </ul>
       </div>
       <div class="right-container" ref="rightContainer">
         <div class="c-header-pd">
@@ -170,43 +161,43 @@ export default {
         let res = await services.fetchItemTypeList({ catalogId });
 
         this.itemTypeList = res.data;
-        this.$forceUpdate();
-      } catch (err) {}
+      } catch (err) {
+        return this.$toast(err.message);
+      }
     },
 
     changeCatalog(id) {
-      if (this.catalogIndex == id && !force) return;
+      if (this.catalogIndex == id) return;
 
       this.$refs.rightContainer.scrollTop = 0;
 
       this.catalogIndex = id;
       this.fetchItemTypeList(id);
-
-      // this.scrollCatalog();
     },
 
-    scrollCatalog() {
-      //左边容器滚动定位
-      let id = this.catalogIndex;
-      let activedItem = this.$refs.leftContainer.querySelector(`.item-${id}`);
-      let scrollTop = activedItem ? activedItem.offsetTop : 0;
-      this.$refs.leftContainer.scrollTop = scrollTop;
-    },
+    // scrollCatalog() {
+    //   //左边容器滚动定位
+    //   let id = this.catalogIndex;
+    //   let activedItem = this.$refs.leftContainer.querySelector(`.item-${id}`);
+    //   let scrollTop = activedItem ? activedItem.offsetTop : 0;
+    //   this.$refs.leftContainer.scrollTop = scrollTop;
+    // },
 
     //父类调用
     tabActived() {
-      this.$refs.header.resizeCenter();     
+      this.$refs.header.resizeCenter();
     }
   },
 
   created() {
     if (!this.$restored) {
       this.fetchCatalogList();
-    } else {
-      this.$nextTick(()=>{
-        this.scrollCatalog();
-      })
-    }
+    } 
+    // else {
+    //   this.$nextTick(() => {
+    //     this.scrollCatalog();
+    //   });
+    // }
   }
 };
 </script>

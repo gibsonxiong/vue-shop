@@ -9,7 +9,6 @@ import Mine from './Mine';
 import Search from './Search';
 import SearchInput from './SearchInput';
 import GoodsItem from './GoodsItem';
-import GoodsList from './GoodsList';
 import NumberInput from './NumberInput';
 import EmptyHint from './EmptyHint';
 import Checkbox from './Checkbox';
@@ -40,7 +39,6 @@ Vue.component('c-mine', Mine);
 Vue.component('c-search', Search);
 Vue.component('c-search-input', SearchInput);
 Vue.component('c-goods-item', GoodsItem);
-Vue.component('c-goodslist', GoodsList);
 Vue.component('c-number-input', NumberInput);
 Vue.component('c-empty-hint', EmptyHint);
 

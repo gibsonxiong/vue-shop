@@ -62,7 +62,7 @@
 }
 </style>
 <template>
-  <div class="popup" v-show="visible">
+  <div class="popup">
     <transition name="fade">
       <div class="mask" v-show="visible" @click="$emit('visibleChange',false)"></div>
     </transition>

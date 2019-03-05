@@ -27,6 +27,8 @@
 .light{
   color: $color-primary;
 }
+
+
 </style>
 
 <template>
@@ -41,76 +43,78 @@
           @click="tab(item.id)"
         >{{item.item}}</li>
       </ul>
-      <div class="oder-content" v-if="orderList.length > 0">
-        <div class="order-item" v-for="(order,index) in orderList" :key="index" @click="to_oderDetail(order.id)">
-          <div style="display: flex;width:95%;margin:auto;padding:0.1rem 0;">
-            <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
-            <span style="flex:1;">母婴用品商城</span>
-            <span class="light">{{order.status | orderStatus}}</span>
-          </div>
-          <div
-            v-for="(orderItem,index) in order.order_items"
-            :key="index"
-            style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
-          >
-            <div style="width:20%;">
-              <img style="width:0.7rem;height:0.7rem;" :src="orderItem.itemImg" alt>
+      <transition name="c-list">
+        <div class="oder-content" v-if="orderList.length > 0">
+          <div class="order-item" v-for="order in orderList" :key="order.id" @click="to_oderDetail(order.id)">
+            <div style="display: flex;width:95%;margin:auto;padding:0.1rem 0;">
+              <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
+              <span style="flex:1;">母婴用品商城</span>
+              <span class="light">{{order.status | orderStatus}}</span>
             </div>
-            <div style="width:65%;padding:0 0.1rem">
-              <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
-              <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
-            </div>
-            <div style="width:15%;text-align:right;">
-              <span>￥</span>
-              <span>{{orderItem.itemPrice}}</span>
-              <div style="color:#999;font-size:12px;">
-                <span>×</span>
-                <span>{{orderItem.quantity}}</span>
+            <div
+              v-for="(orderItem,index) in order.order_items"
+              :key="index"
+              style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
+            >
+              <div style="width:20%;">
+                <img style="width:0.7rem;height:0.7rem;" :src="orderItem.itemImg" alt>
+              </div>
+              <div style="width:65%;padding:0 0.1rem">
+                <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
+                <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
+              </div>
+              <div style="width:15%;text-align:right;">
+                <span>￥</span>
+                <span>{{orderItem.itemPrice}}</span>
+                <div style="color:#999;font-size:12px;">
+                  <span>×</span>
+                  <span>{{orderItem.quantity}}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;">
-            <p style="text-align: right;">
-              共
-              <span>{{order.itemCount}}</span>个商品
-              <span>实付:</span>￥
-              <span>{{order.orderFee}}</span>
-            </p>
-          </div>
+            <div style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;">
+              <p style="text-align: right;">
+                共
+                <span>{{order.itemCount}}</span>个商品
+                <span>实付:</span>￥
+                <span>{{order.orderFee}}</span>
+              </p>
+            </div>
 
-          <div
-            style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
-          >
-            <template v-if="order.status==1">
-              <button class="c-btn" @click.stop="cancelOrder(order.id)">取消订单</button>
-              <button
-                class="c-btn btn-primary"
-                @click.stop="$router.push({path:'/cashier', query:{orderId:order.id}})"
-              >付款</button>
-            </template>
-            <template v-else-if="order.status==2">
-              <!-- <button class="c-btn">申请开票</button> -->
-              <button class="c-btn btn-primary" @click.stop="remindDeliver(order.id)">提醒发货</button>
-            </template>
-            <template v-else-if="order.status==3">
-              <button class="c-btn" @click.stop="logistics(order.id)">查看物流</button>
-              <button class="c-btn btn-primary" @click.stop="confirmReceive(order.id)">确认收货</button>
-            </template>
-            <template v-else-if="order.status==4">
-              <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
-              <button class="c-btn btn-primary" @click.stop="rateOrder(order.id)">评价</button>
-            </template>
-            <template v-else-if="order.status==5">
-              <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
-            </template>
-            <template v-else-if="order.status==9">
-              <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
-            </template>
+            <div
+              style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
+            >
+              <template v-if="order.status==1">
+                <button class="c-btn" @click.stop="cancelOrder(order.id)">取消订单</button>
+                <button
+                  class="c-btn btn-primary"
+                  @click.stop="$router.push({path:'/cashier', query:{orderId:order.id}})"
+                >付款</button>
+              </template>
+              <template v-else-if="order.status==2">
+                <!-- <button class="c-btn">申请开票</button> -->
+                <button class="c-btn btn-primary" @click.stop="remindDeliver(order.id)">提醒发货</button>
+              </template>
+              <template v-else-if="order.status==3">
+                <button class="c-btn" @click.stop="logistics(order.id)">查看物流</button>
+                <button class="c-btn btn-primary" @click.stop="confirmReceive(order.id)">确认收货</button>
+              </template>
+              <template v-else-if="order.status==4">
+                <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+                <button class="c-btn btn-primary" @click.stop="rateOrder(order.id)">评价</button>
+              </template>
+              <template v-else-if="order.status==5">
+                <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+              </template>
+              <template v-else-if="order.status==9">
+                <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+              </template>
+            </div>
           </div>
         </div>
-      </div>
-      <c-empty-hint v-else icon="icon-dingdan" hint="您还没有相关的订单">
+      </transition>
+      <c-empty-hint v-if="orderList.length == 0 && !loading" icon="icon-dingdan" hint="您还没有相关的订单">
       </c-empty-hint>
     </div>
   </div>
@@ -118,11 +122,12 @@
 
 <script>
 import services from "@/services";
+import routerUtils from '@/utils/router-utils';
 
 export default {
   data() {
     return {
-      status: "",
+      status: -1,
       items: [
         { item: "全部", id: "" },
         { item: "待付款", id: "1" },
@@ -130,36 +135,43 @@ export default {
         { item: "待收货", id: "3" },
         { item: "待评价", id: "4" }
       ],
-      orderList: []
+      orderList: [],
+      loading:false,
     };
   },
   methods: {
     async fetchOrderList() {
       try {
         let { status } = this;
+
+        this.orderList = [];
+        this.$showLoading();
+        this.loading = true;
         let res = await services.fetchOrderList({
           status
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
+        this.loading = false;
         this.orderList = res.data;
       } catch (err) {
+        this.$hideLoading();
+        this.loading = false;
         return this.$toast(err.message);
       }
     },
     tab(status) {
+      if(this.status == status) return;
+
       this.status = status;
 
       this.fetchOrderList();
 
-      let newRoute = {
-        ...this.$route,
-        query: {
-          status
-        }
-      };
-      this.$router.replace(newRoute);
+      routerUtils.setQuery({
+        status
+      })
     },
     to_oderDetail(orderId) {
       this.$router.push({ path: "/orderDetail", query: { orderId } });
@@ -251,12 +263,9 @@ export default {
     }
   },
   created() {
-    let status = this.$route.query.status;
-    if (status) {
-      this.tab(status);
-    } else {
-      this.tab("");
-    }
+    let status = this.$route.query.status || '';
+
+    this.tab(status);
   }
 };
 </script>

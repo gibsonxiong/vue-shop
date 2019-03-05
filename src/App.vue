@@ -70,9 +70,6 @@ body {
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import services from "@/services";
-import core from "@/core";
 
 export default {
   name: "App",

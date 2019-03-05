@@ -78,40 +78,41 @@ label {
   <div class="my-ddress-page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
-      <c-empty-hint v-if="addrList.length == 0" icon="icon-location_light" hint="您没有收货地址哦！"></c-empty-hint>
-      <div class="my-ddress_con" v-for="(item,index) in addrList" :key="index" @click="select(item.id)">
-        <div>
-          <p>
-            <span>{{item.name}}</span>
-            <span>{{item.phone}}</span>
-          </p>
-          <p>
-            <span>{{item.province}}</span>
-            <span>{{item.city}}</span>
-            <span>{{item.area}}</span>
-            <span>{{item.detailAddr}}</span>
-          </p>
-        </div>
-        <div>
-          <p class="tag-wrap">
-            <span v-if="item.isDefault" class="tag">默认</span>
-          </p>
-          <!-- <span>
-            <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
-            <label for="gcs-checkbox"></label>
-          </span>
-          <p style="width:65%">设置默认</p>-->
-          <p style="width:35%;text-align:right;">
-            <span @click.stop="updateAddr(item.id)">
-              <i class="iconfont icon-post"></i>编辑
+      <div v-if="addrList.length > 0">
+        <div  class="my-ddress_con" v-for="(item,index) in addrList" :key="index" @click="select(item.id)">
+          <div>
+            <p>
+              <span>{{item.name}}</span>
+              <span>{{item.phone}}</span>
+            </p>
+            <p>
+              <span>{{item.province}}</span>
+              <span>{{item.city}}</span>
+              <span>{{item.area}}</span>
+              <span>{{item.detailAddr}}</span>
+            </p>
+          </div>
+          <div>
+            <p class="tag-wrap">
+              <span v-if="item.isDefault" class="tag">默认</span>
+            </p>
+            <!-- <span>
+              <input type="checkbox" id="gcs-checkbox" class="gcs-checkbox">
+              <label for="gcs-checkbox"></label>
             </span>
-            <span style="padding-left:0.1rem;" @click.stop="removeAddr(item.id)">
-              <i class="iconfont icon-delete_light"></i>删除
-            </span>
-          </p>
+            <p style="width:65%">设置默认</p>-->
+            <p style="width:35%;text-align:right;">
+              <span @click.stop="updateAddr(item.id)">
+                <i class="iconfont icon-post"></i>编辑
+              </span>
+              <span style="padding-left:0.1rem;" @click.stop="removeAddr(item.id)">
+                <i class="iconfont icon-delete_light"></i>删除
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-      <!--  -->
+      <c-empty-hint v-else-if="!loading" icon="icon-location_light" hint="您没有收货地址哦！"></c-empty-hint>
     </div>
     <div class="footer" @click="addAddr()">
       <i class="iconfont icon-add_light"></i>
@@ -129,18 +130,26 @@ export default {
   data() {
     return {
       isSelect:false,
-      addrList: []
+      addrList: [],
+      loading:false
     };
   },
   methods: {
     async fetchAddressList() {
       try {
+        this.loading = true;
+        this.$showLoading();
+        this.addrList = [];
         let res = await services.fetchAddressList();
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
+        this.$hideLoading();
         this.addrList = res.data;
       } catch (err) {
+        this.loading = false;
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },
@@ -152,15 +161,18 @@ export default {
     },
     async removeAddr(addressId) {
       try {
+        this.$showLoading();
         let res = await services.removeAddress({ addressId });
 
         if (services.$isError(res)) throw new Error(res.message);
 
         this.$toast(res.message);
 
+        this.$hideLoading();
         let index = this.addrList.findIndex(item => item.id == addressId);
         this.addrList.splice(index, 1);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },

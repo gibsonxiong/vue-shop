@@ -11,7 +11,7 @@
 <template>
   <router-link tag="div" :to="`/items/${id}`" class="c-goodslist-con">
     <div style="width: 20%;">
-      <img style="width:0.7rem;height:0.7rem;" :src="img">
+      <img style="width:0.7rem;height:0.7rem;" v-lazy="img">
     </div>
     <div style=" padding-left: 0.1rem;font-size: 14px;">
       <p

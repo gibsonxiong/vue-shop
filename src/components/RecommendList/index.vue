@@ -110,6 +110,11 @@
     margin-top: 0.02rem;
   }
 }
+
+.bottom-loading {
+  @include flexbox(center);
+  padding: 0.2rem;
+}
 </style>
 <template>
   <div class="section" style="margin-top:0.15rem;">
@@ -117,7 +122,7 @@
       <span class="section-title-line"></span>
       <div class="section-title-inner">猜你喜欢</div>
     </div>
-    <div class="recommend-container">
+    <div class="recommend-container" v-if="recommendList.length > 0">
       <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
         <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
           <div class="c-img-box">
@@ -133,6 +138,9 @@
         </router-link>
       </div>
     </div>
+    <div class="bottom-loading" v-if="loading">
+      <mt-spinner type="snake" :size="20" style="display: inline-block;"></mt-spinner>
+    </div>
   </div>
 </template>
 <script>
@@ -144,24 +152,28 @@ export default {
   props: {},
   data() {
     return {
-      recommendList: []
+      recommendList: [],
+      loading:false
     };
   },
   methods: {
     async fetchRecommendList() {
       try {
+        this.loading = true;
         let res = await services.fetchItemList({ pageSize: 100 });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
         this.recommendList = res.data;
       } catch (err) {
+        this.loading = false;
         return this.$toast(err.message);
       }
     }
   },
   created() {
-    if(!this.$restored){
+    if (!this.$restored) {
       this.fetchRecommendList();
     }
   }

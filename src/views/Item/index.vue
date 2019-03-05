@@ -431,12 +431,6 @@
           <div class="item_select_des item_white">
             <div class="chen_center_absolute">
               <div class="dex_txt">{{itemInfo.name}}</div>
-              <!-- <div class="dex_share chen_center_absolute_column">
-                <div>
-                  <i class="iconfont icon-share_light"></i>
-                </div>
-                <div>分享</div>
-              </div>-->
             </div>
             <div class="des_price">
               <span class="price_now">￥{{itemPrice}}</span>
@@ -448,25 +442,9 @@
             </div>
           </div>
 
-          <!-- <div class="item_select_classification chen_center_absolute" @click="openPopModel('sku')">
-            <div>选择型号</div>
-            <div>
-              <i class="iconfont icon-right"></i>
-            </div>
-          </div>
-          <div
-            class="item_select_classification chen_center_absolute"
-            style="margin-top:0"
-            @click="popupVisible = true"
-          >
-            <div>产品参数</div>
-            <div>
-              <i class="iconfont icon-right"></i>
-            </div>
-          </div>-->
           <c-cell-list style="margin-top:0.15rem;">
             <c-cell
-              name="领取优惠券"
+              name="领券"
               @click="$router.push('/coupon')"
             ></c-cell>
           </c-cell-list>

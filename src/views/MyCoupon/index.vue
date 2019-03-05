@@ -129,7 +129,7 @@
             </c-coupon-item>
           </div>
         </div>
-        <c-empty-hint v-else icon="icon-youhuiquan" hint="您没有此类优惠券">
+        <c-empty-hint v-if="list.length == 0 && !loading" icon="icon-youhuiquan" hint="您没有此类优惠券">
         </c-empty-hint>
       </div>
     </div>
@@ -142,6 +142,7 @@ import services from "@/services";
 export default {
   data() {
     return {
+      loading:false,
       status: "unused", //使用与否
       list: [] //当前所展示数据
     };
@@ -152,6 +153,7 @@ export default {
   },
   methods: {
     changeStatus(status) {
+      if(this.status == status) return;
       //使用按钮点击
       this.status = status;
       this.fetchList();
@@ -159,14 +161,21 @@ export default {
     async fetchList() {
       let { status } = this;
       try {
+        this.list = [];
+        this.loading = true;
+        this.$showLoading();
         let res = await services.fetchUserCouponList({
           status
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
+        this.$hideLoading();
         this.list = res.data;
       } catch (err) {
+        this.loading = false;
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

@@ -81,6 +81,7 @@
 
 <script>
 import routerCachePage from "@/routerCache/page";
+import routerUtils from "@/utils/router-utils";
 
 export default {
   mixins: [routerCachePage()],
@@ -123,21 +124,16 @@ export default {
       this.tab.items[index].inited = true;
 
       this.$nextTick(() => {
-        console.log(this.$refs);
         this.$refs[`tabContent${index}`] &&
           this.$refs[`tabContent${index}`][0].tabActived &&
           this.$refs[`tabContent${index}`][0].tabActived();
 
-          this.$Lazyload._lazyLoadHandler();
+        this.$Lazyload._lazyLoadHandler();
       });
 
-      let newRoute = {
-        ...this.$route,
-        query: {
-          tab: index
-        }
-      };
-      this.$router.replace(newRoute);
+      routerUtils.setQuery({
+        tab: index
+      });
     },
     showSearch() {
       this.search.visible = true;
@@ -151,7 +147,6 @@ export default {
   },
   created() {
     if (!this.$restored) {
-      
       this.tab.items.forEach(item => {
         item.inited = false;
       });
@@ -163,7 +158,6 @@ export default {
 
     //默认不显示搜索页
     this.search.visible = false;
-
   },
   mounted() {}
 };

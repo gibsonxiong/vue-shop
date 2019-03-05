@@ -4,7 +4,7 @@
   color: #fff;
   width: 100%;
   margin: auto;
-  padding: 0.1rem;
+  padding: 0.12rem;
   background: $color-gradient;
   border:none;
   text-align: center;

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import core from '@/core';
 import config from '@/config';
 import router from '@/router';
+import routerUtils from '@/utils/router-utils';
 
 const request = axios.create({
   baseURL: config.hostUrl,
@@ -9,14 +9,22 @@ const request = axios.create({
   method: 'get'
 });
 
+
 // 添加请求拦截器
 function addInterceptors(_request) {
   _request.interceptors.request.use(function (config) {
     //添加token
     let token = services.$getToken();
 
-    if (!token && !config.skipCheckToken) {
+    let skipCheckToken = routerUtils.getQuery().skipCheckToken == '1';
+
+    if (!token && !config.skipCheckToken && !skipCheckToken) {
       console.log(config);
+
+      routerUtils.setQuery({
+        skipCheckToken:1
+      });
+
       router.push('/login');
       throw new Error('请先登录');
     }
@@ -32,7 +40,14 @@ function addInterceptors(_request) {
   _request.interceptors.response.use(function (response) {
     // 对响应数据做点什么
 
-    if (response.data.code === -99 || response.data.code === -98) {
+    let skipCheckToken = routerUtils.getQuery().skipCheckToken == '1';
+
+    if ((response.data.code === -99 || response.data.code === -98) && !skipCheckToken) {
+
+      routerUtils.setQuery({
+        skipCheckToken:1
+      });
+
       services.$removeToken();
       router.push('/login');
     }
@@ -337,7 +352,9 @@ const services = {
 
   //获取可领取优惠券列表
   async fetchCouponList() {
-    return (await request.get(`/coupons`)).data;
+    return (await request.get(`/coupons`,{
+      skipCheckToken:true
+    })).data;
   },
 
   //领取优惠券

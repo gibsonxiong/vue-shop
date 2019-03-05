@@ -57,7 +57,7 @@
 
 <template>
   <div class="coupon_page">
-    <c-header :title="'优惠券领取中心'" :backType="1"></c-header>
+    <c-header :title="'领券中心'" :backType="1"></c-header>
     <div class="c-page-body header-pd">
       <div class="coupon_wrap">
         <!-- <div class="coupon_til">
@@ -87,6 +87,7 @@
 
           </div>
         </div>
+        <c-empty-hint v-if="list.length == 0 && !loading" icon="icon-youhuiquan" hint="没有可领取的优惠券"></c-empty-hint>
       </div>
     </div>
   </div>
@@ -98,7 +99,8 @@ import services from "@/services";
 export default {
   data() {
     return {
-      list: []
+      list: [],
+      loading: false
     };
   },
   computed: {},
@@ -109,27 +111,36 @@ export default {
   methods: {
     async fetchCouponList() {
       try {
+        this.loading = true;
+        this.$showLoading();
         let res = await services.fetchCouponList();
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
+        this.$hideLoading();
         this.list = res.data;
       } catch (err) {
+        this.loading = false;
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },
     async gainCoupon(couponId) {
       try {
+        this.$showLoading();
         let res = await services.gainCoupon({
           couponId
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
 
         this.fetchCouponList();
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

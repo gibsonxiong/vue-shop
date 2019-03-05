@@ -2,10 +2,17 @@ import Vue from 'vue';
 import config from '@/config';
 import filter from '@c/filter';
 
+function isAbsoluteUrl(url){
+  return /^http:\/\/|^https:\/\/|^\/\//i.test(url);
+}
 
 let filters = {
   hostUrl(val){
-    return config.hostUrl + val;
+    if(isAbsoluteUrl(val)) {
+      return val;
+    }else{
+      return config.hostUrl + val;
+    }
   },
 
   //退款类型

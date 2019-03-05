@@ -44,7 +44,7 @@
           ></c-goods-item>
         </div>
       </div>
-      <c-empty-hint v-else icon="icon-footprint" hint="没有留下任何足迹">
+      <c-empty-hint v-else-if="!loading" icon="icon-footprint" hint="没有留下任何足迹">
       </c-empty-hint>
     </div>
   </div>
@@ -57,7 +57,8 @@ import filter from "@c/filter";
 export default {
   data() {
     return {
-      list: []
+      list: [],
+      loading:false
     };
   },
   computed: {
@@ -79,12 +80,19 @@ export default {
   methods: {
     async listFootprint() {
       try {
+        this.loading = true;
+        this.$showLoading();
+        this.list = [];
         let res = await services.listFootprint();
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.loading = false;
+        this.$hideLoading();
         this.list = res.data;
       } catch (err) {
+        this.loading = false;
+        this.$hideLoading();
         this.$toast(err.message);
       }
     }

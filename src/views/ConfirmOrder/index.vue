@@ -4,7 +4,7 @@
   padding-bottom: 0.8rem;
 }
 .address-wrap {
-  padding: 0.18rem 0.1rem 0.21rem;
+  padding: 0.15rem 0.1rem 0.18rem;
   display: flex;
   align-items: center;
   background: url("~@/assets/addrline.png") #fff repeat-x bottom center;
