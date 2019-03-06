@@ -108,7 +108,7 @@
         <div class="c-header-pd">
           <ul class="type-list">
             <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
-              <router-link :to="{path:'/items',query:{itemTypeId:item.id}}">
+              <router-link :to="{path:'/items',query:{categoryId:item.id}}">
                 <div style="padding:0.1rem 0.15rem;">
                   <div class="c-img-box">
                     <img v-lazy="item.img" :key="item.img">

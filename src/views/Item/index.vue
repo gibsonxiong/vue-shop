@@ -52,18 +52,11 @@
         line-height: pxTorem(570);
         font-size: pxTorem(60);
         font-weight: bold;
-        a {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          > img {
+          img {
             width: 100%;
             height: 100%;
             object-fit: cover;
           }
-        }
       }
       .mint-swipe-indicators {
         .mint-swipe-indicator {
@@ -422,9 +415,7 @@
       <div class="item_page_content" ref="body">
         <mt-swipe :auto="0" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
-            <router-link to="/">
-              <img :src="val">
-            </router-link>
+            <img :src="val">
           </mt-swipe-item>
         </mt-swipe>
         <div class="item_select">

@@ -132,7 +132,7 @@
             <div class="recommend-title">{{item.name}}</div>
             <div class="recommend-price-box">
               <span class="recommend-price">￥{{item.minPrice}}</span>
-              <span class="recommend-sale">{{item.saleCount}}人已购买</span>
+              <span class="recommend-sale">{{item.item_count.saleCount}}人已购买</span>
             </div>
           </div>
         </router-link>
@@ -146,6 +146,7 @@
 <script>
 import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
+import utils from '@/utils';
 
 export default {
   mixins: [routerCacheComponent()],
@@ -160,12 +161,12 @@ export default {
     async fetchRecommendList() {
       try {
         this.loading = true;
-        let res = await services.fetchItemList({ pageSize: 100 });
+        let res = await services.fetchItemList({ pageSize: 20 });
 
         if (services.$isError(res)) throw new Error(res.message);
 
         this.loading = false;
-        this.recommendList = res.data;
+        this.recommendList = utils.shuffle(res.data);
       } catch (err) {
         this.loading = false;
         return this.$toast(err.message);

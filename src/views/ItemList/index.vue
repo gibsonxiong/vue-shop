@@ -48,7 +48,7 @@
       // right: 0;
       background: #fff;
       @include border-bottom($color-border);
-      padding: pxTorem(20) 0rem;
+      padding: pxTorem(20) 0.2rem;
       font-size: 0.14rem;
       .select_item {
         width: 25%;
@@ -67,9 +67,8 @@
         color: #666666;
         i {
           font-size: 17px;
-          line-height: pxTorem(14);
+          line-height: 0.07rem;
           color: #b7b7b7;
-          line-height: 0.05rem;
         }
         .i_active {
           color: #f94a92;
@@ -275,10 +274,10 @@
                 <i class="iconfont icon-triangledownfill" :class="{'i_active':order=='priceDesc'}"></i>
               </div>
             </div>
-            <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
+            <!-- <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
               筛选
               <i class="iconfont icon-filter"></i>
-            </div>
+            </div> -->
           </div>
           <div
             class="list_content"
@@ -318,7 +317,7 @@
                           style="    font-size: 0.12rem;
     color: #999999;
     margin-top: 2px;"
-                        >{{item.saleCount}}人已购买</span>
+                        >{{item.item_count.saleCount}}人已购买</span>
                       </div>
                     </div>
                   </div>
@@ -393,7 +392,7 @@ export default {
       pageIndex: 0,
       pageSize: 20,
       searchText: "",
-      itemTypeId: "1",
+      categoryId: "1",
       order: "normal",
       minPrice: "",
       maxPrice: "",
@@ -436,12 +435,14 @@ export default {
 
       this.order = order;
       this.pageIndex = 0;
+      this.itemList = [];
       this.fetchItemList();
     },
     handleSearch(searchText) {
-      this.itemTypeId = "";
+      this.categoryId = "";
       this.searchText = searchText;
       this.search.visible = false;
+      this.itemList = [];
       this.pageIndex = 0;
 
       this.fetchItemList();
@@ -457,7 +458,7 @@ export default {
 
         let {
           searchText,
-          itemTypeId,
+          categoryId,
           order,
           pageIndex,
           pageSize,
@@ -468,7 +469,7 @@ export default {
         let res = await services.fetchItemList({
           pageIndex,
           pageSize,
-          categoryId: itemTypeId,
+          categoryId,
           searchText,
           order,
           minPrice,
@@ -500,7 +501,7 @@ export default {
   },
   created() {
     this.searchText = this.$route.query.searchText || "";
-    this.itemTypeId = this.$route.query.itemTypeId || "";
+    this.categoryId = this.$route.query.categoryId || "";
   }
 };
 </script>

@@ -3,6 +3,14 @@ function trim(value){
 }
 
 const validate = {
+    isNull(value){
+        return value == null;
+    },
+
+    isEmpty(value){
+        return validate.isNull(value) || value === '';
+    },
+
     mobile(value){
         return /^\d{11}$/.test(trim(value));
     },

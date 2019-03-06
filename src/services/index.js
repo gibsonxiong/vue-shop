@@ -22,7 +22,7 @@ function addInterceptors(_request) {
       console.log(config);
 
       routerUtils.setQuery({
-        skipCheckToken:1
+        skipCheckToken: 1
       });
 
       router.push('/login');
@@ -45,7 +45,7 @@ function addInterceptors(_request) {
     if ((response.data.code === -99 || response.data.code === -98) && !skipCheckToken) {
 
       routerUtils.setQuery({
-        skipCheckToken:1
+        skipCheckToken: 1
       });
 
       services.$removeToken();
@@ -100,7 +100,9 @@ const services = {
       phone,
       smsCode,
       password
-    },{skipCheckToken:true})).data;
+    }, {
+      skipCheckToken: true
+    })).data;
   },
 
   //获取验证码
@@ -110,7 +112,9 @@ const services = {
 
     return (await request.post('/getSmsCode', {
       phone
-    },{skipCheckToken:true})).data;
+    }, {
+      skipCheckToken: true
+    })).data;
   },
 
   //登录
@@ -121,7 +125,9 @@ const services = {
     return (await request.post('/login', {
       phone,
       password
-    },{skipCheckToken:true})).data;
+    }, {
+      skipCheckToken: true
+    })).data;
   },
 
   //获取搜索关键字提示列表
@@ -132,13 +138,13 @@ const services = {
       params: {
         q: searchText
       },
-      skipCheckToken:true
+      skipCheckToken: true
     })).data;
   },
 
   //获取搜索历史列表
   async fetchSearchHistory() {
-    return (await request.get('/searchs',{
+    return (await request.get('/searchs', {
       skipCheckToken: true
     })).data;
   },
@@ -149,7 +155,7 @@ const services = {
   },
 
   async fetchCatalogList() {
-    return (await request.get('/categorys',{
+    return (await request.get('/categorys', {
       skipCheckToken: true
     })).data;
   },
@@ -157,7 +163,7 @@ const services = {
   async fetchItemTypeList({
     catalogId
   }) {
-    return (await request.get(`/categorys/${catalogId}`,{
+    return (await request.get(`/categorys/${catalogId}`, {
       skipCheckToken: true
     })).data;
   },
@@ -167,13 +173,19 @@ const services = {
     pageSize,
     categoryId,
     searchText,
+    order,
+    minPrice,
+    maxPrice
   }) {
     return (await request.get(`/items`, {
       params: {
         pageIndex,
         pageSize,
         categoryId,
-        searchText
+        searchText,
+        order,
+        minPrice,
+        maxPrice
       },
       skipCheckToken: true
     })).data;
@@ -213,7 +225,9 @@ const services = {
   async getFavoriteByItemId({
     itemId
   }) {
-    return (await request.get(`/favorites/items/${itemId}`,{skipCheckToken:true})).data;
+    return (await request.get(`/favorites/items/${itemId}`, {
+      skipCheckToken: true
+    })).data;
   },
 
   //获取购物车列表
@@ -352,8 +366,8 @@ const services = {
 
   //获取可领取优惠券列表
   async fetchCouponList() {
-    return (await request.get(`/coupons`,{
-      skipCheckToken:true
+    return (await request.get(`/coupons`, {
+      skipCheckToken: true
     })).data;
   },
 
@@ -441,8 +455,8 @@ const services = {
   async fetchItemRateList({
     itemId
   }) {
-    return (await request.get(`/rates/items/${itemId}`,{
-      skipCheckToken:true
+    return (await request.get(`/rates/items/${itemId}`, {
+      skipCheckToken: true
     })).data;
   },
 

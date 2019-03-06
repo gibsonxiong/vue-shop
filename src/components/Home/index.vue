@@ -263,7 +263,7 @@ img {
         </div>
       </div>
 
-      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;"></c-recommend-list>
+      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;margin-bottom:0.2rem;"></c-recommend-list>
     </div>
   </div>
 </template>
@@ -351,7 +351,7 @@ export default {
     },
     async fetchRecommendList() {
       try {
-        let res = await services.fetchItemList({ pageSize: 100 });
+        let res = await services.fetchItemList({ pageSize: 50 });
 
         if (services.$isError(res)) throw new Error(res.message);
 
@@ -362,7 +362,6 @@ export default {
     },
     async fetchGroupList() {
       try {
-        let { searchText, itemTypeId } = this;
         let res = await services.fetchItemList({});
 
         if (services.$isError(res)) throw new Error(res.message);
