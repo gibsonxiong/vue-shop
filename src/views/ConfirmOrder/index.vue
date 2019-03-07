@@ -50,17 +50,17 @@
     color: #fff;
     height: 0.5rem;
     min-width: 0.9rem;
-    background: $color-primary;
-    border: 1px solid $color-primary;
+    background: $color-primary-gradient;
+    // border: 1px solid $color-primary;
 
     &:disabled {
-      background: $color-primary-disabled;
-      border: 1px solid $color-primary-disabled;
+      background: $color-primary-gradient-disabled;
+      // border: 1px solid $color-primary-disabled;
     }
 
     &:not(:disabled):active {
-      background: $color-primary-active;
-      border: 1px solid $color-primary-active;
+      background: $color-primary-gradient-active;
+      // border: 1px solid $color-primary-active;
     }
   }
 }
@@ -221,7 +221,7 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$router.push({
+        this.$router.replace({
           path: "/cashier",
           query: { orderId: res.data.orderId }
         });

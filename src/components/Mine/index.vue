@@ -5,7 +5,7 @@
 .c-mine {
   .top {
     padding: 0.3rem 0.3rem;
-    background: $color-gradient;
+    background: $color-primary-gradient;
 
     .top-wrap {
       @include flexbox;

@@ -133,7 +133,7 @@
     .COMM_MSGBOX_OK {
       width: 158px;
       height: 44px;
-      background: $color-gradient;
+      background: $color-primary-gradient;
       color: #fff;
     }
   }
@@ -202,7 +202,7 @@
         </div>
         <div class="COMM_MSGBOX_ACTION_WRAPPER">
           <a href="javascript:void(0);" class="COMM_MSGBOX_CANCEL" @click="popupVisible = false;">取消</a>
-          <a href="javascript:void(0);" class="COMM_MSGBOX_OK" @click="this.getOrderPayStatus(0);popupVisible = false;">已完成支付</a>
+          <a href="javascript:void(0);" class="COMM_MSGBOX_OK" @click="getOrderPayStatus(0);popupVisible = false;">已完成支付</a>
         </div>
       </div>
     </div>
@@ -216,6 +216,7 @@ import utils from "@/utils";
 export default {
   data() {
     return {
+      payed:false,
       orderId: "",
       orderInfo: {},
       timeId: null,
@@ -239,7 +240,10 @@ export default {
         this.orderInfo = res.data;
 
         if (this.orderInfo.status != "1") {
-          throw new Error('订单已支付');
+          this.payed = true;
+          this.$toast('订单已支付');
+
+          return this.$router.back();
         }
 
         let endTime = new Date(
@@ -283,11 +287,8 @@ export default {
         timer--;
 
         if (res.data.result) {
-          // this.$router.go(-(history.length - 1));
-          setTimeout(() => {
-            this.$router.replace({ path: "/", query: { tab: 3 } });
-            this.$router.push("/pay-result");
-          }, 0);
+          this.payed = true;
+          this.$router.replace("/pay-result");
 
           //跳转支付成功页面
         } else if (timer >= 0) {
@@ -316,6 +317,24 @@ export default {
     this.orderId = this.$route.query.orderId;
 
     this.fetchOrderInfo();
+  },
+  async beforeRouteLeave(to,from, next){
+    if(!this.payed){
+      let res =  await this.$popup.confirm('订单还没支付完成，确定要退出吗？');
+
+      if(res === 'confirm'){
+        next();
+        //跳转到未付款页面
+        setTimeout(() => {
+          this.$router.push({path:'/order', query:{status:'1'}});
+        }, 0);
+      }else{
+        next(false);
+      }
+    }else{
+      next();
+    }
+
   }
 };
 </script>

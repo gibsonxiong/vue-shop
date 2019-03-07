@@ -5,7 +5,7 @@
   width: 100%;
   margin: auto;
   padding: 0.12rem;
-  background: $color-gradient;
+  background: $color-primary-gradient;
   border:none;
   text-align: center;
   border-radius: 0.05rem;

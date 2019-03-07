@@ -119,7 +119,8 @@
             padding-top: pxTorem(20);
             .header_img {
               width: 0.3rem;
-              margin-right: 0.05rem;
+              height: 0.3rem;
+              margin-right: 0.1rem;
               overflow: hidden;
               border-radius: 50%;
               img {
@@ -129,11 +130,11 @@
             }
           }
           .evaluate_des {
-            padding: 0.05rem 0px;
-            padding-left: 0.35rem;
+            padding: 0.05rem 0 0.1rem;
+            padding-left: 0.4rem;
           }
           .evaluate_img {
-            padding-left: 0.35rem;
+            padding-left: 0.4rem;
             &::after {
               content: "";
               display: block;
@@ -238,7 +239,7 @@
           height: 100%;
           border: 0;
 
-          background: $color-gradient;
+          background: $color-primary-gradient;
           padding: 0.15rem 0rem;
         }
 
@@ -331,7 +332,7 @@
             }
             .select_data_item {
               float: left;
-              color: #333;
+              color: #555;
               padding: 0.05rem 0.15rem;
               background: #f8f8f8;
               overflow: hidden;
@@ -339,7 +340,7 @@
               margin: 0rem pxTorem(18) pxTorem(18) 0rem;
             }
             .select_data_item_active {
-              background: $color-primary;
+              background: $color-primary-gradient;
               color: #fff;
             }
             .select_data_item_active_none {
@@ -367,7 +368,7 @@
           @include flex;
           padding: pxTorem(30) 0rem;
           text-align: center;
-          background: $color-gradient;
+          background: $color-primary-gradient;
           color: #fff;
           font-size: pxTorem(32);
           // width: 100%;
@@ -471,7 +472,8 @@
               >
                 <div class="evaluate_header">
                   <div class="header_img">
-                    <img :src="rate.user.avatar">
+                    <img v-if="rate.user && rate.user.avatar" :src="rate.user.avatar | hostUrl">
+                    <img v-else class="avator" src="@/assets/default_avator.jpg">
                   </div>
                   <div style="color:#777">{{rate.user.nickname}}</div>
                 </div>

@@ -1,14 +1,14 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
-.nickname{
-    display: flex;
-    flex-direction: column;
+.nickname {
+  display: flex;
+  flex-direction: column;
 }
-input{
-    border:0;
-    padding:0.1rem;
-    border-radius: 0.05rem;
-    margin: 0.1rem;
+input {
+  border: 0;
+  padding: 0.1rem;
+  border-radius: 0.05rem;
+  margin: 0.1rem;
 }
 </style>
 <template>
@@ -16,39 +16,43 @@ input{
     <c-header :title="'昵称'"></c-header>
     <div class="c-page-body header-pd">
       <div class="nickname">
-          <input v-model="name" placeholder="请设置昵称"/>
-        <c-button @click="save_nickname">保存</c-button>
+        <input v-model="name" placeholder="请设置昵称">
+        <div style="padding: 0 0.1rem;">
+          <c-button @click="save_nickname">保存</c-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import services from '@/services';
+import services from "@/services";
 
-export default{
+export default {
   data() {
     return {
-        name:''
+      name: ""
     };
   },
   methods: {
-    async save_nickname(){
-       try {
+    async save_nickname() {
+      try {
+        this.$showLoading();
         let res = await services.updateUserInfo({
-          nickname:this.name
+          nickname: this.name
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
 
         setTimeout(() => {
           this.$router.back();
         }, 1000);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
-         
     }
   },
   created() {

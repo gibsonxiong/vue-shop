@@ -120,23 +120,29 @@ export default {
   methods: {
     async fetchUserInfo() {
       try {
+        this.$showLoading();
         let res = await services.fetchUserInfo();
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.userInfo = res.data;
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },
     async updateUserInfo(info) {
       try {
+        this.$showLoading();
         let res = await services.updateUserInfo(info);
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.userInfo = res.data;
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },

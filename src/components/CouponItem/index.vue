@@ -35,13 +35,13 @@
 
     &.disabled {
       .item_l {
-        background:$color-gradient-disabled;
+        background:$color-primary-gradient-disabled;
       }
     }
 
     .item_l {
       width: 0.9rem;
-      background: $color-gradient;
+      background: $color-primary-gradient;
       display: flex;
       flex-direction: column;
       align-items: center;

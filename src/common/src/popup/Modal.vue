@@ -166,7 +166,7 @@
         </div>
         <div class="modal__body">
           <slot>{{content}}</slot>
-          <!-- <input class="modal__input" ref="input" type="text"> -->
+          <input v-if="hasInput" class="modal__input" ref="input" type="text">
         </div>
         <div class="modal__footer" v-if="actions && Object.keys(actions).length > 0">
           <button

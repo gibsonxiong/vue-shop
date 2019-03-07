@@ -6,8 +6,12 @@ $color-secondly:#5dbaff;
 $color-secondly-active:#3dacff;
 $color-secondly-disabled:#b4dfff;
 
-$color-gradient:linear-gradient(to right, rgb(255, 117, 140) 0%, #ff60a8 100%);
-$color-gradient-disabled:linear-gradient(to right, #ffb2bf 0%, #ffa2cc 100%);
+$color-primary-gradient:linear-gradient(to right, #ff7c92 0%, #ff60a8 100%);
+$color-primary-gradient-active:linear-gradient(to right, #fd6a82 0%, #f93a90 100%);
+$color-primary-gradient-disabled:linear-gradient(to right, #ffb2bf 0%, #ffa2cc 100%);
 
+$color-success:#24b129;
+$color-success-active:#24b129;
+$color-success-disabled:#24b129;
 
 $color-border:rgba(220, 220, 220, 0.4);

@@ -1,25 +1,29 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 input {
   border: 0;
-  // color: #b2b2b2;
 }
-.c-page-body {
-  background: #f3f3f3;
-}
+
 ul {
   background: #fff;
   padding: 0 0.1rem;
 }
 li {
-  padding: 0.14rem 0;
-  border-bottom: 1px solid #f4f4f4;
+  @include flexbox();
+  padding: 0.15rem 0;
+  border-bottom: 1px solid $color-border;
+
+  .flex-main{
+    flex: 1;
+  }
 }
 li span:first-of-type {
   width: 25%;
   display: inline-block;
-  // color: #666;
 }
+
+
 </style>
 <style lang="scss">
 @import "~@/css/var";
@@ -48,17 +52,21 @@ li span:first-of-type {
       <ul>
         <li>
           <span>收货人</span>
-          <input v-model="model.name" placeholder="请填写收货人姓名">
+          <input class="flex-main" v-model="model.name" placeholder="请填写收货人姓名">
         </li>
         <li>
           <span>联系电话</span>
-          <input v-model="model.phone" placeholder="请填写联系电话">
+          <input class="flex-main" v-model="model.phone" placeholder="请填写联系电话">
         </li>
         <li @click="pickerVisible = true">
           <span>所在地区</span>
-          <span
+          <div class="c-input-mask flex-main">
+            <input  v-model="address" placeholder="请选择所在地区" readonly="readonly">
+          </div>
+          <!-- <span
             style="    display: inline-block;width: 67%;"
-          >{{model.province}} {{model.city}} {{model.area}}</span>
+          >
+          {{model.province}} {{model.city}} {{model.area}}</span> -->
           <span style="transform: rotateZ(180deg); display: inline-block;">
             <i data-v-75dcebf2 class="iconfont icon-back_light" style="font-size: 14px;"></i>
           </span>
@@ -69,7 +77,7 @@ li span:first-of-type {
         </li>-->
         <li>
           <span>详细地址</span>
-          <input v-model="model.detailAddr" placeholder="街道，楼牌号等">
+          <input class="flex-main" v-model="model.detailAddr" placeholder="街道，楼牌号等">
         </li>
         <li style="display:flex;">
           <p style="width:90%">设置默认地址</p>
@@ -80,7 +88,7 @@ li span:first-of-type {
         <c-button @click="submit">保存地址</c-button>
       </div>
       <c-region-picker
-        v-show="pickerVisible"
+        :visible="pickerVisible"
         @maskClick="pickerVisible = false"
         @input="handleRegionChange"
       ></c-region-picker>
@@ -110,6 +118,12 @@ export default {
       },
       pickerVisible: false
     };
+  },
+  computed:{
+    address(){
+      if(!this.model.province && !this.model.province && !this.model.province) return '';
+      return `${this.model.province} ${this.model.city} ${this.model.area}`;
+    }
   },
   methods: {
     async fetchAddressInfo() {

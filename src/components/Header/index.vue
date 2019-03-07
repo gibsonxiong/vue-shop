@@ -37,7 +37,7 @@ $bg-color: #f8f8f8;
   }
 
   &.primary {
-    $bc:$color-gradient;
+    $bc:$color-primary-gradient;
     $fc:#f8f8f8;
 
     background: $bc;

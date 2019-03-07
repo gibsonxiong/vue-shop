@@ -10,7 +10,8 @@
 }
 .my-ddress_con div:first-of-type {
   border-bottom: 1px solid #f4f4f4;
-  padding-bottom: 0.1rem;
+  padding-bottom: 0.12rem;
+  padding-top: 0.1rem;
 }
 .my-ddress_con div:last-of-type {
   display: flex;
@@ -79,7 +80,12 @@ label {
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
       <div v-if="addrList.length > 0">
-        <div  class="my-ddress_con" v-for="(item,index) in addrList" :key="index" @click="select(item.id)">
+        <div
+          class="my-ddress_con"
+          v-for="(item,index) in addrList"
+          :key="index"
+          @click="select(item.id)"
+        >
           <div>
             <p>
               <span>{{item.name}}</span>
@@ -123,15 +129,15 @@ label {
 
 <script>
 import services from "@/services";
-import routerCachePage from '@/routerCache/page';
+import routerCachePage from "@/routerCache/page";
 
 export default {
-  mixins:[routerCachePage()],
+  mixins: [routerCachePage()],
   data() {
     return {
-      isSelect:false,
+      isSelect: false,
       addrList: [],
-      loading:false
+      loading: false
     };
   },
   methods: {
@@ -176,16 +182,16 @@ export default {
         return this.$toast(err.message);
       }
     },
-    select(addressId){
-      if(!this.isSelect) return;
+    select(addressId) {
+      if (!this.isSelect) return;
 
-      this.$routerCacheEmit('selectAddress',addressId);
+      this.$routerCacheEmit("selectAddress", addressId);
 
       this.$router.back();
     }
   },
   created() {
-    this.isSelect = this.$route.query.isSelect == '1' ;
+    this.isSelect = this.$route.query.isSelect == "1";
 
     this.fetchAddressList();
   }

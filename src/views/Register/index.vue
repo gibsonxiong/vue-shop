@@ -15,12 +15,14 @@
 input {
   padding: 0.15rem 0;
   border: 0;
-  // width: 74%;
-  //   height: 100%;
-  @include flex;
 }
 li {
+  @include flexbox;
   border-bottom: 1px solid #f4f4f4;
+
+  .flex-main{
+    flex:1;
+  }
 }
 ul {
   margin: 0.2rem 0;
@@ -50,15 +52,15 @@ ul {
         <p class="register_label">注册</p>
         <ul>
           <li>
-            <input v-model="phone" placeholder="请输入手机号">
+            <input  class="flex-main" v-model="phone" placeholder="请输入手机号">
           </li>
           <li class="flexbox">
-            <input v-model="smsCode" placeholder="请输入验证码">
+            <input class="flex-main" v-model="smsCode" placeholder="请输入验证码">
             <button v-if="timer>0" class="c-btn btn-primary" disabled="disabled" style="width:100px;">{{timer}}s后重发</button>
             <button v-else class="c-btn btn-primary" @click="getSmsCode" style="width:100px;">发送验证码</button>
           </li>
           <li>
-            <input v-model="password" placeholder="6-14位密码">
+            <input class="flex-main" v-model="password" type="password" @keypress.enter="register" placeholder="请输入密码（6-16位字母，数字，下划线）">
           </li>
         </ul>
         <c-button @click="register">立即注册</c-button>

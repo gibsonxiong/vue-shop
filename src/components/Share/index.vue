@@ -88,7 +88,7 @@
       <div class="share_box" v-show="shareShow">
         <p class="share_p">分享到</p>
         <div id="share_component"></div>
-        <div class="share_line"></div>
+        <!-- <div class="share_line"></div> -->
       </div>
     </transition>
   </div>

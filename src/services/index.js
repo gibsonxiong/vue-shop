@@ -105,6 +105,24 @@ const services = {
     })).data;
   },
 
+
+  //重置密码
+  async resetPassword({
+    phone,
+    smsCode,
+    password
+  }) {
+
+    return (await request.post('/resetPassword', {
+      phone,
+      smsCode,
+      password
+    }, {
+      skipCheckToken: true
+    })).data;
+  },
+
+
   //获取验证码
   async getSmsCode({
     phone
@@ -453,9 +471,13 @@ const services = {
 
   //商品评价列表
   async fetchItemRateList({
-    itemId
+    itemId,
+    flag
   }) {
     return (await request.get(`/rates/items/${itemId}`, {
+      params:{
+        flag
+      },
       skipCheckToken: true
     })).data;
   },

@@ -22,7 +22,11 @@ export default {
         return {};
       }
     },
-    beforeClose: Function
+    beforeClose: Function,
+    hasInput:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {
@@ -36,9 +40,11 @@ export default {
     open() {
       this.visible = true;
 
-      this.$nextTick(()=>{
-        this.focusInput();
-      });
+      if(this.hasInput){
+        this.$nextTick(()=>{
+          this.focusInput();
+        });
+      }
 
       return new Promise((resolve) => {
         this.resolve = resolve;

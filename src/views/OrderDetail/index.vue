@@ -11,7 +11,7 @@
   color: #fff;
   text-align: center;
   padding: 0.15rem 0;
-  background: $color-gradient;
+  background: $color-primary-gradient;
   min-height: 1.2rem;
 
   @include flexbox(center);
