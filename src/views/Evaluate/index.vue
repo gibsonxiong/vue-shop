@@ -100,11 +100,11 @@ img {
           >
         </div>
         <p style="text-align:right;padding:0.05rem 0;">
-          <!-- <i
+          <i
             class="iconfont"
             :class="true ? 'icon-appreciate_fill_light primary' : 'appreciate_light'"
           ></i>
-          <span class="ccc">1</span> -->
+          <span class="ccc">{{rate.likeCount}}</span>
         </p>
       </router-link>
     </div>
