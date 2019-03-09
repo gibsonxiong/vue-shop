@@ -125,14 +125,15 @@
     <div class="recommend-container" v-if="recommendList.length > 0">
       <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
         <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
-          <div class="c-img-box">
+          <div class="c-img-box box-bg box-big">
             <img class="recommend-img" :key="item.imgList[0]" v-lazy="item.imgList[0]" alt>
           </div>
           <div class="recommend-info">
             <div class="recommend-title">{{item.name}}</div>
             <div class="recommend-price-box">
               <span class="recommend-price">￥{{item.minPrice}}</span>
-              <span class="recommend-sale">{{item.item_count.saleCount}}人已购买</span>
+              <span v-if="item.isNew" class="c-tag secondly">新品</span>
+              <span class="recommend-sale">{{item.item_count && item.item_count.saleCount}}人已购买</span>
             </div>
           </div>
         </router-link>

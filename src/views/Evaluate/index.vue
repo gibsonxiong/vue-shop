@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .evaluate {
   background: #fff;
   padding: 0.1rem;
@@ -34,7 +35,7 @@ img {
 .topbar {
   overflow: hidden;
   background: #fff;
-  border-bottom:1px solid $color-border
+  @include border-bottom();
 }
 
 .select_data_item {
@@ -46,7 +47,7 @@ img {
   border-radius: 0.25rem;
   margin: 0.1rem 0.05rem;
 
-  &.black{
+  &.black {
     background: #e8e8e8;
   }
 
@@ -69,8 +70,8 @@ img {
         >好评</div>
         <div
           class="select_data_item"
-          :class="{active: flag == 'noraml'}"
-          @click="changeFlag('noraml')"
+          :class="{active: flag == 'middle'}"
+          @click="changeFlag('middle')"
         >中评</div>
         <div class="select_data_item black" :class="{active: flag == 'bad'}" @click="changeFlag('bad')">差评</div>
       </div>
@@ -100,11 +101,14 @@ img {
           >
         </div>
         <p style="text-align:right;padding:0.05rem 0;">
-          <i
-            class="iconfont"
-            :class="true ? 'icon-appreciate_fill_light primary' : 'appreciate_light'"
-          ></i>
-          <span class="ccc">{{rate.likeCount}}</span>
+          <span @click.stop="like(rate.id, rate.rateLikeId)">
+             <i
+                class="iconfont"
+                :class="rate.rateLikeId ? 'icon-appreciate_fill_light primary' : 'icon-appreciate_light'"
+              ></i>
+              <span class="ccc">{{rate.likeCount}}</span>
+          </span>
+         
         </p>
       </router-link>
     </div>
@@ -129,7 +133,8 @@ export default {
     async fetchItemRateList() {
       try {
         this.$showLoading();
-        let { itemId ,flag } = this;
+        let { itemId, flag } = this;
+        flag = flag === 'all' ? undefined : flag;
         let res = await services.fetchItemRateList({
           itemId,
           flag
@@ -150,6 +155,33 @@ export default {
       this.flag = flag;
 
       this.fetchItemRateList();
+    },
+    async like(rateId, rateLikeId) {
+      try {
+        this.$showLoading();
+        let { itemId, flag } = this;
+        let isLike = rateLikeId ? false : true;
+        let res = await services.rateLike({
+          rateId,
+          isLike
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        let rate = this.rateList.find(item => item.id == rateId);
+
+        rate.rateLikeId = res.data.rateLikeId;
+        if (isLike) {
+          rate.likeCount++;
+        } else {
+          rate.likeCount--;
+        }
+
+        this.$hideLoading();
+      } catch (err) {
+        this.$hideLoading();
+        return this.$toast(err.message);
+      }
     }
   },
   created() {

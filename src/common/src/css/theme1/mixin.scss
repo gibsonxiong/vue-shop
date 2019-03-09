@@ -1,6 +1,6 @@
 @import './var';
 
-@mixin border($color: $border-color, $width: 1px, $style: solid) {
+@mixin border($width: 1px, $color: $border-color,  $style: solid) {
     border: $color $width $style;
 
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -11,7 +11,7 @@
     }
 }
 
-@mixin border-top($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-top($width: 1px, $color: $border-color,  $style: solid) {
     border-top: $color $width $style;
 
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -22,7 +22,7 @@
     }
 }
 
-@mixin border-bottom($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-bottom($width: 1px, $color: $border-color,  $style: solid) {
     border-bottom: $color $width $style;
 
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -33,7 +33,7 @@
     }
 }
 
-@mixin border-left($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-left($width: 1px, $color: $border-color,  $style: solid) {
     border-left: $color $width $style;
 
     @media screen and (-webkit-min-device-pixel-ratio: 2) {
@@ -44,7 +44,7 @@
     }
 }
 
-@mixin border-right($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-right($width: 1px, $color: $border-color,  $style: solid) {
     border-right: $color $width $style;
 
     @media screen and (-webkit-min-device-pixel-ratio: 2) {

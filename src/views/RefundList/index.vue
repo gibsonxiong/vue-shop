@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 li:first-of-type {
   margin: 0;
 }
@@ -36,7 +37,8 @@ li {
   margin: auto;
   padding: 0.1rem;
   display: flex;
-  border-bottom: 1px solid rgb(244, 244, 244);
+  // border-bottom: 1px solid rgb(244, 244, 244);
+  @include border-bottom();
   background: #f8f8f8;
 }
 img {
@@ -47,7 +49,8 @@ img {
   width: 100%;
   margin: auto;
   padding: 0.1rem;
-  border-bottom: 1px solid rgb(244, 244, 244);
+  // border-bottom: 1px solid rgb(244, 244, 244);
+  @include border-bottom();
 }
 .li_four {
   width: 95%;

@@ -30,7 +30,7 @@
   }
   .share_box {
     z-index: 110;
-    padding: pxTorem(40) pxTorem(60) pxTorem(30);
+    padding: 0.2rem 0.3rem 0.3rem;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -44,7 +44,7 @@
       padding-bottom: pxTorem(20);
     }
     .share_line {
-      @include border-bottom(#ccc);
+      @include border-bottom();
       margin-top: pxTorem(50);
     }
   }
@@ -69,6 +69,9 @@
       }
     }
     .soshm-item-text {
+      color:#999;
+      font-size:0.12rem;
+          padding-top: 0.08rem;
       display: block;
     }
   }
@@ -99,27 +102,36 @@
 import soshm from "soshm";
 export default {
   props: {
-    shareShow: false
+    shareShow: {
+      type: Boolean,
+      default: false
+    },
+    pic: {
+      type: String,
+      default: ""
+    },
+    title: {
+      type: String,
+      default: "分享标题"
+    },
+    digest: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {};
   },
   methods: {
     share() {
-      // soshm.popIn({
-      //     title: '弹窗分享',
-      //     sites: ['weixin', 'weixintimeline', 'weibo', 'yixin', 'qzone', 'tqq', 'qq']
-      //   });
-
       soshm("#share_component", {
         // url: "",
         // 分享的标题，默认使用document.title
-        title: "此处为测试内容，请勿查看！",
+        title: this.title,
         // 分享的摘要，默认使用<meta name="description" content="">content的值
-        digest: "千万不要点！",
+        digest: this.digest,
         // 分享的图片，默认获取本页面第一个img元素的src
-        pic:
-          "http://gw.alicdn.com/tps/TB14FbAb26H8KJjSspmSuv2WXXa.jpg_140x10000Q75.jpg",
+        pic: this.pic,
         sites: ["weixin", "weixintimeline", "qq", "qzone", "weibo"]
       });
     },

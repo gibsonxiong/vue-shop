@@ -45,7 +45,7 @@
     }
 
     .order-item-bage {
-      top: 0.05rem;
+      top: 0.1rem;
       right: 50%;
       margin-right: -0.2rem;
       position: absolute;

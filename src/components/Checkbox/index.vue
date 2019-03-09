@@ -32,7 +32,7 @@ $size:0.21rem;
 }
 
 .c-checkbox-input:checked + .c-checkbox-core {
-  background-color: $color-primary;
+  background: $color-primary-gradient;
   border-color: $color-primary;
 }
 

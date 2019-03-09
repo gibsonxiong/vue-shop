@@ -23,13 +23,12 @@
       }
       .til_list_active {
         color: #fe5455;
-        @include border-bottom(#fe5455, 2px);
+        @include border-bottom(2px,#fe5455);
       }
     }
     .coupon_lists {
       flex: 1;
       overflow: auto;
-      background: #efeff4;
       padding: pxTorem(30) pxTorem(20);
     }
   }
@@ -63,7 +62,7 @@
         <!-- <div class="coupon_til">
           <div class="til_list til_list_active">全部优惠券</div>
         </div>-->
-        <div class="coupon_lists">
+        <div class="coupon_lists" v-if="list.length > 0">
           <div class="list_box">
             <c-coupon-item
               v-for="(val,index) in list"

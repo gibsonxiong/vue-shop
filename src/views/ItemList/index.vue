@@ -9,6 +9,16 @@
   height: 100%;
 }
 
+.slideX-enter-active,
+.slideX-leave-active {
+  transition: all 0.3s;
+}
+
+.slideX-enter,
+.slideX-leave-to {
+  transform: translate3d( 0,-100%, 0);
+}
+
 .slideY-enter-active,
 .slideY-leave-active {
   transition: all 0.4s;
@@ -31,27 +41,25 @@
 }
 
 .item-list-page {
-  .header_r_i {
-    .iconfont {
-      font-size: 0.22rem;
-    }
-  }
+
   .list_wrap {
     // position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
+position: relative;
     .list_select {
-      // position: absolute;
-      // top: 0;
-      // left: 0;
-      // right: 0;
       background: #fff;
-      @include border-bottom($color-border);
       padding: pxTorem(20) 0.2rem;
       font-size: 0.14rem;
+      position: absolute;
+      top:0;
+      left:0;
+      width: 100%;
+      z-index: 100;
       .select_item {
-        width: 25%;
+        // width: 25%;
+        flex: 1;
       }
       .select_item:not(:last-child) {
         @include border-right($color-border);
@@ -91,6 +99,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
+      padding-top: 0.41rem;
       // padding-bottom: pxTorem(20);
       > ul {
         height: 100%;
@@ -98,6 +107,7 @@
       .list_box {
         // overflow: hidden;
         padding: 0 pxTorem(10);
+        
         &::after {
           content: "";
           display: block;
@@ -139,6 +149,7 @@
         }
       }
       .list_box_column {
+        
         &::after {
           content: "";
           display: block;
@@ -150,7 +161,7 @@
           overflow: hidden;
           display: block;
           background-color: #fff;
-          border-bottom: 1px solid $color-border;
+          @include border-bottom();
           &::after {
             content: "";
             display: block;
@@ -200,7 +211,7 @@
       right: 0;
       .select_price {
         padding: pxTorem(45) pxTorem(26);
-        @include border-bottom($color-border);
+        @include border-bottom();
         .select_input {
           span {
             padding: 0px pxTorem(12);
@@ -245,40 +256,43 @@
         <div class="c-input-mask" slot="center" @click="showSearch">
           <c-search-input v-model="searchText" style="width:100%;"></c-search-input>
         </div>
-        <div slot="right" class="header_r_i" @click="listTypeClick">
+        <a slot="right" @click="listTypeClick">
           <i class="iconfont icon-cascades" v-show="listType"></i>
           <i class="iconfont icon-list" v-show="!listType"></i>
-        </div>
+        </a>
       </c-header>
       <div class="c-page-body header-pd">
         <div class="list_wrap">
-          <div class="list_select chen_center_absolute">
-            <div
-              class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':order=='normal'}"
-              @click="changeOrder('normal')"
-            >综合</div>
-            <div
-              class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':order=='sale'}"
-              @click="changeOrder('sale')"
-            >销量</div>
-            <div
-              class="select_item chen_center_absolute_center"
-              :class="{'select_item_active':order=='priceAsc'|| order=='priceDesc'}"
-              @click="changeOrder(order=='priceAsc' ? 'priceDesc' : 'priceAsc')"
-            >
-              <div>价格</div>
-              <div class="price_i">
-                <i class="iconfont icon-triangleupfill" :class="{'i_active':order=='priceAsc'}"></i>
-                <i class="iconfont icon-triangledownfill" :class="{'i_active':order=='priceDesc'}"></i>
+          <transition name="slideX">
+            <div class="list_select chen_center_absolute" v-show="barVisible">
+              <div
+                class="select_item chen_center_absolute_center"
+                :class="{'select_item_active':order=='normal'}"
+                @click="changeOrder('normal')"
+              >综合</div>
+              <div
+                class="select_item chen_center_absolute_center"
+                :class="{'select_item_active':order=='sale'}"
+                @click="changeOrder('sale')"
+              >销量</div>
+              <div
+                class="select_item chen_center_absolute_center"
+                :class="{'select_item_active':order=='priceAsc'|| order=='priceDesc'}"
+                @click="changeOrder(order=='priceAsc' ? 'priceDesc' : 'priceAsc')"
+              >
+                <div>价格</div>
+                <div class="price_i">
+                  <i class="iconfont icon-triangleupfill" :class="{'i_active':order=='priceAsc'}"></i>
+                  <i class="iconfont icon-triangledownfill" :class="{'i_active':order=='priceDesc'}"></i>
+                </div>
               </div>
+              <!-- <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
+                筛选
+                <i class="iconfont icon-filter"></i>
+              </div> -->
             </div>
-            <!-- <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
-              筛选
-              <i class="iconfont icon-filter"></i>
-            </div> -->
-          </div>
+          </transition>
+         
           <div
             class="list_content"
             v-infinite-scroll="loadMore"
@@ -317,7 +331,7 @@
                           style="    font-size: 0.12rem;
     color: #999999;
     margin-top: 2px;"
-                        >{{item.item_count.saleCount}}人已购买</span>
+                        >{{item.item_count && item.item_count.saleCount}}人已购买</span>
                       </div>
                     </div>
                   </div>
@@ -389,6 +403,9 @@ export default {
   ],
   data() {
     return {
+      oldScrollTop: 0,
+      barVisible:true,
+
       pageIndex: 0,
       pageSize: 20,
       searchText: "",
@@ -497,11 +514,26 @@ export default {
         this.loading = false;
         return this.$toast(err.message);
       }
+    },
+    handleScroll() {
+      let scrollTop = document.querySelector(".list_content").scrollTop;
+
+      if (scrollTop > this.oldScrollTop && scrollTop >= 41) {
+        this.barVisible = false;
+      } else if (scrollTop < this.oldScrollTop) {
+        this.barVisible = true;        
+      }
+      this.oldScrollTop = scrollTop;
     }
   },
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.categoryId = this.$route.query.categoryId || "";
+  },
+  mounted() {
+    document
+      .querySelector(".list_content")
+      .addEventListener("scroll", this.handleScroll);
   }
 };
 </script>

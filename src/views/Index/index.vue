@@ -1,16 +1,18 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 .index-page {
 }
 
 .tab {
-  background: rgba(249, 250, 250, 0.99);
+  background: rgba(252, 253, 254, 0.985);
   display: flex;
   height: 0.55rem;
   align-items: center;
 
   &.tab--fixed {
-    border-top: 1px solid rgba(230, 230, 230, 0.5);
+    // border-top: 1px solid rgba(230, 230, 230, 0.5);
+    @include border-top();
     position: fixed;
     width: 100%;
     left: 0;

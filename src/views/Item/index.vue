@@ -52,10 +52,9 @@
         line-height: pxTorem(570);
         font-size: pxTorem(60);
         font-weight: bold;
-          img {
+          .c-img-box {
             width: 100%;
             height: 100%;
-            object-fit: cover;
           }
       }
       .mint-swipe-indicators {
@@ -77,7 +76,8 @@
       }
       .item_select_des {
         .dex_txt {
-          font-size: pxTorem(28);
+          font-weight: 500;
+          font-size: 0.15rem;
         }
         .dex_share {
           font-size: pxTorem(16);
@@ -87,6 +87,7 @@
         .des_price {
           padding: 0.1rem 0rem;
           .price_now {
+            font-weight: 500;
             font-size: pxTorem(40);
             color: $color-primary;
           }
@@ -186,7 +187,7 @@
           > div {
             width: 100%;
             padding: 0.09rem 0.1rem;
-            border-bottom: 1px solid $color-border;
+            @include border-bottom();
           }
         }
       }
@@ -207,7 +208,7 @@
       }
     }
     .item_parameters_list:not(:last-child) {
-      border-bottom: 1px solid $color-border;
+      @include border-bottom();
     }
   }
   .item_page_footer {
@@ -274,7 +275,7 @@
       height: 100%;
       padding: 0rem pxTorem(30);
       .item_detail_top_img {
-        @include border-bottom($color-border);
+        @include border-bottom();
         padding: 0.08rem 0rem 0.08rem 1.15rem;
         min-height: 0.9rem;
         .item_detail_img_box {
@@ -331,6 +332,7 @@
               clear: both;
             }
             .select_data_item {
+              font-size: 0.13rem;
               float: left;
               color: #555;
               padding: 0.05rem 0.15rem;
@@ -416,7 +418,9 @@
       <div class="item_page_content" ref="body">
         <mt-swipe :auto="0" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(val, index) in itemInfo.imgList" :key="index">
-            <img :src="val">
+            <div class="c-img-box box-bg">
+              <img v-lazy="val">
+            </div>
           </mt-swipe-item>
         </mt-swipe>
         <div class="item_select">
@@ -444,6 +448,7 @@
             <c-cell
               name="选择规格"
               @click="openPopModel('sku')"
+              :value="selectTip"
             ></c-cell>
             <c-cell
               name="产品参数"
@@ -478,9 +483,9 @@
                   <div style="color:#777">{{rate.user.nickname}}</div>
                 </div>
                 <div class="evaluate_des">{{rate.content || '用户没有填写评价内容'}}</div>
-                <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
+                <!-- <div class="evaluate_img" v-if="rate.rateImgList.length > 0">
                   <img v-for="(img,imgIndex) in rate.rateImgList" :key="imgIndex" :src="img | hostUrl">
-                </div>
+                </div> -->
               </router-link>
             </div>
             <div style="color: #777;font-size: 0.12rem;padding-top: 0.1rem;" v-else>暂无评价</div>
@@ -553,7 +558,7 @@
       </div>
     </div>
 
-    <c-share :shareShow="share" @shareClose="shareNone"></c-share>
+    <c-share :shareShow="share" @shareClose="shareNone" :title="itemInfo.name" :pic="itemInfo.imgList && itemInfo.imgList[0]" digest="好货推荐，快来看看"></c-share>
 
     <transition name="fade">
       <div class="item_detail_pop_model_hidden" @click="closePopModel()" v-show="pop_model"></div>
@@ -885,7 +890,8 @@ export default {
       try {
         let { itemId } = this;
         let res = await services.fetchItemRateList({
-          itemId
+          itemId,
+          pageSize:2
         });
 
         console.log(res);

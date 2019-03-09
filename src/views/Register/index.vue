@@ -18,7 +18,8 @@ input {
 }
 li {
   @include flexbox;
-  border-bottom: 1px solid #f4f4f4;
+  // border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
 
   .flex-main{
     flex:1;

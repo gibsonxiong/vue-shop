@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .refund_one {
   display: flex;
   background: #fff;
@@ -28,6 +29,7 @@
   background: #fff;
   display: flex;
   justify-content: space-between;
+  @include border-top();
 }
 .refund_four {
   background: #fff;
@@ -144,7 +146,7 @@ img {
             </span>
           </p>
         </div>-->
-        <div class="refund_three" style="border-top: 1px solid #f4f4f4;" @click="popupVisible=true">
+        <div class="refund_three" @click="popupVisible=true">
           <p>退款原因</p>
           <p>
             <span>{{refundReason || '请选择'}}</span>

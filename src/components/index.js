@@ -28,6 +28,8 @@ import Rate from './Rate';
 import M_button from './M_button';
 import RecommendList from './RecommendList';
 import CouponItem from './CouponItem';
+import CountDown from './CountDown';
+
 
 Vue.component('c-header', Header);
 
@@ -60,3 +62,5 @@ Vue.component('c-upload', Upload);
 Vue.component('c-rate', Rate);
 Vue.component('c-recommend-list',RecommendList)
 Vue.component('c-coupon-item',CouponItem)
+
+Vue.component('c-count-down',CountDown)

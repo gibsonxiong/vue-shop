@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import config from '@/config';
 import filter from '@c/filter';
+import utils from '@/utils';
 
 function isAbsoluteUrl(url){
   return /^http:\/\/|^https:\/\/|^\/\//i.test(url);
@@ -51,6 +52,8 @@ let filters = {
 }
 
 Vue.filter('date', filter.date);
+
+Vue.filter('padZero', utils.padZero);
 
 Object.keys(filters).forEach(function (key) {
   Vue.filter(key, filters[key]);

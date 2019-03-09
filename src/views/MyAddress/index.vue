@@ -1,5 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-page-body {
   background: #f3f3f3;
 }
@@ -9,7 +10,8 @@
   margin-top: 0.05rem;
 }
 .my-ddress_con div:first-of-type {
-  border-bottom: 1px solid #f4f4f4;
+  // border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
   padding-bottom: 0.12rem;
   padding-top: 0.1rem;
 }

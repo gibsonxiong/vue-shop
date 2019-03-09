@@ -1,5 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-page-body {
   padding-bottom: 0.8rem;
 }
@@ -27,6 +28,14 @@
 .order-info-wrap {
   background: #fff;
   margin-top: 0.1rem;
+
+  .item-wrap {
+    width: 95%;
+    margin: auto;
+    padding: 0.1rem 0;
+    display: flex;
+    @include border-top();
+  }
 }
 
 .footer {
@@ -115,14 +124,14 @@ input {
           <span>母婴用品商城</span>
         </div>
         <div
-          style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-top:1px solid #F4F4F4;"
+        class="item-wrap"
           v-for="(item,index) in orderInfo.orderItems"
           :key="index"
         >
           <div>
             <img style="width:0.8rem;height:0.8rem;" :src="item.item.imgList[0]" alt>
           </div>
-          <div style="flex:1;padding:0 0.1rem;font-size:0.12rem;">
+          <div style="flex:1;padding:0 0.1rem;font-size:0.13rem;font-weight:500">
             <span>{{item.item.name}}</span>
             <p style="color:#999;font-size:12px;">{{item.sku.propvalueTextList}}</p>
           </div>
@@ -208,7 +217,9 @@ export default {
 
         this.orderInfo = res.data;
 
-        this.params.addressId = this.orderInfo.address ? this.orderInfo.address.id : '';
+        this.params.addressId = this.orderInfo.address
+          ? this.orderInfo.address.id
+          : "";
       } catch (err) {
         return this.$toast(err.message);
       }
@@ -223,7 +234,7 @@ export default {
 
         this.$router.replace({
           path: "/cashier",
-          query: { orderId: res.data.orderId }
+          query: { orderId: res.data.orderId, from: "confirmOrder" }
         });
       } catch (err) {
         return this.$toast(err.message);

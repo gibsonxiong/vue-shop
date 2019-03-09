@@ -7,14 +7,14 @@
     flex-direction: column;
     height: 100%;
     .logistics_des {
-      @include border-bottom($color-border);
+      @include border-bottom();
       padding: pxTorem(20);
       background: #fff;
       display: flex;
       .des_img {
         width: pxTorem(140);
         height: pxTorem(140);
-        @include border($color-border);
+        @include border();
         overflow: hidden;
         margin-right: 0.1rem;
         img {

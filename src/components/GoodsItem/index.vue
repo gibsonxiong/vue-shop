@@ -1,9 +1,10 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-goodslist-con {
   padding: 0.15rem 0.1rem;
   display: flex;
-  border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
   background: #fff;
 }
 </style>

@@ -1,12 +1,13 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 
 $padding-x: 0.1rem;
 $padding-y: 0.12rem;
 .c-cell-list {
   background-color: #fff;
-  border-top: 1px solid $color-border;
-  border-bottom: 1px solid $color-border;
+  // @include border-top();
+  @include border-bottom();
   padding-left: $padding-x;
 }
 </style>

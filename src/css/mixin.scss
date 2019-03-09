@@ -1,58 +1,58 @@
 @import './var';
 
-@mixin border($color: $border-color, $width: 1px, $style: solid) {
+@mixin border( $width: 1px, $color: $color-border, $style: solid) {
   border: $color $width $style;
 
-  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-  //     border: $color $width/2 $style;
-  // }
-  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-  //     border: $color $width/3 $style;
-  // }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border: $color $width/2 $style;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border: $color $width/3 $style;
+  }
 }
 
-@mixin border-top($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-top($width: 1px, $color: $color-border, $style: solid) {
   border-top: $color $width $style;
 
-  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-  //     border-top: $color $width/2 $style;
-  // }
-  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-  //     border-top: $color $width/3 $style;
-  // }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border-top: $color $width/2 $style;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border-top: $color $width/3 $style;
+  }
 }
 
-@mixin border-bottom($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-bottom($width: 1px, $color: $color-border, $style: solid) {
   border-bottom: $color $width $style;
 
-  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-  //     border-bottom: $color $width/2 $style;
-  // }
-  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-  //     border-bottom: $color $width/3 $style;
-  // }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border-bottom: $color  $width/2 $style;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border-bottom: $color  $width/3 $style;
+  }
 }
 
-@mixin border-left($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-left($width: 1px, $color: $color-border, $style: solid) {
   border-left: $color $width $style;
 
-  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-  //     border-left: $color $width/2 $style;
-  // }
-  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-  //     border-left: $color $width/3 $style;
-  // }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border-left: $color $width/2 $style;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border-left: $color $width/3 $style;
+  }
 }
 
-@mixin border-right($color: $border-color, $width: 1px, $style: solid) {
+@mixin border-right($width: 1px, $color: $color-border, $style: solid) {
   border-right: $color $width $style;
 
-  // @media screen and (-webkit-min-device-pixel-ratio: 2) {
-  //     border-right: $color $width/2 $style;
-  // }
-  // @media screen and (-webkit-min-device-pixel-ratio: 3) {
-  //     border-right: $color $width/3 $style;
-  // }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      border-right: $color $width/2 $style;
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      border-right: $color $width/3 $style;
+  }
 }
 
 $base: 200;

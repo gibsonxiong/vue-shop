@@ -20,14 +20,14 @@
     background-color: #fff;
     // margin-top: -1px;
     margin-bottom: 0.4rem;
-    border-top: 1px solid $color-border;
+    @include border-top();
     padding: 0 0.15rem;
   }
 
   .item {
     @include flexbox;
     padding: 0.15rem 0;
-    border-bottom: 1px solid $color-border;
+    @include border-bottom();
 
     .remove-btn {
       float: right;
@@ -55,7 +55,8 @@
     }
 
     .item-name {
-      font-size: 0.12rem;
+      font-size: 0.13rem;
+      font-weight: 500;
       // color: #444;
       max-height: 0.34rem;
       line-height: 0.17rem;
@@ -109,7 +110,8 @@
     left: 0;
     right: 0;
     height: pxTorem(100);
-    border-top: 1px solid #eaeaea;
+    // border-top: 1px solid #eaeaea;
+    @include border-top();
     background: rgba(255, 255, 255, 1);
     z-index: 3;
     .item_page_footer_content {

@@ -13,18 +13,23 @@
     background-color: #fff;
     margin-top: -1px;
     padding: 0 0.08rem;
-    border-top: 1px solid $color-border;
-    border-bottom: 1px solid $color-border;
+    // border-top: 1px solid $color-border;
+    // border-bottom: 1px solid $color-border;
+    @include border-top();
+    // @include border-bottom();
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     .item {
       font-size: 0.13rem;
       padding: 0.11rem 0.05rem;
-      border-bottom: 1px solid $color-border;
+      // border-bottom: 1px solid $color-border;
+@include border-bottom();
 
-      &:last-child {
-        border-bottom: none;
-      }
+      // &:last-child {
+      //   border-bottom: none;
+      // }
+
+
     }
   }
 
@@ -60,7 +65,7 @@
 
 <template>
   <div v-show="visible" class="c-search">
-    <c-header :backType="0" ref="header" :centerStyle="{'padding-left':'15px'}">
+    <c-header :backType="0" ref="header" :leftPadding="false">
       <!-- <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
       </a>-->

@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 
 .c-page-body{
   padding-bottom: 0.65rem;
@@ -36,7 +37,8 @@ textarea {
   display: flex;
   align-items: center;
   background: #fff;
-  border-bottom: 1px solid #f4f4f4;
+  // border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
 }
 .remark {
   margin-bottom: 0.1rem;
@@ -67,7 +69,7 @@ textarea {
 
           <p class="remark_lable">商品描述</p>
 
-          <c-rate v-model="score"></c-rate>
+          <c-rate v-model="params[index].score"></c-rate>
           <p class="star_num">{{params[index].score | score}}</p> 
         </div>
         <div class="remark_img">

@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .popup {
   padding: 0.1rem;
   position: absolute;
@@ -47,7 +48,8 @@ li {
 }
 
 li:last-of-type {
-  border-top: 1px solid #f4f4f4;
+  // border-top: 1px solid #f4f4f4;
+  @include border-top();
 }
 .popup_label {
   text-align: center;

@@ -12,7 +12,7 @@ ul {
 li {
   @include flexbox();
   padding: 0.15rem 0;
-  border-bottom: 1px solid $color-border;
+  @include border-bottom();
 
   .flex-main{
     flex: 1;

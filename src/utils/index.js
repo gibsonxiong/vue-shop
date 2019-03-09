@@ -1,5 +1,6 @@
 const utils = {
   padZero(num, n) {
+    if(String(num).length >= n )return num;
     return (Array(n).join(0) + num).slice(-n);
   },
 
@@ -23,6 +24,7 @@ const utils = {
     );
   },
 
+  // countdown(new Date('2020-10-3'))
   countdown(endTime, ignore) {
     //获取当前时间
     var date = new Date();

@@ -13,7 +13,6 @@
   padding: 0.15rem 0;
   background: $color-primary-gradient;
   min-height: 1.2rem;
-
   @include flexbox(center);
 }
 .oderD_two {
@@ -30,18 +29,18 @@
 }
 .oderD_four {
   background: #fff;
-  margin-top: 0.1rem;
+  margin-top: 0rem;
   padding: 0.1rem;
 }
 .oderD_five {
   background: #fff;
-  margin-top: 0.1rem;
-  padding: 0.1rem;
+  margin-top: 0.12rem;
+  padding: 0.1rem 0.1rem 0.2rem;
   color: #999;
 }
 .footer {
   width: 100%;
-  padding: 0.1rem;
+  padding: 0.12rem;
   background: #fff;
   position: fixed;
   bottom: 0;
@@ -51,12 +50,13 @@
   -webkit-box-shadow: 0px -0.5px 5px #ece9e9;
   box-shadow: 0px -0.5px 5px #ece9e9;
 }
-.oderD_one p:first-of-type {
-  font-size: 16px;
+.oderD_one .main {
+  font-size: 0.17rem;
+  font-weight: 500;
   padding: 0.05rem 0;
 }
-.oderD_one p:last-of-type {
-  font-size: 14px;
+.oderD_one .sub {
+  font-size: 0.13rem;
 }
 .oderD_two ul li:last-of-type {
   color: #666;
@@ -78,23 +78,16 @@
   display: inline-block;
   padding-right: 0.1rem;
 }
-.footer span {
-  border: 1px solid #bcbcbc;
-  border-radius: 1rem;
-  padding: 0.05rem 0.1rem;
-  display: inline-block;
-  color: #777;
-}
-.refund_btn {
+
+.refund_btn-wrap {
   width: 100%;
-  padding: 0.1rem;
+  padding: 0 0.1rem 0.12rem;
   text-align: right;
+  margin-top: -0.12rem;
 }
-.refund_btn span {
-  border: 1px solid #bcbcbc;
-  border-radius: 1rem;
-  padding: 0.05rem 0.1rem;
-  color: #777;
+
+.item-wrap {
+  @include border-bottom();
 }
 </style>
 
@@ -106,30 +99,30 @@
       <div class="oderD_one">
         <template v-if="orderInfo.status == '1'">
           <div>
-            <p>等待买家付款</p>
-            <p>剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动关闭</p>
+            <p class="main">等待买家付款</p>
+            <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动关闭</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '2'">
           <div>
-            <p>买家已付款</p>
+            <p class="main">买家已付款</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '3'">
           <div>
-            <p>卖家已发货</p>
-            <p>剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动确认</p>
+            <p class="main">卖家已发货</p>
+            <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动确认</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '4' || orderInfo.status == '5'">
           <div>
-            <p>交易成功</p>
+            <p class="main">交易成功</p>
           </div>
         </template>
         <template v-else-if="orderInfo.status == '9'">
           <div>
-            <p>交易关闭</p>
-            <p>{{orderInfo.cancelReason}}</p>
+            <p class="main">交易关闭</p>
+            <p class="sub">{{orderInfo.cancelReason}}</p>
           </div>
         </template>
       </div>
@@ -150,20 +143,22 @@
       <div class="oderD_three">
         <!--  -->
         <div style="width:95%;margin:auto;padding:0.1rem 0;">
-          <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
+          <i class="iconfont icon-shoplight" style="padding-right:0.03rem"></i>
           <span>母婴用品商城</span>
         </div>
         <!--  -->
-        <div v-for="(orderItem,index) in orderInfo.order_items" :key="index">
+        <div class="item-wrap" v-for="(orderItem,index) in orderInfo.order_items" :key="index" @click="$router.push(`/items/${orderItem.itemId}`)">
           <div
-            style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
+            style="width:95%;margin:auto;padding:0.12rem 0;display: flex;"
           >
             <div style="width:20%;">
-              <img style="width:0.7rem;height:0.7rem;" :src="orderItem.itemImg" alt>
+              <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
+                <img  v-lazy="orderItem.itemImg" alt>
+              </div>
             </div>
             <div style="width:65%;padding:0 0.1rem">
-              <span>{{orderItem.itemName}}</span>
-              <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
+              <span style="font-size:0.13rem;font-weight:500;">{{orderItem.itemName}}</span>
+              <p style="color:#999;font-size:0.12rem;">{{orderItem.itemPropvalues}}</p>
             </div>
             <div style="width:15%;text-align:right;">
               <span>￥{{orderItem.itemPrice}}</span>
@@ -173,11 +168,10 @@
             </div>
           </div>
           <!-- 退款按钮 -->
-          <p class="refund_btn">
+          <p v-if="orderInfo.status==2" class="refund_btn-wrap">
             <button
               class="c-btn"
-              v-if="orderInfo.status==2"
-              @click="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
+              @click.stop="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
             >退款</button>
           </p>
         </div>
@@ -205,6 +199,7 @@
       </div>
       <!--  -->
       <div class="oderD_five">
+        <h2 style="font-size:0.14rem;margin-bottom:0.12rem;color:#444;font-weight:500;">订单信息</h2>
         <p>
           <span>订单编号</span>
           <span>{{orderInfo.orderNo}}</span>
@@ -261,7 +256,7 @@
 import { Picker } from "mint-ui";
 import services from "@/services";
 import filter from "@c/filter";
-import utils from '@/utils';
+import utils from "@/utils";
 
 export default {
   filters: {
@@ -289,12 +284,19 @@ export default {
 
         this.orderInfo = res.data;
         if (this.orderInfo.status === "1") {
-
-          let endTime = utils.adjustDate(new Date(this.orderInfo.createTime), 'd', 1);
+          let endTime = utils.adjustDate(
+            new Date(this.orderInfo.createTime),
+            "d",
+            1
+          );
           this.countdown(endTime);
         }
         if (this.orderInfo.status === "3") {
-          let endTime = utils.adjustDate(new Date(this.orderInfo.deliverTime), 'd', 1);
+          let endTime = utils.adjustDate(
+            new Date(this.orderInfo.deliverTime),
+            "d",
+            1
+          );
           this.countdown(endTime);
         }
       } catch (err) {

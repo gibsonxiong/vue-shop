@@ -1,4 +1,5 @@
 <style scoped lang="scss">
+@import '~@/css/mixin';
 .footprint-page {
   background: #f3f3f3;
 }
@@ -7,7 +8,8 @@
 }
 .footprint_t {
   padding: 0.1rem 0;
-  border-bottom: 1px solid #f4f4f4;
+  // border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
 }
 .footprint_t i {
   padding-right: 0.05rem;

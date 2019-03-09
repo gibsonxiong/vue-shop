@@ -1,15 +1,17 @@
 <style lang="scss" scoped>
-$border-color: #e1e1e1;
+@import '~@/css/mixin';
+
+$border-color: #ccc;
 $btn-border-radius: 0.04rem;
-$btn-width: 0.25rem;
+$btn-width: 0.28rem;
 $btn-color: #777;
 $btn-bgcolor: #fff;
 $btn-bgcolor-active: #eee;
 .c-number-input {
   display: inline-flex;
   align-items: stretch;
-  width: 0.82rem;
-  height: 0.23rem;
+  width: 0.88rem;
+  height: 0.25rem;
   font-size: 0.12rem;
   vertical-align: middle;
 
@@ -17,7 +19,8 @@ $btn-bgcolor-active: #eee;
   &__plus {
     color: $btn-color;
     background: $btn-bgcolor;
-    border: 1px solid $border-color;
+    // border: 1px solid $border-color;
+    @include border(1px,$border-color);
     width: $btn-width;
     transition: 0.2s all;
 
@@ -48,8 +51,8 @@ $btn-bgcolor-active: #eee;
     width: 100%;
     border: 0;
     border-radius: 0;
-    border-top: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
+    @include border-top(1px,$border-color);
+    @include border-bottom(1px,$border-color);
     background-color: #ffffff;
     text-align: center;
   }

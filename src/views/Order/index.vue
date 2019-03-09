@@ -1,5 +1,6 @@
 <style scoped lang="scss">
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-page-body {
   background: #f3f3f3;
   font-size: 0.14rem;
@@ -18,17 +19,39 @@
 .order-item {
   background: #fff;
   margin-top: 0.1rem;
+
+  .item-main {
+    width: 95%;
+    margin: auto;
+    padding: 0.12rem 0;
+    display: flex;
+    @include border-bottom();
+  }
+
+  .item-total-wrap {
+    width: 95%;
+    margin: auto;
+    padding: 0.12rem 0;
+    @include border-bottom();
+    font-size: 0.12rem;
+  }
+
+  .item-bottom-wrap {
+    width: 95%;
+    margin: auto;
+    padding: 0.1rem 0;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 .active {
   color: $color-primary;
-  border-bottom: 2px solid $color-primary;
+  @include border-bottom(4px, $color-primary);
 }
 
-.light{
+.light {
   color: $color-primary;
 }
-
-
 </style>
 
 <template>
@@ -46,26 +69,27 @@
       <transition name="c-list">
         <div class="oder-content" v-if="orderList.length > 0">
           <div class="order-item" v-for="order in orderList" :key="order.id" @click="to_oderDetail(order.id)">
-            <div style="display: flex;width:95%;margin:auto;padding:0.1rem 0;">
-              <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
+            <div style="width:95%;margin:auto;padding:0.1rem 0;">
+              <i class="iconfont icon-shoplight" style="padding-right:0.03rem"></i>
               <span style="flex:1;">母婴用品商城</span>
-              <span class="light">{{order.status | orderStatus}}</span>
+              <span class="light" style="font-size:0.12rem;float:right">{{order.status | orderStatus}}</span>
             </div>
             <div
               v-for="(orderItem,index) in order.order_items"
               :key="index"
-              style="width:95%;margin:auto;padding:0.1rem 0;display: flex;border-bottom:1px solid #F4F4F4;"
+              class="item-main"
             >
               <div style="width:20%;">
-                <img style="width:0.7rem;height:0.7rem;" :src="orderItem.itemImg" alt>
+                <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
+                  <img v-lazy="orderItem.itemImg">
+                </div>
               </div>
               <div style="width:65%;padding:0 0.1rem">
-                <span style="font-size:0.12rem;">{{orderItem.itemName}}</span>
+                <span style="font-size:0.13rem;font-weight:500">{{orderItem.itemName}}</span>
                 <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
               </div>
               <div style="width:15%;text-align:right;">
-                <span>￥</span>
-                <span>{{orderItem.itemPrice}}</span>
+                <span>￥{{orderItem.itemPrice}}</span>
                 <div style="color:#999;font-size:12px;">
                   <span>×</span>
                   <span>{{orderItem.quantity}}</span>
@@ -73,17 +97,18 @@
               </div>
             </div>
 
-            <div style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;">
+            <div class="item-total-wrap">
               <p style="text-align: right;">
                 共
-                <span>{{order.itemCount}}</span>个商品
-                <span>实付:</span>￥
-                <span>{{order.orderFee}}</span>
+                <span style="font-size:0.14rem;">{{order.itemCount}}</span>个商品
+                <span>实付:</span>
+                <span style="font-size:0.14rem;">￥{{order.orderFee}}</span>
               </p>
             </div>
 
             <div
-              style="width:95%;margin:auto;padding:0.1rem 0;border-bottom:1px solid #F4F4F4;display:flex;justify-content: flex-end;"
+            class="item-bottom-wrap"
+              
             >
               <template v-if="order.status==1">
                 <button class="c-btn" @click.stop="cancelOrder(order.id)">取消订单</button>
@@ -122,7 +147,7 @@
 
 <script>
 import services from "@/services";
-import routerUtils from '@/utils/router-utils';
+import routerUtils from "@/utils/router-utils";
 
 export default {
   data() {
@@ -136,7 +161,7 @@ export default {
         { item: "待评价", id: "4" }
       ],
       orderList: [],
-      loading:false,
+      loading: false
     };
   },
   methods: {
@@ -163,7 +188,7 @@ export default {
       }
     },
     tab(status) {
-      if(this.status == status) return;
+      if (this.status == status) return;
 
       this.status = status;
 
@@ -171,7 +196,7 @@ export default {
 
       routerUtils.setQuery({
         status
-      })
+      });
     },
     to_oderDetail(orderId) {
       this.$router.push({ path: "/orderDetail", query: { orderId } });
@@ -263,7 +288,7 @@ export default {
     }
   },
   created() {
-    let status = this.$route.query.status || '';
+    let status = this.$route.query.status || "";
 
     this.tab(status);
   }

@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .c-page-body {
   // background: #f3f3f3;
 }
@@ -13,7 +14,8 @@ ul {
 }
 li {
   padding: 0.1rem 0;
-  border-bottom: 1px solid #f4f4f4;
+  // border-bottom: 1px solid #f4f4f4;
+  @include border-bottom();
 }
 li span:first-of-type {
   width: 20%;

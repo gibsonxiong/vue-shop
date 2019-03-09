@@ -47,7 +47,7 @@
         padding: 0.1rem 0.16rem;
         @include flexbox(space-between, center);
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.7);
-        @include border-bottom(#f6f6f6);
+        @include border-bottom();
         .des_box {
           @include flexbox(center, center);
           .weixin_i {
@@ -124,7 +124,8 @@
       text-align: center;
       text-decoration: none;
       font-size: 16px;
-      border-top: 1px solid #e3e5e9;
+      // border-top: 1px solid #e3e5e9;
+      @include border-top();
       width: 158px;
       height: 44px;
       color: #777;
@@ -216,7 +217,8 @@ import utils from "@/utils";
 export default {
   data() {
     return {
-      payed:false,
+      payed: false,
+      from:'',
       orderId: "",
       orderInfo: {},
       timeId: null,
@@ -241,7 +243,7 @@ export default {
 
         if (this.orderInfo.status != "1") {
           this.payed = true;
-          this.$toast('订单已支付');
+          this.$toast("订单已支付");
 
           return this.$router.back();
         }
@@ -301,8 +303,7 @@ export default {
       }
     },
     countdown(endTime) {
-      
-      let { d,h, m, s } = utils.countdown(endTime, 'd');
+      let { d, h, m, s } = utils.countdown(endTime, "d");
 
       this.hh = h;
       this.mm = m;
@@ -315,26 +316,29 @@ export default {
   },
   created() {
     this.orderId = this.$route.query.orderId;
+    this.from = this.$route.query.from;
 
     this.fetchOrderInfo();
   },
-  async beforeRouteLeave(to,from, next){
-    if(!this.payed){
-      let res =  await this.$popup.confirm('订单还没支付完成，确定要退出吗？');
+  async beforeRouteLeave(to, from, next) {
+    if (!this.payed) {
+      let res = await this.$popup.confirm("订单还没支付完成，确定要退出吗？");
 
-      if(res === 'confirm'){
+      if (res === "confirm") {
         next();
-        //跳转到未付款页面
-        setTimeout(() => {
-          this.$router.push({path:'/order', query:{status:'1'}});
-        }, 0);
-      }else{
+
+        if (this.from == "confirmOrder") {
+          //跳转到未付款页面
+          setTimeout(() => {
+            this.$router.push({ path: "/order", query: { status: "1" } });
+          }, 0);
+        }
+      } else {
         next(false);
       }
-    }else{
+    } else {
       next();
     }
-
   }
 };
 </script>

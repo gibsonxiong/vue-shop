@@ -23,13 +23,12 @@
       }
       .til_list_active {
         color: $color-primary;
-        @include border-bottom($color-primary, 2px);
+        @include border-bottom(2px,$color-primary);
       }
     }
     .coupon_lists {
       flex: 1;
       overflow: auto;
-      background: #efeff4;
       padding: pxTorem(30) pxTorem(20);
       .list_box {
         .list_item {

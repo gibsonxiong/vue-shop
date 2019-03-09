@@ -472,11 +472,13 @@ const services = {
   //商品评价列表
   async fetchItemRateList({
     itemId,
-    flag
+    flag,
+    pageSize
   }) {
     return (await request.get(`/rates/items/${itemId}`, {
       params:{
-        flag
+        flag,
+        pageSize
       },
       skipCheckToken: true
     })).data;
@@ -489,7 +491,17 @@ const services = {
     return (await request.get(`/rates/${rateId}`)).data;
   },
 
-  //商品评价列表
+  //评价点赞
+  async rateLike({
+    rateId,
+    isLike
+  }) {
+    return (await request.post(`/rates/${rateId}/like`,{
+      isLike
+    })).data;
+  },
+
+  //上传图片
   async upload(formData, onUploadProgress) {
     return (await request.put(`/upload`, formData, {
       headers: {

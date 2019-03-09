@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
+@import "~@/css/mixin";
 .personaldata {
   background: #fff;
   padding: 0 0.1rem;
@@ -14,7 +15,8 @@
   color: #999;
 }
 li {
-  border-bottom: 1px solid $color-border;
+  // border-bottom: 1px solid $color-border;
+  @include border-bottom();
   display: flex;
   align-items: center;
   justify-content: space-between;

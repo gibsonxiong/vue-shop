@@ -52,16 +52,14 @@ img {
 .panic_buy {
   padding: 0 0.1rem;
   background: #fff;
-  // border-bottom-left-radius: 0.1rem;
-  // border-bottom-right-radius: 0.1rem;
   .panic_buy_label {
     padding: 0.15rem 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     span:first-of-type {
-      font-weight: 600;
-      font-size: 0.16rem;
+      font-weight: 500;
+      font-size: 0.14rem;
       // color: #051b28;
     }
     span:last-of-type {
@@ -80,11 +78,12 @@ img {
   margin-top: 0.1rem;
   // border-top-left-radius: 0.1rem;
   // border-top-right-radius: 0.1rem;
-  border-bottom: 1px solid #cccccc5c;
+  @include border-bottom();
 }
 .marquee_title {
   padding: 0 0.1rem;
   display: flex;
+  
   align-items: center;
   color: $color-primary;
   font-weight: 500;
@@ -110,6 +109,7 @@ img {
 }
 
 .marquee_list li {
+  font-size:0.13rem;
   height: 0.3rem;
   line-height: 0.3rem;
 }
@@ -125,13 +125,11 @@ img {
 .buy_time_ul {
   width: 1.25rem;
   margin-right: 0.1rem;
-  img {
+  .c-img-box {
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 0.05rem;
-    object-fit: cover;
-    // border: 1px solid #ccc;
-    // padding: 0.1rem;
+
   }
   li:nth-child(2) {
     display: -webkit-box;
@@ -162,20 +160,7 @@ img {
     transform: scale(0.9);
     transform-origin: bottom;
   }
-  li:last-of-type {
-    // padding: 0.05rem 0;
-    span {
-      margin-top: 0.05rem;
-      border: 1px solid $color-primary;
-      color: $color-primary;
-      padding: 0.01rem 0.05rem;
-      font-size: 0.12rem;
-      border-radius: 0.1rem;
-      transform: scale(0.95);
-      transform-origin: left;
-      display: inline-block;
-    }
-  }
+
 }
 </style>
 
@@ -235,9 +220,10 @@ img {
         <p class="panic_buy_label">
           <span style="color: #5dbaff;">
             <i
-              class="iconfont icon-goods_hot_fill"
+              class="iconfont icon-round_light_fill"
               style="font-size: 0.18rem;margin-right: 0.05rem;"
-            ></i>正在开团
+            ></i>限时抢购
+            <c-count-down style="margin-left:0.05rem;" :endTime="new Date('2019-03-21')"></c-count-down>
           </span>
           <span @click="$router.push('/panic_buy')">查看全部</span>
         </p>
@@ -249,15 +235,17 @@ img {
             @click="$router.push(`/items/${item.id}`)"
           >
             <li>
-              <img v-lazy="item.imgList[0]">
+              <div class="c-img-box box-bg">
+                <img v-lazy="item.imgList[0]">
+              </div>
             </li>
             <li>{{item.name}}</li>
             <li>
               <span>￥{{item.minPrice}}</span>
-              <span>￥1000</span>
+              <!-- <span>￥1000</span> -->
             </li>
             <li>
-              <span>限时特价</span>
+              <span class="c-tag">限时特价</span>
             </li>
           </ul>
         </div>
