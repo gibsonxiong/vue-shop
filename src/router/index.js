@@ -31,10 +31,17 @@ import NickName from '@/views/NickName';
 import PanicBuy from '@/views/PanicBuy';
 import Cashier from '@/views/Cashier';
 import PayResult from '@/views/PayResult';
+import ConfirmReceiveResult from '@/views/ConfirmReceiveResult';
+import RateResult from '@/views/RateResult';
 import MyEvaluation from '@/views/MyEvaluation';
 import Evaluation_Detail from '@/views/Evaluation_Detail';
 import VIP from '@/views/VIP';
+import Sign from '@/views/Sign';
+import Invite from '@/views/Invite';
+
+
 import services from '../services';
+
 
 Vue.use(Router);
 
@@ -44,161 +51,190 @@ const config = {
 
 const router = new Router({
   routes: [{
-      path: '/',
-      component: Index,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/items',
-      component: ItemList,
-      meta: {
-        title: '商品列表',
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/items/:itemId',
-      component: Item,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/order',
-      component: Order
-    },
-    {
-      path: '/orderDetail',
-      component: OrderDetail
-    },
-    {
-      path: '/footprint',
-      component: Footprint
-    },
-    {
-      path: '/mylove',
-      component: MyLove
-    },
-    {
-      path: '/myAddress',
-      component: MyAddress
-    },
-    {
-      path: '/addressdetail',
-      component: AddressDetail
-    },
-    {
-      path: '/recharge',
-      component: Recharge
-    },
-    {
-      path: '/rechargerecord',
-      component: RechargeRecord
-    },
-    {
-      path: '/register',
-      component: Register,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/login',
-      component: Login,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/reset-password',
-      component: ResetPassword,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/coupon',
-      component: Coupon,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/myCoupon',
-      component: MyCoupon
-    },
-    {
-      path: '/shopcart',
-      component: Shopcart,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/personal',
-      component: Personal
-    },
-    {
-      path: '/setting',
-      component: Setting,
-      meta: {
-        skipCheckToken: true
-      }
-    },
-    {
-      path: '/evaluate',
-      name: 'evaluate',
-      component: Evaluate
-    },
-    {
-      path: '/confirmorder',
-      component: ConfirmOrder
-    },
-    {
-      path: '/remark',
-      component: Remark
-    }, {
-      path: '/refundlist',
-      component: RefundList
-    }, {
-      path: '/refund_detail',
-      component: RefundDetail
-    }, {
-      path: '/refund',
-      component: Refund
-    }, {
-      path: '/logistics',
-      meta: {
-        title: '物流查询'
-      },
-      component: Logistics
-    }, {
-      path: '/nickname',
-      component: NickName
-    }, {
-      path: '/panic_buy',
-      component: PanicBuy,
-      meta: {
-        skipCheckToken: true
-      }
-    }, {
-      path: '/cashier',
-      component: Cashier
-    }, {
-      path: '/pay-result',
-      component: PayResult
-    }, {
-      path: '/my_ecaluation',
-      component: MyEvaluation
-    }, {
-      path: '/evaluation_detail',
-      component: Evaluation_Detail
-    }, {
-      path: '/vip',
-      component: VIP
+    path: '/',
+    component: Index,
+    meta: {
+      skipCheckToken: true
     }
+  },
+  {
+    path: '/items',
+    component: ItemList,
+    meta: {
+      title: '商品列表',
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/items/:itemId',
+    component: Item,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/order',
+    component: Order
+  },
+  {
+    path: '/orderDetail',
+    component: OrderDetail
+  },
+  {
+    path: '/footprint',
+    component: Footprint
+  },
+  {
+    path: '/mylove',
+    component: MyLove
+  },
+  {
+    path: '/myAddress',
+    component: MyAddress
+  },
+  {
+    path: '/addressdetail',
+    component: AddressDetail
+  },
+  {
+    path: '/recharge',
+    component: Recharge
+  },
+  {
+    path: '/rechargerecord',
+    component: RechargeRecord
+  },
+  {
+    path: '/register',
+    component: Register,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/login',
+    component: Login,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/reset-password',
+    component: ResetPassword,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/coupon',
+    component: Coupon,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/myCoupon',
+    component: MyCoupon
+  },
+  {
+    path: '/shopcart',
+    component: Shopcart,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/personal',
+    component: Personal
+  },
+  {
+    path: '/setting',
+    component: Setting,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/evaluate',
+    name: 'evaluate',
+    component: Evaluate
+  },
+  {
+    path: '/confirmorder',
+    component: ConfirmOrder
+  },
+  {
+    path: '/remark',
+    component: Remark
+  }, {
+    path: '/refundlist',
+    component: RefundList
+  }, {
+    path: '/refund_detail',
+    component: RefundDetail
+  }, {
+    path: '/refund',
+    component: Refund
+  }, {
+    path: '/logistics',
+    meta: {
+      title: '物流查询'
+    },
+    component: Logistics
+  }, {
+    path: '/nickname',
+    component: NickName
+  }, {
+    path: '/panic_buy',
+    component: PanicBuy,
+    meta: {
+      skipCheckToken: true
+    }
+  }, {
+    path: '/cashier',
+    component: Cashier
+  }, {
+    path: '/pay-result',
+    component: PayResult,
+    meta: {
+      skipCheckToken: true
+    }
+  }, {
+    path: '/confirm-receive-result',
+    component: ConfirmReceiveResult,
+    meta: {
+      skipCheckToken: true
+    }
+  },{
+    path: '/rate-result',
+    component: RateResult,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/sign',
+    component: Sign,
+    meta: {
+      skipCheckToken: true
+    }
+  },
+  {
+    path: '/invite',
+    component: Invite,
+    meta: {
+      skipCheckToken: true
+    }
+  },{
+    path: '/my_ecaluation',
+    component: MyEvaluation
+  }, {
+    path: '/evaluation_detail',
+    component: Evaluation_Detail
+  }, {
+    path: '/vip',
+    component: VIP
+  }
   ]
 });
 

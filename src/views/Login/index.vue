@@ -18,6 +18,7 @@ input {
   width: 79%;
 }
 li {
+  padding:1px 0;
   @include flexbox;
   // border-bottom: 1px solid #f4f4f4;
   @include border-bottom();

@@ -17,12 +17,13 @@ input {
   border: 0;
 }
 li {
+  padding: 1px 0;
   @include flexbox;
   // border-bottom: 1px solid #f4f4f4;
   @include border-bottom();
 
-  .flex-main{
-    flex:1;
+  .flex-main {
+    flex: 1;
   }
 }
 ul {
@@ -40,7 +41,7 @@ ul {
   background: transparent;
 }
 
-.flexbox{
+.flexbox {
   @include flexbox;
 }
 </style>
@@ -58,7 +59,7 @@ ul {
           <li class="flexbox">
             <input class="flex-main" v-model="smsCode" placeholder="请输入验证码">
             <button v-if="timer>0" class="c-btn btn-primary" disabled="disabled" style="width:100px;">{{timer}}s后重发</button>
-            <button v-else class="c-btn btn-primary" @click="getSmsCode" style="width:100px;">发送验证码</button>
+            <button v-else class="c-btn btn-primary" @click="showGT" style="width:100px;">发送验证码</button>
           </li>
           <li>
             <input class="flex-main" v-model="password" type="password" @keypress.enter="register" placeholder="请输入密码（6-16位字母，数字，下划线）">
@@ -75,10 +76,25 @@ ul {
 </template>
 <script>
 import services from "@/services";
+import validate from "@/validate";
+import "@/js/gt";
+
+function initGeetestPromise(options) {
+  return new Promise((resolve, reject) => {
+    try {
+      initGeetest(options, function(captchaObj) {
+        resolve(captchaObj);
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
 export default {
   data() {
     return {
+      captchaObj: null,
       timer: 0,
 
       phone: "",
@@ -87,6 +103,44 @@ export default {
     };
   },
   methods: {
+    async initGT() {
+      try {
+        this.$showLoading();
+        let { data } = await services.gtRegister();
+
+        let captchaObj = await initGeetestPromise({
+          // 以下 4 个配置参数为必须，不能缺少
+          gt: data.gt,
+          challenge: data.challenge,
+          offline: !+data.success, // 表示用户后台检测极验服务器是否宕机
+          new_captcha: data.new_captcha, // 用于宕机时表示是新验证码的宕机
+          product: "bind", // 产品形式，包括：float，popup
+          width: "300px"
+        });
+        captchaObj.onSuccess(() => {
+          this.getSmsCode();
+        });
+        this.captchaObj = captchaObj;
+        this.$hideLoading();
+      } catch (err) {
+        console.log(err);
+        this.$hideLoading();
+        return this.$toast("生成滑块失败");
+      }
+    },
+    async showGT() {
+      let { phone } = this;
+      if (!phone) return this.$toast("手机号不能为空");
+
+      if (!validate.isMobile(phone)) return this.$toast("手机号不正确");
+
+      if (!this.captchaObj) {
+        await this.initGT();
+      }
+      setTimeout(() => {
+        this.captchaObj.verify();
+      }, 200);
+    },
     countdown(num) {
       if (num) {
         this.timer = num;
@@ -102,9 +156,18 @@ export default {
 
     async getSmsCode() {
       try {
+        let result = this.captchaObj.getValidate();
+        if (!result) {
+          return this.toast("滑块验证失败");
+        }
+
         let { phone } = this;
         let res = await services.getSmsCode({
-          phone
+          phone,
+          type: "register",
+          geetest_challenge:result.geetest_challenge,
+          geetest_validate:result.geetest_validate,
+          geetest_seccode:result.geetest_seccode
         });
 
         if (services.$isError(res)) throw new Error(res.message);

@@ -203,12 +203,11 @@ export default {
     },
 
     //查看物流
-    logistics(str) {
+    logistics(orderId) {
       this.$router.push({
         path: "/logistics",
         query: {
-          type: "zhongtong",
-          postid: "75124660965586"
+          orderId
         }
       });
     },
@@ -276,7 +275,9 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.fetchOrderList();
+        this.$router.push('/confirm-receive-result');
+
+        // this.fetchOrderList();
       } catch (err) {
         return this.$toast(err.message);
       }

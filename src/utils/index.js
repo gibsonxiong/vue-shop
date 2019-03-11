@@ -1,7 +1,15 @@
 const utils = {
   padZero(num, n) {
-    if(String(num).length >= n )return num;
+    if (String(num).length >= n) return num;
     return (Array(n).join(0) + num).slice(-n);
+  },
+
+  getDayStartTime(date = new Date()) {
+    return new Date(+new Date(date.toLocaleDateString()));
+  },
+
+  getDayEndTime(date = new Date()) {
+    return new Date(new Date(date.toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1);
   },
 
   //调整日期  

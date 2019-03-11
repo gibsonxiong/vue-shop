@@ -11,7 +11,7 @@ const validate = {
         return validate.isNull(value) || value === '';
     },
 
-    mobile(value){
+    isMobile(value){
         return /^\d{11}$/.test(trim(value));
     },
 

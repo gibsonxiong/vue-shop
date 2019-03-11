@@ -193,14 +193,14 @@ img {
           <img class="link-img" src="@/assets/quan.png" alt>
           <div class="link-name">领券中心</div>
         </router-link>
-        <div class="link-item">
+        <router-link :to="{path:'/sign'}" class="link-item">
           <img class="link-img" src="@/assets/qiandao.png" alt>
           <div class="link-name">每日签到</div>
-        </div>
-        <div class="link-item">
+        </router-link>
+        <router-link :to="{path:'/invite'}" class="link-item">
           <img class="link-img" src="@/assets/yaoxin.png" alt>
           <div class="link-name">一元邀新</div>
-        </div>
+        </router-link>
       </div>
       <!-- 今日头条 -->
       <div class="marquee">

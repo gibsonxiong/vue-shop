@@ -89,6 +89,34 @@ const services = {
     return res.code !== 0;
   },
 
+
+  //滑块验证
+  async gtRegister() {
+    return (await request.get('/gtregister', {
+      skipCheckToken: true
+    })).data;
+  },
+
+  //获取验证码
+  async getSmsCode({
+      phone,
+    type,
+    geetest_challenge,
+    geetest_validate,
+    geetest_seccode
+    }) {
+
+    return (await request.post('/getSmsCode', {
+      phone,
+      type,
+      geetest_challenge,
+      geetest_validate,
+      geetest_seccode
+    }, {
+        skipCheckToken: true
+      })).data;
+  },
+
   //注册
   async register({
     phone,
@@ -101,38 +129,8 @@ const services = {
       smsCode,
       password
     }, {
-      skipCheckToken: true
-    })).data;
-  },
-
-
-  //重置密码
-  async resetPassword({
-    phone,
-    smsCode,
-    password
-  }) {
-
-    return (await request.post('/resetPassword', {
-      phone,
-      smsCode,
-      password
-    }, {
-      skipCheckToken: true
-    })).data;
-  },
-
-
-  //获取验证码
-  async getSmsCode({
-    phone
-  }) {
-
-    return (await request.post('/getSmsCode', {
-      phone
-    }, {
-      skipCheckToken: true
-    })).data;
+        skipCheckToken: true
+      })).data;
   },
 
   //登录
@@ -144,8 +142,24 @@ const services = {
       phone,
       password
     }, {
-      skipCheckToken: true
-    })).data;
+        skipCheckToken: true
+      })).data;
+  },
+
+  //重置密码
+  async resetPassword({
+      phone,
+    smsCode,
+    password
+    }) {
+
+    return (await request.post('/resetPassword', {
+      phone,
+      smsCode,
+      password
+    }, {
+        skipCheckToken: true
+      })).data;
   },
 
   //获取搜索关键字提示列表
@@ -329,6 +343,13 @@ const services = {
     return (await request.post(`/orders/${orderId}/pay`, {})).data;
   },
 
+  //支付订单回调
+  async payOrderCallback({
+    orderId
+  }) {
+    return (await request.post(`/orders/${orderId}/payCallback`, {})).data;
+  },
+
   //获取订单支付状态
   async getOrderPayStatus({
     orderId
@@ -349,6 +370,13 @@ const services = {
         postid
       }
     })).data;
+  },
+
+  //物流查询
+  async getOrderDeliver({
+      orderId
+    }) {
+    return (await request.get(`/orders/${orderId}/getDeliver`)).data;
   },
 
   //取消订单
@@ -476,7 +504,7 @@ const services = {
     pageSize
   }) {
     return (await request.get(`/rates/items/${itemId}`, {
-      params:{
+      params: {
         flag,
         pageSize
       },
@@ -496,7 +524,7 @@ const services = {
     rateId,
     isLike
   }) {
-    return (await request.post(`/rates/${rateId}/like`,{
+    return (await request.post(`/rates/${rateId}/like`, {
       isLike
     })).data;
   },
@@ -539,6 +567,22 @@ const services = {
     return (await request.post(`/refunds/apply`, params)).data;
   },
 
+
+  //抢购
+  async fetchFlashbuyList() {
+    return (await request.get(`/flashbuy`, {
+      skipCheckToken:true
+    })).data;
+  },
+
+  //某场抢购的商品
+  async fetchFlashbuyItemList({
+    flashbuyId
+  }) {
+    return (await request.get(`/flashbuy/items/${flashbuyId}`, {
+      skipCheckToken:true
+    })).data;
+  },
 };
 
 export default services;

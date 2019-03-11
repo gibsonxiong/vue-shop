@@ -218,7 +218,7 @@ export default {
   data() {
     return {
       payed: false,
-      from:'',
+      from: "",
       orderId: "",
       orderInfo: {},
       timeId: null,
@@ -257,23 +257,40 @@ export default {
       }
     },
 
+    // async pay() {
+    //   try {
+    //     let { orderId } = this;
+    //     let res = await services.payOrder({
+    //       orderId
+    //     });
+
+    //     if (services.$isError(res)) throw new Error(res.message);
+
+    //     //查询支付结果
+    //     this.getOrderPayStatus(10);
+    //     //弹窗
+    //     this.popupVisible = true;
+    //   } catch (err) {
+    //     return this.$toast(err.message);
+    //   }
+    // },
+
     async pay() {
       try {
         let { orderId } = this;
-        let res = await services.payOrder({
+        let res = await services.payOrderCallback({
           orderId
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        //查询支付结果
-        this.getOrderPayStatus(10);
-        //弹窗
-        this.popupVisible = true;
+        this.payed = true;
+        this.$router.replace("/pay-result");
       } catch (err) {
         return this.$toast(err.message);
       }
     },
+
     //查询支付结果
     async getOrderPayStatus(timer) {
       try {

@@ -14,7 +14,6 @@
       .des_img {
         width: pxTorem(140);
         height: pxTorem(140);
-        @include border();
         overflow: hidden;
         margin-right: 0.1rem;
         img {
@@ -106,15 +105,17 @@
       <div class="wrap">
         <div class="logistics_des">
           <div class="des_img">
-            <img src="http://img3.imgtn.bdimg.com/it/u=761209122,3336350115&fm=26&gp=0.jpg">
+            <div class="c-img-box">
+              <img :src="firstOrderItem.itemImg">
+            </div>
           </div>
           <div class="des_content">
-            <p class="logistics_status">已签收</p>
+            <p class="logistics_status">{{state == 3 ? '已签收':''}}</p>
             <p>
-              <span>中通快递</span>:
-              <span>131456468465465</span>
+              <span>{{deliverCompany.name}}</span>:
+              <span>{{deliverPostId}}</span>
             </p>
-            <p>官方电话: 12306</p>
+            <p>官方电话: {{deliverCompany.phone}}</p>
           </div>
         </div>
         <div class="logistics_list">
@@ -147,7 +148,11 @@ import { Toast } from "mint-ui";
 export default {
   data() {
     return {
-      logisticsData: []
+      state: 0,
+      deliverPostId: "",
+      deliverCompany: {},
+      logisticsData: [],
+      firstOrderItem:{}
     };
   },
   filters: {
@@ -170,21 +175,25 @@ export default {
   },
   methods: {
     async getLogis() {
-      let routPars = this.$route.query;
       try {
-        let res = await services.logistics(routPars);
-        if (services.$isError(res)) throw new Error(res.message);
-        this.logisticsData = res.data.data;
-      } catch (err) {
-        Toast({
-          message: "服务错误，请重试！",
-          position: "bottom",
-          duration: 5000
+        let res = await services.getOrderDeliver({
+          orderId: this.orderId
         });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.state = res.data.state;
+        this.firstOrderItem = res.data.firstOrderItem;
+        this.deliverPostId = res.data.deliverPostId;
+        this.deliverCompany = res.data.deliverCompany;
+        this.logisticsData = res.data.detailData;
+      } catch (err) {
+        this.$toast(err.message);
       }
-    }    
+    }
   },
   mounted() {
+    this.orderId = this.$route.query.orderId;
     this.getLogis();
   }
 };

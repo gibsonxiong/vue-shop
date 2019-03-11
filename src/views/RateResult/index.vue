@@ -19,14 +19,14 @@
 
 <template>
   <div class="pay-result-page">
-    <c-header :title="'支付结果'">
+    <c-header :title="'评价成功'" :backType="0">
       <!-- <router-link slot="right" to="/order">完成</router-link> -->
     </c-header>
     <div class="c-page-body header-pd">
       <div class="wrap">
         <i class="iconfont icon-wancheng success-icon"></i>
-        <div class="title">支付成功</div>
-        <button class="c-btn btn-primary" @click="$router.replace('/order')">查看订单</button>
+        <div class="title">评价成功</div>
+        <button class="c-btn btn-primary" @click="$router.back()">完成</button>
       </div>
     </div>
   </div>
@@ -38,7 +38,6 @@ import services from "@/services";
 export default {
   data() {
     return {
-      orderId: ""
     };
   },
   methods: {

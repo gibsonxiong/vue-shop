@@ -85,7 +85,7 @@
           min-width: 15%;
         }
         .des_price {
-          padding: 0.1rem 0rem;
+          padding-top: 0.1rem;
           .price_now {
             font-weight: 500;
             font-size: pxTorem(40);
@@ -98,7 +98,8 @@
           }
         }
         .express_price {
-          font-size: 12px;
+          padding-top: 0.1rem;
+          font-size: 0.12rem;
           color: #7b7b7b;
         }
       }
