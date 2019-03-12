@@ -12,20 +12,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    .coupon_til {
-      background: #fff;
-      padding: pxTorem(6) pxTorem(3);
-      display: flex;
-
-      .til_list {
-        padding: pxTorem(19) pxTorem(20);
-        font-weight: bold;
-      }
-      .til_list_active {
-        color: #fe5455;
-        @include border-bottom(2px,#fe5455);
-      }
-    }
+    
     .coupon_lists {
       flex: 1;
       overflow: auto;
@@ -59,9 +46,6 @@
     <c-header :title="'领券中心'" :backType="1"></c-header>
     <div class="c-page-body header-pd">
       <div class="coupon_wrap">
-        <!-- <div class="coupon_til">
-          <div class="til_list til_list_active">全部优惠券</div>
-        </div>-->
         <div class="coupon_lists" v-if="list.length > 0">
           <div class="list_box">
             <c-coupon-item

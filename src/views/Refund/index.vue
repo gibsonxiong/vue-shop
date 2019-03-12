@@ -189,7 +189,6 @@ img {
   </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
 import { log } from "util";
 import services from "@/services";
 

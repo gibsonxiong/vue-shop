@@ -7,6 +7,12 @@
   box-sizing: border-box;
   overflow: scroll;
   background: $color-primary-gradient;
+
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
 .buy_time_ul {
   color: rgba(#fff, 0.6);
@@ -98,11 +104,11 @@
   font-size: 0.12rem;
 }
 
-.progress-wrap{
+.progress-wrap {
   @include flexbox;
 }
 
-.sold-count{
+.sold-count {
   color: #999;
   font-size: 0.12rem;
   margin-left: 0.05rem;
@@ -115,6 +121,7 @@
   background: #fbe9e9;
 }
 .mt-progress-progress {
+  transition: width 0.3s ease-out;
   background-color: $color-primary;
   border-radius: 1rem;
 }
@@ -126,7 +133,7 @@
     <c-header :title="'限时抢购'"></c-header>
     <div class="c-page-body header-pd">
       <div class="panic_buy">
-        <div class="buy_time">
+        <div class="buy_time" ref="navWrap">
           <ul
             class="buy_time_ul"
             v-for="(item,index) in flashbuyList"
@@ -163,7 +170,8 @@
                     <span>￥{{item.itemPrice}}</span>
                   </p>
                   <P class="rob">
-                    <span>马上抢</span>
+                    <span v-if="item.status == 0">预热中</span>
+                    <span v-else-if="item.status == 1">马上抢</span>
                   </P>
                 </div>
               </div>
@@ -176,10 +184,16 @@
 </template>
 
 <script>
-import services from '@/services';
-import utils from '@/utils';
+import services from "@/services";
+import routerCachePage from "@/routerCache/page";
+import utils from "@/utils";
 
 export default {
+  mixins: [
+    routerCachePage({
+      scrollWrapSelector: ".c-page-body"
+    })
+  ],
   data() {
     return {
       content_item: [
@@ -216,36 +230,37 @@ export default {
         }
       ],
       flashbuyList: [],
-      activeFlashbuyId:'',
-      flashbuyItemList:[],
+      activeFlashbuyId: "",
+      flashbuyItemList: [],
+      scrollTimeId: null
     };
   },
-  computed:{
-    statusList(){
-
+  computed: {
+    statusList() {
       let hasStart = false;
       let clone = this.flashbuyList.slice();
-      let dayLast
-      return clone.reverse().map(item=>{
-        let now = new Date();
-        let startTime = new Date(item.startTime);
-        if(now >= startTime){
-          if(hasStart){
-            return '已开抢';
-          }else{
-            hasStart = true;
-            return '进行中';
+      let dayLast;
+      return clone
+        .reverse()
+        .map(item => {
+          let now = new Date();
+          let startTime = new Date(item.startTime);
+          if (now >= startTime) {
+            if (hasStart) {
+              return "已开抢";
+            } else {
+              hasStart = true;
+              return "进行中";
+            }
+          } else {
+            if (startTime > utils.getDayEndTime(now)) {
+              return "明天开抢";
+            } else {
+              return "即将开抢";
+            }
           }
-          
-        }else{
-          if( startTime > utils.getDayEndTime(now) ){
-            return '明天开抢';
-          }else{
-            return '即将开抢';
-          }
-          
-        }
-      }).reverse();
+        })
+        .reverse();
     }
   },
   methods: {
@@ -257,30 +272,87 @@ export default {
         if (services.$isError(res)) throw new Error(res.message);
 
         this.$hideLoading();
-        this.flashbuyList = res.data;
-        if(this.flashbuyList.length > 0){
-          this.activeFlashbuyId = this.flashbuyList[0].id;
+        this.flashbuyList = res.data.list;
+        if (this.flashbuyList.length > 0) {
+          if(!this.activeFlashbuyId){
+            this.activeFlashbuyId = res.data.currentId;
+          }
           this.fetchFlashbuyItemList();
+
+          //定位
+          this.$nextTick(() => {
+            this.positionActive();
+          });
         }
-        
       } catch (err) {
         this.$hideLoading();
         return this.$toast(err.message);
       }
     },
-    changeActive(activeFlashbuyId){
-      if(this.activeFlashbuyId == activeFlashbuyId) return;
+    positionActive() {
+      let wrap = this.$refs.navWrap;
+      let activeItem = wrap.querySelector(".active");
+
+      let containerWidth = wrap.clientWidth;
+      let containerScrollWidth = wrap.scrollWidth;
+      let width = activeItem.clientWidth;
+      let left = activeItem.offsetLeft;
+      let scrollLeft = wrap.scrollLeft;
+
+      let distScrollLeft = left - (containerWidth - width) / 2;
+      if (distScrollLeft <= 0) {
+        distScrollLeft = 0;
+      } else if (distScrollLeft + containerWidth >= containerScrollWidth) {
+        distScrollLeft = containerScrollWidth - containerWidth;
+      }
+
+      this.scroll(wrap, scrollLeft, distScrollLeft);
+    },
+    scroll(elem, scrollLeft, distScrollLeft) {
+      this.scrollTimeId && clearTimeout(this.scrollTimeId);
+      let c = (distScrollLeft - scrollLeft) / 10;
+
+      let run = () => {
+        let d = elem.scrollLeft + c;
+
+        if (c >= 0) {
+          if (d >= distScrollLeft) {
+            elem.scrollLeft = distScrollLeft;
+            return;
+          }
+        } else {
+          if (d <= distScrollLeft) {
+            elem.scrollLeft = distScrollLeft;
+            return;
+          }
+        }
+
+        elem.scrollLeft = d;
+
+        this.scrollTimeId = setTimeout(() => {
+          run();
+        }, 1000 / 60);
+      };
+
+      run();
+    },
+    changeActive(activeFlashbuyId) {
+      if (this.activeFlashbuyId == activeFlashbuyId) return;
 
       this.activeFlashbuyId = activeFlashbuyId;
 
       this.fetchFlashbuyItemList();
+
+      this.$nextTick(() => {
+        this.positionActive();
+      });
     },
     async fetchFlashbuyItemList() {
       try {
         this.$showLoading();
         let flashbuyId = this.activeFlashbuyId;
         this.flashbuyItemList = [];
-        
+
         let res = await services.fetchFlashbuyItemList({
           flashbuyId
         });
@@ -293,12 +365,11 @@ export default {
         this.$hideLoading();
         return this.$toast(err.message);
       }
-    },
-
-    
+    }
   },
   created() {
     this.fetchFlashbuyList();
+    
   }
 };
 </script>

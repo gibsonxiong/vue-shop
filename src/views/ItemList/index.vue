@@ -16,7 +16,7 @@
 
 .slideX-enter,
 .slideX-leave-to {
-  transform: translate3d( 0,-100%, 0);
+  transform: translate3d(0, -100%, 0);
 }
 
 .slideY-enter-active,
@@ -41,20 +41,19 @@
 }
 
 .item-list-page {
-
   .list_wrap {
     // position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
-position: relative;
+    position: relative;
     .list_select {
       background: #fff;
       padding: pxTorem(20) 0.2rem;
       font-size: 0.14rem;
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       width: 100%;
       z-index: 100;
       .select_item {
@@ -85,6 +84,7 @@ position: relative;
     }
     .des_money {
       font-size: 0.16rem;
+      line-height: 0.16rem;
       font-weight: 500;
       color: $color-primary;
     }
@@ -107,7 +107,9 @@ position: relative;
       .list_box {
         // overflow: hidden;
         padding: 0 pxTorem(10);
-        
+        @include flexbox;
+        flex-wrap: wrap;
+
         &::after {
           content: "";
           display: block;
@@ -115,7 +117,7 @@ position: relative;
           height: 1px;
         }
         .list_box_item {
-          float: left;
+          // float: left;
           width: 50%;
           padding: pxTorem(26) pxTorem(10) 0rem;
           overflow: hidden;
@@ -139,7 +141,7 @@ position: relative;
               padding: pxTorem(20) pxTorem(14);
               overflow: hidden;
               > p {
-                margin-bottom: 0.065rem;
+                margin-bottom: 0.04rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 height: 0.4rem;
@@ -149,7 +151,6 @@ position: relative;
         }
       }
       .list_box_column {
-        
         &::after {
           content: "";
           display: block;
@@ -183,7 +184,6 @@ position: relative;
               padding-left: 0.07rem;
               overflow: hidden;
               > p {
-                margin-bottom: 0.065rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 height: 0.4rem;
@@ -193,7 +193,7 @@ position: relative;
         }
       }
       .loading_color {
-        color: #666;
+        color: #888;
       }
     }
   }
@@ -325,12 +325,17 @@ position: relative;
                     </div>
                     <div class="des">
                       <p>{{item.name}}</p>
-                      <div class="chen_center_absolute">
-                        <span class="des_money">￥{{item.minPrice}}</span>
-                        <span
-                          style="    font-size: 0.12rem;
-    color: #999999;
-    margin-top: 2px;"
+                      <div style="min-height:0.21rem;">
+                        <span v-if="item.flash && item.flash.status == 1" class="c-tag">限时特价</span>
+                        <span v-if="item.isNew" class="c-tag secondly">新品</span>
+                      </div>
+                      <div class="chen_center_absolute" style="margin-top:0.05rem;">
+                        <span v-if="item.flash && item.flash.status == 1">
+                          <span class="des_money">￥{{item.flash.item.flashPrice}}</span>
+                          <span class="c-old-price" style="line-height: 0.16rem;">￥{{item.flash.item.itemPrice}}</span>
+                        </span>
+                        <span v-else class="des_money">￥{{item.minPrice}}</span>
+                        <span style="font-size: 0.12rem;color: #999999;margin-top: 2px;"
                         >{{item.item_count && item.item_count.saleCount}}人已购买</span>
                       </div>
                     </div>
@@ -404,7 +409,7 @@ export default {
   data() {
     return {
       oldScrollTop: 0,
-      barVisible:true,
+      barVisible: true,
 
       pageIndex: 0,
       pageSize: 20,
@@ -521,7 +526,7 @@ export default {
       if (scrollTop > this.oldScrollTop && scrollTop >= 41) {
         this.barVisible = false;
       } else if (scrollTop < this.oldScrollTop) {
-        this.barVisible = true;        
+        this.barVisible = true;
       }
       this.oldScrollTop = scrollTop;
     }

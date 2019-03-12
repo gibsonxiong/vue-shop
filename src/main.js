@@ -19,9 +19,6 @@ const {VueLazyload} = require('@/js/vue-lazyload.js');
 import preview from 'vue-photo-preview' //图片预览
 import 'vue-photo-preview/dist/skin.css';
 
-Vue.use(config);
-Vue.use(layer);
-Vue.use(popup);
 Vue.use(MintUI);
 Vue.use(VueLazyload)
 Vue.use(preview, {
@@ -30,6 +27,12 @@ Vue.use(preview, {
   arrowEl: false,
   tapToClose: true,
 })
+
+Vue.use(config);
+Vue.use(layer);
+Vue.use(popup);
+
+
 
 // if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
 //   let VConsole = require('vconsole');

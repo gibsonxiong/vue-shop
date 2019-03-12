@@ -52,10 +52,10 @@
         line-height: pxTorem(570);
         font-size: pxTorem(60);
         font-weight: bold;
-          .c-img-box {
-            width: 100%;
-            height: 100%;
-          }
+        .c-img-box {
+          width: 100%;
+          height: 100%;
+        }
       }
       .mint-swipe-indicators {
         .mint-swipe-indicator {
@@ -243,17 +243,21 @@
 
           background: $color-primary-gradient;
           padding: 0.15rem 0rem;
-        }
 
-        &:active {
-          background: $color-primary-active;
-        }
+          &:disabled {
+            background: $color-primary-gradient-disabled;
+          }
 
-        .btn-secondly {
-          background: $color-secondly;
+          &:not(:disabled):active {
+            background: $color-primary-gradient-active;
+          }
 
-          &:active {
-            background: $color-secondly-active;
+          &.btn-secondly {
+            background: $color-secondly;
+
+            &:active {
+              background: $color-secondly-active;
+            }
           }
         }
       }
@@ -356,7 +360,7 @@
           margin-bottom: pxTorem(16);
         }
         .item_detail_number {
-          @include border-top($color-border);
+          @include border-top();
           padding-top: pxTorem(30);
         }
       }
@@ -377,8 +381,12 @@
           // width: 100%;
           border: 0;
 
-          &:active {
-            background: $color-primary-active;
+          &:disabled {
+            background: $color-primary-gradient-disabled;
+          }
+
+          &:not(:disabled):active {
+            background: $color-primary-gradient-active;
           }
 
           &.btn-secondly {
@@ -393,15 +401,67 @@
     }
   }
 }
+.flashbuy {
+  @include flexbox;
+  color: #fff;
+  background: $color-primary-gradient;
+  padding: 0.15rem;
+  .box-l {
+    flex: 1;
+  }
+  .box-main {
+    width: 1.5rem;
+    padding-left: 0.2rem;
+  }
+  .box-r {
+    padding-left: 0.2rem;
+  }
+
+  .progress-wrap {
+    position: relative;
+    @include flexbox;
+    margin-bottom: -0.05rem;
+  }
+
+  .sold-count {
+    font-size: 0.12rem;
+    color: #f1f1f1;
+  }
+
+  .flash-price {
+    font-size: 0.2rem;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .old-price {
+    font-size: 0.12rem;
+    text-decoration: line-through;
+    color: #eee;
+    padding-left: 0.05rem;
+    line-height: 1;
+  }
+}
 </style>
 
 <style lang="scss">
+@import "~@/css/var";
 .item_details {
   width: 100%;
   img {
     width: 100%;
     object-fit: cover;
   }
+}
+
+.mt-progress-runway {
+  border-radius: 1rem;
+  background: #fbe9e9;
+}
+.mt-progress-progress {
+  transition: width 0.3s ease-out;
+  background-color: #ff168c;
+  border-radius: 1rem;
 }
 </style>
 <template>
@@ -424,14 +484,55 @@
             </div>
           </mt-swipe-item>
         </mt-swipe>
+        
+        <!-- 限时抢购 -->
+        <div class="flashbuy" v-if="itemInfo.flashbuy" @click="$router.push('/panic_buy')">
+          <div class="box-l">
+            <div>￥<span class="flash-price">{{itemFlashPrice.flashPrice}}</span></div>
+            <div class="old-price">￥{{itemFlashPrice.oldPrice}}</div>
+          </div>
+          <div class="box-main">
+            <div style="    font-size: 0.18rem;" v-if="itemInfo.flashbuy.status == 0">预热中</div>
+            <template  v-if="itemInfo.flashbuy.status == 1">
+              <div class="progress-wrap">
+                <mt-progress :value="itemInfo.flashbuy.item.progress" :bar-height="14" style="flex:1;"></mt-progress>
+                <span
+                  style="position: absolute;
+                  left: 5%;
+                  font-size: 0.12rem;
+                  top: 25%;"
+                >{{itemInfo.flashbuy.item.progress == 100 ? '已抢完': itemInfo.flashbuy.item.progress >=80 ? '即将抢完' : `${itemInfo.flashbuy.item.progress}%`}}</span>
+                
+              </div>
+              <span class="sold-count">{{`已抢${itemInfo.flashbuy.item.soldCount}件`}}</span>
+            </template>
+            
+          </div>
+          <div class="box-r" v-if="itemInfo.flashbuy.status == 0">
+            <div style="font-size: 0.12rem;text-align: center;">即将开抢
+              <i class="iconfont icon-right" style="font-size: 0.12rem;"></i>
+            </div>
+            <div>
+              <c-count-down :endTime="new Date(itemInfo.flashbuy.flashbuy.startTime)"></c-count-down>
+            </div>
+          </div>
+          <div class="box-r" v-if="itemInfo.flashbuy.status == 1">
+            <div style="font-size: 0.12rem;text-align: center;">距本场结束
+              <i class="iconfont icon-right" style="font-size: 0.12rem;"></i>
+            </div>
+            <div>
+              <c-count-down :endTime="new Date(itemInfo.flashbuy.flashbuy.endTime)"></c-count-down>
+            </div>
+          </div>
+        </div>
+
         <div class="item_select">
           <div class="item_select_des item_white">
             <div class="chen_center_absolute">
               <div class="dex_txt">{{itemInfo.name}}</div>
             </div>
             <div class="des_price">
-              <span class="price_now">￥{{itemPrice}}</span>
-              <!-- <span class="price_old">￥930</span> -->
+              <span class="price_now" v-if="!itemInfo.flashbuy">￥{{itemPrice}}</span>
             </div>
             <div class="chen_center_absolute express_price">
               <div>快递：￥{{itemInfo.postFee}}</div>
@@ -554,6 +655,7 @@
           <button
             class="chen_center_absolute_column item_page_footer_buys"
             @click="openPopModel('buy')"
+            :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0"
           >立刻购买</button>
         </div>
       </div>
@@ -573,7 +675,20 @@
             </div>
             <div class="item_detail_top_price">
               <div class="item_detail_top_des">
-                <div class="price_num">￥{{selectSku ? selectSku.price : itemPrice}}</div>
+                <div v-if="selectFlashbuySku" class="">
+                  <span class="price_num">￥{{ selectFlashbuySku.flashPrice}}</span>
+                  <span class="old-price" style="font-size: 0.12rem;
+    text-decoration: line-through;
+    color: #888;">￥{{ selectFlashbuySku.price}}</span>
+                </div>
+                <div v-else-if="selectSku" class="price_num">￥{{selectSku.price}}</div>
+                <div v-else-if="itemFlashPrice">
+                  <span class="price_num">￥{{ itemFlashPrice.flashPrice}}</span>
+                  <span class="old-price" style="font-size: 0.12rem;
+    text-decoration: line-through;
+    color: #888;">￥{{ itemFlashPrice.oldPrice}}</span>
+                </div>
+                <div v-else class="price_num">￥{{itemPrice}}</div>
                 <div style="padding-top:0.05rem;color:#666;">{{selectTip}}</div>
               </div>
               <div class="item_detail_top_cancel" @click="closePopModel()">
@@ -615,7 +730,7 @@
           </div>
           <div v-if="pop_model === 'sku'" class="item_detail_confirm">
             <button class="btn btn-secondly" @click="submit('cart')">加入购物车</button>
-            <button class="btn" @click="submit('buy')">立刻购买</button>
+            <button :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0"  class="btn" @click="submit('buy')">立刻购买</button>
           </div>
           <div v-else class="item_detail_confirm" @click="submit(pop_model)">
             <button class="btn">确定</button>
@@ -728,6 +843,29 @@ export default {
         return `${this.itemInfo.minPrice}-${this.itemInfo.maxPrice}`;
       }
     },
+    itemFlashPrice() {
+      if (!(this.itemInfo && this.itemInfo.flashbuy)) return null;
+
+      let flashItem = this.itemInfo.flashbuy.item;
+      let oldPrice = "";
+      if (flashItem.itemPrice == flashItem.itemMaxPrice) {
+        oldPrice = `${flashItem.itemPrice}`;
+      } else {
+        oldPrice = `${flashItem.itemPrice}-${flashItem.itemMaxPrice}`;
+      }
+
+      let flashPrice = "";
+      if (flashItem.flashPrice == flashItem.flashMaxPrice) {
+        flashPrice = `${flashItem.flashPrice}`;
+      } else {
+        flashPrice = `${flashItem.flashPrice}-${flashItem.flashMaxPrice}`;
+      }
+
+      return {
+        oldPrice,
+        flashPrice
+      };
+    },
     selectSku() {
       if (!(this.itemInfo && this.itemInfo.skus)) return null;
 
@@ -736,8 +874,14 @@ export default {
         return sku.propvalues.join(",") === this.selectValue.join(",");
       })[0];
 
-      // console.log("selectSku =>", sku);
       return sku;
+    },
+    selectFlashbuySku() {
+      if (!(this.itemInfo.flashbuy && this.selectSku)) return null;
+
+      return this.itemInfo.flashbuy.item.flashbuy_item_skus.find(
+        sku => sku.skuId == this.selectSku.id
+      );
     },
     selectTip() {
       if (!(this.itemInfo && this.itemInfo.propnames)) return "";
@@ -876,7 +1020,7 @@ export default {
         });
 
         if (services.$isError(res)) throw new Error(res.message);
-
+        console.log(res.data);
         this.itemInfo = res.data;
         this.$nextTick(() => {
           this.imgDetail();
@@ -892,7 +1036,7 @@ export default {
         let { itemId } = this;
         let res = await services.fetchItemRateList({
           itemId,
-          pageSize:2
+          pageSize: 2
         });
 
         console.log(res);
@@ -950,7 +1094,6 @@ export default {
           });
 
           if (services.$isError(res)) throw new Error(res.message);
-
 
           this.$toast(res.message);
           this.favoriteId = "";

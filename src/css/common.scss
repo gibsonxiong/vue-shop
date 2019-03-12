@@ -236,7 +236,7 @@ textarea:-ms-input-placeholder {
   font-size: 0.12rem;
   line-height: 1;
   border-radius: 0.04rem;
-  transform: scale(0.94);
+  transform: scale(0.8);
   transform-origin: left;
   display: inline-block;
 
@@ -254,4 +254,16 @@ textarea:-ms-input-placeholder {
     @include border(1px, $color-light);
     color: $color-light;
   }
+}
+
+.c-old-price{
+  color: #aaa;
+    text-decoration: line-through;
+    font-size: 0.12rem;
+
+    vertical-align: text-bottom;
+    transform: scale(0.9);
+    transform-origin: bottom;
+    vertical-align: bottom;
+    display: inline-block;
 }

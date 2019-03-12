@@ -571,7 +571,7 @@ const services = {
   //抢购
   async fetchFlashbuyList() {
     return (await request.get(`/flashbuy`, {
-      skipCheckToken:true
+      skipCheckToken: true
     })).data;
   },
 
@@ -580,7 +580,14 @@ const services = {
     flashbuyId
   }) {
     return (await request.get(`/flashbuy/items/${flashbuyId}`, {
-      skipCheckToken:true
+      skipCheckToken: true
+    })).data;
+  },
+
+  //获取当前抢购
+  async fetchCurrentFlash() {
+    return (await request.get(`/flashbuy/current`, {
+      skipCheckToken: true
     })).data;
   },
 };

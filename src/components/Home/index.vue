@@ -151,16 +151,6 @@ img {
     font-size: 0.14rem;
     font-weight: 500;
   }
-  li:nth-child(3) span:last-of-type {
-    color: #999;
-    text-decoration: line-through;
-    font-size: 0.12rem;
-    padding-left: 0.02rem;
-    vertical-align: text-bottom;
-    transform: scale(0.9);
-    transform-origin: bottom;
-  }
-
 }
 </style>
 
@@ -216,33 +206,33 @@ img {
         </div>
       </div>
       <!-- 今日头条 end -->
-      <div class="panic_buy">
+      <div class="panic_buy" v-if="currentFlash">
         <p class="panic_buy_label">
           <span style="color: #5dbaff;">
             <i
               class="iconfont icon-round_light_fill"
               style="font-size: 0.18rem;margin-right: 0.05rem;"
             ></i>限时抢购
-            <c-count-down style="margin-left:0.05rem;" :endTime="new Date('2019-03-21')"></c-count-down>
+            <c-count-down style="margin-left:0.05rem;" :endTime="new Date(currentFlash.endTime)"></c-count-down>
           </span>
           <span @click="$router.push('/panic_buy')">查看全部</span>
         </p>
         <div class="buy_time">
           <ul
             class="buy_time_ul"
-            v-for="(item,index) in groupList"
+            v-for="(item,index) in currentFlash.flashbuy_items"
             :key="index"
-            @click="$router.push(`/items/${item.id}`)"
+            @click="$router.push(`/items/${item.itemId}`)"
           >
             <li>
               <div class="c-img-box box-bg">
-                <img v-lazy="item.imgList[0]">
+                <img v-lazy="item.itemImg">
               </div>
             </li>
-            <li>{{item.name}}</li>
+            <li>{{item.itemName}}</li>
             <li>
-              <span>￥{{item.minPrice}}</span>
-              <!-- <span>￥1000</span> -->
+              <span>￥{{item.flashPrice}}</span>
+              <span class="c-old-price">￥{{item.itemPrice}}</span>
             </li>
             <li>
               <span class="c-tag">限时特价</span>
@@ -271,7 +261,7 @@ export default {
     return {
       headerOpacity: 0,
       recommendList: [],
-      groupList: [],
+      currentFlash: {},
       animate: false,
       banners: [
         {
@@ -308,7 +298,7 @@ export default {
   },
   created() {
     this.fetchRecommendList();
-    this.fetchGroupList();
+    this.fetchCurrentFlash();
     setInterval(this.showMarquee, 2000);
   },
   mounted() {
@@ -348,17 +338,19 @@ export default {
         return this.$toast(err.message);
       }
     },
-    async fetchGroupList() {
+    //当前抢购信息
+    async fetchCurrentFlash() {
       try {
-        let res = await services.fetchItemList({});
+        let res = await services.fetchCurrentFlash();
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.groupList = res.data;
+        this.currentFlash = res.data;
       } catch (err) {
         return this.$toast(err.message);
       }
-    }
+    },
+
   }
 };
 </script>

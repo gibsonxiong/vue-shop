@@ -26,7 +26,7 @@
   text-align: center;
   color: #fff;
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.90);
 
   display: flex;
   flex-direction: column;

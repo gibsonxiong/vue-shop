@@ -73,6 +73,13 @@
       color: #777;
     }
 
+    .tag-wrap{
+      .c-tag{
+        margin-top: 0.05rem;
+      }
+      
+    }
+
     .item-prop {
       position: relative;
       background: #f5f5f5;
@@ -81,21 +88,21 @@
       padding: 0.04rem 0.05rem;
       font-size: 0.12rem;
       display: inline-block;
-      padding-right: 0.18rem;
+      // padding-right: 0.18rem;
 
-      &::after {
-        $size: 0.07rem;
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 0.08rem;
-        transform: translateY(-50%) rotate(45deg);
-        width: $size;
-        height: $size;
-        border: 1px solid #bbb;
-        border-left: 0;
-        border-top: 0;
-      }
+      // &::after {
+      //   $size: 0.07rem;
+      //   content: "";
+      //   position: absolute;
+      //   top: 50%;
+      //   right: 0.08rem;
+      //   transform: translateY(-50%) rotate(45deg);
+      //   width: $size;
+      //   height: $size;
+      //   border: 1px solid #bbb;
+      //   border-left: 0;
+      //   border-top: 0;
+      // }
     }
 
     .item-bottom {
@@ -181,7 +188,7 @@
             <label class="item-checkbox-wrap">
               <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
             </label>
-            <img class="item-img" :src="shopcart.item.imgList[0]" alt>
+            <img class="item-img" v-lazy="shopcart.item.imgList[0]" alt @click="$router.push(`/items/${shopcart.item.id}`)">
             <div class="item-content">
               <router-link
                 tag="div"
@@ -191,9 +198,12 @@
               <div class="item-prop-wrap">
                 <div class="item-prop">{{shopcart.sku.propvalueTextList}}</div>
               </div>
-
+              <div class="tag-wrap">
+                <span class="c-tag" v-if="shopcart.flash && shopcart.flash.status == 1">限时特价</span>
+              </div>
               <div class="item-bottom">
-                <div class="item-price">￥{{shopcart.sku.price}}</div>
+                <div class="item-price" v-if="shopcart.flash && shopcart.flash.status == 1">￥{{shopcart.flash.sku.flashPrice}}</div>
+                <div class="item-price" v-else>￥{{shopcart.sku.price}}</div>
                 <c-number-input
                   v-model="shopcart.quantity"
                   :min="1"
@@ -294,7 +304,8 @@ export default {
     },
     checkedAmount() {
       return this.checkedItems.reduce((prev, current) => {
-        return prev + current.sku.price * current.quantity;
+        let price = current.flash &&  current.flash.status == 1? current.flash.sku.flashPrice : current.sku.price;
+        return prev + price * current.quantity;
       }, 0);
     }
   },
@@ -307,6 +318,7 @@ export default {
 
         this.list = res.data;
 
+        this.checkedFlags = {};
         this.list.forEach(item => {
           Vue.set(this.checkedFlags, item.id, false);
         });
@@ -339,6 +351,8 @@ export default {
 
         let index = this.list.findIndex(item => item.id == id);
         this.list.splice(index, 1);
+        Vue.delete(this.checkedFlags,id);
+        this.$nextTick();
         this.$toast(res.message);
       } catch (err) {
         return this.$toast(err.message);
@@ -347,8 +361,6 @@ export default {
 
     submit() {
       console.log(this.checkedItems);
-
-      // let queryData = JSON.stringify(this.checkedItems);
 
       let queryData = [];
 

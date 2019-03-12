@@ -86,7 +86,6 @@ textarea {
   </div>
 </template>
 <script>
-import { Toast } from "mint-ui";
 import services from "@/services";
 
 export default {

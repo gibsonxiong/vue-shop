@@ -2,7 +2,7 @@
 @import "~@/css/var";
 @import "~@/css/mixin";
 .c-page-body {
-  padding-bottom: 0.8rem;
+  padding-bottom: 1.3rem;
 }
 .address-wrap {
   padding: 0.15rem 0.1rem 0.18rem;
@@ -74,6 +74,14 @@
   }
 }
 
+.item-name {
+  font-size: 0.13rem;
+  font-weight: 500;
+  max-height: 0.34rem;
+  line-height: 0.17rem;
+  overflow: hidden;
+}
+
 .total {
   width: 95%;
   margin: auto;
@@ -132,11 +140,12 @@ input {
             <img style="width:0.8rem;height:0.8rem;" :src="item.item.imgList[0]" alt>
           </div>
           <div style="flex:1;padding:0 0.1rem;font-size:0.13rem;font-weight:500">
-            <span>{{item.item.name}}</span>
-            <p style="color:#999;font-size:12px;">{{item.sku.propvalueTextList}}</p>
+            <div class="item-name">{{item.item.name}}</div>
+            <p style="color:#999;font-size:12px;margin-top: 0.05rem;">{{item.sku.propvalueTextList}}</p>
           </div>
           <div style="text-align:right;">
-            <span>￥{{item.sku.price}}</span>
+            <span v-if="item.flash && item.flash.status == 1">￥{{item.flash.sku.flashPrice}}</span>
+            <span v-else>￥{{item.sku.price}}</span>
             <div style="color:#999;font-size:12px;">
               <span>x{{item.quantity}}</span>
             </div>

@@ -1,9 +1,10 @@
 <style scoped lang="scss">
 @import '~@/css/mixin';
 .footprint-page {
-  background: #f3f3f3;
+  background: #e8e8e8;
 }
 .c-page-body {
+  padding-bottom:0.8rem;
   // padding: 0.44rem 0.1rem 0.1rem 0.1rem;
 }
 

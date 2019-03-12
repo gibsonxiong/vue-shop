@@ -75,10 +75,10 @@
   }
 
   .recommend-info {
-    padding-left: 10px;
-    padding-right: 9px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-left: 0.10rem;
+    padding-right: 0.09rem;
+    padding-top: 0.10rem;
+    padding-bottom: 0.10rem;
   }
 
   .recommend-title {
@@ -91,15 +91,13 @@
   }
 
   .recommend-price-box {
-    margin-top: 11px;
-    height: 20px;
-    line-height: 20px;
+    margin-top: 0.08rem;
   }
 
   .recommend-price {
-    font-size: 14px;
+    font-size: 0.16rem;
     font-weight: 500;
-    line-height: 16px;
+    line-height: 0.16rem;
     color: $color-primary;
   }
 
@@ -130,9 +128,17 @@
           </div>
           <div class="recommend-info">
             <div class="recommend-title">{{item.name}}</div>
-            <div class="recommend-price-box">
-              <span class="recommend-price">￥{{item.minPrice}}</span>
+            <div style="min-height:0.21rem;">
+              <span v-if="item.flash && item.flash.status == 1" class="c-tag">限时特价</span>
               <span v-if="item.isNew" class="c-tag secondly">新品</span>
+            </div>
+            <div class="recommend-price-box">
+              <span v-if="item.flash && item.flash.status == 1">
+                <span class="recommend-price">￥{{item.flash.item.flashPrice}}</span>
+                <span class="c-old-price">￥{{item.flash.item.itemPrice}}</span>
+              </span>
+              <span class="recommend-price" v-else>￥{{item.minPrice}}</span>
+              
               <span class="recommend-sale">{{item.item_count && item.item_count.saleCount}}人已购买</span>
             </div>
           </div>

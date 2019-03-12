@@ -39,12 +39,22 @@ $size:0.21rem;
 .c-checkbox-input:checked + .c-checkbox-core::after {
   transform:translate(-50%,-55%) rotate(45deg) scale(1);
 }
+
+.c-checkbox-input:disabled + .c-checkbox-core {
+  background: #f1f1f1;
+  border-color: #ccc;
+}
+
+.c-checkbox-input:disabled:checked + .c-checkbox-core {
+  background: $color-primary-gradient-disabled;
+  border-color: $color-primary-disabled;
+}
 </style>
 
 <template>
   <span class="c-checkbox">
     <label>
-      <input type="checkbox" class="c-checkbox-input" v-model="model">
+      <input type="checkbox" class="c-checkbox-input" v-model="model" v-bind="$attrs">
       <span class="c-checkbox-core"></span>
     </label>
   </span>
