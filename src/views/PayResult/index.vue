@@ -18,7 +18,7 @@
 </style>
 
 <template>
-  <div class="pay-result-page">
+  <div class="pay-result-page page">
     <c-header :title="'支付结果'">
       <!-- <router-link slot="right" to="/order">完成</router-link> -->
     </c-header>

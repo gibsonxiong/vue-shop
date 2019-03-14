@@ -24,7 +24,7 @@
 </style>
 
 <template>
-  <div class="footprint-page">
+  <div class="footprint-page page">
     <c-header :title="'我的关注'"></c-header>
     <div class="c-page-body header-pd">
       <div v-if="itemList.length > 0">

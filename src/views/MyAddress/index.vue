@@ -78,7 +78,7 @@ label {
 </style>
 
 <template>
-  <div class="my-ddress-page">
+  <div class="my-ddress-page page">
     <c-header :title="'收货地址'"></c-header>
     <div class="c-page-body header-pd">
       <div v-if="addrList.length > 0">

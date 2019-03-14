@@ -12,7 +12,7 @@ input {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'昵称'"></c-header>
     <div class="c-page-body header-pd">
       <div class="nickname">

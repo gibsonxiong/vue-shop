@@ -76,7 +76,7 @@ label {
 }
 </style>
 <template>
-  <div class="recharge-page">
+  <div class="recharge-page page">
     <c-header :title="'账户充值'"></c-header>
     <div class="c-page-body header-pd">
       <ul>

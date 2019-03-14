@@ -42,7 +42,7 @@
 </style>
 
 <template>
-  <div class="coupon_page">
+  <div class="coupon_page page">
     <c-header :title="'领券中心'" :backType="1"></c-header>
     <div class="c-page-body header-pd">
       <div class="coupon_wrap">

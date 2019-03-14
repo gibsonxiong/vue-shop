@@ -5,7 +5,7 @@
 </style>
 
 <template>
-  <div class="temp-page">
+  <div class="temp-page page">
   </div>
 </template>
 

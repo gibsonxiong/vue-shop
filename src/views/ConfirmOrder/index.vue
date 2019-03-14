@@ -2,7 +2,7 @@
 @import "~@/css/var";
 @import "~@/css/mixin";
 .c-page-body {
-  padding-bottom: 1.3rem;
+  padding-bottom: 0.8rem;
 }
 .address-wrap {
   padding: 0.15rem 0.1rem 0.18rem;
@@ -102,7 +102,7 @@ input {
 </style>
 
 <template>
-  <div class="confirmorder-page">
+  <div class="confirmorder-page page">
     <c-header :title="'确认订单'"></c-header>
     <div class="c-page-body header-pd">
       <div @click="selectAddress" class="address-wrap">
@@ -235,17 +235,20 @@ export default {
     },
     async createOrder() {
       try {
+        this.$showLoading();
         let res = await services.createOrder({
           params: this.params
         });
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$router.replace({
           path: "/cashier",
           query: { orderId: res.data.orderId, from: "confirmOrder" }
         });
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },

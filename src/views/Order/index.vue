@@ -4,6 +4,7 @@
 .c-page-body {
   background: #f3f3f3;
   font-size: 0.14rem;
+  padding-bottom: 0.2rem;
 }
 .c-page-body-ul {
   width: 100%;
@@ -55,7 +56,7 @@
 </style>
 
 <template>
-  <div class="order-page">
+  <div class="order-page page">
     <c-header :title="'我的订单'"></c-header>
     <div class="c-page-body header-pd">
       <ul class="c-page-body-ul">
@@ -79,12 +80,12 @@
               :key="index"
               class="item-main"
             >
-              <div style="width:20%;">
-                <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
+              <div style="width:0.7rem;height:0.7rem;">
+                <div style="" class="c-img-box box-bg">
                   <img v-lazy="orderItem.itemImg">
                 </div>
               </div>
-              <div style="width:65%;padding:0 0.1rem">
+              <div style="flex:1;padding:0 0.1rem">
                 <span style="font-size:0.13rem;font-weight:500">{{orderItem.itemName}}</span>
                 <p style="color:#999;font-size:12px;">{{orderItem.itemPropvalues}}</p>
               </div>

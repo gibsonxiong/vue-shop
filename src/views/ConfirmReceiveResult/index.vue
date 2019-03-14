@@ -18,7 +18,7 @@
 </style>
 
 <template>
-  <div class="pay-result-page">
+  <div class="pay-result-page page">
     <c-header :title="'确认收货成功'" :backType="0">
       <!-- <router-link slot="right" to="/order">完成</router-link> -->
     </c-header>

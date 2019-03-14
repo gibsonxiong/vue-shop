@@ -101,7 +101,7 @@ img {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'评价详情'"></c-header>
     <div class="c-page-body header-pd">
       <div class="evaluate">

@@ -4,7 +4,7 @@
 </style>
 
 <template>
-  <div class="setting-page">
+  <div class="setting-page page">
     <c-header :title="'设置'"></c-header>
     <div class="c-page-body header-pd">
       <c-cell-list style="margin-top:0.15rem;">

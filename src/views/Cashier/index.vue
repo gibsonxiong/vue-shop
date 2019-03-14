@@ -142,7 +142,7 @@
 </style>
 
 <template>
-  <div class="cashier-page">
+  <div class="cashier-page page">
     <c-header :title="'收银台'"></c-header>
     <div class="c-page-body header-pd">
       <div class="cashier_wrap">

@@ -17,14 +17,15 @@
 .buy_time_ul {
   color: rgba(#fff, 0.6);
   padding: 0.1rem;
+  width:1.2rem;
   &.active {
     color: #fff;
   }
 }
-.buy_time_ul li:first-of-type {
+.buy_time_ul div:first-of-type {
   font-size: 0.2rem;
 }
-.buy_time_ul li:last-of-type {
+.buy_time_ul div:last-of-type {
   font-size: 0.12rem;
   text-align: center;
 }
@@ -129,21 +130,21 @@
 
 
 <template>
-  <div class="footprint-page">
+  <div class="footprint-page page">
     <c-header :title="'限时抢购'"></c-header>
     <div class="c-page-body header-pd">
       <div class="panic_buy">
         <div class="buy_time" ref="navWrap">
-          <ul
+          <div
             class="buy_time_ul"
             v-for="(item,index) in flashbuyList"
             :key="index"
             :class="{active: activeFlashbuyId == item.id }"
             @click="changeActive(item.id)"
           >
-            <li>{{item.startTime | date('hh:mm')}}</li>
-            <li>{{statusList[index]}}</li>
-          </ul>
+            <div>{{item.startTime | date('hh:mm')}}</div>
+            <div>{{statusList[index]}}</div>
+          </div>
         </div>
         <div class="buy_con">
           <ul>

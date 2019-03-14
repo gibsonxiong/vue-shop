@@ -99,7 +99,7 @@
 }
 </style>
 <template>
-  <div class="logistics">
+  <div class="logistics page">
     <c-header :title="'物流详情'"></c-header>
     <div class="c-page-body header-pd">
       <div class="wrap">

@@ -92,7 +92,7 @@
 </style>
 
 <template>
-  <div class="orderDetail-page">
+  <div class="orderDetail-page page">
     <c-header :title="'订单详情'"></c-header>
     <div class="c-page-body header-pd">
       <!--  -->

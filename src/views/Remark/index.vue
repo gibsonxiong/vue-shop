@@ -60,7 +60,7 @@ textarea {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'评价'"></c-header>
     <div class="c-page-body header-pd">
       <div class="remark" v-for="(orderItem,index) in orderInfo.order_items" :key="index">

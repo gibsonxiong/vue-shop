@@ -46,7 +46,7 @@ li span:first-of-type {
 </style>
 
 <template>
-  <div class="address-detail-page">
+  <div class="address-detail-page page">
     <c-header :title="title"></c-header>
     <div class="c-page-body header-pd">
       <ul>

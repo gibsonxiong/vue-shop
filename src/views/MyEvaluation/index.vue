@@ -53,7 +53,7 @@ img {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'我的评价'"></c-header>
     <div class="c-page-body header-pd">
       <div class="evaluate" v-for="(item,index) in item" :key="index"  @click="$router.push('/evaluation_detail')">

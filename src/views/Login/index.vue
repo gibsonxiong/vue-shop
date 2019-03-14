@@ -35,7 +35,7 @@ color:$color-primary; display: inline-block;margin: auto;
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header theme="transparent"></c-header>
     <div class="c-page-body header-pd">
       <div class="login" v-if="panel === '1'">
@@ -93,6 +93,7 @@ export default {
     async login(){
       try {
         let { phone,password } = this;
+        this.$showLoading();
         let res = await services.login({
           phone,
           password
@@ -100,6 +101,7 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
         
         services.$setToken(res.data.token);
@@ -107,6 +109,7 @@ export default {
           this.$router.back();
         }, 1000);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

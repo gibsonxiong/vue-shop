@@ -46,7 +46,7 @@ ul {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header theme="transparent"></c-header>
     <div class="c-page-body header-pd">
       <div class="register">
@@ -161,6 +161,7 @@ export default {
           return this.toast("滑块验证失败");
         }
 
+        this.$showLoading();
         let { phone } = this;
         let res = await services.getSmsCode({
           phone,
@@ -172,14 +173,17 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
         this.countdown(60);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     },
     async register() {
       try {
+        this.$showLoading();
         let { phone, smsCode, password } = this;
         let res = await services.register({
           phone,
@@ -189,12 +193,14 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
+        this.$hideLoading();
         this.$toast(res.message);
 
         setTimeout(() => {
           this.$router.back();
         }, 1000);
       } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

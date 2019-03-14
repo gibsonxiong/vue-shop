@@ -18,7 +18,7 @@
 </style>
 
 <template>
-  <div class="pay-result-page">
+  <div class="pay-result-page page">
     <c-header :title="'每日签到'">
     </c-header>
     <div class="c-page-body header-pd">

@@ -41,7 +41,7 @@ li {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'个人资料'"></c-header>
     <div class="c-page-body header-pd">
       <div class="personaldata">

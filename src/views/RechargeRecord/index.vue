@@ -39,7 +39,7 @@ ul li:last-of-type {
 }
 </style>
 <template>
-  <div class="record-page">
+  <div class="record-page page">
     <c-header :title="'充值记录'"></c-header>
     <div class="c-page-body header-pd">
       <div class="record">

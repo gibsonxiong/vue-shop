@@ -86,7 +86,7 @@
 </style>
 
 <template>
-  <div class="coupon_page">
+  <div class="coupon_page page">
     <c-header :title="'我的优惠券'" :backType="1">
       <!-- <div slot="right" class="header_r">
         <i class="iconfont icon-my_light"></i>
