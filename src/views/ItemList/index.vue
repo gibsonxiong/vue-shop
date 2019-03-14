@@ -1,13 +1,6 @@
 
 <style scoped lang="scss">
 @import "~@/css/mixin";
-// .c-page-body {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-// }
 
 .slideX-enter-active,
 .slideX-leave-active {
@@ -207,7 +200,7 @@
       width: 2.7rem;
       height: 100%;
       background: #fff;
-      position: fixed;
+      position: absolute;
       top: 0;
       right: 0;
       .select_price {

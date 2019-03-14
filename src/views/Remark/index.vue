@@ -55,7 +55,7 @@ textarea {
   text-align: center;
   background: $color-primary;
   color: #fff;
-  position: fixed;
+  position: absolute;
   bottom: 0;
 }
 </style>

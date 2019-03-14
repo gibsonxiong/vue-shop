@@ -41,7 +41,7 @@
   width: 100%;
   padding: 0.12rem;
   background: #fff;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   display: flex;
   justify-content: flex-end;

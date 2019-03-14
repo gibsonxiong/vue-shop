@@ -8,7 +8,7 @@
   }
   .inner {
     z-index: 110;
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -79,7 +79,7 @@
 
   .COMM_MSGBOX {
     background-color: #fff;
-    position: fixed;
+    position: absolute;
     z-index: 110;
     top: 50%;
     left: 50%;

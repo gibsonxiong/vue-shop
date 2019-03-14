@@ -3,7 +3,7 @@
 @import "~@/css/mixin";
 .c-search {
   .list {
-    position: fixed;
+    position: absolute;
     top: 0.42rem;
     bottom: 0;
     width: 100%;
@@ -17,8 +17,8 @@
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     .item {
-      font-size: 0.13rem;
-      padding: 0.11rem 0.05rem;
+      font-size: 0.14rem;
+      padding: 0.15rem 0.05rem;
       // border-bottom: 1px solid $color-border;
 @include border-bottom();
 

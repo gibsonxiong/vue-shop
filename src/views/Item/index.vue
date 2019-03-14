@@ -270,7 +270,7 @@
   }
 
   .item_detail_pop_content {
-    position: fixed;
+    position: absolute;
     z-index: 110;
     bottom: 0;
     left: 0;

@@ -7,8 +7,8 @@
   margin-bottom: 0.1rem;
 }
 .evaluate_t img {
-  width: 0.3rem;
-  height: 0.3rem;
+  width: 0.35rem;
+  height: 0.35rem;
   border-radius: 50%;
 }
 
@@ -92,7 +92,7 @@ img {
             <span>{{rate.createTime | date}}</span>
             <span style="padding-left: 0.05rem;">{{rate.itemPropvalues}}</span>
           </p>
-          <p class="evaluate_txt">{{rate.content}}</p>
+          <p class="evaluate_txt">{{rate.content || '用户没有填写评价内容'}}</p>
           <div>
             <img
               v-for="(img,index) in rate.rateImgList"

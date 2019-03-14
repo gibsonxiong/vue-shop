@@ -31,7 +31,7 @@
   .share_box {
     z-index: 110;
     padding: 0.2rem 0.3rem;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     overflow: auto;

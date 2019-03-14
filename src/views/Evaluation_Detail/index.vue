@@ -10,6 +10,7 @@
 }
 .evaluate_t img {
   width: 0.35rem;
+      height: 0.35rem;
   border-radius: 50%;
 }
 .evaluate span {
@@ -114,7 +115,7 @@ img {
             <span>{{rateInfo.createTime | date}}</span>
             <span>{{rateInfo.itemPropvalues}}</span>
           </p>
-          <p class="evaluate_txt">{{rateInfo.content}}</p>
+          <p class="evaluate_txt">{{rateInfo.content || '用户没有填写评价内容'}}</p>
           <img
             v-for="(src,index) in rateInfo.rateImgList"
             :key="index"

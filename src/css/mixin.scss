@@ -74,7 +74,7 @@ $base: 200;
 
 @mixin mask($zIndex:100){
   z-index: $zIndex;
-  position: fixed;
+  position: absolute;
   top:0;
   left:0;
   width: 100%;

@@ -7,7 +7,7 @@
     @include mask(100);
   }
   .inner {
-    position: fixed;
+    position: absolute;
     z-index: 110;
     background-color: #fff;
     left: 0;

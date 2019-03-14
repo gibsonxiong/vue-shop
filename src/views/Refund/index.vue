@@ -182,7 +182,7 @@ img {
       v-model="refundReason"
       :data="refundReasonData"
       :visible="popupVisible"
-      @popupVisibleChange="popupVisible = $event"
+      @visibleChange="popupVisible = $event"
       nameKey="label"
       valueKey="value"
     ></c-select-popup>
@@ -243,7 +243,7 @@ export default {
         this.$toast(res.message);
 
         setTimeout(() => {
-          this.$route.back();
+          this.$router.back();
         }, 1000);
         
       } catch (err) {
