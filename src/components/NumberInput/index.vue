@@ -48,8 +48,8 @@ $btn-bgcolor-active: #eee;
   &__inner {
     -webkit-appearance: none;
     flex: 1;
-    width: 100%;
     border: 0;
+    min-width: 0;
     border-radius: 0;
     @include border-top(1px,$border-color);
     @include border-bottom(1px,$border-color);

@@ -245,6 +245,9 @@ svg:not(:root) {
  * 1. Change the font styles in all browsers (opinionated).
  * 2. Remove the margin in Firefox and Safari.
  */
+button{
+  border-radius: 0;
+}
 
 button,
 input,

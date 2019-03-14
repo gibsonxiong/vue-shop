@@ -2,7 +2,7 @@
 @import "~@/css/var";
 @import "~@/css/mixin";
 
-.c-page-body{
+.padding-wrap{
   padding-bottom: 0.65rem;
 }
 
@@ -63,19 +63,21 @@ textarea {
   <div class="record-page page">
     <c-header :title="'评价'"></c-header>
     <div class="c-page-body header-pd">
-      <div class="remark" v-for="(orderItem,index) in orderInfo.order_items" :key="index">
-        <div class="label">
-          <img class="shop_img" :src="orderItem.itemImg">
+      <div class="padding-wrap">
+        <div class="remark" v-for="(orderItem,index) in orderInfo.order_items" :key="index">
+          <div class="label">
+            <img class="shop_img" :src="orderItem.itemImg">
 
-          <p class="remark_lable">商品描述</p>
+            <p class="remark_lable">商品描述</p>
 
-          <c-rate v-model="params[index].score"></c-rate>
-          <p class="star_num">{{params[index].score | score}}</p> 
-        </div>
-        <div class="remark_img">
-          <textarea v-model="params[index].content" maxlength="200" rows="5" placeholder="宝贝满足您的期待吗？说说它的优点和美中不足的地方吧"></textarea>
-          <div class="img-wrap">
-            <c-upload :data="params[index].rateImgList" @remove="img_del(index,$event)" @add="img_add(index,$event)"></c-upload>
+            <c-rate v-model="params[index].score"></c-rate>
+            <p class="star_num">{{params[index].score | score}}</p> 
+          </div>
+          <div class="remark_img">
+            <textarea v-model="params[index].content" maxlength="200" rows="5" placeholder="宝贝满足您的期待吗？说说它的优点和美中不足的地方吧"></textarea>
+            <div class="img-wrap">
+              <c-upload :data="params[index].rateImgList" @remove="img_del(index,$event)" @add="img_add(index,$event)"></c-upload>
+            </div>
           </div>
         </div>
       </div>

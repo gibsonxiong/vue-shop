@@ -3,8 +3,8 @@
 @import "~@/css/var";
 .c-shopcart {
   &.in-tab {
-    .c-page-body {
-      padding-bottom: 1.05rem;
+    .padding-wrap {
+      padding-bottom: 1.2rem;
     }
 
     .item_page_footer {
@@ -12,8 +12,8 @@
     }
   }
 
-  .c-page-body {
-    padding-bottom: 0.5rem;
+  .padding-wrap {
+    padding-bottom: 0.75rem;
   }
 
   .list {
@@ -112,7 +112,7 @@
   }
 
   .item_page_footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -176,85 +176,88 @@
 <template>
   <div class="c-shopcart" :class="{'in-tab':inTab}">
     <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
-    <div class="c-page-body header-pd">
-      <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">亲~ 登录后才可以查看购物车
-        <div style="padding-top:0.2rem;">
-          <router-link tag="button" to="/login" class="c-btn btn-primary">去登录</router-link>
-        </div>
-      </div>
-      <div v-else-if="list && list.length > 0">
-        <div class="list" style="margin-top:-1px;">
-          <div class="item" v-for="(shopcart,index) in list" :key="index">
-            <label class="item-checkbox-wrap">
-              <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
-            </label>
-            <img class="item-img" v-lazy="shopcart.item.imgList[0]" alt @click="$router.push(`/items/${shopcart.item.id}`)">
-            <div class="item-content">
-              <router-link
-                tag="div"
-                :to="`/items/${shopcart.item.id}`"
-                class="item-name"
-              >{{shopcart.item.name}}</router-link>
-              <div class="item-prop-wrap">
-                <div class="item-prop">{{shopcart.sku.propvalueTextList}}</div>
-              </div>
-              <div class="tag-wrap">
-                <span class="c-tag" v-if="shopcart.flash && shopcart.flash.status == 1">限时特价</span>
-              </div>
-              <div class="item-bottom">
-                <div class="item-price" v-if="shopcart.flash && shopcart.flash.status == 1">￥{{shopcart.flash.sku.flashPrice}}</div>
-                <div class="item-price" v-else>￥{{shopcart.sku.price}}</div>
-                <c-number-input
-                  v-model="shopcart.quantity"
-                  :min="1"
-                  @input="updateShopcart(shopcart.id,$event)"
-                ></c-number-input>
-
-                <!-- <i class="iconfont icon-add1"></i> -->
-              </div>
-              <div
-                style="padding-top: 15px;
-                margin-bottom: -15px;
-                overflow: hidden;
-                color: #ccc;"
-              >
-                <i
-                  class="iconfont icon-close_light remove-btn"
-                  @click="removeShopcart(shopcart.id)"
-                ></i>
-              </div>
-            </div>
+    <div class="c-page-body">
+      <div class="padding-wrap c-header-pd">
+        <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">亲~ 登录后才可以查看购物车
+          <div style="padding-top:0.2rem;">
+            <router-link tag="button" to="/login" class="c-btn btn-primary">去登录</router-link>
           </div>
         </div>
-        <div class="item_page_footer">
-          <div class="item_page_footer_content chen_center_absolute">
-            <div class="item_page_footer_follow_wrap">
-              <label>
-                <c-checkbox v-model="allChecked" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
+        <div v-else-if="list && list.length > 0">
+          <div class="list" style="margin-top:-1px;">
+            <div class="item" v-for="(shopcart,index) in list" :key="index">
+              <label class="item-checkbox-wrap">
+                <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
               </label>
-              <div class="amount-wrap">
-                <div class="amount">
-                  合计:
-                  <span class="amount-strong">￥{{checkedAmount}}</span>
+              <img class="item-img" v-lazy="shopcart.item.imgList[0]" alt @click="$router.push(`/items/${shopcart.item.id}`)">
+              <div class="item-content">
+                <router-link
+                  tag="div"
+                  :to="`/items/${shopcart.item.id}`"
+                  class="item-name"
+                >{{shopcart.item.name}}</router-link>
+                <div class="item-prop-wrap">
+                  <div class="item-prop">{{shopcart.sku.propvalueTextList}}</div>
                 </div>
-                <div class="hint">不含运费</div>
+                <div class="tag-wrap">
+                  <span class="c-tag" v-if="shopcart.flash && shopcart.flash.status == 1">限时特价</span>
+                </div>
+                <div class="item-bottom">
+                  <div class="item-price" v-if="shopcart.flash && shopcart.flash.status == 1">￥{{shopcart.flash.sku.flashPrice}}</div>
+                  <div class="item-price" v-else>￥{{shopcart.sku.price}}</div>
+                  <c-number-input
+                    v-model="shopcart.quantity"
+                    :min="1"
+                    @input="updateShopcart(shopcart.id,$event)"
+                  ></c-number-input>
+
+                  <!-- <i class="iconfont icon-add1"></i> -->
+                </div>
+                <div
+                  style="padding-top: 15px;
+                  margin-bottom: -15px;
+                  overflow: hidden;
+                  color: #ccc;"
+                >
+                  <i
+                    class="iconfont icon-close_light remove-btn"
+                    @click="removeShopcart(shopcart.id)"
+                  ></i>
+                </div>
               </div>
             </div>
-            <button
-              :disabled="checkedCount === 0"
-              class="footer-btn"
-              @click="submit"
-            >结算({{checkedCount}})</button>
-            <!-- <div class="chen_center_absolute_center item_page_footer_buys_wrap"> -->
-            <!-- </div> -->
+          </div>
+
+        </div>
+
+        <c-empty-hint v-else icon="icon-cart_light" hint="您的购物车是空的哦！">
+          <button v-if="inTab" class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
+        </c-empty-hint>
+        <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
+      </div>
+    </div>
+    <div class="item_page_footer">
+      <div class="item_page_footer_content chen_center_absolute">
+        <div class="item_page_footer_follow_wrap">
+          <label>
+            <c-checkbox v-model="allChecked" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
+          </label>
+          <div class="amount-wrap">
+            <div class="amount">
+              合计:
+              <span class="amount-strong">￥{{checkedAmount}}</span>
+            </div>
+            <div class="hint">不含运费</div>
           </div>
         </div>
+        <button
+          :disabled="checkedCount === 0"
+          class="footer-btn"
+          @click="submit"
+        >结算({{checkedCount}})</button>
+        <!-- <div class="chen_center_absolute_center item_page_footer_buys_wrap"> -->
+        <!-- </div> -->
       </div>
-
-      <c-empty-hint v-else icon="icon-cart_light" hint="您的购物车是空的哦！">
-        <button v-if="inTab" class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
-      </c-empty-hint>
-      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
     </div>
   </div>
 </template>

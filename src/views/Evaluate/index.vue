@@ -75,42 +75,45 @@ img {
         >中评</div>
         <div class="select_data_item black" :class="{active: flag == 'bad'}" @click="changeFlag('bad')">差评</div>
       </div>
-      <router-link
-        tag="div"
-        :to="{ path:'/evaluation_detail', query:{rateId: rate.id}}"
-        class="evaluate"
-        v-for="(rate,index) in rateList"
-        :key="index"
-      >
-        <div class="evaluate_t" style="display:flex;align-items: center;">             
-          <img v-if="rate.user && rate.user.avatar" :src="rate.user.avatar | hostUrl">
-          <img v-else class="avator" src="@/assets/default_avator.jpg">
-          <span style="padding-left: 0.05rem;">{{rate.user.nickname}}</span>
-        </div>
-        <p style="color:#999;font-size:0.13rem;padding-top:0.05rem;">
-          <span>{{rate.createTime | date}}</span>
-          <span style="padding-left: 0.05rem;">{{rate.itemPropvalues}}</span>
-        </p>
-        <p class="evaluate_txt">{{rate.content}}</p>
-        <div>
-          <img
-            v-for="(img,index) in rate.rateImgList"
-            :key="index"
-            class="eva_txt_img"
-            :src="img | hostUrl"
-          >
-        </div>
-        <p style="text-align:right;padding:0.05rem 0;">
-          <span @click.stop="like(rate.id, rate.rateLikeId)">
-             <i
-                class="iconfont"
-                :class="rate.rateLikeId ? 'icon-appreciate_fill_light primary' : 'icon-appreciate_light'"
-              ></i>
-              <span class="ccc">{{rate.likeCount}}</span>
-          </span>
-         
-        </p>
-      </router-link>
+      <div v-if="rateList.length > 0">
+        <router-link
+          tag="div"
+          :to="{ path:'/evaluation_detail', query:{rateId: rate.id}}"
+          class="evaluate"
+          v-for="(rate,index) in rateList"
+          :key="index"
+        >
+          <div class="evaluate_t" style="display:flex;align-items: center;">             
+            <img v-if="rate.user && rate.user.avatar" :src="rate.user.avatar | hostUrl">
+            <img v-else class="avator" src="@/assets/default_avator.jpg">
+            <span style="padding-left: 0.05rem;">{{rate.user.nickname}}</span>
+          </div>
+          <p style="color:#999;font-size:0.13rem;padding-top:0.05rem;">
+            <span>{{rate.createTime | date}}</span>
+            <span style="padding-left: 0.05rem;">{{rate.itemPropvalues}}</span>
+          </p>
+          <p class="evaluate_txt">{{rate.content}}</p>
+          <div>
+            <img
+              v-for="(img,index) in rate.rateImgList"
+              :key="index"
+              class="eva_txt_img"
+              :src="img | hostUrl"
+            >
+          </div>
+          <p style="text-align:right;padding:0.05rem 0;">
+            <span @click.stop="likeRate(rate.id, rate.rateLikeId)">
+              <i
+                  class="iconfont"
+                  :class="rate.rateLikeId ? 'icon-appreciate_fill_light primary' : 'icon-appreciate_light'"
+                ></i>
+                <span class="ccc">{{rate.likeCount}}</span>
+            </span>
+          
+          </p>
+        </router-link>
+      </div>
+      <c-empty-hint v-else hint="还没有相关评价" icon="icon-comment_light"></c-empty-hint>
     </div>
   </div>
 </template>
@@ -156,7 +159,7 @@ export default {
 
       this.fetchItemRateList();
     },
-    async like(rateId, rateLikeId) {
+    async likeRate(rateId, rateLikeId) {
       try {
         this.$showLoading();
         let { itemId, flag } = this;

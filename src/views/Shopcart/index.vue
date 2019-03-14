@@ -6,7 +6,7 @@
 
 <template>
   <div class="shopcart-page page">
-    <c-shopcart :inTab="false" ref="shopcart" cacheId="shopcart"></c-shopcart>
+    <c-shopcart style="height:100%" :inTab="false" ref="shopcart" cacheId="shopcart"></c-shopcart>
   </div>
 </template>
 

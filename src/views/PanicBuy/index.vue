@@ -17,17 +17,19 @@
 .buy_time_ul {
   color: rgba(#fff, 0.6);
   padding: 0.1rem;
-  width:1.2rem;
+  min-width:0.7rem;
   &.active {
     color: #fff;
   }
 }
 .buy_time_ul div:first-of-type {
   font-size: 0.2rem;
+      text-align: center;
 }
 .buy_time_ul div:last-of-type {
   font-size: 0.12rem;
   text-align: center;
+  white-space: nowrap;
 }
 .color_fff {
   color: #fff;

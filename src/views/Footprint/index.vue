@@ -3,10 +3,6 @@
 .footprint-page {
   background: #e8e8e8;
 }
-.c-page-body {
-  padding-bottom:0.8rem;
-  // padding: 0.44rem 0.1rem 0.1rem 0.1rem;
-}
 
 .list-title {
   padding: 0.05rem;

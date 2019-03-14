@@ -6,14 +6,14 @@ $color: #444;
 $color-active: rgba(0, 0, 0, 0.2);
 $bg-color: #f8f8f8;
 .c-header {
-  position: fixed;
+  position: absolute;
   z-index: 90;
   top: 0;
   right: 0;
   left: 0;
   color: $color;
   background: $bg-color;
-  @include border-bottom(1px,rgba(230, 230, 230, 0.5));
+  @include border-bottom(1px, rgba(230, 230, 230, 0.5));
   height: $height;
 
   &.transparent {
@@ -81,19 +81,19 @@ $bg-color: #f8f8f8;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-    margin: 0;
+    margin: 0 0.2rem;
   }
 
   .header-left,
   .header-right {
-        z-index: 1;
+    z-index: 1;
     a {
       font-size: 0.14rem;
       font-weight: 400;
       color: $color;
       padding: 0 0.05rem;
 
-      .iconfont{
+      .iconfont {
         font-size: 0.22rem;
         width: 0.22rem;
       }
@@ -205,7 +205,7 @@ export default {
       let rightWdith = this.$refs.right.offsetWidth;
       let maxWidth = Math.max(leftWdith, rightWdith);
       this.centerPaddingX = maxWidth;
-console.log(this);
+      console.log(this);
       console.log(this.centerPaddingX);
     },
     toBack() {

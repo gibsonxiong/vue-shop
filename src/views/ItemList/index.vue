@@ -1,13 +1,13 @@
 
 <style scoped lang="scss">
 @import "~@/css/mixin";
-.c-page-body {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+// .c-page-body {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+// }
 
 .slideX-enter-active,
 .slideX-leave-active {
@@ -47,6 +47,7 @@
     flex-direction: column;
     height: 100%;
     position: relative;
+    overflow: hidden;
     .list_select {
       background: #fff;
       padding: pxTorem(20) 0.2rem;
@@ -61,7 +62,7 @@
         flex: 1;
       }
       .select_item:not(:last-child) {
-        @include border-right($color-border);
+        @include border-right();
       }
       .select_item_active {
         color: $color-primary;
@@ -251,7 +252,7 @@
 
 <template>
   <div class="item-list-page page">
-    <div v-show="!search.visible">
+    <div style="height:100%;" v-show="!search.visible">
       <c-header>
         <div class="c-input-mask" slot="center" @click="showSearch">
           <c-search-input v-model="searchText" style="width:100%;"></c-search-input>

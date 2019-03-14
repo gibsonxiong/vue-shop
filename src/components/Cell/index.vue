@@ -59,13 +59,15 @@ $padding-y: 0.12rem;
   }
 
   .c-cell-name {
-    color: #444;
+    color: #666;
     font-weight: 500;
-    font-weight: 400;
   }
 
   .c-cell-value {
-    color: #888;
+    color: #bbb;
+    font-size: 0.14rem;
+    line-height: 0.14rem;
+    vertical-align: text-top;
   }
 }
 </style>

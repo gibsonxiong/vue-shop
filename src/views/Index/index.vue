@@ -1,7 +1,12 @@
 <style scoped lang="scss">
 @import "~@/css/var";
 @import "~@/css/mixin";
-.index-page {
+.tab-container {
+  height: 100%;
+}
+
+.tab-content {
+  height: 100%;
 }
 
 .tab {
@@ -13,7 +18,7 @@
   &.tab--fixed {
     // border-top: 1px solid rgba(230, 230, 230, 0.5);
     @include border-top();
-    position: fixed;
+    position: absolute;
     width: 100%;
     left: 0;
     bottom: 0;
@@ -46,7 +51,7 @@
 
 <template>
   <div class="index-page page">
-    <div v-show="!search.visible">
+    <div v-show="!search.visible" class="tab-container">
       <div
         class="tab-content"
         v-for="(item,index) in tab.items"
@@ -55,6 +60,7 @@
       >
         <keep-alive>
           <component
+            style="height:100%;"
             v-if="item.inited"
             :ref="`tabContent${index}`"
             :cacheId="`tabContent${index}`"

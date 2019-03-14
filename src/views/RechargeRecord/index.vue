@@ -1,9 +1,7 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 @import "~@/css/mixin";
-.c-page-body {
-  background: #f3f3f3;
-}
+
 .record {
   background: #fff;
   padding: 0 0.1rem;

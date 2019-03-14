@@ -99,12 +99,12 @@ const services = {
 
   //获取验证码
   async getSmsCode({
-      phone,
+    phone,
     type,
     geetest_challenge,
     geetest_validate,
     geetest_seccode
-    }) {
+  }) {
 
     return (await request.post('/getSmsCode', {
       phone,
@@ -148,10 +148,10 @@ const services = {
 
   //重置密码
   async resetPassword({
-      phone,
+    phone,
     smsCode,
     password
-    }) {
+  }) {
 
     return (await request.post('/resetPassword', {
       phone,
@@ -374,8 +374,8 @@ const services = {
 
   //物流查询
   async getOrderDeliver({
-      orderId
-    }) {
+    orderId
+  }) {
     return (await request.get(`/orders/${orderId}/getDeliver`)).data;
   },
 
@@ -516,7 +516,9 @@ const services = {
   async fetchRateInfo({
     rateId
   }) {
-    return (await request.get(`/rates/${rateId}`)).data;
+    return (await request.get(`/rates/${rateId}`, {
+      skipCheckToken: true
+    })).data;
   },
 
   //评价点赞

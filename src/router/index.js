@@ -156,8 +156,19 @@ const router = new Router({
   },
   {
     path: '/evaluate',
-    name: 'evaluate',
-    component: Evaluate
+    component: Evaluate,
+    meta: {
+      skipCheckToken: true
+    }
+  },{
+    path: '/my_ecaluation',
+    component: MyEvaluation
+  }, {
+    path: '/evaluation_detail',
+    component: Evaluation_Detail,
+    meta: {
+      skipCheckToken: true
+    }
   },
   {
     path: '/confirmorder',
@@ -205,7 +216,7 @@ const router = new Router({
     meta: {
       skipCheckToken: true
     }
-  },{
+  }, {
     path: '/rate-result',
     component: RateResult,
     meta: {
@@ -225,12 +236,6 @@ const router = new Router({
     meta: {
       skipCheckToken: true
     }
-  },{
-    path: '/my_ecaluation',
-    component: MyEvaluation
-  }, {
-    path: '/evaluation_detail',
-    component: Evaluation_Detail
   }, {
     path: '/vip',
     component: VIP

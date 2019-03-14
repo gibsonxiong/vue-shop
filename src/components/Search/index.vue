@@ -2,9 +2,6 @@
 @import "~@/css/var";
 @import "~@/css/mixin";
 .c-search {
-  .c-page-body {
-  }
-
   .list {
     position: fixed;
     top: 0.42rem;
@@ -81,28 +78,30 @@
       <!-- <a slot="right" @click="search(searchText)">搜索</a> -->
       <a slot="right" @click="$emit('close')">取消</a>
     </c-header>
-    <div class="c-page-body header-pd">
-      <div class="list" v-if="searchText.length > 0">
-        <div
-          class="item"
-          v-for="(item,index) in searchTipList"
-          :key="index"
-          @click="search(item[0])"
-        >{{item[0]}}</div>
-      </div>
-      <div v-show="searchText.length == 0" class>
-        <div class="history-wrap" v-if="searchHistoryList.length > 0">
-          <div class="wrap-header">
-            <h3 class="wrap-title">历史搜索</h3>
-            <i class="iconfont icon-delete" @click="deleteSearchHistory"></i>
-          </div>
-          <div class="tag-wrap">
-            <span
-              class="history-tag"
-              v-for="(item,index) in searchHistoryList"
-              :key="index"
-              @click="search(item)"
-            >{{item}}</span>
+    <div class="c-page-body">
+      <div class="c-header-pd">
+        <div class="list" v-if="searchText.length > 0">
+          <div
+            class="item"
+            v-for="(item,index) in searchTipList"
+            :key="index"
+            @click="search(item[0])"
+          >{{item[0]}}</div>
+        </div>
+        <div v-show="searchText.length == 0" class>
+          <div class="history-wrap" v-if="searchHistoryList.length > 0">
+            <div class="wrap-header">
+              <h3 class="wrap-title">历史搜索</h3>
+              <i class="iconfont icon-delete" @click="deleteSearchHistory"></i>
+            </div>
+            <div class="tag-wrap">
+              <span
+                class="history-tag"
+                v-for="(item,index) in searchHistoryList"
+                :key="index"
+                @click="search(item)"
+              >{{item}}</span>
+            </div>
           </div>
         </div>
       </div>

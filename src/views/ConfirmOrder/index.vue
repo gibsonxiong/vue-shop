@@ -1,7 +1,7 @@
 <style scoped lang="scss">
 @import "~@/css/var";
 @import "~@/css/mixin";
-.c-page-body {
+.padding-wrap {
   padding-bottom: 0.8rem;
 }
 .address-wrap {
@@ -104,75 +104,77 @@ input {
 <template>
   <div class="confirmorder-page page">
     <c-header :title="'确认订单'"></c-header>
-    <div class="c-page-body header-pd">
-      <div @click="selectAddress" class="address-wrap">
-        <i class="iconfont icon-location_light"></i>
-        <div class="confirmoder_address_info">
-          <template v-if="orderInfo.address">
+    <div class="c-page-body">
+      <div class="padding-wrap c-header-pd">
+        <div @click="selectAddress" class="address-wrap">
+          <i class="iconfont icon-location_light"></i>
+          <div class="confirmoder_address_info">
+            <template v-if="orderInfo.address">
+              <div>
+                <span>{{orderInfo.address.name}}</span>
+                <span>{{orderInfo.address.phone}}</span>
+              </div>
+              <div>
+                <span>{{orderInfo.address.province}}</span>
+                <span>{{orderInfo.address.city}}</span>
+                <span>{{orderInfo.address.area}}</span>
+                <span>{{orderInfo.address.detailAddr}}</span>
+              </div>
+            </template>
+            <div v-else>请选择地址</div>
+          </div>
+          <p style="transform:rotateZ(180deg);display: inline-block;">
+            <i style="font-size:16px;padding-right:0.1rem;" class="iconfont icon-back_light"></i>
+          </p>
+        </div>
+        <div class="order-info-wrap">
+          <div style="width:95%;margin:auto;padding:0.1rem 0;">
+            <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
+            <span>母婴用品商城</span>
+          </div>
+          <div
+          class="item-wrap"
+            v-for="(item,index) in orderInfo.orderItems"
+            :key="index"
+          >
             <div>
-              <span>{{orderInfo.address.name}}</span>
-              <span>{{orderInfo.address.phone}}</span>
+              <img style="width:0.8rem;height:0.8rem;" :src="item.item.imgList[0]" alt>
             </div>
-            <div>
-              <span>{{orderInfo.address.province}}</span>
-              <span>{{orderInfo.address.city}}</span>
-              <span>{{orderInfo.address.area}}</span>
-              <span>{{orderInfo.address.detailAddr}}</span>
+            <div style="flex:1;padding:0 0.1rem;font-size:0.13rem;font-weight:500">
+              <div class="item-name">{{item.item.name}}</div>
+              <p style="color:#999;font-size:12px;margin-top: 0.05rem;">{{item.sku.propvalueTextList}}</p>
             </div>
-          </template>
-          <div v-else>请选择地址</div>
-        </div>
-        <p style="transform:rotateZ(180deg);display: inline-block;">
-          <i style="font-size:16px;padding-right:0.1rem;" class="iconfont icon-back_light"></i>
-        </p>
-      </div>
-      <div class="order-info-wrap">
-        <div style="width:95%;margin:auto;padding:0.1rem 0;">
-          <i class="iconfont icon-shoplight" style="padding-right:0.05rem"></i>
-          <span>母婴用品商城</span>
-        </div>
-        <div
-        class="item-wrap"
-          v-for="(item,index) in orderInfo.orderItems"
-          :key="index"
-        >
-          <div>
-            <img style="width:0.8rem;height:0.8rem;" :src="item.item.imgList[0]" alt>
-          </div>
-          <div style="flex:1;padding:0 0.1rem;font-size:0.13rem;font-weight:500">
-            <div class="item-name">{{item.item.name}}</div>
-            <p style="color:#999;font-size:12px;margin-top: 0.05rem;">{{item.sku.propvalueTextList}}</p>
-          </div>
-          <div style="text-align:right;">
-            <span v-if="item.flash && item.flash.status == 1">￥{{item.flash.sku.flashPrice}}</span>
-            <span v-else>￥{{item.sku.price}}</span>
-            <div style="color:#999;font-size:12px;">
-              <span>x{{item.quantity}}</span>
+            <div style="text-align:right;">
+              <span v-if="item.flash && item.flash.status == 1">￥{{item.flash.sku.flashPrice}}</span>
+              <span v-else>￥{{item.sku.price}}</span>
+              <div style="color:#999;font-size:12px;">
+                <span>x{{item.quantity}}</span>
+              </div>
             </div>
           </div>
+          <c-cell-list>
+            <c-cell name="商品小计" :value="`￥${orderInfo.itemFee || 0}`" :isLink="false"></c-cell>
+            <c-cell name="运费" :value="`￥${orderInfo.postFee || 0 }`" :isLink="false"></c-cell>
+            <c-cell
+              v-if="orderInfo.couponList && orderInfo.couponList.length > 0"
+              name="优惠券"
+              :value="`${orderInfo.coupon? orderInfo.coupon.coupon.name : ''}`"
+              @click="popupVisible=true"
+            ></c-cell>
+            <c-cell name="买家留言：">
+              <input slot="right" type="text" v-model="params.remark" placeholder="50字以内（选填）">
+            </c-cell>
+          </c-cell-list>
+          <!--  -->
+          <p class="total" style>
+            共
+            <span class="strong">{{orderInfo.itemCount}}</span> 件商品
+            <span style="padding-left:0.05rem;">
+              合计：
+              <span class="strong">￥{{orderInfo.orderFee}}</span>
+            </span>
+          </p>
         </div>
-        <c-cell-list>
-          <c-cell name="商品小计" :value="`￥${orderInfo.itemFee || 0}`" :isLink="false"></c-cell>
-          <c-cell name="运费" :value="`￥${orderInfo.postFee || 0 }`" :isLink="false"></c-cell>
-          <c-cell
-            v-if="orderInfo.couponList && orderInfo.couponList.length > 0"
-            name="优惠券"
-            :value="`${orderInfo.coupon? orderInfo.coupon.coupon.name : ''}`"
-            @click="popupVisible=true"
-          ></c-cell>
-          <c-cell name="买家留言：">
-            <input slot="right" type="text" v-model="params.remark" placeholder="50字以内（选填）">
-          </c-cell>
-        </c-cell-list>
-        <!--  -->
-        <p class="total" style>
-          共
-          <span class="strong">{{orderInfo.itemCount}}</span> 件商品
-          <span style="padding-left:0.05rem;">
-            合计：
-            <span class="strong">￥{{orderInfo.orderFee}}</span>
-          </span>
-        </p>
       </div>
     </div>
     <div class="footer">

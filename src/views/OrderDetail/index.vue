@@ -3,8 +3,7 @@
 @import "~@/css/mixin";
 .orderDetail-page {
 }
-.c-page-body {
-  background: #f3f3f3;
+.padding-wrap {
   padding-bottom: 0.8rem;
 }
 .oderD_one {
@@ -95,131 +94,133 @@
   <div class="orderDetail-page page">
     <c-header :title="'订单详情'"></c-header>
     <div class="c-page-body header-pd">
-      <!--  -->
-      <div class="oderD_one">
-        <template v-if="orderInfo.status == '1'">
-          <div>
-            <p class="main">等待买家付款</p>
-            <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动关闭</p>
-          </div>
-        </template>
-        <template v-else-if="orderInfo.status == '2'">
-          <div>
-            <p class="main">买家已付款</p>
-          </div>
-        </template>
-        <template v-else-if="orderInfo.status == '3'">
-          <div>
-            <p class="main">卖家已发货</p>
-            <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动确认</p>
-          </div>
-        </template>
-        <template v-else-if="orderInfo.status == '4' || orderInfo.status == '5'">
-          <div>
-            <p class="main">交易成功</p>
-          </div>
-        </template>
-        <template v-else-if="orderInfo.status == '9'">
-          <div>
-            <p class="main">交易关闭</p>
-            <p class="sub">{{orderInfo.cancelReason}}</p>
-          </div>
-        </template>
-      </div>
-      <!--  -->
-      <div class="oderD_two">
-        <i class="iconfont icon-location_light"></i>
-        <ul>
-          <li>
-            <span>{{orderInfo.receiverName}}</span>
-            <span>{{orderInfo.receiverPhone}}</span>
-          </li>
-          <li>
-            <span>{{orderInfo.receiverProvince}}{{orderInfo.receiverCity}}{{orderInfo.receiverArea}}</span>
-            <span>{{orderInfo.receiverDetailAddr}}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="oderD_three">
+      <div class="padding-wrap">
         <!--  -->
-        <div style="width:95%;margin:auto;padding:0.1rem 0;">
-          <i class="iconfont icon-shoplight" style="padding-right:0.03rem"></i>
-          <span>母婴用品商城</span>
+        <div class="oderD_one">
+          <template v-if="orderInfo.status == '1'">
+            <div>
+              <p class="main">等待买家付款</p>
+              <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动关闭</p>
+            </div>
+          </template>
+          <template v-else-if="orderInfo.status == '2'">
+            <div>
+              <p class="main">买家已付款</p>
+            </div>
+          </template>
+          <template v-else-if="orderInfo.status == '3'">
+            <div>
+              <p class="main">卖家已发货</p>
+              <p class="sub">剩{{dd > 0 ? dd+'天':''}}{{hh}}小时{{mm}}分自动确认</p>
+            </div>
+          </template>
+          <template v-else-if="orderInfo.status == '4' || orderInfo.status == '5'">
+            <div>
+              <p class="main">交易成功</p>
+            </div>
+          </template>
+          <template v-else-if="orderInfo.status == '9'">
+            <div>
+              <p class="main">交易关闭</p>
+              <p class="sub">{{orderInfo.cancelReason}}</p>
+            </div>
+          </template>
         </div>
         <!--  -->
-        <div class="item-wrap" v-for="(orderItem,index) in orderInfo.order_items" :key="index" @click="$router.push(`/items/${orderItem.itemId}`)">
-          <div
-            style="width:95%;margin:auto;padding:0.12rem 0;display: flex;"
-          >
-            <div style="width:20%;">
-              <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
-                <img  v-lazy="orderItem.itemImg" alt>
-              </div>
-            </div>
-            <div style="width:65%;padding:0 0.1rem">
-              <span style="font-size:0.13rem;font-weight:500;">{{orderItem.itemName}}</span>
-              <p style="color:#999;font-size:0.12rem;">{{orderItem.itemPropvalues}}</p>
-            </div>
-            <div style="width:15%;text-align:right;">
-              <span>￥{{orderItem.itemPrice}}</span>
-              <div style="color:#999;font-size:12px;">
-                <span>×{{orderItem.quantity}}</span>
-              </div>
-            </div>
+        <div class="oderD_two">
+          <i class="iconfont icon-location_light"></i>
+          <ul>
+            <li>
+              <span>{{orderInfo.receiverName}}</span>
+              <span>{{orderInfo.receiverPhone}}</span>
+            </li>
+            <li>
+              <span>{{orderInfo.receiverProvince}}{{orderInfo.receiverCity}}{{orderInfo.receiverArea}}</span>
+              <span>{{orderInfo.receiverDetailAddr}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="oderD_three">
+          <!--  -->
+          <div style="width:95%;margin:auto;padding:0.1rem 0;">
+            <i class="iconfont icon-shoplight" style="padding-right:0.03rem"></i>
+            <span>母婴用品商城</span>
           </div>
-          <!-- 退款按钮 -->
-          <p v-if="orderInfo.status==2" class="refund_btn-wrap">
-            <button
-              class="c-btn"
-              @click.stop="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
-            >退款</button>
+          <!--  -->
+          <div class="item-wrap" v-for="(orderItem,index) in orderInfo.order_items" :key="index" @click="$router.push(`/items/${orderItem.itemId}`)">
+            <div
+              style="width:95%;margin:auto;padding:0.12rem 0;display: flex;"
+            >
+              <div style="width:20%;">
+                <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
+                  <img  v-lazy="orderItem.itemImg" alt>
+                </div>
+              </div>
+              <div style="width:65%;padding:0 0.1rem">
+                <span style="font-size:0.13rem;font-weight:500;">{{orderItem.itemName}}</span>
+                <p style="color:#999;font-size:0.12rem;">{{orderItem.itemPropvalues}}</p>
+              </div>
+              <div style="width:15%;text-align:right;">
+                <span>￥{{orderItem.itemPrice}}</span>
+                <div style="color:#999;font-size:12px;">
+                  <span>×{{orderItem.quantity}}</span>
+                </div>
+              </div>
+            </div>
+            <!-- 退款按钮 -->
+            <p v-if="orderInfo.status==2" class="refund_btn-wrap">
+              <button
+                class="c-btn"
+                @click.stop="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
+              >退款</button>
+            </p>
+          </div>
+        </div>
+        <!--  -->
+        <div class="oderD_four">
+          <ul>
+            <li>
+              <div>商品小计</div>
+              <div>￥{{orderInfo.itemFee}}</div>
+            </li>
+            <li>
+              <div>运费</div>
+              <div>￥{{orderInfo.postFee}}</div>
+            </li>
+            <li v-if="orderInfo.discountFee > 0">
+              <div>优惠券减免</div>
+              <div>-￥{{orderInfo.discountFee}}</div>
+            </li>
+            <li>
+              <div>实付费(含运费)</div>
+              <div style="color:$color-primary;">￥{{orderInfo.orderFee}}</div>
+            </li>
+          </ul>
+        </div>
+        <!--  -->
+        <div class="oderD_five">
+          <h2 style="font-size:0.14rem;margin-bottom:0.12rem;color:#444;font-weight:500;">订单信息</h2>
+          <p>
+            <span>订单编号</span>
+            <span>{{orderInfo.orderNo}}</span>
+          </p>
+          <p>
+            <span>创建时间</span>
+            <span>{{orderInfo.createTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
+          </p>
+          <p v-if="orderInfo.payTime">
+            <span>付款时间</span>
+            <span>{{orderInfo.payTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
+          </p>
+          <p v-if="orderInfo.deliverTime">
+            <span>发货时间</span>
+            <span>{{orderInfo.deliverTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
+          </p>
+          <p v-if="orderInfo.endTime">
+            <span>成交时间</span>
+            <span>{{orderInfo.endTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
           </p>
         </div>
-      </div>
-      <!--  -->
-      <div class="oderD_four">
-        <ul>
-          <li>
-            <div>商品小计</div>
-            <div>￥{{orderInfo.itemFee}}</div>
-          </li>
-          <li>
-            <div>运费</div>
-            <div>￥{{orderInfo.postFee}}</div>
-          </li>
-          <li v-if="orderInfo.discountFee > 0">
-            <div>优惠券减免</div>
-            <div>-￥{{orderInfo.discountFee}}</div>
-          </li>
-          <li>
-            <div>实付费(含运费)</div>
-            <div style="color:$color-primary;">￥{{orderInfo.orderFee}}</div>
-          </li>
-        </ul>
-      </div>
-      <!--  -->
-      <div class="oderD_five">
-        <h2 style="font-size:0.14rem;margin-bottom:0.12rem;color:#444;font-weight:500;">订单信息</h2>
-        <p>
-          <span>订单编号</span>
-          <span>{{orderInfo.orderNo}}</span>
-        </p>
-        <p>
-          <span>创建时间</span>
-          <span>{{orderInfo.createTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
-        </p>
-        <p v-if="orderInfo.payTime">
-          <span>付款时间</span>
-          <span>{{orderInfo.payTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
-        </p>
-        <p v-if="orderInfo.deliverTime">
-          <span>发货时间</span>
-          <span>{{orderInfo.deliverTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
-        </p>
-        <p v-if="orderInfo.endTime">
-          <span>成交时间</span>
-          <span>{{orderInfo.endTime | date('yyyy-MM-dd hh:mm:ss')}}</span>
-        </p>
       </div>
     </div>
     <div class="footer">

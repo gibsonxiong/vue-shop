@@ -7,7 +7,7 @@ $padding-y: 0.12rem;
 .c-cell-list {
   background-color: #fff;
   // @include border-top();
-  @include border-bottom();
+  // @include border-bottom();
   padding-left: $padding-x;
 }
 </style>

@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
-@import "~@/css/var";
-.c-page-body{
-  padding-bottom: 0.2rem;
+@import "~@/css/include";
+.padding-wrap {
+  padding-bottom: 0.7rem;
 }
 .evaluate {
   background: #fff;
@@ -35,7 +35,7 @@ img {
 }
 .goodsitem {
   background: #f8f8f8;
-  display: flex;
+  @include flexbox;
   margin-top: 0.1rem;
 }
 .goodsitem img {
@@ -43,30 +43,29 @@ img {
   height: 0.7rem;
 }
 .goodsitem ul li:first-of-type {
-  width: 2.6rem;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   height: 0.4rem;
+  line-height: 0.2rem;
+  margin-bottom: 0.05rem;
+  color: #444;
 }
 .goodsitem ul {
   padding: 0.05rem;
 }
-.iconfont {
-  padding-right: 0.05rem;
-}
+
 .detail_btn {
   display: flex;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   left: 0;
   // display: none;
 }
 .detail_btn button {
-  border: 1px solid #cccccc47;
+  border: 1px solid $color-border;
   padding: 0.15rem;
-  width: 50%;
+  // width: 50%;
+  flex: 1;
   background: #fff;
 }
 .evaluation_nother {
@@ -103,62 +102,65 @@ img {
 <template>
   <div class="record-page page">
     <c-header :title="'评价详情'"></c-header>
-    <div class="c-page-body header-pd">
-      <div class="evaluate">
-        <div class="evaluate_t" style="display:flex;align-items: center;">
-          <img v-if="rateInfo.user && rateInfo.user.avatar" :src="rateInfo.user.avatar | hostUrl">
-          <img v-else class="avator" src="@/assets/default_avator.jpg">
-          <span>{{rateInfo.user && rateInfo.user.nickname}}</span>
-        </div>
-        <p style="color:#999;font-size:0.13rem;padding-top:0.05rem;">
-          <span>{{rateInfo.createTime | date}}</span>
-          <span>{{rateInfo.itemPropvalues}}</span>
-        </p>
-        <p class="evaluate_txt">{{rateInfo.content}}</p>
-        <img
-          v-for="(src,index) in rateInfo.rateImgList"
-          :key="index"
-          class="eva_txt_img"
-          :src="src  | hostUrl"
-        >
-        <router-link tag="div" :to="{path:`/items/${rateInfo.itemId}`}" class="goodsitem">
-          <img :src="rateInfo.itemImg">
-          <ul>
-            <li>{{rateInfo.itemName}}</li>
-            <li>￥{{rateInfo.itemPrice}}</li>
-          </ul>
-        </router-link>
-      </div>
-      <!-- <div class="evaluation_nother">
-        <p style="border-bottom: 1px solid #cccccc52;padding: 0.1rem 0;">
-          <i class="iconfont icon-comment_light" style="color:#3A73D2"></i>
-          全部评论(
-          <span>{{othder_item.length}}</span>)
-        </p>
-        <p style="padding:0.5rem;text-align:center;color:#ccc;" v-if="shopdata">沙发还空着，快来抢吧~</p>
-        <div class="evaluation_nother_con" v-else v-for="(val,index) in othder_item" :key="index">
-          <img src="http://img4.imgtn.bdimg.com/it/u=283021115,1881290219&fm=26&gp=0.jpg">
-          <ul>
-            <li>{{val.name}}</li>
-            <li>
-              <span>{{val.time}}</span>
-              <span @click="delete_evalue()">删除</span>
-            </li>
-            <li>{{val.txt}}</li>
-          </ul>
-          <p>
-            <i class="iconfont icon-appreciate_light"></i>赞
+    <div class="c-page-body">
+      <div class="padding-wrap c-header-pd">
+        <div class="evaluate">
+          <div class="evaluate_t" style="display:flex;align-items: center;">
+            <img v-if="rateInfo.user && rateInfo.user.avatar" :src="rateInfo.user.avatar | hostUrl">
+            <img v-else class="avator" src="@/assets/default_avator.jpg">
+            <span>{{rateInfo.user && rateInfo.user.nickname}}</span>
+          </div>
+          <p style="color:#999;font-size:0.13rem;padding-top:0.05rem;">
+            <span>{{rateInfo.createTime | date}}</span>
+            <span>{{rateInfo.itemPropvalues}}</span>
           </p>
+          <p class="evaluate_txt">{{rateInfo.content}}</p>
+          <img
+            v-for="(src,index) in rateInfo.rateImgList"
+            :key="index"
+            class="eva_txt_img"
+            :src="src  | hostUrl"
+          >
+          <router-link tag="div" :to="{path:`/items/${rateInfo.itemId}`}" class="goodsitem">
+            <img :src="rateInfo.itemImg">
+            <ul>
+              <li>{{rateInfo.itemName}}</li>
+              <li>￥{{rateInfo.itemPrice}}</li>
+            </ul>
+          </router-link>
         </div>
+        <!-- <div class="evaluation_nother">
+          <p style="border-bottom: 1px solid #cccccc52;padding: 0.1rem 0;">
+            <i class="iconfont icon-comment_light" style="color:#3A73D2"></i>
+            全部评论(
+            <span>{{othder_item.length}}</span>)
+          </p>
+          <p style="padding:0.5rem;text-align:center;color:#ccc;" v-if="shopdata">沙发还空着，快来抢吧~</p>
+          <div class="evaluation_nother_con" v-else v-for="(val,index) in othder_item" :key="index">
+            <img src="http://img4.imgtn.bdimg.com/it/u=283021115,1881290219&fm=26&gp=0.jpg">
+            <ul>
+              <li>{{val.name}}</li>
+              <li>
+                <span>{{val.time}}</span>
+                <span @click="delete_evalue()">删除</span>
+              </li>
+              <li>{{val.txt}}</li>
+            </ul>
+            <p>
+              <i class="iconfont icon-appreciate_light"></i>赞
+            </p>
+          </div>
+        </div>-->
       </div>
-      <div class="detail_btn">
-        <button>
-          <i class="iconfont icon-comment_light"></i>评论
-        </button>
-        <button>
-          <i class="iconfont icon-appreciate_light"></i>点赞
-        </button>
-      </div> -->
+    </div>
+    <div class="detail_btn">
+      <!-- <button>
+        <i class="iconfont icon-comment_light"></i>评论
+      </button>-->
+      <button @click="likeRate">
+        <i class="iconfont" :class="rateInfo.rateLikeId ? 'icon-appreciate_fill_light primary' : 'icon-appreciate_light'"></i>
+        {{rateInfo.rateLikeId ? '取消点赞': '点赞'}}({{rateInfo.likeCount}})
+      </button>
     </div>
   </div>
 </template>
@@ -189,6 +191,32 @@ export default {
 
         this.rateInfo = res.data;
       } catch (err) {
+        return this.$toast(err.message);
+      }
+    },
+
+    async likeRate() {
+      try {
+        this.$showLoading();
+        let { itemId, flag } = this;
+        let isLike = this.rateInfo.rateLikeId ? false : true;
+        let res = await services.rateLike({
+          rateId:this.rateId,
+          isLike
+        });
+
+        if (services.$isError(res)) throw new Error(res.message);
+
+        this.rateInfo.rateLikeId = res.data.rateLikeId;
+        if (isLike) {
+          this.rateInfo.likeCount++;
+        } else {
+          this.rateInfo.likeCount--;
+        }
+
+        this.$hideLoading();
+      } catch (err) {
+        this.$hideLoading();
         return this.$toast(err.message);
       }
     }

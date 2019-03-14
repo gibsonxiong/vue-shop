@@ -166,82 +166,84 @@ img {
         <c-search-input placeholder="搜索你喜欢的宝贝" style="width:100%;"></c-search-input>
       </div>
     </c-header>
-    <div class="c-page-body tab-pd" ref="body">
-      <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
-        <mt-swipe-item v-for="(item, index) in banners" :key="index">
-          <router-link :to="item.url">
-            <img class="banner-img" :src="item.img">
+    <div class="c-page-body" ref="body">
+      <div class="c-tab-pd">
+        <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
+          <mt-swipe-item v-for="(item, index) in banners" :key="index">
+            <router-link :to="item.url">
+              <img class="banner-img" :src="item.img">
+            </router-link>
+          </mt-swipe-item>
+        </mt-swipe>
+        <div class="link-wrap">
+          <router-link :to="{path:'/items'}" class="link-item">
+            <img class="link-img" src="@/assets/shangping.png" alt>
+            <div class="link-name">全部商品</div>
           </router-link>
-        </mt-swipe-item>
-      </mt-swipe>
-      <div class="link-wrap">
-        <router-link :to="{path:'/items'}" class="link-item">
-          <img class="link-img" src="@/assets/shangping.png" alt>
-          <div class="link-name">全部商品</div>
-        </router-link>
-        <router-link :to="{path:'/coupon'}" class="link-item">
-          <img class="link-img" src="@/assets/quan.png" alt>
-          <div class="link-name">领券中心</div>
-        </router-link>
-        <router-link :to="{path:'/sign'}" class="link-item">
-          <img class="link-img" src="@/assets/qiandao.png" alt>
-          <div class="link-name">每日签到</div>
-        </router-link>
-        <router-link :to="{path:'/invite'}" class="link-item">
-          <img class="link-img" src="@/assets/yaoxin.png" alt>
-          <div class="link-name">一元邀新</div>
-        </router-link>
-      </div>
-      <!-- 今日头条 -->
-      <div class="marquee">
-        <div class="marquee_title">
-          <span>今日头条</span>
+          <router-link :to="{path:'/coupon'}" class="link-item">
+            <img class="link-img" src="@/assets/quan.png" alt>
+            <div class="link-name">领券中心</div>
+          </router-link>
+          <router-link :to="{path:'/sign'}" class="link-item">
+            <img class="link-img" src="@/assets/qiandao.png" alt>
+            <div class="link-name">每日签到</div>
+          </router-link>
+          <router-link :to="{path:'/invite'}" class="link-item">
+            <img class="link-img" src="@/assets/yaoxin.png" alt>
+            <div class="link-name">一元邀新</div>
+          </router-link>
         </div>
-        <div class="marquee_box">
-          <ul class="marquee_list" :class="{marquee_top:animate}">
-            <li v-for="(item, index) in marqueeList" :key="index">
-              <span>{{item.txt}}</span>
-            </li>
-          </ul>
+        <!-- 今日头条 -->
+        <div class="marquee">
+          <div class="marquee_title">
+            <span>今日头条</span>
+          </div>
+          <div class="marquee_box">
+            <ul class="marquee_list" :class="{marquee_top:animate}">
+              <li v-for="(item, index) in marqueeList" :key="index">
+                <span>{{item.txt}}</span>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <!-- 今日头条 end -->
-      <div class="panic_buy" v-if="currentFlash">
-        <p class="panic_buy_label">
-          <span style="color: #5dbaff;">
-            <i
-              class="iconfont icon-round_light_fill"
-              style="font-size: 0.18rem;margin-right: 0.05rem;"
-            ></i>限时抢购
-            <c-count-down style="margin-left:0.05rem;" :endTime="new Date(currentFlash.endTime)"></c-count-down>
-          </span>
-          <span @click="$router.push('/panic_buy')">查看全部</span>
-        </p>
-        <div class="buy_time">
-          <ul
-            class="buy_time_ul"
-            v-for="(item,index) in currentFlash.flashbuy_items"
-            :key="index"
-            @click="$router.push(`/items/${item.itemId}`)"
-          >
-            <li>
-              <div class="c-img-box box-bg">
-                <img v-lazy="item.itemImg">
-              </div>
-            </li>
-            <li>{{item.itemName}}</li>
-            <li>
-              <span>￥{{item.flashPrice}}</span>
-              <span class="c-old-price">￥{{item.itemPrice}}</span>
-            </li>
-            <li>
-              <span class="c-tag">限时特价</span>
-            </li>
-          </ul>
+        <!-- 今日头条 end -->
+        <div class="panic_buy" v-if="currentFlash">
+          <p class="panic_buy_label">
+            <span style="color: #5dbaff;">
+              <i
+                class="iconfont icon-round_light_fill"
+                style="font-size: 0.18rem;margin-right: 0.05rem;"
+              ></i>限时抢购
+              <c-count-down style="margin-left:0.05rem;" :endTime="new Date(currentFlash.endTime)"></c-count-down>
+            </span>
+            <span @click="$router.push('/panic_buy')">查看全部</span>
+          </p>
+          <div class="buy_time">
+            <ul
+              class="buy_time_ul"
+              v-for="(item,index) in currentFlash.flashbuy_items"
+              :key="index"
+              @click="$router.push(`/items/${item.itemId}`)"
+            >
+              <li>
+                <div class="c-img-box box-bg">
+                  <img v-lazy="item.itemImg">
+                </div>
+              </li>
+              <li>{{item.itemName}}</li>
+              <li>
+                <span>￥{{item.flashPrice}}</span>
+                <span class="c-old-price">￥{{item.itemPrice}}</span>
+              </li>
+              <li>
+                <span class="c-tag">限时特价</span>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;margin-bottom:0.2rem;"></c-recommend-list>
+        <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;margin-bottom:0.2rem;"></c-recommend-list>
+      </div>
     </div>
   </div>
 </template>

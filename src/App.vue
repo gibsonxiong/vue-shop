@@ -2,15 +2,19 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
-  background-color: transparent;
+  width: 100%;
+  // background-color: #f00;
+  color: #555;
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
+  // font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+  // background-color: #0ff;
+
 }
 
 .page {
@@ -18,11 +22,34 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background-color: #fff;
+  height: 100%;
+  // background-color: #fff;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+}
+
+.c-page-body {
+  height: 100%;
+  overflow: auto;
+  background-color: #f5f5f5;
+  -webkit-overflow-scrolling: touch;
+
+  &.header-pd {
+    padding-top: 0.44rem;
+  }
+
+  &.tab-pd {
+    padding-bottom: 0.55rem;
+  }
+}
+
+.c-header-pd {
+  padding-top: 0.44rem;
+}
+
+.c-tab-pd {
+  padding-bottom: 0.55rem;
 }
 
 .slide-right-enter-active,
@@ -30,22 +57,20 @@ body {
 .slide-left-enter-active,
 .slide-left-leave-active {
   will-change: transform;
-  transition: all 350ms ease-out;
+  transition: all 400ms;
 }
 
 .slide-right-enter {
+  z-index: -1;
   transform: translate3d(-20%, 0, 0);
+}
+
+.slide-right-enter-active {
+  z-index: -1;
 }
 
 .slide-right-leave-to {
   transform: translate3d(100%, 0, 0);
-}
-
-.slide-right-enter-active {
-  z-index: 0;
-}
-.slide-right-leave-active {
-  z-index: 100;
 }
 
 .slide-left-enter {
@@ -55,22 +80,17 @@ body {
 .slide-left-leave-to {
   transform: translate3d(-20%, 0, 0);
 }
-.pswp{
-  z-index: 99;
-}
 </style>
 
 <template>
   <div id="app">
-    <!-- <c-header :title="$route.meta.title"></c-header> -->
-    <!-- <transition :name="transitionName"> -->
+    <transition :name="transitionName">
       <router-view/>
-    <!-- </transition> -->
+    </transition>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "App",
   watch: {

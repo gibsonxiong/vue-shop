@@ -30,7 +30,7 @@
   }
   .share_box {
     z-index: 110;
-    padding: 0.2rem 0.3rem 0.3rem;
+    padding: 0.2rem 0.3rem;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -62,8 +62,8 @@
     flex-direction: column;
     align-items: center;
     .soshm-item-icon {
-      width: 0.3rem;
-      height: 0.3rem;
+      width: 0.35rem;
+      height: 0.35rem;
       img {
         object-fit: cover;
       }

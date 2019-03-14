@@ -1,9 +1,7 @@
 <style scoped lang="scss">
 @import "~@/css/var";
 @import "~@/css/mixin";
-.c-page-body {
-  background: #f3f3f3;
-}
+
 .my-ddress_con {
   padding: 0.1rem;
   background: #fff;

@@ -1,9 +1,7 @@
 <style lang="scss" scoped>
 @import "~@/css/var";
 @import "~@/css/mixin";
-.c-page-body {
-  // background: #f3f3f3;
-}
+
 input {
   border: 0;
   color: #000;

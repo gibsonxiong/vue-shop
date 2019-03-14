@@ -206,6 +206,7 @@
       > div:nth-child(2) {
         width: 75%;
         color: #444;
+        padding-left: 0.05rem;
       }
     }
     .item_parameters_list:not(:last-child) {
@@ -213,7 +214,7 @@
     }
   }
   .item_page_footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -467,7 +468,7 @@
 <template>
   <div class="item_page page">
     <c-header
-      :title="'商品详情'"
+      :title="itemInfo.name"
       theme="transparent"
       :style="{'background-color':`rgba(245, 245, 245,${headerOpacity})`,color:`rgba(68, 68, 68,${headerOpacity})`}"
     >
@@ -1020,8 +1021,9 @@ export default {
         });
 
         if (services.$isError(res)) throw new Error(res.message);
-        console.log(res.data);
+        
         this.itemInfo = res.data;
+
         this.$nextTick(() => {
           this.imgDetail();
         });
