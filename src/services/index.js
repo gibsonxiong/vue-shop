@@ -12,24 +12,15 @@ const request = axios.create({
 
 // 添加请求拦截器
 function addInterceptors(_request) {
+  let refreshing = false;   //是否在refreshToken中
+  let arr = [];
+
+
   _request.interceptors.request.use(function (config) {
     //添加token
     let token = services.$getToken();
 
-    let skipCheckToken = routerUtils.getQuery().skipCheckToken == '1';
-
-    if (!token && !config.skipCheckToken && !skipCheckToken) {
-      console.log(config);
-
-      routerUtils.setQuery({
-        skipCheckToken: 1
-      });
-
-      router.push('/login');
-      throw new Error('请先登录');
-    }
-
-    config.headers['x-access-token'] = token || '';
+    config.headers['Authorization'] = token || '';
 
     return config;
   }, function (error) {
@@ -37,19 +28,75 @@ function addInterceptors(_request) {
     return Promise.reject(error);
   });
 
-  _request.interceptors.response.use(function (response) {
-    // 对响应数据做点什么
+  function createTask() {
+    let resolve;
+    let reject;
+    let promise = new Promise((_resolve, _reject) => {
+      resolve = _resolve;
+      reject = _reject;
+    });
 
-    let skipCheckToken = routerUtils.getQuery().skipCheckToken == '1';
+    return {
+      resolve,
+      reject,
+      promise
+    }
+  };
 
-    if ((response.data.code === -99 || response.data.code === -98) && !skipCheckToken) {
+  let refreshTask;
 
-      routerUtils.setQuery({
-        skipCheckToken: 1
-      });
+  _request.interceptors.response.use(async function (response) {
+    //token过期，需要刷新token
+    if (response.data.code == 99) {
+      //如果没有发起请求
+      if (!refreshTask) {
+        refreshTask = createTask();
 
-      services.$removeToken();
+        //刷新token
+        let refreshToken = services.$getRefreshToken();
+        services.refreshToken(refreshToken)
+          .then(res => {
+            if (res.code !== 0) throw new Error('刷新token失败');
+
+            refreshTask.resolve();
+          }).catch(err => {
+            refreshTask.reject();
+          }).finally(() => {
+            refreshTask = null;
+          });
+      }
+
+      try {
+        await refreshTask.promise;
+
+        console.log('刷新token成功,正在重新请求');
+        return await _request(response.config);
+
+      } catch (err) {
+        console.log('刷新token失败');
+        //把状态码改成认证失败
+        response.data.code = 97;
+      }
+
+    }
+
+    // let skipCheckToken = routerUtils.getQuery().skipCheckToken == '1';
+
+    let needLoginCodes = [96, 97, 98];
+    if ((needLoginCodes.indexOf(response.data.code) !== -1)) {
+
+      //保存
+      // if (!skipCheckToken) {
+      //   routerUtils.setQuery({
+      //     skipCheckToken: 1
+      //   });
+
+      //  router.push('/login');
+      // }
+
+
       router.push('/login');
+      services.$removeToken();
     }
 
     return response;
@@ -81,6 +128,19 @@ const services = {
     return localStorage.removeItem('shop/token');
   },
 
+  //refreshToken
+  $setRefreshToken(refreshToken) {
+    localStorage.setItem('shop/refreshToken', refreshToken);
+  },
+
+  $getRefreshToken() {
+    return localStorage.getItem('shop/refreshToken');
+  },
+
+  $removeRefreshToken() {
+    return localStorage.removeItem('shop/refreshToken');
+  },
+
   $isLogin() {
     return this.$getToken() !== '' && this.$getToken() !== null;
   },
@@ -89,6 +149,20 @@ const services = {
     return res.code !== 0;
   },
 
+  async refreshToken(refreshToken) {
+    let res = (await request.post('/token/refresh', {
+      refreshToken
+    }, {
+        skipCheckToken: true
+      })).data;
+
+    if (res.code === 0) {
+      services.$setToken(res.data.token);
+      services.$setRefreshToken(res.data.refreshToken);
+    }
+
+    return res;
+  },
 
   //滑块验证
   async gtRegister() {
@@ -138,12 +212,19 @@ const services = {
     phone,
     password
   }) {
-    return (await request.post('/login', {
+    let res = (await request.post('/login', {
       phone,
       password
     }, {
         skipCheckToken: true
       })).data;
+
+    if (res.code === 0) {
+      services.$setToken(res.data.token);
+      services.$setRefreshToken(res.data.refreshToken);
+    }
+
+    return res;
   },
 
   //重置密码

@@ -253,6 +253,11 @@ router.beforeEach((to, from, next) => {
 
 //处理权限逻辑
 router.beforeEach((to, from, next) => {
+  if(from.path==='/login' && to.path === '/login'){
+    return next(false);
+  }
+
+
   let isLogin = services.$isLogin();
 
   //没有登录且需要登录的页面

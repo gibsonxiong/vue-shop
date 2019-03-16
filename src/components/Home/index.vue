@@ -32,13 +32,14 @@ img {
       padding: 0 0.15rem;
       text-align: center;
 
-      &:active{
+      &:active {
         opacity: 0.8;
       }
     }
 
     .link-img {
       width: 100%;
+      max-width: 1.2rem;
       padding: 0 0.1rem;
     }
 
@@ -83,7 +84,7 @@ img {
 .marquee_title {
   padding: 0 0.1rem;
   display: flex;
-  
+
   align-items: center;
   color: $color-primary;
   font-weight: 500;
@@ -109,7 +110,7 @@ img {
 }
 
 .marquee_list li {
-  font-size:0.13rem;
+  font-size: 0.13rem;
   height: 0.3rem;
   line-height: 0.3rem;
 }
@@ -129,7 +130,6 @@ img {
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 0.05rem;
-
   }
   li:nth-child(2) {
     display: -webkit-box;
@@ -242,7 +242,11 @@ img {
           </div>
         </div>
 
-        <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.15rem;margin-bottom:0.2rem;"></c-recommend-list>
+        <c-recommend-list
+          ref="recommend"
+          cacheId="recommend"
+          style="margin-top:0.15rem;margin-bottom:0.2rem;"
+        ></c-recommend-list>
       </div>
     </div>
   </div>
@@ -351,8 +355,7 @@ export default {
       } catch (err) {
         return this.$toast(err.message);
       }
-    },
-
+    }
   }
 };
 </script>
