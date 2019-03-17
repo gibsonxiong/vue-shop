@@ -38,7 +38,7 @@ import Evaluation_Detail from '@/views/Evaluation_Detail';
 import VIP from '@/views/VIP';
 import Sign from '@/views/Sign';
 import Invite from '@/views/Invite';
-
+import Temp from '@/views/Temp';
 
 import services from '../services';
 
@@ -160,7 +160,7 @@ const router = new Router({
     meta: {
       skipCheckToken: true
     }
-  },{
+  }, {
     path: '/my_ecaluation',
     component: MyEvaluation
   }, {
@@ -238,7 +238,16 @@ const router = new Router({
     }
   }, {
     path: '/vip',
-    component: VIP
+    component: VIP,
+    meta: {
+      skipCheckToken: true
+    }
+  }, {
+    path: '/temp',
+    component: Temp,
+    meta: {
+      skipCheckToken: true
+    }
   }
   ]
 });
@@ -253,7 +262,7 @@ router.beforeEach((to, from, next) => {
 
 //处理权限逻辑
 router.beforeEach((to, from, next) => {
-  if(from.path==='/login' && to.path === '/login'){
+  if (from.path === '/login' && to.path === '/login') {
     return next(false);
   }
 

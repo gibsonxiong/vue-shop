@@ -1,25 +1,33 @@
 $color-dark:#666;
-$color-dark-active:#666;
-$color-dark-disabled:#666;
+$color-dark-active:#3e3d3d;
+$color-dark-disabled:#aaa;
 
-$color-light:#eee;
-$color-light-active:#eee;
-$color-light-disabled:#eee;
+$color-light:#f4f4f4;
+$color-light-active:#dcdcdc;
+$color-light-disabled:#f4f4f4;
 
 $color-primary:#ff6b9d;
 $color-primary-active:#ff558f;
 $color-primary-disabled:#ffa4c3;
 
-$color-secondly:#5dbaff;
-$color-secondly-active:#3dacff;
-$color-secondly-disabled:#b4dfff;
-
 $color-primary-gradient:linear-gradient(to right, #ff7c92 0%, #ff60a8 100%);
 $color-primary-gradient-active:linear-gradient(to right, #fd6a82 0%, #f93a90 100%);
 $color-primary-gradient-disabled:linear-gradient(to right, #ffb2bf 0%, #ffa2cc 100%);
 
+$color-secondly:#5dbaff;
+$color-secondly-active:#3dacff;
+$color-secondly-disabled:#b4dfff;
+
 $color-success:#24b129;
-$color-success-active:#24b129;
-$color-success-disabled:#24b129;
+$color-success-active:#09bf10;
+$color-success-disabled:#96d498;
+
+$color-warning:#e6a23c;
+$color-warning-active:#f3970f;
+$color-warning-disabled:#f1bb6b;
+
+$color-danger:#f56c6c;
+$color-danger-active:#fd4c4c;
+$color-danger-disabled:#f99a9a;
 
 $color-border:#e8e8e8;

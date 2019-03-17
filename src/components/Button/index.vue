@@ -11,6 +11,7 @@
   border-radius: 0.05rem;
   margin-top: 0.2rem;
 }
+
 </style>
 <template>
   <button class="c-btn" @click="$emit('click',$event)">
@@ -21,6 +22,7 @@
 <script>
 export default {
   props: {
+    type:{}
   },
   data() {
     return {};
