@@ -277,16 +277,19 @@
                 <div>价格</div>
                 <div class="price_i">
                   <i class="iconfont icon-triangleupfill" :class="{'i_active':order=='priceAsc'}"></i>
-                  <i class="iconfont icon-triangledownfill" :class="{'i_active':order=='priceDesc'}"></i>
+                  <i
+                    class="iconfont icon-triangledownfill"
+                    :class="{'i_active':order=='priceDesc'}"
+                  ></i>
                 </div>
               </div>
               <!-- <div class="select_item chen_center_absolute_center" @click="selectBoxVisible = true;">
                 筛选
                 <i class="iconfont icon-filter"></i>
-              </div> -->
+              </div>-->
             </div>
           </transition>
-         
+
           <div
             class="list_content"
             v-infinite-scroll="loadMore"
@@ -326,10 +329,14 @@
                       <div class="chen_center_absolute" style="margin-top:0.05rem;">
                         <span v-if="item.flash && item.flash.status == 1">
                           <span class="des_money">￥{{item.flash.item.flashPrice}}</span>
-                          <span class="c-old-price" style="line-height: 0.16rem;">￥{{item.flash.item.itemPrice}}</span>
+                          <span
+                            class="c-old-price"
+                            style="line-height: 0.16rem;"
+                          >￥{{item.flash.item.itemPrice}}</span>
                         </span>
                         <span v-else class="des_money">￥{{item.minPrice}}</span>
-                        <span style="font-size: 0.12rem;color: #999999;margin-top: 2px;"
+                        <span
+                          style="font-size: 0.12rem;color: #999999;margin-top: 2px;"
                         >{{item.item_count && item.item_count.saleCount}}人已购买</span>
                       </div>
                     </div>
@@ -343,11 +350,7 @@
               ></c-empty-hint>
             </mt-loadmore>
             <div v-show="loading" class="mint-loadmore-bottom loading_color">
-              <mt-spinner
-                type="snake"
-                :size="20"
-                style="display: inline-block;"
-              ></mt-spinner>
+              <mt-spinner type="snake" :size="20" style="display: inline-block;"></mt-spinner>
             </div>
             <div
               v-show="!loading && loadMoreDisabled && itemList.length > 0"
@@ -394,6 +397,16 @@ import services from "@/services";
 import routerCachePage from "@/routerCache/page";
 import routerUtils from "@/utils/router-utils";
 
+function debounce(fn, interval = 300,ctx) {
+  let timer = null;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(ctx, arguments);
+    }, interval);
+  };
+}
+
 export default {
   mixins: [
     routerCachePage({
@@ -428,14 +441,14 @@ export default {
       this.pageIndex = 0;
       await this.fetchItemList();
 
-      this.$refs.loadmore.onTopLoaded();
+      this.$refs.loadmore && this.$refs.loadmore.onTopLoaded();
     },
     handleTopChange(status) {
       //下拉事件
       this.topStatus = status;
     },
     async loadMore() {
-      this.fetchItemList(true);
+      this.debounceFetchItemList(true);
     },
     showSearch() {
       this.search.visible = true;
@@ -528,6 +541,11 @@ export default {
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.categoryId = this.$route.query.categoryId || "";
+
+    this.debounceFetchItemList = debounce(this.fetchItemList,100);
+
+    this.loadMoreDisabled = false;
+    this.loading = false;
   },
   mounted() {
     document

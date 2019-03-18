@@ -181,7 +181,7 @@ export default {
     }
   },
   created() {
-    if (!this.$restored) {
+    if (!this.$restored || this.recommendList.length === 0) {
       this.fetchRecommendList();
     }
   }
