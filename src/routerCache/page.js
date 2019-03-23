@@ -25,6 +25,7 @@ export default function (options = {}) {
           data: this.$data,
           scrollTop
         };
+        console.log(data);
         data = JSON.stringify(data);
 
         //监听事件

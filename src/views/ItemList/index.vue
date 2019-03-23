@@ -397,14 +397,11 @@ import services from "@/services";
 import routerCachePage from "@/routerCache/page";
 import routerUtils from "@/utils/router-utils";
 
-function debounce(fn, interval = 300,ctx) {
-  let timer = null;
-  return function() {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(ctx, arguments);
-    }, interval);
-  };
+function throttle(method, context, args, duration = 300) {
+  clearTimeout(method.tId);
+  method.tId = setTimeout(function() {
+    method.apply(context, args);
+  }, duration);
 }
 
 export default {
@@ -448,7 +445,7 @@ export default {
       this.topStatus = status;
     },
     async loadMore() {
-      this.debounceFetchItemList(true);
+      throttle(this.fetchItemList,this,[true],100);
     },
     showSearch() {
       this.search.visible = true;
@@ -541,8 +538,6 @@ export default {
   created() {
     this.searchText = this.$route.query.searchText || "";
     this.categoryId = this.$route.query.categoryId || "";
-
-    this.debounceFetchItemList = debounce(this.fetchItemList,100);
 
     this.loadMoreDisabled = false;
     this.loading = false;

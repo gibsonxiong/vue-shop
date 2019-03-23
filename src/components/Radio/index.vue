@@ -43,7 +43,7 @@ $size:0.21rem;
 <template>
   <span class="c-checkbox">
     <label>
-      <input :type="showType" :name="name" class="c-checkbox-input" :value="radioValue" v-model="model">
+      <input type="radio" :name="name" class="c-checkbox-input" :value="radioValue" v-model="model">
       <span class="c-checkbox-core"></span>
     </label>
   </span>
@@ -64,10 +64,6 @@ export default {
   props:{
     value:{},
     radioValue:{},
-    showType:{
-      type: String,
-      default: 'radio'
-    },
     name:{
       type: String,
       default: 'pay'

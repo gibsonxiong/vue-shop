@@ -166,11 +166,7 @@ export default {
       default: ""
     },
     theme: String,
-    leftPadding: {
-      type: Boolean,
-      default: true
-    },
-    rightPadding: {
+    samePadding: {
       type: Boolean,
       default: true
     },
@@ -178,24 +174,18 @@ export default {
   },
   computed: {
     innerCenterStyle() {
-      let style = {};
-
-      if (this.leftPadding) {
-        style["padding-left"] = `${this.centerPaddingX}px`;
-      }
-
-      if (this.rightPadding) {
-        style["padding-right"] = `${this.centerPaddingX}px`;
-      }
 
       return {
-        ...style,
+        'padding-left':`${this.paddingLeft}px`,
+        'padding-right':`${this.paddingRight}px`,
         ...this.centerStyle
       };
     }
   },
   data() {
     return {
+      paddingLeft: 0,
+      paddingRight: 0,
       centerPaddingX: 0
     };
   },
@@ -203,10 +193,15 @@ export default {
     resizeCenter() {
       let leftWdith = this.$refs.left.offsetWidth;
       let rightWdith = this.$refs.right.offsetWidth;
-      let maxWidth = Math.max(leftWdith, rightWdith);
-      this.centerPaddingX = maxWidth;
-      console.log(this);
-      console.log(this.centerPaddingX);
+
+      if (this.samePadding) {
+        let maxWidth = Math.max(leftWdith, rightWdith);
+        this.paddingLeft = maxWidth;
+        this.paddingRight = maxWidth;
+      } else {
+        this.paddingLeft = leftWdith;
+        this.paddingRight = rightWdith;
+      }
     },
     toBack() {
       history.back();

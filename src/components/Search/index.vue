@@ -62,7 +62,7 @@
 
 <template>
   <div v-show="visible" class="c-search">
-    <c-header :backType="0" ref="header" :leftPadding="false">
+    <c-header :backType="0" ref="header" :samePadding="false" :centerStyle="{transition:'all 2s'}">
       <!-- <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
       </a>-->
@@ -72,7 +72,7 @@
         v-model="searchText"
         :placeholder="`搜索你喜欢的宝贝`"
         @search="search(searchText)"
-        @input="throttleFetchSearchTip"
+        @input="fetchSearchTip"
         style="width:100%;"
       ></c-search-input>
       <!-- <a slot="right" @click="search(searchText)">搜索</a> -->
@@ -145,6 +145,7 @@ export default {
         this.searchText = this.defaultSearchText;
         this.fetchSearchHistory();
         this.fetchSearchTip(this.searchText);
+
         this.$nextTick(() => {
           this.$refs.searchInput.focus();
           this.$refs.header.resizeCenter();
@@ -172,7 +173,7 @@ export default {
         return this.$toast(err.message);
       }
     },
-    throttleFetchSearchTip(searchText) {
+    fetchSearchTip(searchText) {
       throttle(this.fetchSearchTip, this, [searchText]);
     },
     async fetchSearchHistory() {
