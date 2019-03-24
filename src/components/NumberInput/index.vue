@@ -6,7 +6,7 @@ $btn-border-radius: 0.04rem;
 $btn-width: 0.28rem;
 $btn-color: #777;
 $btn-bgcolor: #fff;
-$btn-bgcolor-active: #eee;
+$btn-bgcolor_active: #eee;
 .c-number-input {
   display: inline-flex;
   align-items: stretch;
@@ -25,7 +25,7 @@ $btn-bgcolor-active: #eee;
     transition: 0.2s all;
 
     &:not(:disabled):active {
-      background: $btn-bgcolor-active;
+      background: $btn-bgcolor_active;
     }
 
     &:disabled {

@@ -1,7 +1,7 @@
-if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
-  let VConsole = require('vconsole');
-  let vConsole = new VConsole();
-}
+// if ( !(process.env.NODE_ENV === 'production' && process.env.ENV === 'prod') ) {
+//   let VConsole = require('vconsole');
+//   let vConsole = new VConsole();
+// }
 
 import 'babel-polyfill';
 

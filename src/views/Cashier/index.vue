@@ -33,7 +33,7 @@
       margin-bottom: 0.2rem;
       span {
         font-size: 0.18rem;
-        color: $color-primary-active;
+        color: $color-primary_active;
       }
     }
     .select_pay {
@@ -66,7 +66,7 @@
               color: #949698;
             }
             .now_money {
-              color: $color-primary-active;
+              color: $color-primary_active;
             }
           }
         }
@@ -186,7 +186,7 @@
           </div>
         </div>
         <div class="pay_btn">
-          <c-button @click="pay">支付</c-button>
+          <c-button color="primary" size="lg" block @click="pay">支付</c-button>
           <p style="font-size:0.12rem;color:#777;padding-top:0.05rem;">剩余时间 {{hh}}:{{mm}}:{{ss}}</p>
         </div>
       </div>

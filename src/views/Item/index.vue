@@ -59,7 +59,7 @@
       }
       .mint-swipe-indicators {
         .mint-swipe-indicator {
-          background: $color-primary-active;
+          background: $color-primary_active;
         }
         .is-active {
           background: #f00;
@@ -112,7 +112,7 @@
           opacity: 0.4;
         }
         .item_look_more {
-          color: $color-primary-active;
+          color: $color-primary_active;
         }
         .evaluate {
           .evaluate_header {
@@ -219,9 +219,10 @@
     left: 0;
     right: 0;
     height: pxTorem(100);
-    border-top: 1px solid #eaeaea;
+    // border-top: 1px solid #eaeaea;
     background: #fff;
     z-index: 3;
+    box-shadow: 0px -0.5px 5px #ece9e9;
     .item_page_footer_content {
       width: 100%;
       box-sizing: border-box;
@@ -236,30 +237,10 @@
       .item_page_footer_buys_wrap {
         width: 60%;
         height: 100%;
-        .item_page_footer_buys {
-          width: 50%;
-          color: #fff;
+
+        .c-button{
+          width: 100%;
           height: 100%;
-          border: 0;
-
-          background: $color-primary-gradient;
-          padding: 0.15rem 0rem;
-
-          &:disabled {
-            background: $color-primary-gradient-disabled;
-          }
-
-          &:not(:disabled):active {
-            background: $color-primary-gradient-active;
-          }
-
-          &.btn-secondly {
-            background: $color-secondly;
-
-            &:active {
-              background: $color-secondly-active;
-            }
-          }
         }
       }
     }
@@ -366,37 +347,11 @@
         }
       }
       .item_detail_confirm {
-        // position: absolute;
-        // bottom: 0;
-        // left: 0;
-        // right: 0;
         margin: 0 -0.15rem;
         @include flexbox;
-        .btn {
-          @include flex;
-          padding: pxTorem(30) 0rem;
-          text-align: center;
-          background: $color-primary-gradient;
-          color: #fff;
-          font-size: pxTorem(32);
-          // width: 100%;
-          border: 0;
 
-          &:disabled {
-            background: $color-primary-gradient-disabled;
-          }
-
-          &:not(:disabled):active {
-            background: $color-primary-gradient-active;
-          }
-
-          &.btn-secondly {
-            background: $color-secondly;
-
-            &:active {
-              background: $color-secondly-active;
-            }
-          }
+        .c-button {
+          flex: 1;
         }
       }
     }
@@ -649,15 +604,10 @@
           </div>
         </div>
         <div class="chen_center_absolute_center item_page_footer_buys_wrap">
-          <button
-            class="chen_center_absolute_column item_page_footer_buys btn-secondly"
-            @click="openPopModel('cart')"
-          >加入购物车</button>
-          <button
-            class="chen_center_absolute_column item_page_footer_buys"
-            @click="openPopModel('buy')"
-            :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0"
-          >立刻购买</button>
+          <c-button color="secondly" type="plain" @click="openPopModel('cart')">加入购物车</c-button>
+
+          <c-button color="primary" type="plain" @click="openPopModel('buy')"
+            :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0">立刻购买</c-button>
         </div>
       </div>
     </div>
@@ -730,11 +680,11 @@
             </div>
           </div>
           <div v-if="pop_model === 'sku'" class="item_detail_confirm">
-            <button class="btn btn-secondly" @click="submit('cart')">加入购物车</button>
-            <button :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0"  class="btn" @click="submit('buy')">立刻购买</button>
+            <c-button color="secondly" type="plain" size="xl"  @click="submit('cart')">加入购物车</c-button>
+            <c-button color="primary" type="plain" size="xl" :disabled="itemInfo.flashbuy && itemInfo.flashbuy.status == 0" @click="submit('buy')">立刻购买</c-button>
           </div>
           <div v-else class="item_detail_confirm" @click="submit(pop_model)">
-            <button class="btn">确定</button>
+            <c-button color="primary" size="xl" type="plain">确定</c-button>
           </div>
         </div>
       </div>

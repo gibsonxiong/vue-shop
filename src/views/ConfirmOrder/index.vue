@@ -51,26 +51,13 @@
   box-shadow: 0px -0.5px 5px #ece9e9;
 
   .footer-left {
+    flex: 1;
     padding-right: 0.12rem;
+    text-align: right;
   }
 
-  .footer-btn {
-    border: none;
-    color: #fff;
-    height: 0.5rem;
+  .c-button {
     min-width: 0.9rem;
-    background: $color-primary-gradient;
-    // border: 1px solid $color-primary;
-
-    &:disabled {
-      background: $color-primary-gradient-disabled;
-      // border: 1px solid $color-primary-disabled;
-    }
-
-    &:not(:disabled):active {
-      background: $color-primary-gradient-active;
-      // border: 1px solid $color-primary-active;
-    }
   }
 }
 
@@ -182,7 +169,7 @@ input {
         <span>需付:</span>
         <span class="strong">￥{{orderInfo.orderFee}}</span>
       </div>
-      <button class="footer-btn" @click="createOrder">提交订单</button>
+      <c-button color="primary" type="plain" size="xl" @click="createOrder">提交订单</c-button>
     </div>
     <c-select-popup
       title="选择优惠券"

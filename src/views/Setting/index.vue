@@ -14,9 +14,13 @@
         <c-cell
           name="意见反馈"
         ></c-cell>
+        <c-cell
+          name="组件"
+          @click="$router.push('/view')"
+        ></c-cell>
       </c-cell-list>
       <div v-if="isLogin" style="text-align:center;padding: 0 0.1rem;">
-        <c-button @click="logout">退出登录</c-button>
+        <c-button block size="lg" color="primary" style="margin-top:0.2rem;" @click="logout">退出登录</c-button>
       </div>
     </div>
   </div>

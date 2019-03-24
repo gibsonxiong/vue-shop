@@ -12,7 +12,11 @@ ul {
 li {
   @include flexbox();
   padding: 0.15rem 0;
-  @include border-bottom();
+
+
+  & + li{
+    @include border-bottom();
+  }
 
   .flex-main{
     flex: 1;
@@ -85,7 +89,7 @@ li span:first-of-type {
         </li>
       </ul>
       <div style="width:100%;padding:0.2rem;">
-        <c-button @click="submit">保存地址</c-button>
+        <c-button block size="lg" color="primary" @click="submit">保存地址</c-button>
       </div>
       <c-region-picker
         :visible="pickerVisible"

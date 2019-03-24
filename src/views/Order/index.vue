@@ -42,6 +42,11 @@
     padding: 0.1rem 0;
     display: flex;
     justify-content: flex-end;
+
+    .c-button{
+      min-width: 0.8rem;
+      margin-left: 0.1rem;
+    }
   }
 }
 .active {
@@ -113,29 +118,31 @@
                 
               >
                 <template v-if="order.status==1">
-                  <button class="c-btn" @click.stop="cancelOrder(order.id)">取消订单</button>
-                  <button
-                    class="c-btn btn-primary"
+                  <c-button type="round" size="sm" ghost @click.stop="cancelOrder(order.id)">取消订单</c-button>
+                  <c-button
+                    color="primary"
+                    type="round"
+                    size="sm"
+                    ghost
                     @click.stop="$router.push({path:'/cashier', query:{orderId:order.id}})"
-                  >付款</button>
+                  >付款</c-button>
                 </template>
                 <template v-else-if="order.status==2">
-                  <!-- <button class="c-btn">申请开票</button> -->
-                  <button class="c-btn btn-primary" @click.stop="remindDeliver(order.id)">提醒发货</button>
+                  <c-button color="primary" type="round" size="sm" ghost @click.stop="remindDeliver(order.id)">提醒发货</c-button>
                 </template>
                 <template v-else-if="order.status==3">
-                  <button class="c-btn" @click.stop="logistics(order.id)">查看物流</button>
-                  <button class="c-btn btn-primary" @click.stop="confirmReceive(order.id)">确认收货</button>
+                  <c-button type="round" ghost @click.stop="logistics(order.id)">查看物流</c-button>
+                  <c-button color="primary" type="round" size="sm" ghost @click.stop="confirmReceive(order.id)">确认收货</c-button>
                 </template>
                 <template v-else-if="order.status==4">
-                  <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
-                  <button class="c-btn btn-primary" @click.stop="rateOrder(order.id)">评价</button>
+                  <c-button type="round" size="sm" ghost @click.stop="removeOrder(order.id)">删除订单</c-button>
+                  <c-button color="primary" type="round" size="sm" ghost @click.stop="rateOrder(order.id)">评价</c-button>
                 </template>
                 <template v-else-if="order.status==5">
-                  <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+                  <c-button type="round" size="sm" ghost @click.stop="removeOrder(order.id)">删除订单</c-button>
                 </template>
                 <template v-else-if="order.status==9">
-                  <button class="c-btn" @click.stop="removeOrder(order.id)">删除订单</button>
+                  <c-button type="round" size="sm" ghost @click.stop="removeOrder(order.id)">删除订单</c-button>
                 </template>
               </div>
             </div>

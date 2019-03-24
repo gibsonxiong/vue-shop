@@ -46,7 +46,7 @@ $size:0.21rem;
 }
 
 .c-checkbox-input:disabled:checked + .c-checkbox-core {
-  background: $color-primary-gradient-disabled;
+  background: $color-primary-gradient_disabled;
   border-color: $color-primary-disabled;
 }
 </style>

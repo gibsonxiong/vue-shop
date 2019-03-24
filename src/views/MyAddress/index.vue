@@ -28,10 +28,11 @@ i {
 }
 .footer {
   width: 100%;
-  padding: 0.15rem 0.1rem;
-  text-align: center;
-  background: $color-primary;
-  color: #fff;
+  // padding: 0.15rem 0.1rem;
+  // text-align: center;
+  // background: $color-primary;
+  // color: #fff;
+  left: 0;
   position: absolute;
   bottom: 0;
 }
@@ -120,9 +121,10 @@ label {
       </div>
       <c-empty-hint v-else-if="!loading" icon="icon-location_light" hint="您没有收货地址哦！"></c-empty-hint>
     </div>
-    <div class="footer" @click="addAddr()">
-      <i class="iconfont icon-add_light"></i>
-      <span>新建地址</span>
+    <div class="footer">
+      <c-button type="plain" color="primary" size="xl" block icon="icon-add_light" @click="addAddr()">新建地址</c-button>
+      <!-- <i class="iconfont icon-add_light"></i>
+      <span>新建地址</span> -->
     </div>
   </div>
 </template>

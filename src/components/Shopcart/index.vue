@@ -7,7 +7,7 @@
       padding-bottom: 1.2rem;
     }
 
-    .item_page_footer {
+    .amount-container {
       bottom: 0.55rem;
     }
   }
@@ -73,11 +73,10 @@
       color: #777;
     }
 
-    .tag-wrap{
-      .c-tag{
+    .tag-wrap {
+      .c-tag {
         margin-top: 0.05rem;
       }
-      
     }
 
     .item-prop {
@@ -111,22 +110,24 @@
     }
   }
 
-  .item_page_footer {
+  .amount-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: pxTorem(100);
     // border-top: 1px solid #eaeaea;
-    @include border-top();
+    // @include border-top();
+    box-shadow: 0px -0.5px 5px #ece9e9;
     background: rgba(255, 255, 255, 1);
     z-index: 3;
-    .item_page_footer_content {
+    .main-wrap {
       width: 100%;
       box-sizing: border-box;
       height: 100%;
+      @include flexbox();
 
-      .item_page_footer_follow_wrap {
+      .left-wrap {
         @include flexbox(space-between);
         @include flex;
       }
@@ -150,23 +151,8 @@
         color: #999;
       }
 
-      .footer-btn {
-        border: none;
-        color: #fff;
-        height: 0.5rem;
+      .c-button {
         min-width: 0.9rem;
-        background: $color-primary-gradient;
-        // border: 1px solid $color-primary;
-
-        &:disabled {
-          background: $color-primary-gradient-disabled;
-          // border: 1px solid $color-primary-disabled;
-        }
-
-        &:not(:disabled):active {
-          background: $color-primary-gradient-active;
-          // border: 1px solid $color-primary-active;
-        }
       }
     }
   }
@@ -178,9 +164,10 @@
     <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
     <div class="c-page-body">
       <div class="padding-wrap c-header-pd">
-        <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">亲~ 登录后才可以查看购物车
+        <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">
+          亲~ 登录后才可以查看购物车
           <div style="padding-top:0.2rem;">
-            <router-link tag="button" to="/login" class="c-btn btn-primary">去登录</router-link>
+            <c-button color="primary" type="round" @click="$router.push('/login')">去登录</c-button>
           </div>
         </div>
         <div v-else-if="list && list.length > 0">
@@ -189,7 +176,12 @@
               <label class="item-checkbox-wrap">
                 <c-checkbox v-model="checkedFlags[shopcart.id]"></c-checkbox>
               </label>
-              <img class="item-img" v-lazy="shopcart.item.imgList[0]" alt @click="$router.push(`/items/${shopcart.item.id}`)">
+              <img
+                class="item-img"
+                v-lazy="shopcart.item.imgList[0]"
+                alt
+                @click="$router.push(`/items/${shopcart.item.id}`)"
+              >
               <div class="item-content">
                 <router-link
                   tag="div"
@@ -203,7 +195,10 @@
                   <span class="c-tag" v-if="shopcart.flash && shopcart.flash.status == 1">限时特价</span>
                 </div>
                 <div class="item-bottom">
-                  <div class="item-price" v-if="shopcart.flash && shopcart.flash.status == 1">￥{{shopcart.flash.sku.flashPrice}}</div>
+                  <div
+                    class="item-price"
+                    v-if="shopcart.flash && shopcart.flash.status == 1"
+                  >￥{{shopcart.flash.sku.flashPrice}}</div>
                   <div class="item-price" v-else>￥{{shopcart.sku.price}}</div>
                   <c-number-input
                     v-model="shopcart.quantity"
@@ -227,18 +222,17 @@
               </div>
             </div>
           </div>
-
         </div>
 
         <c-empty-hint v-else icon="icon-cart_light" hint="您的购物车是空的哦！">
-          <button v-if="inTab" class="c-btn btn-primary" @click="$emit('gotoHome')">随便逛逛</button>
+          <c-button v-if="inTab" color="primary" type="round" @click="$emit('gotoHome')">随便逛逛</c-button>
         </c-empty-hint>
         <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
       </div>
     </div>
-    <div class="item_page_footer">
-      <div class="item_page_footer_content chen_center_absolute">
-        <div class="item_page_footer_follow_wrap">
+    <div class="amount-container" v-if="list && list.length > 0">
+      <div class="main-wrap">
+        <div class="left-wrap">
           <label>
             <c-checkbox v-model="allChecked" style="margin-left:0.1rem;margin-right:0.08rem;"></c-checkbox>全选
           </label>
@@ -250,13 +244,13 @@
             <div class="hint">不含运费</div>
           </div>
         </div>
-        <button
+        <c-button
           :disabled="checkedCount === 0"
-          class="footer-btn"
           @click="submit"
-        >结算({{checkedCount}})</button>
-        <!-- <div class="chen_center_absolute_center item_page_footer_buys_wrap"> -->
-        <!-- </div> -->
+          color="primary"
+          type="plain"
+          size="xl"
+        >结算({{checkedCount}})</c-button>
       </div>
     </div>
   </div>
@@ -307,7 +301,10 @@ export default {
     },
     checkedAmount() {
       return this.checkedItems.reduce((prev, current) => {
-        let price = current.flash &&  current.flash.status == 1? current.flash.sku.flashPrice : current.sku.price;
+        let price =
+          current.flash && current.flash.status == 1
+            ? current.flash.sku.flashPrice
+            : current.sku.price;
         return prev + price * current.quantity;
       }, 0);
     }
@@ -354,7 +351,7 @@ export default {
 
         let index = this.list.findIndex(item => item.id == id);
         this.list.splice(index, 1);
-        Vue.delete(this.checkedFlags,id);
+        Vue.delete(this.checkedFlags, id);
         this.$nextTick();
         this.$toast(res.message);
       } catch (err) {

@@ -54,14 +54,14 @@ ul {
           </li>
           <li>
             <input class="flex-main"  v-model="smsCode" placeholder="请输入验证码">
-            <button v-if="timer>0" class="c-btn btn-primary" disabled="disabled" style="width:100px;">{{timer}}s后重发</button>
-            <button v-else class="c-btn btn-primary" @click="showGT" style="width:100px;">发送验证码</button>
+            <c-button v-if="timer>0" size="sm" color="primary" type="round" ghost disabled="disabled">{{timer}}s后重发</c-button>
+            <c-button v-else size="sm" color="primary" type="round" ghost @click="showGT" >发送验证码</c-button>
           </li>
           <li>
             <input class="flex-main" v-model="password" type="password" placeholder="请输入密码（6-16位字母，数字，下划线）">
           </li>
         </ul>
-        <c-button @click="resetPassword">确定</c-button>
+        <c-button block color="primary" size="lg" @click="resetPassword" :loading="pending">确定</c-button>
       </div>
     </div>
   </div>
@@ -86,6 +86,7 @@ function initGeetestPromise(options) {
 export default {
   data() {
     return {
+      pending:false,
       captchaObj: null,
       timer: 0,
 
@@ -174,7 +175,7 @@ export default {
     },
     async resetPassword() {
       try {
-        this.$showLoading();
+        this.pending = true;
         let { phone, smsCode, password } = this;
         let res = await services.resetPassword({
           phone,
@@ -184,14 +185,14 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$hideLoading();
+        this.pending = false;
         this.$toast(res.message);
 
         setTimeout(() => {
           this.$router.back();
         }, 1000);
       } catch (err) {
-        this.$hideLoading();
+        this.pending = false;
         return this.$toast(err.message);
       }
     }

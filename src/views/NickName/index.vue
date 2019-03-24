@@ -17,8 +17,8 @@ input {
     <div class="c-page-body header-pd">
       <div class="nickname">
         <input v-model="name" placeholder="请设置昵称">
-        <div style="padding: 0 0.1rem;">
-          <c-button @click="save_nickname">保存</c-button>
+        <div style="padding: 0 0.1rem;margin-top:0.2rem;">
+          <c-button block size="lg" color="primary" @click="save_nickname">保存</c-button>
         </div>
       </div>
     </div>

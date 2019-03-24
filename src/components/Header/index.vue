@@ -3,7 +3,7 @@
 @import "~@/css/mixin";
 $height: 0.44rem;
 $color: #444;
-$color-active: rgba(0, 0, 0, 0.2);
+$color_active: rgba(0, 0, 0, 0.2);
 $bg-color: #f8f8f8;
 .c-header {
   position: absolute;
@@ -100,7 +100,6 @@ $bg-color: #f8f8f8;
 
       &:active {
         opacity: 0.5;
-        // text-shadow: 0px 0px 5px $color-active;
       }
     }
   }

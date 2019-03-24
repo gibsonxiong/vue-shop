@@ -154,6 +154,7 @@ img {
 }
 </style>
 
+
 <template>
   <div class="c-home">
     <c-header

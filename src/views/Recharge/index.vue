@@ -110,7 +110,7 @@ label {
         <i class="iconfont icon-weixuanzhong" v-else></i>
       </div>
       <!--支付宝支付  end  -->
-      <c-button @click="recharge">下一步</c-button>
+      <c-button block size="lg" color="primary" @click="recharge">下一步</c-button>
     </div>
   </div>
 </template>

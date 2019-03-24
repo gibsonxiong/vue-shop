@@ -52,36 +52,36 @@
 <template>
   <div class="index-page page">
     <div v-show="!search.visible" class="tab-container">
-      <div
-        class="tab-content"
-        v-for="(item,index) in tab.items"
-        :key="index"
-        v-show="index === tab.active"
-      >
-        <keep-alive>
-          <component
-            style="height:100%;"
-            v-if="item.inited"
-            :ref="`tabContent${index}`"
-            :cacheId="`tabContent${index}`"
-            v-bind:is="item.component"
-            @toSearch="showSearch"
-            @gotoHome="activeTab(0)"
-          ></component>
-        </keep-alive>
-      </div>
-      <div class="tab tab--fixed">
         <div
-          class="tab__item"
+          class="tab-content"
           v-for="(item,index) in tab.items"
           :key="index"
-          :class="{active: index === tab.active}"
-          @click="activeTab(index)"
+          v-show="index === tab.active"
         >
-          <i class="tab__icon iconfont" :class="item.icon"></i>
-          <div class="tab__name">{{item.name}}</div>
+          <keep-alive>
+            <component
+              style="height:100%;"
+              v-if="item.inited"
+              :ref="`tabContent${index}`"
+              :cacheId="`tabContent${index}`"
+              v-bind:is="item.component"
+              @toSearch="showSearch"
+              @gotoHome="activeTab(0)"
+            ></component>
+          </keep-alive>
         </div>
-      </div>
+        <div class="tab tab--fixed">
+          <div
+            class="tab__item"
+            v-for="(item,index) in tab.items"
+            :key="index"
+            :class="{active: index === tab.active}"
+            @click="activeTab(index)"
+          >
+            <i class="tab__icon iconfont" :class="item.icon"></i>
+            <div class="tab__name">{{item.name}}</div>
+          </div>
+        </div>
     </div>
     <c-search :visible="search.visible" @close="hideSearch" @search="handleSearch"></c-search>
   </div>

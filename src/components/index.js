@@ -15,7 +15,6 @@ import Checkbox from './Checkbox';
 import Radio from './Radio';
 
 import Button from './Button';
-import Button1 from './Button1';
 
 import CellList from './CellList';
 import Cell from './Cell';
@@ -26,7 +25,6 @@ import SelectPopup from './SelectPopup';
 import WrapPopup from './WrapPopup';
 import Upload from './Upload';
 import Rate from './Rate';
-import M_button from './M_button';
 import RecommendList from './RecommendList';
 import CouponItem from './CouponItem';
 import CountDown from './CountDown';
@@ -47,7 +45,6 @@ Vue.component('c-empty-hint', EmptyHint);
 
 Vue.component('c-checkbox', Checkbox);
 Vue.component('c-button', Button);
-Vue.component('c-button1', Button1);
 
 Vue.component('c-cell-list', CellList);
 Vue.component('c-cell', Cell);
@@ -58,7 +55,6 @@ Vue.component('c-wrap-popup', WrapPopup);
 Vue.component('c-region-picker', RegionPicker);
 Vue.component('c-share', Share);
 
-Vue.component('m-button', M_button);
 Vue.component('c-radio', Radio);
 Vue.component('c-upload', Upload);
 Vue.component('c-rate', Rate);

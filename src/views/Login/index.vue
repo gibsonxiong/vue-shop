@@ -49,7 +49,7 @@ color:$color-primary; display: inline-block;margin: auto;
             <router-link to="/reset-password" style="color:#999; display: inline-block;margin: auto;">忘记密码?</router-link>
           </li>
         </ul>
-        <c-button @click="login('password')">登录</c-button>
+        <c-button color="primary" size="lg" block @click="login('password')" :loading="pending">登录</c-button>
         <div style="padding:0.2rem 0rem;color:#848484;display:flex;justify-content: space-between;">
           <!-- <p @click="panel = '2'">验证码登录</p> -->
           <router-link tag="span" to="/register">新用户注册</router-link>
@@ -83,6 +83,7 @@ import services from '@/services';
 export default {
   data() {
     return {
+      pending:false,
       phone:'',
       password:'',
       smsCode:'',
@@ -93,7 +94,7 @@ export default {
     async login(){
       try {
         let { phone,password } = this;
-        this.$showLoading();
+        this.pending = true;
         let res = await services.login({
           phone,
           password
@@ -101,7 +102,7 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$hideLoading();
+        this.pending= false;
         this.$toast(res.message);
         
         services.$setToken(res.data.token);
@@ -109,7 +110,7 @@ export default {
           this.$router.back();
         }, 1000);
       } catch (err) {
-        this.$hideLoading();
+        this.pending= false;
         return this.$toast(err.message);
       }
     }

@@ -34,8 +34,8 @@
     font-size: 0.12rem;
     margin-top: 0.08rem;
     &:active {
-      border-color: $color-primary-active;
-      color: $color-primary-active;
+      border-color: $color-primary_active;
+      color: $color-primary_active;
     }
   }
 }

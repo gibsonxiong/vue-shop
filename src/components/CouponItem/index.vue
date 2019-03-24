@@ -35,7 +35,7 @@
 
     &.disabled {
       .item_l {
-        background:$color-primary-gradient-disabled;
+        background:$color-primary-gradient_disabled;
       }
     }
 

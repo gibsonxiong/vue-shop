@@ -58,14 +58,14 @@ ul {
           </li>
           <li class="flexbox">
             <input class="flex-main" v-model="smsCode" placeholder="请输入验证码">
-            <button v-if="timer>0" class="c-btn btn-primary" disabled="disabled" style="width:100px;">{{timer}}s后重发</button>
-            <button v-else class="c-btn btn-primary" @click="showGT" style="width:100px;">发送验证码</button>
+            <c-button v-if="timer>0" size="sm" color="primary" type="round" ghost disabled="disabled">{{timer}}s后重发</c-button>
+            <c-button v-else size="sm" color="primary" type="round" ghost @click="showGT" >发送验证码</c-button>
           </li>
           <li>
             <input class="flex-main" v-model="password" type="password" @keypress.enter="register" placeholder="请输入密码（6-16位字母，数字，下划线）">
           </li>
         </ul>
-        <c-button @click="register">立即注册</c-button>
+        <c-button color="primary" size="lg" block @click="register" :loading="pending">立即注册</c-button>
         <p style="padding:0.2rem 0.1rem;color:#c4c4c4;">
           继续注册表示已经阅读并同意
           <span class="fu">《服务条款》</span>
@@ -94,6 +94,7 @@ function initGeetestPromise(options) {
 export default {
   data() {
     return {
+      pending:false,
       captchaObj: null,
       timer: 0,
 
@@ -183,7 +184,7 @@ export default {
     },
     async register() {
       try {
-        this.$showLoading();
+        this.pending = true;
         let { phone, smsCode, password } = this;
         let res = await services.register({
           phone,
@@ -193,14 +194,14 @@ export default {
 
         if (services.$isError(res)) throw new Error(res.message);
 
-        this.$hideLoading();
+        this.pending = false;
         this.$toast(res.message);
 
         setTimeout(() => {
           this.$router.back();
         }, 1000);
       } catch (err) {
-        this.$hideLoading();
+        this.pending = false;
         return this.$toast(err.message);
       }
     }

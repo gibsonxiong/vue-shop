@@ -45,9 +45,12 @@
   bottom: 0;
   display: flex;
   justify-content: flex-end;
-  -moz-box-shadow: 0px -0.5px 5px #ece9e9;
-  -webkit-box-shadow: 0px -0.5px 5px #ece9e9;
   box-shadow: 0px -0.5px 5px #ece9e9;
+
+  .c-button {
+    width: 0.8rem;
+    margin-left: 0.1rem;
+  }
 }
 .oderD_one .main {
   font-size: 0.17rem;
@@ -147,13 +150,16 @@
             <span>母婴用品商城</span>
           </div>
           <!--  -->
-          <div class="item-wrap" v-for="(orderItem,index) in orderInfo.order_items" :key="index" @click="$router.push(`/items/${orderItem.itemId}`)">
-            <div
-              style="width:95%;margin:auto;padding:0.12rem 0;display: flex;"
-            >
+          <div
+            class="item-wrap"
+            v-for="(orderItem,index) in orderInfo.order_items"
+            :key="index"
+            @click="$router.push(`/items/${orderItem.itemId}`)"
+          >
+            <div style="width:95%;margin:auto;padding:0.12rem 0;display: flex;">
               <div style="width:20%;">
                 <div style="width:0.7rem;height:0.7rem;" class="c-img-box box-bg">
-                  <img  v-lazy="orderItem.itemImg" alt>
+                  <img v-lazy="orderItem.itemImg" alt>
                 </div>
               </div>
               <div style="width:65%;padding:0 0.1rem">
@@ -168,12 +174,14 @@
               </div>
             </div>
             <!-- 退款按钮 -->
-            <p v-if="orderInfo.status==2" class="refund_btn-wrap">
-              <button
-                class="c-btn"
+            <div v-if="orderInfo.status==2" class="refund_btn-wrap">
+              <c-button
+                size="xs"
+                type="round"
+                ghost
                 @click.stop="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
-              >退款</button>
-            </p>
+              >退款</c-button>
+            </div>
           </div>
         </div>
         <!--  -->
@@ -225,29 +233,49 @@
     </div>
     <div class="footer">
       <template v-if="orderInfo.status==1">
-        <button class="c-btn" @click.stop="cancelOrder(orderInfo.id)">取消订单</button>
-        <button
-          class="c-btn btn-primary"
+        <c-button type="round" size="sm" ghost @click.stop="cancelOrder(orderInfo.id)">取消订单</c-button>
+        <c-button
+          color="primary"
+          type="round"
+          size="sm"
+          ghost
           @click.stop="$router.push({path:'/cashier', query:{orderId:orderInfo.id}})"
-        >付款</button>
+        >付款</c-button>
       </template>
       <template v-else-if="orderInfo.status==2">
-        <!-- <button class="c-btn">申请开票</button> -->
-        <button class="c-btn btn-primary" @click.stop="remindDeliver(orderInfo.id)">提醒发货</button>
+        <c-button
+          type="round"
+          size="sm"
+          ghost
+          color="primary"
+          @click.stop="remindDeliver(orderInfo.id)"
+        >提醒发货</c-button>
       </template>
       <template v-else-if="orderInfo.status==3">
-        <button class="c-btn" @click.stop="logistics(orderInfo.id)">查看物流</button>
-        <button class="c-btn btn-primary" @click.stop="confirmReceive(orderInfo.id)">确认收货</button>
+        <c-button type="round" size="sm" ghost @click.stop="logistics(orderInfo.id)">查看物流</c-button>
+        <c-button
+          type="round"
+          size="sm"
+          ghost
+          color="primary"
+          @click.stop="confirmReceive(orderInfo.id)"
+        >确认收货</c-button>
       </template>
       <template v-else-if="orderInfo.status==4">
-        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
-        <button class="c-btn btn-primary" @click.stop="rateOrder(orderInfo.id)">评价</button>
+        <c-button type="round" size="sm" ghost @click.stop="removeOrder(orderInfo.id)">删除订单</c-button>
+        <c-button
+          type="round"
+          size="sm"
+          ghost
+          color="primary"
+          @click.stop="rateOrder(orderInfo.id)"
+        >评价</c-button>
       </template>
       <template v-else-if="orderInfo.status==5">
-        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
+        <c-button type="round" size="sm" ghost @click.stop="removeOrder(orderInfo.id)">删除订单</c-button>
       </template>
       <template v-else-if="orderInfo.status==9">
-        <button class="c-btn" @click.stop="removeOrder(orderInfo.id)">删除订单</button>
+        <c-button type="round" size="sm" ghost @click.stop="removeOrder(orderInfo.id)">删除订单</c-button>
       </template>
     </div>
   </div>
@@ -321,7 +349,7 @@ export default {
       this.$router.push({
         path: "/logistics",
         query: {
-          orderId:this.orderId
+          orderId: this.orderId
         }
       });
     },

@@ -36,7 +36,7 @@
   padding: 0.15rem;
 
   &:active{
-    background: $color-primary-active;
+    background: $color-primary_active;
   }
 }
 
