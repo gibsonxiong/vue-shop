@@ -1,8 +1,33 @@
 <style scoped lang="scss">
-.temp-page {
-}
-.item {
-  // width: 100%;
+@import "~@/css/var";
+@import "~@/css/mixin";
+.c-container {
+  @include flexbox(center, stretch);
+
+  .left {
+    width: 300px;
+    background-color: #f3f3f3;
+  }
+
+  .main {
+    flex: 1;
+    @include flexbox;
+
+    .view {
+      width: 375px;
+      height: 667px;
+      margin: 0 auto;
+      border: 1px solid #eee;
+    }
+  }
+  .right {
+    width: 300px;
+
+    textarea {
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
 
 img {
@@ -10,39 +35,81 @@ img {
   height: 100px;
   object-fit: cover;
 }
-
-
 </style>
 <style>
 .active {
   border: 1px solid #f00;
 }
+.button {
+  margin-top: 35px;
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
+}
 </style>
 
 
 <template>
-  <div class="temp-page page">
-    <draggable v-model="arr" group="people" @start="drag=true" @end="drag=false">
-      <template v-for="element in arr">
-        <img
-          :class="{ 'active ':activeId == element.id }"
-          @click="activeId = element.id"
-          v-if="element.component === 'img'"
-          :src="element.props.src"
-          :key="element.id"
-        >
+  <div class="c-container">
+    <div class="left">
+      <h2>组件</h2>
+      <draggable
+        :list="components"
+        :group="{ name: 'people', pull: 'clone', put: false }"
+        :clone="cloneComponent"
+      >
         <component
-          :class="{ 'active ':activeId == element.id }"
-          @click="activeId = element.id"
-          v-else
           :is="element.component"
           v-bind="element.props"
+          v-for="element in components"
           :key="element.id"
         >{{element.name}}</component>
-      </template>
-    </draggable>
-    {{activeId}}
-    <textarea v-model="modelValue" style="width:100%;height:200px;"></textarea>
+      </draggable>
+    </div>
+
+    <div class="main">
+      <div class="view">
+        <draggable
+          v-model="selectComponents"
+          :sortable="false"
+          group="people"
+          @start="drag=true"
+          @end="drag=false"
+          :animation="200"
+          style="position: relative;height:100%;"
+        >
+          <transition-group tag="div" style="    height: 100%;
+    position: absolute;
+    width: 100%;" type="transition" :name="!drag ? 'flip-list' : null">
+            <component
+              v-for="element in selectComponents"
+              :is="element.component"
+              v-bind="element.props"
+              :key="element.id"
+            ></component>
+          </transition-group>
+        </draggable>
+      </div>
+    </div>
+    <div class="right">
+      <textarea v-model="modelValue"></textarea>
+    </div>
   </div>
 </template>
 
@@ -58,7 +125,7 @@ Vue.component("c-component", {
     <component is="c-button"></component>
   `
 });
-
+let id = 0;
 export default {
   components: {
     draggable
@@ -66,29 +133,25 @@ export default {
   computed: {
     modelValue: {
       get() {
-        return JSON.stringify(this.arr);
+        return JSON.stringify(this.selectComponents);
       },
       set(value) {
-        this.arr = JSON.parse(value);
+        this.selectComponents = JSON.parse(value);
       }
     }
   },
   data() {
     return {
       activeId: null,
-      arr: [
-        {
-          name: "A",
-          id: 0,
-          component: "img",
-          props: { src: "https://cn.vuejs.org/images/logo.png" }
-        },
-        { name: "B", id: 1, component: "c-button", props: { ghost: true } },
-        { name: "C", id: 2, component: "c-button", props: { ghost: true } },
-        { name: "D", id: 3, component: "c-button", props: { ghost: true } },
-        { name: "E", id: 4, component: "c-button", props: { ghost: true } },
-        { name: "F", id: 5, component: "c-button", props: { ghost: true } },
-        { name: "G", id: 6, component: "c-button", props: { ghost: true } },
+      components: [
+        { component: "c-button" },
+        { component: "c-upload" },
+        { component: "c-number-input" },
+        { component: "c-checkbox" },
+        { component: "c-radio" }
+      ],
+      selectComponents: [
+        // { id:-1, component: "c-button" },
       ],
       drag: false
     };
@@ -100,6 +163,13 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 4000);
+    },
+    cloneComponent({ component }) {
+      return {
+        id: id++,
+        component,
+        props: {}
+      };
     }
   }
 };
