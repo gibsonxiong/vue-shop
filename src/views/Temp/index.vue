@@ -73,6 +73,7 @@ img {
         :list="components"
         :group="{ name: 'people', pull: 'clone', put: false }"
         :clone="cloneComponent"
+        :sort="false"
       >
         <component
           :is="element.component"
@@ -87,16 +88,18 @@ img {
       <div class="view">
         <draggable
           v-model="selectComponents"
-          :sortable="false"
           group="people"
           @start="drag=true"
           @end="drag=false"
           :animation="200"
           style="position: relative;height:100%;"
         >
-          <transition-group tag="div" style="    height: 100%;
-    position: absolute;
-    width: 100%;" type="transition" :name="!drag ? 'flip-list' : null">
+          <transition-group
+            tag="div"
+            style="height: 100%;position: absolute;width: 100%;"
+            type="transition"
+            :name="!drag ? 'flip-list' : null"
+          >
             <component
               v-for="element in selectComponents"
               :is="element.component"
