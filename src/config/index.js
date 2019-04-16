@@ -1,6 +1,6 @@
 //测试环境
 let test = {
-  hostUrl: 'http://192.168.43.193:6868',
+  hostUrl: 'http://localhost:6868',
 }
 
 //生产环境
