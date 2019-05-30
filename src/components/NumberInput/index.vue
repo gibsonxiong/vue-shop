@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-@import '~@/css/mixin';
+@import "~@/css/mixin";
 
 $border-color: #ccc;
 $btn-border-radius: 0.04rem;
@@ -20,7 +20,7 @@ $btn-bgcolor_active: #eee;
     color: $btn-color;
     background: $btn-bgcolor;
     // border: 1px solid $border-color;
-    @include border(1px,$border-color);
+    @include border(1px, $border-color);
     width: $btn-width;
     transition: 0.2s all;
 
@@ -51,10 +51,16 @@ $btn-bgcolor_active: #eee;
     border: 0;
     min-width: 0;
     border-radius: 0;
-    @include border-top(1px,$border-color);
-    @include border-bottom(1px,$border-color);
+    @include border-top(1px, $border-color);
+    @include border-bottom(1px, $border-color);
     background-color: #ffffff;
     text-align: center;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
   }
 }
 </style>

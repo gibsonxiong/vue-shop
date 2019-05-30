@@ -36,7 +36,7 @@ img {
   object-fit: cover;
 }
 </style>
-<style>
+<style lang="scss">
 .active {
   border: 1px solid #f00;
 }
@@ -62,6 +62,7 @@ img {
 .list-group-item i {
   cursor: pointer;
 }
+
 </style>
 
 
@@ -75,12 +76,9 @@ img {
         :clone="cloneComponent"
         :sort="false"
       >
-        <component
-          :is="element.component"
-          v-bind="element.props"
-          v-for="element in components"
-          :key="element.id"
-        >{{element.name}}</component>
+        <dragger-item v-for="element in components" :key="element.id" class="dragger-item">
+          <component :is="element.component" v-bind="element.props"></component>
+        </dragger-item>
       </draggable>
     </div>
 
@@ -100,12 +98,13 @@ img {
             type="transition"
             :name="!drag ? 'flip-list' : null"
           >
-            <component
+            <dragger-item
               v-for="element in selectComponents"
-              :is="element.component"
-              v-bind="element.props"
               :key="element.id"
-            ></component>
+              class="dragger-item"
+            >
+              <component :is="element.component" v-bind="element.props" :key="element.id"></component>
+            </dragger-item>
           </transition-group>
         </draggable>
       </div>
@@ -120,7 +119,9 @@ img {
 
 <script>
 import draggable from "vuedraggable";
+import draggerItem from "./dragger-item";
 import Vue from "vue";
+
 
 Vue.component("c-component", {
   template: `
@@ -131,7 +132,8 @@ Vue.component("c-component", {
 let id = 0;
 export default {
   components: {
-    draggable
+    draggable,
+    draggerItem
   },
   computed: {
     modelValue: {
