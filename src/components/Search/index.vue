@@ -62,7 +62,7 @@
 
 <template>
   <div v-show="visible" class="c-search">
-    <c-header :backType="0" ref="header" :samePadding="false" :centerStyle="{transition:'all 2s'}">
+    <c-header :backType="0" ref="header" :samePadding="false" :centerStyle="{transition:'all 0.3s'}">
       <!-- <a slot="left" @click="$emit('close')">
         <i class="iconfont icon-back" style="font-size: 0.22rem;"></i>
       </a>-->

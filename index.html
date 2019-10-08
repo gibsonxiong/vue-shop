@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="utf-8">
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+  <!--防止index.html被浏览器缓存--begin-->
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="0">
+  <!--防止index.html被浏览器缓存--over-->
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
@@ -13,7 +17,6 @@
 
 <body>
   <div id="app"></div>
-  <script type="text/javascript" src="cordova.js"></script>
   <!-- built files will be auto injected -->
 </body>
 

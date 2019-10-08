@@ -5,7 +5,7 @@ let test = {
 
 //生产环境
 let prod = {
-  hostUrl: 'http://129.204.43.133:6868'
+  hostUrl: 'http://182.61.53.191:6868'
 }
 
 //开发环境
