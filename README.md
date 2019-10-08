@@ -40,6 +40,15 @@ $ npm run build:prod  #打包（生产环境）
 
 ```
 
+## 部分截图
+
+![截图](/doc/1.png)
+![截图](/doc/2.png)
+![截图](/doc/3.png)
+![截图](/doc/4.png)
+![截图](/doc/5.png)
+![截图](/doc/6.png)
+
 [→ 项目预览](http://182.61.53.191)
 
 ## License
