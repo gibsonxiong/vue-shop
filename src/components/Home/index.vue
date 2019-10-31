@@ -194,10 +194,10 @@ img {
             <div class="link-name">一元邀新</div>
           </router-link>
         </div>
-        <!-- 今日头条 -->
+        <!-- 今日热点 -->
         <div class="marquee">
           <div class="marquee_title">
-            <span>今日头条</span>
+            <span>今日热点</span>
           </div>
           <div class="marquee_box">
             <ul class="marquee_list" :class="{marquee_top:animate}">
@@ -207,7 +207,7 @@ img {
             </ul>
           </div>
         </div>
-        <!-- 今日头条 end -->
+        <!-- 今日热点 end -->
         <div class="panic_buy" v-if="currentFlash">
           <p class="panic_buy_label">
             <span style="color: #5dbaff;">

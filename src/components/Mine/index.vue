@@ -129,10 +129,10 @@
               v-if="isLogin &&  orderCount.waitRateCount > 0"
             >{{orderCount.waitRateCount}}</span>
           </router-link>
-          <router-link tag="div" :to="{path:'/refundlist'}" class="order-item">
+          <!-- <router-link tag="div" :to="{path:'/refundlist'}" class="order-item">
             <i class="order-item-icon iconfont icon-refund"></i>
             <div class="order-item-name">退款/售后</div>
-          </router-link>
+          </router-link> -->
         </div>
 
         <c-cell-list style="margin-top:0.15rem;">

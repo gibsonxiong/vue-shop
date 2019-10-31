@@ -53,15 +53,29 @@
     padding: 0.1rem;
   }
 
+  .item2-wrap{
+    
+    padding-bottom: 0.2rem;
+
+    & + .item2-wrap{
+      padding-top: 0.2rem;
+      border-top: 1px solid #f3f3f3;
+    }
+  }
+
+  .item2-name{
+    font-size: 14px;   
+  }
+
+
+
   .type-list {
-    margin-top: -0.125rem;
     overflow: hidden;
-    padding-bottom: 0.8rem;
 
     .type-item {
       float: left;
       width: 33.33%;
-      margin: 0.125rem 0 0 0;
+      margin: 0.05rem 0 0 0;
 
       img {
         width: 100%;
@@ -96,28 +110,31 @@
       <div class="left-container c-header-pd c-tab-pd" ref="leftContainer">
       <ul class="catalog-list" >
         <li
-          v-for="(item,index) in catalogList"
+          v-for="(item1,index) in catalogList"
           :key="index"
           class="catalog-list-item"
-          :class="{'active':catalogIndex == item.id, [`item-${item.id}`]:true}"
-          @click="changeCatalog(item.id)"
-        >{{item.name}}</li>
+          :class="{'active':catalogIndex == item1.id, [`item-${item1.id}`]:true}"
+          @click="changeCatalog(item1.id)"
+        >{{item1.name}}</li>
       </ul>
       </div>
       <div class="right-container" ref="rightContainer">
-        <div class="c-header-pd">
-          <ul class="type-list">
-            <li class="type-item" v-for="(item,index) in itemTypeList" :key="index">
-              <router-link :to="{path:'/items',query:{categoryId:item.id}}">
-                <div style="padding:0.1rem 0.15rem;">
-                  <div class="c-img-box">
-                    <img v-lazy="item.img" :key="item.img">
+        <div class="c-header-pd c-tab-pd">
+          <div class="item2-wrap" v-for="(item2,index) in itemTypeList" :key="index">
+            <h3 class="item2-name">{{item2.name}}</h3>
+            <ul class="type-list" >
+              <li class="type-item" v-for="(item3,index) in item2.categories" :key="index">
+                <router-link :to="{path:'/items',query:{categoryId:item3.id}}">
+                  <div style="padding:0.05rem 0.1rem;">
+                    <div class="c-img-box">
+                      <img v-lazy="item3.img" :key="item3.img">
+                    </div>
                   </div>
-                </div>
-                <span>{{item.name}}</span>
-              </router-link>
-            </li>
-          </ul>
+                  <span>{{item3.name}}</span>
+                </router-link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

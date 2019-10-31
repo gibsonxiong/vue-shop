@@ -174,14 +174,14 @@
               </div>
             </div>
             <!-- 退款按钮 -->
-            <div v-if="orderInfo.status==2" class="refund_btn-wrap">
+            <!-- <div v-if="orderInfo.status==2" class="refund_btn-wrap">
               <c-button
                 size="xs"
                 type="round"
                 ghost
                 @click.stop="$router.push({path:'/refund',query:{orderId:orderId, orderItemId:orderItem.id}})"
               >退款</c-button>
-            </div>
+            </div> -->
           </div>
         </div>
         <!--  -->

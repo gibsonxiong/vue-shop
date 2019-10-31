@@ -113,7 +113,7 @@
             <p class="logistics_status">{{state == 3 ? '已签收':''}}</p>
             <p>
               <span>{{deliverCompany.name}}</span>:
-              <span>{{deliverPostId}}</span>
+              <span>{{deliverPostNo}}</span>
             </p>
             <p>官方电话: {{deliverCompany.phone}}</p>
           </div>
@@ -149,7 +149,7 @@ export default {
   data() {
     return {
       state: 0,
-      deliverPostId: "",
+      deliverPostNo: "",
       deliverCompany: {},
       logisticsData: [],
       firstOrderItem:{}
@@ -184,7 +184,7 @@ export default {
 
         this.state = res.data.state;
         this.firstOrderItem = res.data.firstOrderItem;
-        this.deliverPostId = res.data.deliverPostId;
+        this.deliverPostNo = res.data.deliverPostNo;
         this.deliverCompany = res.data.deliverCompany;
         this.logisticsData = res.data.detailData;
       } catch (err) {
