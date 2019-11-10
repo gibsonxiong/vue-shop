@@ -172,25 +172,25 @@ img {
         <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(item, index) in banners" :key="index">
             <router-link :to="item.url">
-              <img class="banner-img" :src="item.img">
+              <img class="banner-img" :src="item.img" />
             </router-link>
           </mt-swipe-item>
         </mt-swipe>
         <div class="link-wrap">
           <router-link :to="{path:'/items'}" class="link-item">
-            <img class="link-img" src="@/assets/shangping.png" alt>
+            <img class="link-img" src="@/assets/shangping.png" alt />
             <div class="link-name">全部商品</div>
           </router-link>
           <router-link :to="{path:'/coupon'}" class="link-item">
-            <img class="link-img" src="@/assets/quan.png" alt>
+            <img class="link-img" src="@/assets/quan.png" alt />
             <div class="link-name">领券中心</div>
           </router-link>
           <router-link :to="{path:'/sign'}" class="link-item">
-            <img class="link-img" src="@/assets/qiandao.png" alt>
+            <img class="link-img" src="@/assets/qiandao.png" alt />
             <div class="link-name">每日签到</div>
           </router-link>
           <router-link :to="{path:'/invite'}" class="link-item">
-            <img class="link-img" src="@/assets/yaoxin.png" alt>
+            <img class="link-img" src="@/assets/yaoxin.png" alt />
             <div class="link-name">一元邀新</div>
           </router-link>
         </div>
@@ -228,7 +228,7 @@ img {
             >
               <li>
                 <div class="c-img-box box-bg">
-                  <img v-lazy="item.itemImg">
+                  <img v-lazy="item.itemImg" />
                 </div>
               </li>
               <li>{{item.itemName}}</li>
@@ -242,6 +242,12 @@ img {
             </ul>
           </div>
         </div>
+
+        <c-category-view ref="category1" cacheId="category1" :categoryId="39">
+        </c-category-view>
+
+        <c-category-view ref="category2" cacheId="category2" :categoryId="732">
+        </c-category-view>
 
         <c-recommend-list
           ref="recommend"

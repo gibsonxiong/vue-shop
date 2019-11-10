@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Index from '@/views/Index';
 import ItemList from '@/views/ItemList';
+import CategoryItemList from '@/views/CategoryItemList';
 import Item from '@/views/Item';
 import Order from '@/views/Order';
 import OrderDetail from '@/views/OrderDetail';
@@ -67,6 +68,15 @@ const router = new Router({
         skipCheckToken: true
       }
     },
+    {
+      path: '/category-items',
+      component: CategoryItemList,
+      meta: {
+        title: '商品列表',
+        skipCheckToken: true
+      }
+    },
+    
     {
       path: '/items/:itemId',
       component: Item,

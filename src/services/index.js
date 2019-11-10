@@ -273,10 +273,19 @@ const services = {
     })).data;
   },
 
+
   async fetchItemTypeList({
     catalogId
   }) {
     return (await request.get(`/categorys/${catalogId}`, {
+      skipCheckToken: true
+    })).data;
+  },
+
+  async fetchCategoryPopular({
+    categoryId
+  }) {
+    return (await request.get(`/categorys/${categoryId}/popular`, {
       skipCheckToken: true
     })).data;
   },

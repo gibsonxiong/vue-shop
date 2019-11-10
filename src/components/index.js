@@ -28,7 +28,7 @@ import Rate from './Rate';
 import RecommendList from './RecommendList';
 import CouponItem from './CouponItem';
 import CountDown from './CountDown';
-
+import CategoryView from './CategoryView';
 
 Vue.component('c-header', Header);
 
@@ -62,3 +62,4 @@ Vue.component('c-recommend-list',RecommendList)
 Vue.component('c-coupon-item',CouponItem)
 
 Vue.component('c-count-down',CountDown)
+Vue.component('c-category-view',CategoryView)
