@@ -169,13 +169,13 @@ img {
     </c-header>
     <div class="c-page-body" ref="body">
       <div class="c-tab-pd">
-        <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
+        <!-- <mt-swipe :auto="5000" :showIndicators="true" :speed="600">
           <mt-swipe-item v-for="(item, index) in banners" :key="index">
             <router-link :to="item.url">
               <img class="banner-img" :src="item.img" />
             </router-link>
           </mt-swipe-item>
-        </mt-swipe>
+        </mt-swipe> -->
         <div class="link-wrap">
           <router-link :to="{path:'/items'}" class="link-item">
             <img class="link-img" src="@/assets/shangping.png" alt />
@@ -195,7 +195,7 @@ img {
           </router-link>
         </div>
         <!-- 今日热点 -->
-        <div class="marquee">
+        <!-- <div class="marquee">
           <div class="marquee_title">
             <span>今日热点</span>
           </div>
@@ -206,7 +206,7 @@ img {
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
         <!-- 今日热点 end -->
         <div class="panic_buy" v-if="currentFlash">
           <p class="panic_buy_label">
@@ -263,6 +263,7 @@ img {
 <script>
 import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
+import ScrollView from '@gibsonxiong/scroll';
 
 export default {
   mixins: [
@@ -316,6 +317,18 @@ export default {
   },
   mounted() {
     this.bindEvent();
+
+    
+
+    setTimeout(() => {
+      const sv = new ScrollView(this.$refs.body, {
+        scrollbar:true,
+        infinite: {
+          selector: '.recommend-container'
+        }
+      });
+      // sv.refresh();
+    }, 4000);
   },
   methods: {
     showMarquee: function() {

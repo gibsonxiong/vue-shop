@@ -3,7 +3,7 @@
 @import "~@/css/var";
 .c-shopcart {
   &.in-tab {
-    .padding-wrap {
+    &.padding-wrap {
       padding-bottom: 1.2rem;
     }
 
@@ -160,10 +160,14 @@
 </style>
 
 <template>
-  <div class="c-shopcart" :class="{'in-tab':inTab}">
-    <c-header :title="'购物车'" :backType="inTab? 0 : 1"></c-header>
-    <div class="c-page-body">
-      <div class="padding-wrap c-header-pd">
+  <div class="c-shopcart c-header-pd padding-wrap"  :class="{'in-tab':inTab}">
+    <c-header :title="'购物车'" :backType="inTab? 0 : 1">
+      <a slot="right" @click="handleHeaderClick">
+        <i class="iconfont icon-cascades"></i>
+      </a>
+    </c-header>
+    <div class="c-page-body" ref="body">
+      <div class=" ">
         <div v-if="!isLogin" style="padding-top:0.4rem;text-align:center;">
           亲~ 登录后才可以查看购物车
           <div style="padding-top:0.2rem;">
@@ -227,7 +231,7 @@
         <c-empty-hint v-else icon="icon-cart_light" hint="您的购物车是空的哦！">
           <c-button v-if="inTab" color="primary" type="round" @click="$emit('gotoHome')">随便逛逛</c-button>
         </c-empty-hint>
-        <c-recommend-list ref="recommend" cacheId="recommend" style="margin-top:0.5rem;"></c-recommend-list>
+        <c-recommend-list ref="recommend" cacheId="recommend" :pageCount="pageCount" style="margin-top:0.5rem;"></c-recommend-list>
       </div>
     </div>
     <div class="amount-container" v-if="list && list.length > 0">
@@ -261,6 +265,7 @@
 import Vue from "vue";
 import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
+import ScrollView from '@gibsonxiong/scroll';
 
 export default {
   mixins: [
@@ -278,7 +283,8 @@ export default {
     return {
       isLogin: false,
       checkedFlags: {},
-      list: []
+      list: [],
+      pageCount: 1,
     };
   },
   computed: {
@@ -377,6 +383,12 @@ export default {
       queryData = JSON.stringify(queryData);
 
       this.$router.push({ path: "/confirmorder", query: { p: queryData } });
+    },
+
+    handleHeaderClick() {
+      this.sv.scrollTo(undefined, this.sv.maxScrollY, {
+        duration: 3000,
+      });
     }
   },
   created() {
@@ -385,6 +397,53 @@ export default {
     if (this.isLogin) {
       this.fetchShopcartList();
     }
+  },
+
+  mounted() {
+    
+    setTimeout(() => {
+      this.sv = new ScrollView(this.$refs.body, {
+        scrollbar:true,
+        infinite: {
+          selector: '.recommend-container'
+        },
+        topPull: {
+          pullOffset: 140,
+
+          defaultText:'下拉刷新',
+          readyText:'释放刷新',
+          loadingText:'刷新中...',
+
+          onLoad: (loader)=> {
+            setTimeout(()=>{
+              this.pageCount = 1;
+              this.$nextTick(()=>{
+                this.sv.infinite._collect();
+                loader.complete('刷新成功', 500);
+              });
+            },500);
+          }
+        },
+        bottomPull: {
+          pullOffset: 60,
+
+          defaultText:'上拉加载更多',
+          readyText:'释放加载更多',
+          loadingText:'加载中...',
+
+          onLoad: (loader)=> {
+            setTimeout(()=>{
+              this.pageCount+= 100;
+              this.$nextTick(()=>{
+                this.sv.infinite._collect();
+                loader.complete('加载成功', 1000);
+              });
+            },500);
+          }
+        },
+      });
+      // sv.refresh();
+    }, 3000);
   }
 };
 </script>

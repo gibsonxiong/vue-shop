@@ -120,31 +120,33 @@
       <span class="section-title-line"></span>
       <div class="section-title-inner">猜你喜欢</div>
     </div>
-    <div class="recommend-container" v-if="recommendList.length > 0">
-      <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
-        <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
-          <div class="c-img-box box-bg box-big">
-            <img class="recommend-img" :key="item.imgList[0]" v-lazy="item.imgList[0]" alt>
-          </div>
-          <div class="recommend-info">
-            <div class="recommend-title">{{item.name}}</div>
-            <div style="min-height:0.21rem;">
-              <span v-if="item.flash && item.flash.status == 1" class="c-tag">限时特价</span>
-              <span v-if="item.isNew" class="c-tag secondly">新品</span>
+    <template v-for="k in pageCount">
+      <div class="recommend-container" :key="k" v-if="recommendList.length > 0">
+        <div class="recommend-box" v-for="(item,index) in recommendList" :key="index">
+          <router-link tag="div" class="recommend-item" :to="`/items/${item.id}`">
+            <div class="c-img-box box-bg box-big">
+              <img class="recommend-img" :key="item.imgList[0]" :src="item.imgList[0]" alt>
             </div>
-            <div class="recommend-price-box">
-              <span v-if="item.flash && item.flash.status == 1">
-                <span class="recommend-price">￥{{item.flash.item.flashPrice}}</span>
-                <span class="c-old-price">￥{{item.flash.item.itemPrice}}</span>
-              </span>
-              <span class="recommend-price" v-else>￥{{item.minPrice}}</span>
-              
-              <span class="recommend-sale">{{item.item_count && item.item_count.saleCount}}人已购买</span>
+            <div class="recommend-info">
+              <div class="recommend-title">{{item.name}}</div>
+              <div style="min-height:0.21rem;">
+                <span v-if="item.flash && item.flash.status == 1" class="c-tag">限时特价</span>
+                <span v-if="item.isNew" class="c-tag secondly">新品</span>
+              </div>
+              <div class="recommend-price-box">
+                <span v-if="item.flash && item.flash.status == 1">
+                  <span class="recommend-price">￥{{item.flash.item.flashPrice}}</span>
+                  <span class="c-old-price">￥{{item.flash.item.itemPrice}}</span>
+                </span>
+                <span class="recommend-price" v-else>￥{{item.minPrice}}</span>
+                
+                <span class="recommend-sale">{{item.item_count && item.item_count.saleCount}}人已购买</span>
+              </div>
             </div>
-          </div>
-        </router-link>
+          </router-link>
+        </div>
       </div>
-    </div>
+    </template>
     <div class="bottom-loading" v-if="loading">
       <mt-spinner type="snake" :size="20" style="display: inline-block;"></mt-spinner>
     </div>
@@ -157,7 +159,12 @@ import utils from '@/utils';
 
 export default {
   mixins: [routerCacheComponent()],
-  props: {},
+  props: {
+    pageCount: {
+      type: Number,
+      default: 1,
+    }
+  },
   data() {
     return {
       recommendList: [],
@@ -168,7 +175,7 @@ export default {
     async fetchRecommendList() {
       try {
         this.loading = true;
-        let res = await services.fetchItemList({ pageSize: 20 });
+        let res = await services.fetchItemList({ pageSize: 30 });
 
         if (services.$isError(res)) throw new Error(res.message);
 

@@ -18,6 +18,7 @@
     "build:prod": "cross-env NODE_ENV=production ENV=prod node build/build.js"
   },
   "dependencies": {
+    "@gibsonxiong/scroll": "^0.2.4",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "mint-ui": "^2.2.13",

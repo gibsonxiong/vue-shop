@@ -61,7 +61,7 @@
         <i class="iconfont icon-setting" style="font-size:0.18rem;"></i>
       </router-link>
     </c-header>
-    <div class="c-page-body">
+    <div class="c-page-body" ref="body">
       <div class="c-header-pd c-tab-pd">
         <div class="top">
           <div class="top-wrap">
@@ -205,6 +205,7 @@
 <script>
 import services from "@/services";
 import routerCacheComponent from "@/routerCache/component";
+import ScrollView from '@gibsonxiong/scroll';
 
 export default {
   mixins: [
@@ -251,6 +252,16 @@ export default {
       this.fetchUserInfo();
       this.fetchOrderCount();
     }
+  },
+
+  mounted() {
+    
+
+    setTimeout(() => {
+      const sv = new ScrollView(this.$refs.body, {
+        scrollbar:true
+      });
+    }, 2000);
   }
 };
 </script>
